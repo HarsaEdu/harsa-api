@@ -8,7 +8,8 @@ import (
 )
 
 type AppConfig struct {
-	MySQL MySQLConfig
+	MySQL      MySQLConfig
+	Cloudinary CloudinaryConfig
 }
 
 type MySQLConfig struct {
@@ -17,6 +18,10 @@ type MySQLConfig struct {
 	Host     string
 	Port     string
 	Database string
+}
+
+type CloudinaryConfig struct {
+	Url string
 }
 
 func LoadConfig() (*AppConfig, error) {
@@ -35,6 +40,9 @@ func LoadConfig() (*AppConfig, error) {
 			Host:     os.Getenv("DB_HOST"),
 			Port:     os.Getenv("DB_PORT"),
 			Database: os.Getenv("DB_NAME"),
+		},
+		Cloudinary: CloudinaryConfig{
+			Url: os.Getenv("CLOUDINARY_URL"),
 		},
 	}, nil
 }
