@@ -9,6 +9,7 @@ import (
 
 	"github.com/HarsaEdu/harsa-api/configs"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
@@ -26,6 +27,9 @@ func main() {
 	if err != nil {
 		logrus.Fatal("Error connecting to MySQL:", err.Error())
 	}
+
+	// Create an validator instance
+	_ = validator.New()
 
 	// Create an Echo instance
 	e := echo.New()
