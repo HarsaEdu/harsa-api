@@ -20,18 +20,18 @@ func (uc *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
 	response, err := uc.AuthService.RegisterUser(ctx, registerUserRequest)
 
 	if err != nil {
-		if strings.Contains(err.Error(), "Validation failed") {
+		if strings.Contains(err.Error(), "validation failed") {
 			return res.StatusBadRequest(ctx, "validation failed", err)
 		}
 		if strings.Contains(err.Error(), "already exists") {
 			return res.StatusAlreadyExist(ctx, "account already exists", err)
 		}
-		return res.StatusInternalServerError(ctx, "Failed to register user, something happen", fmt.Errorf("Internal Server Error"))
+		return res.StatusInternalServerError(ctx, "failed to register user, something happen", fmt.Errorf("internal server error"))
 	}
 
 	token, err := jwt.GenerateToken(response)
 	if err != nil {
-		return res.StatusInternalServerError(ctx, "Failed to register user, something happen", fmt.Errorf("Internal Server Error"))
+		return res.StatusInternalServerError(ctx, "failed to register user, something happen", fmt.Errorf("internal server error"))
 	}
 
 	loginResponse := &web.UserLoginResponse{
@@ -41,5 +41,5 @@ func (uc *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
 		Token:    token,
 	}
 
-	return res.StatusOK(ctx, "Success to created user", loginResponse)
+	return res.StatusOK(ctx, "success to created user", loginResponse)
 }

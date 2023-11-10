@@ -37,7 +37,7 @@ func (s *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.RegisterUserReque
 
 	// check if error when insert data
 	if err != nil {
-		return nil, fmt.Errorf("Error When Creating User %s:", err.Error())
+		return nil, fmt.Errorf("error when creating user %s:", err.Error())
 	}
 
 	// convert user data to auth response
