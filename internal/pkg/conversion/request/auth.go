@@ -10,7 +10,7 @@ func RegisterUserRequestToUserModel(r web.RegisterUserRequest) *domain.User {
 		Username:          r.Username,
 		Email:             r.Email,
 		Password:          r.Password,
-		RoleID:            r.RoleID,
+		RoleID:            1,
 		RegistrationToken: r.RegistrationToken,
 	}
 }
