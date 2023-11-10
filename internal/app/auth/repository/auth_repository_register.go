@@ -4,12 +4,12 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
-func (r *AuthRepositoryImpl) RegisterUser(user *domain.User) (*domain.Auth, error) {
+func (authRepository *AuthRepositoryImpl) RegisterUser(user *domain.User) (*domain.Auth, error) {
 	// define domain auth
 	auth := &domain.Auth{}
 
 	// insert user into database
-	result := r.DB.Create(&user)
+	result := authRepository.DB.Create(&user)
 
 	// check if error when user inserted
 	if result.Error != nil {
@@ -17,7 +17,7 @@ func (r *AuthRepositoryImpl) RegisterUser(user *domain.User) (*domain.Auth, erro
 	}
 
 	// get user data from database
-	r.DB.Model(&domain.User{}).
+	authRepository.DB.Model(&domain.User{}).
 		Select("users.id as id, username, email, role.name as role_name").
 		Joins("left join roles on roles.id as role_id").
 		First(&auth)

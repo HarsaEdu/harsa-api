@@ -10,9 +10,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (s *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.RegisterUserRequest) (*web.AuthResponse, error) {
+func (authService *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.RegisterUserRequest) (*web.AuthResponse, error) {
 	// validate the request
-	err := s.Validate.Struct(r)
+	err := authService.Validate.Struct(r)
 
 	// check errors when validate the request
 	if err != nil {
@@ -20,7 +20,7 @@ func (s *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.RegisterUserReque
 	}
 
 	// check available username and email
-	existingUser, _ := s.UserRepository.UserAvailable(r.Username, r.Email)
+	existingUser, _ := authService.UserRepository.UserAvailable(r.Username, r.Email)
 	if existingUser != nil {
 		return nil, fmt.Errorf("already exists")
 	}
@@ -32,7 +32,7 @@ func (s *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.RegisterUserReque
 	user.Password = password.HashPassword(user.Password)
 
 	// insert data and get back user data with id and role name
-	res, err := s.AuthRepository.RegisterUser(user)
+	res, err := authService.AuthRepository.RegisterUser(user)
 
 	// check if error when insert data
 	if err != nil {

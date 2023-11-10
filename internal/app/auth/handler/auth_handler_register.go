@@ -11,14 +11,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (uc *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
+func (authHandler *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
 	registerUserRequest := web.RegisterUserRequest{}
 	err := ctx.Bind(&registerUserRequest)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "data request not valid", err)
 	}
 
-	response, err := uc.AuthService.RegisterUser(ctx, registerUserRequest)
+	response, err := authHandler.AuthService.RegisterUser(ctx, registerUserRequest)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
