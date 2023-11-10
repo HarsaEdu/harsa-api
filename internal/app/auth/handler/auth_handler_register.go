@@ -7,6 +7,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/jwt"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
 	"github.com/labstack/echo/v4"
 )
 
@@ -20,8 +21,8 @@ func (uc *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
 	response, err := uc.AuthService.RegisterUser(ctx, registerUserRequest)
 
 	if err != nil {
-		if strings.Contains(err.Error(), "validation failed") {
-			return res.StatusBadRequest(ctx, "validation failed", err)
+		if strings.Contains(err.Error(), "validation") {
+			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "already exists") {
 			return res.StatusAlreadyExist(ctx, "account already exists", err)

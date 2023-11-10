@@ -7,7 +7,6 @@ import (
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	conversionResponse "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
 	"github.com/labstack/echo/v4"
 )
 
@@ -17,7 +16,7 @@ func (s *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.RegisterUserReque
 
 	// check errors when validate the request
 	if err != nil {
-		return nil, validation.ValidationError(ctx, err)
+		return nil, err
 	}
 
 	// check available username and email
