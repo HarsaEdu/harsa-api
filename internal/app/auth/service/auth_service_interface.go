@@ -18,7 +18,7 @@ type AuthServiceImpl struct {
 	Validate       *validator.Validate
 }
 
-func NewAuthService(ar repository.AuthRepository, ur userRepo.UserRepository, validate *validator.Validate) *AuthServiceImpl {
+func NewAuthService(ar repository.AuthRepository, ur userRepo.UserRepository, validate *validator.Validate) AuthService {
 	return &AuthServiceImpl{
 		AuthRepository: ar,
 		UserRepository: ur,
