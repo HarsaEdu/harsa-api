@@ -13,7 +13,7 @@ type AuthRepositoryImpl struct {
 	DB *gorm.DB
 }
 
-func NewUserRepository(db *gorm.DB) AuthRepository {
+func NewAuthRepository(db *gorm.DB) AuthRepository {
 	return &AuthRepositoryImpl{
 		DB: db,
 	}

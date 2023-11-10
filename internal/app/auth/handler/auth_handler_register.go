@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (uc *AuthHanlderImpl) RegisterUser(ctx echo.Context) error {
+func (uc *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
 	registerUserRequest := web.RegisterUserRequest{}
 	err := ctx.Bind(&registerUserRequest)
 	if err != nil {

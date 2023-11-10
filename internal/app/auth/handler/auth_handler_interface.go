@@ -5,14 +5,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type AuthHanlder interface {
+type AuthHandler interface {
 	RegisterUser(ctx echo.Context) error
 }
 
-type AuthHanlderImpl struct {
+type AuthHandlerImpl struct {
 	AuthService service.AuthService
 }
 
-func NewAuthHanlder(as service.AuthService) AuthHanlder {
-	return &AuthHanlderImpl{AuthService: as}
+func NewAuthHandler(as service.AuthService) AuthHandler {
+	return &AuthHandlerImpl{AuthService: as}
 }
