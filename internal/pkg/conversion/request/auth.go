@@ -5,12 +5,12 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func RegisterUserRequestToUserModel(r web.RegisterUserRequest) *domain.User {
+func RegisterUserRequestToUserModel(userRequest web.RegisterUserRequest) *domain.User {
 	return &domain.User{
-		Username:          r.Username,
-		Email:             r.Email,
-		Password:          r.Password,
+		Username:          userRequest.Username,
+		Email:             userRequest.Email,
+		Password:          userRequest.Password,
 		RoleID:            1,
-		RegistrationToken: r.RegistrationToken,
+		RegistrationToken: userRequest.RegistrationToken,
 	}
 }
