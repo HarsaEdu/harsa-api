@@ -18,8 +18,9 @@ func (authRepository *AuthRepositoryImpl) RegisterUser(user *domain.User) (*doma
 
 	// get user data from database
 	authRepository.DB.Model(&domain.User{}).
-		Select("users.id as id, username, email, role.name as role_name").
-		Joins("left join roles on roles.id as role_id").
+		Select("users.id as id, username, email, roles.name as role_name").
+		Joins("left join roles on roles.id = users.role_id").
+		Where("users.id = ?", user.ID).
 		First(&auth)
 
 	// check if error when get user data from database
