@@ -1,6 +1,10 @@
 package domain
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
 	ID                uint           `gorm:"type:int;primarykey" json:"id"`
@@ -9,8 +13,8 @@ type User struct {
 	Password          string         `gorm:"type:varchar(255)" json:"password"`
 	RoleID            uint           `gorm:"type:int;primarykey" json:"role_id"`
 	RegistrationToken string         `gorm:"type:varchar(255)" json:registration_token"`
-	CreatedAt         int64          `gorm:"autoCreateTime" json:"created_at"`
-	UpdatedAt         int64          `gorm:"autoUpdateTime" json:"updated_at"`
-	DeleteAt          gorm.DeletedAt `gorm:"autoUpdateTime" json:"delete_at"`
+	CreatedAt         time.Time      `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt         time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
+	DeleteAt          gorm.DeletedAt `json:"delete_at"`
 	Role              Role           `gorm:"foreignKey:RoleID;references:ID"`
 }
