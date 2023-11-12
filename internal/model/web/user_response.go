@@ -9,7 +9,8 @@ const (
 )
 
 type UserLoginResponse struct {
-	Email    string `json:"email"`
+	ID       uint   `json:"id"`
 	Username string `json:"username"`
-	Role     Role   `json:"role"`
+	RoleName Role   `json:"role_name"`
+	Token    string `json:"token"`
 }
