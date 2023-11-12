@@ -42,5 +42,5 @@ func (authHandler *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
 		Token:    token,
 	}
 
-	return res.StatusCreated(ctx, "success to created user", loginResponse)
+	return res.StatusCreated(ctx, "success to register user", loginResponse)
 }
