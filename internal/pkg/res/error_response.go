@@ -12,7 +12,7 @@ func errorResponse(ctx echo.Context, code int, message string, errors any) error
 	return ctx.JSON(code, web.ErrorResponse{
 		Code:    code,
 		Message: message,
-		Errors:    errors,
+		Errors:  errors,
 	})
 }
 
@@ -31,4 +31,12 @@ func StatusBadRequest(ctx echo.Context, message string, err error) error {
 
 func StatusAlreadyExist(ctx echo.Context, message string, err error) error {
 	return errorResponse(ctx, http.StatusConflict, message, err.Error())
+}
+
+func StatusForbidden(ctx echo.Context, message string, err error) error {
+	return errorResponse(ctx, http.StatusForbidden, message, err.Error())
+}
+
+func StatusUnauthorized(ctx echo.Context, message string, err error) error {
+	return errorResponse(ctx, http.StatusUnauthorized, message, err.Error())
 }
