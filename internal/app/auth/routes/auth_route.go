@@ -2,8 +2,8 @@ package routes
 
 import "github.com/labstack/echo/v4"
 
-func (ar *AuthRoutesImpl) Auth(apiGroup *echo.Group) {
+func (authRoutes *AuthRoutesImpl) Auth(apiGroup *echo.Group) {
 	authGroup := apiGroup.Group("/auth")
 
-	authGroup.POST("/register", ar.AuthHandler.RegisterUser)
+	authGroup.POST("/register", authRoutes.AuthHandler.RegisterUser)
 }
