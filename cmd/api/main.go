@@ -8,6 +8,11 @@ import (
 	"syscall"
 
 	"github.com/HarsaEdu/harsa-api/configs"
+	authHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/handler"
+	authRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/repository"
+	"github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
+	authServicePkg "github.com/HarsaEdu/harsa-api/internal/app/auth/service"
+	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/web"
 	"github.com/go-playground/validator"
@@ -24,16 +29,34 @@ func main() {
 	}
 
 	// Initialize database connection
-	_, err = database.NewMySQLConnection(&config.MySQL)
+	db, err := database.NewMySQLConnection(&config.MySQL)
 	if err != nil {
 		logrus.Fatal("Error connecting to MySQL:", err.Error())
 	}
 
 	// Create an validator instance
-	_ = validator.New()
+	validate := validator.New()
 
 	// Create an Echo instance
 	e := echo.New()
+
+	// Setup App
+	// Repository
+	authRepository := authRepositoryPkg.NewAuthRepository(db)
+	userRepository := userRepositoryPkg.NewUserRepository(db)
+
+	// Service
+	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
+
+	// Handler
+	authHandler := authHandlerPkg.NewAuthHandler(authService)
+
+	// Routes
+	authRoutes := routes.NewAuthRoutes(e, authHandler)
+
+	// Setup Routes
+	apiGroup := e.Group("api")
+	authRoutes.Auth(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {

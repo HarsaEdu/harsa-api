@@ -8,14 +8,14 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func GenerateToken(userLoginResponse *web.UserLoginResponse, id uint) (string, error) {
+func GenerateToken(userLoginResponse *web.AuthResponse) (string, error) {
 	expireTime := time.Now().Add(time.Hour * 1).Unix()
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
-	claims["id"] = id
+	claims["id"] = userLoginResponse.ID
 	claims["username"] = userLoginResponse.Username
 	claims["email"] = userLoginResponse.Email
-	claims["role"] = userLoginResponse.Role
+	claims["role_name"] = userLoginResponse.RoleName
 	claims["exp"] = expireTime
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
