@@ -8,7 +8,12 @@ import (
 	"syscall"
 
 	"github.com/HarsaEdu/harsa-api/configs"
+	categoryHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/handler"
+	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
+	"github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
+	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -23,16 +28,35 @@ func main() {
 	}
 
 	// Initialize database connection
-	_, err = database.NewMySQLConnection(&config.MySQL)
+	db, err := database.NewMySQLConnection(&config.MySQL)
 	if err != nil {
 		logrus.Fatal("Error connecting to MySQL:", err.Error())
 	}
 
+	cloudinaryUploader := cloudinary.NewClodinaryUploader(&config.Cloudinary)
+
 	// Create an validator instance
-	_ = validator.New()
+	validate := validator.New()
 
 	// Create an Echo instance
 	e := echo.New()
+
+	// Setup App
+	// Repository
+	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
+
+	// Service
+	categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
+
+	// Handler
+	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
+
+	// Routes
+	categoryRoutes := routes.NewCategoryRoutes(e, categoryHandler)
+
+	// Setup Routes
+	apiGroup := e.Group("api")
+	categoryRoutes.Category(apiGroup)
 
 	// Middleware and server configuration
 	e.Pre(middleware.RemoveTrailingSlash())
