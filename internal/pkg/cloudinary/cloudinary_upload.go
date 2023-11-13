@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (cloudinaryUpdloader *CloudinaryUpdloaderImpl) Uploader(c echo.Context, fileheader, folderName string) string {
+func (cloudinaryUpdloader *CloudinaryUpdloaderImpl) Uploader(c echo.Context, fileheader, folderName string) (string, error) {
 
 	fileHeader, _ := c.FormFile(fileheader)
 	folderPath := fmt.Sprintf("harsa/%s", folderName)
@@ -19,8 +19,11 @@ func (cloudinaryUpdloader *CloudinaryUpdloaderImpl) Uploader(c echo.Context, fil
 		ctx := context.Background()
 		urlCloudinary := cloudinaryUpdloader.Config.Url
 		cldService, _ := cloudinary.NewFromURL(urlCloudinary)
-		response, _ := cldService.Upload.Upload(ctx, file, uploader.UploadParams{Folder: folderPath})
-		return response.SecureURL
+		response, err := cldService.Upload.Upload(ctx, file, uploader.UploadParams{Folder: folderPath})
+		if err != nil {
+			return "", err
+		}
+		return response.SecureURL, nil
 	}
-	return ""
+	return "", fmt.Errorf("file not found")
 }

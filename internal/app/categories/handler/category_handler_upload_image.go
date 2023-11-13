@@ -12,7 +12,6 @@ import (
 )
 
 func (categoryHandler *CategoryHandlereImpl) UploadImage(ctx echo.Context) error {
-	fmt.Println("handler error")
 	idParam := ctx.Param("id")
 	id, _ := strconv.Atoi(idParam)
 
@@ -26,6 +25,9 @@ func (categoryHandler *CategoryHandlereImpl) UploadImage(ctx echo.Context) error
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "file not found") {
+			return res.StatusBadRequest(ctx, "file not found", err)
 		}
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "category not found", err)
