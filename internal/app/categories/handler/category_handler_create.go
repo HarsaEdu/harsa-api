@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -26,7 +25,7 @@ func (categoryHandler *CategoryHandlereImpl) Create(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "already exist") {
 			return res.StatusAlreadyExist(ctx, "category already exist", err)
 		}
-		return res.StatusInternalServerError(ctx, "failed to create category, something happen", fmt.Errorf("internal server error"))
+		return res.StatusInternalServerError(ctx, "failed to create category, something happen", err)
 
 	}
 

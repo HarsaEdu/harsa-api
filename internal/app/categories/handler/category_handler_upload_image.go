@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -32,7 +31,7 @@ func (categoryHandler *CategoryHandlereImpl) UploadImage(ctx echo.Context) error
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "category not found", err)
 		}
-		return res.StatusInternalServerError(ctx, "failed to upload image category, something happen", fmt.Errorf("internal server error"))
+		return res.StatusInternalServerError(ctx, "failed to upload image category, something happen", err)
 
 	}
 
