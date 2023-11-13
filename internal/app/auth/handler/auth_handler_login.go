@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -24,12 +23,12 @@ func (authHandler *AuthHandlerImpl) LoginUser(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "invalid") {
 			return res.StatusBadRequest(ctx, err.Error(), err)
 		}
-		return res.StatusInternalServerError(ctx, "failed to login, something happen", fmt.Errorf("internal server error"))
+		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)
 	}
 
 	token, err := jwt.GenerateToken(response)
 	if err != nil {
-		return res.StatusInternalServerError(ctx, "failed to login, something happen", fmt.Errorf("internal server error"))
+		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)
 	}
 
 	loginResponse := conversion.AuthResponseToLoginResponse(response)

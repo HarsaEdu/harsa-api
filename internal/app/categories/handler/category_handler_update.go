@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -36,7 +35,7 @@ func (categoryHandler *CategoryHandlereImpl) Update(ctx echo.Context) error {
 			return res.StatusAlreadyExist(ctx, "category name already exist", err)
 		}
 
-		return res.StatusInternalServerError(ctx, "failed to delete category, something happen", fmt.Errorf("internal server error"))
+		return res.StatusInternalServerError(ctx, "failed to delete category, something happen", err)
 
 	}
 
