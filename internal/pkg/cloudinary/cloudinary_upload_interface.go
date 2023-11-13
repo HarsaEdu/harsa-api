@@ -18,3 +18,4 @@ func NewClodinaryUploader(config *configs.CloudinaryConfig) CloudinaryUpdloader 
 		Config: config,
 	}
 }
+

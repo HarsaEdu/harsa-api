@@ -20,6 +20,7 @@ import (
 	authServicePkg "github.com/HarsaEdu/harsa-api/internal/app/auth/service"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/web"
 
 	"github.com/go-playground/validator"
@@ -45,6 +46,9 @@ func main() {
 
 	// Create an validator instance
 	validate := validator.New()
+
+	// Create an cloudinary uploader intance
+	_ = cloudinary.NewClodinaryUploader(&config.Cloudinary)
 
 	// Create an Echo instance
 	e := echo.New()

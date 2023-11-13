@@ -23,5 +23,4 @@ func (cloudinaryUpdloader *CloudinaryUpdloaderImpl) Uploader(c echo.Context, fil
 		return response.SecureURL
 	}
 	return ""
-
 }
