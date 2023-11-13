@@ -7,6 +7,7 @@ import (
 
 type AuthHandler interface {
 	RegisterUser(ctx echo.Context) error
+	LoginUser(ctx echo.Context) error
 }
 
 type AuthHandlerImpl struct {
