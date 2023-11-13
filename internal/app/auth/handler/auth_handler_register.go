@@ -25,8 +25,8 @@ func (authHandler *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
-		if strings.Contains(err.Error(), "already exists") {
-			return res.StatusAlreadyExist(ctx, "account already exists", err)
+		if strings.Contains(err.Error(), "already exist") {
+			return res.StatusAlreadyExist(ctx, "account already exist", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to register user, something happen", fmt.Errorf("internal server error"))
 	}

@@ -16,7 +16,7 @@ func (categoryService *CategoryServiceImpl) Create(ctx echo.Context, request web
 
 	existingName, _ := categoryService.CategoryRepository.FindByName(request.Name)
 	if existingName != nil {
-		return fmt.Errorf("category name already exists")
+		return fmt.Errorf("category name already exist")
 	}
 
 	category := conversionRequest.CategoryCreateRequestToCategoriesModel(request)
