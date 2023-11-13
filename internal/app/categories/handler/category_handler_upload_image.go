@@ -34,5 +34,5 @@ func (categoryHandler *CategoryHandlereImpl) UploadImage(ctx echo.Context) error
 
 	}
 
-	return res.StatusCreated(ctx, "success to upload image", nil)
+	return res.StatusOK(ctx, "success to upload image", nil)
 }

@@ -34,6 +34,6 @@ func (categoryHandler *CategoryHandlereImpl) Update(ctx echo.Context) error {
 
 	}
 
-	return res.StatusCreated(ctx, "success to update category", nil)
+	return res.StatusOK(ctx, "success to update category", nil)
 
 }
