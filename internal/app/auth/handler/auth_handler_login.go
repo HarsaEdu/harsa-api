@@ -20,8 +20,8 @@ func (authHandler *AuthHandlerImpl) LoginUser(ctx echo.Context) error {
 	response, err := authHandler.AuthService.LoginUser(ctx, loginUserRequest)
 
 	if err != nil {
-		if strings.Contains(err.Error(), "incorrect") {
-			return res.StatusNotFound(ctx, "failed to login", err)
+		if strings.Contains(err.Error(), "invalid") {
+			return res.StatusBadRequest(ctx, err.Error(), err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to login, something happen", fmt.Errorf("internal server error"))
 	}

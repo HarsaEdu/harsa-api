@@ -14,19 +14,19 @@ func (authService *AuthServiceImpl) LoginUser(ctx echo.Context, loginUser web.Lo
 	existingUser, _ := authService.UserRepository.UserAvailable("", loginUser.Email)
 
 	if existingUser == nil {
-		return nil, fmt.Errorf("email or password is incorrect")
+		return nil, fmt.Errorf("invalid username or password")
 	}
 
 	err := password.ComparePassword(existingUser.Password, loginUser.Password)
 
 	if err != nil {
-		return nil, fmt.Errorf("email or password is incorrect")
+		return nil, fmt.Errorf("invalid username or password")
 	}
 
 	response, err := authService.AuthRepository.LoginUser(existingUser.ID)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to get data user")
+		return nil, fmt.Errorf("failed to get data user: %s", err.Error())
 	}
 
 	// convert user data to auth response
