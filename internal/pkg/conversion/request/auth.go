@@ -14,3 +14,10 @@ func RegisterUserRequestToUserModel(userRequest web.RegisterUserRequest) *domain
 		RegistrationToken: userRequest.RegistrationToken,
 	}
 }
+
+func LoginUserRequestToUserModel(userRequest web.LoginUserRequest) *domain.User {
+	return &domain.User{
+		Email:    userRequest.Email,
+		Password: userRequest.Password,
+	}
+}

@@ -6,3 +6,8 @@ type RegisterUserRequest struct {
 	Password          string `json:"password" validate:"required,min=8,max=255"`
 	RegistrationToken string `json:"registration_token"`
 }
+
+type LoginUserRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
