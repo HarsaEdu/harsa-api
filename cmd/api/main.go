@@ -10,11 +10,17 @@ import (
 	"github.com/HarsaEdu/harsa-api/configs"
 	authHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/handler"
 	authRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/repository"
-	"github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
+	authRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
 	authServicePkg "github.com/HarsaEdu/harsa-api/internal/app/auth/service"
+	categoryHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/handler"
+	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
+	categoryRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
+	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/web"
+
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -34,6 +40,8 @@ func main() {
 		logrus.Fatal("Error connecting to MySQL:", err.Error())
 	}
 
+	cloudinaryUploader := cloudinary.NewClodinaryUploader(&config.Cloudinary)
+
 	// Create an validator instance
 	validate := validator.New()
 
@@ -44,19 +52,24 @@ func main() {
 	// Repository
 	authRepository := authRepositoryPkg.NewAuthRepository(db)
 	userRepository := userRepositoryPkg.NewUserRepository(db)
+	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
+	categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
+	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
 
 	// Routes
-	authRoutes := routes.NewAuthRoutes(e, authHandler)
+	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
+	categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
 	authRoutes.Auth(apiGroup)
+	categoryRoutes.Category(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
@@ -66,6 +79,7 @@ func main() {
 		}
 		return c.HTMLBlob(http.StatusOK, file)
 	})
+
 
 	// Middleware and server configuration
 	e.Pre(middleware.RemoveTrailingSlash())
