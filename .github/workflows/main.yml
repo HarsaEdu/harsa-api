@@ -49,4 +49,5 @@ jobs:
               -e DB_USERNAME=${{secrets.DB_USERNAME}} \
               -e DB_PASSWORD=${{secrets.DB_PASSWORD}} \
               -e JWT_SECRET=${{secrets.JWT_SECRET}} \
+              -e CLOUDINARY_URL=${{secrets.JWT_SECRET}} \
               ${{ secrets.DOCKERHUB_USERNAME }}/harsa-api
