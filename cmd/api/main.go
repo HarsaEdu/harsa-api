@@ -14,6 +14,14 @@ import (
 	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
+	authHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/handler"
+	authRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/repository"
+	"github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
+	authServicePkg "github.com/HarsaEdu/harsa-api/internal/app/auth/service"
+	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
+	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
+	"github.com/HarsaEdu/harsa-api/web"
+
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -43,6 +51,7 @@ func main() {
 
 	// Setup App
 	// Repository
+
 	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
 
 	// Service
@@ -57,6 +66,32 @@ func main() {
 	// Setup Routes
 	apiGroup := e.Group("api")
 	categoryRoutes.Category(apiGroup)
+
+	authRepository := authRepositoryPkg.NewAuthRepository(db)
+	userRepository := userRepositoryPkg.NewUserRepository(db)
+
+	// Service
+	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
+
+	// Handler
+	authHandler := authHandlerPkg.NewAuthHandler(authService)
+
+	// Routes
+	authRoutes := routes.NewAuthRoutes(e, authHandler)
+
+	// Setup Routes
+	apiGroup := e.Group("api")
+	authRoutes.Auth(apiGroup)
+
+	// Serve static HTML file for the root path
+	e.GET("/", func(c echo.Context) error {
+		file, err := web.Content.ReadFile("index.html")
+		if err != nil {
+			return c.String(http.StatusInternalServerError, "Error reading HTML file")
+		}
+		return c.HTMLBlob(http.StatusOK, file)
+	})
+
 
 	// Middleware and server configuration
 	e.Pre(middleware.RemoveTrailingSlash())
