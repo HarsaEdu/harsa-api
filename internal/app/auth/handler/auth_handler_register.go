@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/jwt"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
@@ -35,12 +36,8 @@ func (authHandler *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to register user, something happen", fmt.Errorf("internal server error"))
 	}
 
-	loginResponse := &web.UserLoginResponse{
-		ID:       response.ID,
-		Username: response.Username,
-		RoleName: response.RoleName,
-		Token:    token,
-	}
+	loginResponse := conversion.AuthResponseToLoginResponse(response)
+	loginResponse.Token = token
 
 	return res.StatusCreated(ctx, "success to register user", loginResponse)
 }

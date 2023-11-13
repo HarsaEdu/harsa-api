@@ -13,3 +13,11 @@ func AuthDomainToAuthResponse(auth *domain.Auth) *web.AuthResponse {
 		RoleName: web.Role(auth.RoleName),
 	}
 }
+
+func AuthResponseToLoginResponse(authResponse *web.AuthResponse) *web.UserLoginResponse {
+	return &web.UserLoginResponse{
+		ID:       authResponse.ID,
+		Username: authResponse.Username,
+		RoleName: authResponse.RoleName,
+	}
+}
