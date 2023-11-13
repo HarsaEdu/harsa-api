@@ -10,6 +10,7 @@ import (
 
 type AuthService interface {
 	RegisterUser(ctx echo.Context, r web.RegisterUserRequest) (*web.AuthResponse, error)
+	LoginUser(ctx echo.Context, loginUser web.LoginUserRequest) (*web.AuthResponse, error)
 }
 
 type AuthServiceImpl struct {

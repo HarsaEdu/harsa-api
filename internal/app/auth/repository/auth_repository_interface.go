@@ -7,6 +7,7 @@ import (
 
 type AuthRepository interface {
 	RegisterUser(user *domain.User) (*domain.Auth, error)
+	LoginUser(id uint) (*domain.Auth, error)
 }
 
 type AuthRepositoryImpl struct {
