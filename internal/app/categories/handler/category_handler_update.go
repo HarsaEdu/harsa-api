@@ -27,9 +27,15 @@ func (categoryHandler *CategoryHandlereImpl) Update(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
+
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "category not found", err)
 		}
+
+		if strings.Contains(err.Error(), "already exist") {
+			return res.StatusAlreadyExist(ctx, "category name already exist", err)
+		}
+
 		return res.StatusInternalServerError(ctx, "failed to delete category, something happen", fmt.Errorf("internal server error"))
 
 	}

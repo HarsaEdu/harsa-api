@@ -15,6 +15,11 @@ func (categoryService *CategoryServiceImpl) UploadImage(ctx echo.Context, reques
 		return validation.ValidationError(ctx, err)
 	}
 
+	existingCategoryId, _ := categoryService.CategoryRepository.FindById(id)
+	if existingCategoryId == nil {
+		return fmt.Errorf("category not found")
+	}
+
 	response := conversionRequest.CategoryUploadImageRequestToCategoriesModel(*request)
 	response.Image_url = categoryService.cloudinaryUploader.Uploader(ctx, "file", "categories")
 

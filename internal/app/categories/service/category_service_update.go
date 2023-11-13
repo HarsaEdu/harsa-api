@@ -16,8 +16,19 @@ func (categoryService *CategoryServiceImpl) Update(ctx echo.Context, request web
 		return validation.ValidationError(ctx, err)
 	}
 
+	// Check if the category exists
+	existingCategoryId, _ := categoryService.CategoryRepository.FindById(id)
+	if existingCategoryId == nil {
+		return fmt.Errorf("category not found")
+	}
+	
+	// Check if the category name already exists
+	existingCategoryName, _ := categoryService.CategoryRepository.FindByName(request.Name)
+	if existingCategoryName != nil && int(existingCategoryName.ID) != id {
+		return fmt.Errorf("category name already exist")
+	}
+
 	category := conversionRequest.CategoryUpdateRequestToCategoriesModel(request)
-	// category.Image_url = categoryService.cloudinaryUploader.Uploader(ctx, "file", "categories")
 
 	err = categoryService.CategoryRepository.Update(category, id)
 	if err != nil {
