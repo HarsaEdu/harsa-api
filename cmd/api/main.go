@@ -8,16 +8,14 @@ import (
 	"syscall"
 
 	"github.com/HarsaEdu/harsa-api/configs"
-	categoryHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/handler"
-	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
-	"github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
-	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
-	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	authHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/handler"
 	authRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/repository"
-	"github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
+	authRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
 	authServicePkg "github.com/HarsaEdu/harsa-api/internal/app/auth/service"
+	categoryHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/handler"
+	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
+	categoryRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
+	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
@@ -47,45 +45,31 @@ func main() {
 	// Create an validator instance
 	validate := validator.New()
 
-	// Create an cloudinary uploader intance
-	_ = cloudinary.NewClodinaryUploader(&config.Cloudinary)
-
 	// Create an Echo instance
 	e := echo.New()
 
 	// Setup App
 	// Repository
-
+	authRepository := authRepositoryPkg.NewAuthRepository(db)
+	userRepository := userRepositoryPkg.NewUserRepository(db)
 	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
 
 	// Service
+	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
 	categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
 
 	// Handler
+	authHandler := authHandlerPkg.NewAuthHandler(authService)
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
 
 	// Routes
-	categoryRoutes := routes.NewCategoryRoutes(e, categoryHandler)
-
-	// Setup Routes
-	apiGroup := e.Group("api")
-	categoryRoutes.Category(apiGroup)
-
-	authRepository := authRepositoryPkg.NewAuthRepository(db)
-	userRepository := userRepositoryPkg.NewUserRepository(db)
-
-	// Service
-	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
-
-	// Handler
-	authHandler := authHandlerPkg.NewAuthHandler(authService)
-
-	// Routes
-	authRoutes := routes.NewAuthRoutes(e, authHandler)
+	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
+	categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
 	authRoutes.Auth(apiGroup)
+	categoryRoutes.Category(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
