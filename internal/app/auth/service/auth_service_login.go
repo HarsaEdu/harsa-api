@@ -30,7 +30,7 @@ func (authService *AuthServiceImpl) LoginUser(ctx echo.Context, loginUser web.Lo
 	}
 
 	// convert user data to auth response
-	userResponse := conversionResponse.ConvertToAuthResponse(response)
+	userResponse := conversionResponse.AuthDomainToAuthResponse(response)
 
 	return userResponse, nil
 }

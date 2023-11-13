@@ -5,7 +5,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func ConvertToAuthResponse(auth *domain.Auth) *web.AuthResponse {
+func AuthDomainToAuthResponse(auth *domain.Auth) *web.AuthResponse {
 	return &web.AuthResponse{
 		ID:       auth.ID,
 		Username: auth.Username,
