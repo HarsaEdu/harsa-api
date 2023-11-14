@@ -40,3 +40,7 @@ type UserUpdateRequest struct {
 	Password string `json:"password" validate:"omitempty,min=8,max=255"`
 	RoleID   uint   `json:"role_id" validate:"required"`
 }
+
+type UserDeleteRequest struct {
+	ID uint `json:"id" validate:"required"`
+}
