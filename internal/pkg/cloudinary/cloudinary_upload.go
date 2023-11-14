@@ -17,7 +17,7 @@ func (cloudinaryUpdloader *CloudinaryUpdloaderImpl) Uploader(c echo.Context, fil
 	if fileHeader != nil {
 		file, _ := fileHeader.Open()
 		ctx := context.Background()
-		urlCloudinary := cloudinaryUpdloader.Config.Url
+		urlCloudinary := fmt.Sprintf("cloudinary://%s:%s@%s", cloudinaryUpdloader.Config.ApiKey, cloudinaryUpdloader.Config.ApiSecret, cloudinaryUpdloader.Config.CloudName)
 		cldService, _ := cloudinary.NewFromURL(urlCloudinary)
 		response, err := cldService.Upload.Upload(ctx, file, uploader.UploadParams{Folder: folderPath})
 		if err != nil {

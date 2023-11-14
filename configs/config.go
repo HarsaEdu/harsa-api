@@ -21,7 +21,9 @@ type MySQLConfig struct {
 }
 
 type CloudinaryConfig struct {
-	Url string
+	CloudName string
+	ApiKey    string
+	ApiSecret string
 }
 
 func LoadConfig() (*AppConfig, error) {
@@ -42,7 +44,9 @@ func LoadConfig() (*AppConfig, error) {
 			Database: os.Getenv("DB_NAME"),
 		},
 		Cloudinary: CloudinaryConfig{
-			Url: os.Getenv("CLOUDINARY_URL"),
+			CloudName: os.Getenv("CLOUDINARY_CLOUD_NAME"),
+			ApiKey:    os.Getenv("CLOUDINARY_API_KEY"),
+			ApiSecret: os.Getenv("CLOUDINARY_API_SECRET"),
 		},
 	}, nil
 }
