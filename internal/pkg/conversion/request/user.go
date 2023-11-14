@@ -29,3 +29,25 @@ func UserCreateRequestToUserProfileModel(userRequest web.UserCreateRequest, user
 		Job:         userRequest.Job,
 	}
 }
+func UserUpdateRequestToUserModel(userRequest web.UserUpdateRequest) *domain.User {
+	return &domain.User{
+		Username: userRequest.Username,
+		Email:    userRequest.Email,
+		Password: userRequest.Password,
+		RoleID:   userRequest.RoleID,
+	}
+}
+func UserProfileUpdateRequestToUserModel(userRequest web.UserProfileUpdateRequest, birthDate time.Time) *domain.UserProfile {
+	return &domain.UserProfile{
+		ID:          userRequest.ID,
+		FirstName:   userRequest.FirstName,
+		LastName:    userRequest.LastName,
+		DateBirth:   birthDate,
+		Bio:         userRequest.Bio,
+		Gender:      userRequest.Gender,
+		PhoneNumber: userRequest.PhoneNumber,
+		City:        userRequest.City,
+		Address:     userRequest.Address,
+		Job:         userRequest.Job,
+	}
+}
