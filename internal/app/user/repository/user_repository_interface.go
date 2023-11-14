@@ -13,6 +13,7 @@ type UserRepository interface {
 	UserUpdate(user *domain.User) error
 	UserProfileUpdate(userProfile *domain.UserProfile) error
 	UserProfileAvailableByID(id uint) (*domain.UserProfile, error)
+	UserDelete(id uint) error
 }
 
 type UserRepositoryImpl struct {
