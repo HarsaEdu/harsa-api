@@ -10,9 +10,12 @@ import (
 	"github.com/HarsaEdu/harsa-api/configs"
 	authHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/handler"
 	authRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/repository"
-	"github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
+	authRoutes "github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
 	authServicePkg "github.com/HarsaEdu/harsa-api/internal/app/auth/service"
+	userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
+	userRoutes "github.com/HarsaEdu/harsa-api/internal/app/user/routes"
+	userServicePkg "github.com/HarsaEdu/harsa-api/internal/app/user/service"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/web"
 	"github.com/go-playground/validator"
@@ -47,16 +50,20 @@ func main() {
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
+	userService := userServicePkg.NewUserService(userRepository, validate)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
+	userHandler := userHandlerPkg.NewUserHandler(userService)
 
 	// Routes
-	authRoutes := routes.NewAuthRoutes(e, authHandler)
+	authRoutes := authRoutes.NewAuthRoutes(e, authHandler)
+	userRoutes := userRoutes.NewUserRoutes(e, userHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
 	authRoutes.Auth(apiGroup)
+	userRoutes.User(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
