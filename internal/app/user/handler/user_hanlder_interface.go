@@ -7,6 +7,8 @@ import (
 
 type UserHandler interface {
 	UserCreate(ctx echo.Context) error
+	UserUpdate(ctx echo.Context) error
+	UserProfileUpdate(ctx echo.Context) error
 }
 
 type UserHandlerImpl struct {
