@@ -26,5 +26,6 @@ func UserCreateRequestToUserProfileModel(userRequest web.UserCreateRequest, user
 		PhoneNumber: userRequest.PhoneNumber,
 		City:        userRequest.City,
 		Address:     userRequest.Address,
+		Job:         userRequest.Job,
 	}
 }
