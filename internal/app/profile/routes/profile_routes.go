@@ -7,4 +7,5 @@ func (profileRoutes *ProfileRoutesImpl) Profile(apiGroup *echo.Group) {
 
 	profilesGroup.POST("", profileRoutes.ProfileHandler.CreateProfile)
 	profilesGroup.GET("", profileRoutes.ProfileHandler.GetAllProfiles)
+	profilesGroup.GET("/:profile_id", profileRoutes.ProfileHandler.GetAllProfiles)
 }

@@ -11,6 +11,7 @@ import (
 type ProfileService interface {
 	CreateProfile(ctx echo.Context, profile *domain.Profile) error
 	GetAllProfiles() ([]domain.Profile, error)
+	GetProfileByID(id uint) (*domain.Profile, error)
 }
 
 type ProfileServiceImpl struct {
