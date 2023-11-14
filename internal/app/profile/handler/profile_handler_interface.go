@@ -7,6 +7,7 @@ import (
 
 type ProfileHandler interface {
 	CreateProfile(ctx echo.Context) error
+	GetAllProfiles(ctx echo.Context) error
 }
 
 type ProfileHandlerImpl struct {
