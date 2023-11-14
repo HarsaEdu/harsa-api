@@ -12,5 +12,5 @@ type Questions struct {
 	Options         []Options      `json:"options" gorm:"foreignKey:Question_id"`
 	CreatedAt       time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt       time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
-	DeleteAt        gorm.DeletedAt `json:"delete_at"`
+	DeletedAt       gorm.DeletedAt `json:"deleted_at"`
 }
