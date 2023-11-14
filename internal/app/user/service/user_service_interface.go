@@ -9,6 +9,8 @@ import (
 
 type UserService interface {
 	UserCreate(ctx echo.Context, userRequest web.UserCreateRequest) error
+	UserUpdate(ctx echo.Context, userRequest web.UserUpdateRequest) error
+	UserProfileUpdate(ctx echo.Context, userRequest web.UserProfileUpdateRequest) error
 }
 
 type UserServiceImpl struct {
