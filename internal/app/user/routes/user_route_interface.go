@@ -10,13 +10,11 @@ type UserRoutes interface {
 }
 
 type UserRoutesImpl struct {
-	Echo        *echo.Echo
 	UserHandler handler.UserHandler
 }
 
-func NewUserRoutes(e *echo.Echo, userHandler handler.UserHandler) UserRoutes {
+func NewUserRoutes(userHandler handler.UserHandler) UserRoutes {
 	return &UserRoutesImpl{
-		Echo:        e,
 		UserHandler: userHandler,
 	}
 }

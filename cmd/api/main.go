@@ -58,7 +58,7 @@ func main() {
 
 	// Routes
 	authRoutes := authRoutes.NewAuthRoutes(e, authHandler)
-	userRoutes := userRoutes.NewUserRoutes(e, userHandler)
+	userRoutes := userRoutes.NewUserRoutes(userHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
