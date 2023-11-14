@@ -16,6 +16,10 @@ import (
 	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
 	categoryRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
 	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
+	profileHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/profile/handler"
+	profileRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/profile/repository"
+	profileRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/profile/routes"
+	profileServicePkg "github.com/HarsaEdu/harsa-api/internal/app/profile/service"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
@@ -53,23 +57,28 @@ func main() {
 	authRepository := authRepositoryPkg.NewAuthRepository(db)
 	userRepository := userRepositoryPkg.NewUserRepository(db)
 	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
+	profileRepository := profileRepositoryPkg.NewProfileRepository(db)
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
 	categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
+	profileService := profileServicePkg.NewProfileService(profileRepository, validate, cloudinaryUploader)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
+	profileHandler := profileHandlerPkg.NewProfileHandler(profileService)
 
 	// Routes
 	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
 	categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
+	profileRoutes := profileRoutesPkg.NewProfileRoutes(e, profileHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
 	authRoutes.Auth(apiGroup)
 	categoryRoutes.Category(apiGroup)
+	profileRoutes.Profile(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
@@ -79,7 +88,6 @@ func main() {
 		}
 		return c.HTMLBlob(http.StatusOK, file)
 	})
-
 
 	// Middleware and server configuration
 	e.Pre(middleware.RemoveTrailingSlash())
