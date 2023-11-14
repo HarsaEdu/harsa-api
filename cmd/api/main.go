@@ -17,6 +17,10 @@ import (
 	categoryRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
 	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
+	quizzesHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/quizzes/handler"
+	quizzesRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/quizzes/repository"
+	quizzesRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/quizzes/routes"
+	quizzesServicePkg "github.com/HarsaEdu/harsa-api/internal/app/quizzes/service"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/web"
@@ -53,23 +57,28 @@ func main() {
 	authRepository := authRepositoryPkg.NewAuthRepository(db)
 	userRepository := userRepositoryPkg.NewUserRepository(db)
 	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
+	quizzesRepository := quizzesRepositoryPkg.NewQuizzesRepository(db)
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
 	categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
+	quizzesService := quizzesServicePkg.NewQuizzesService(quizzesRepository, validate)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
+	quizzesHandler := quizzesHandlerPkg.NewQuizzesHandler(quizzesService)
 
 	// Routes
 	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
 	categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
+	quizzesRoutes := quizzesRoutesPkg.NewQuizzesRoutes(e, quizzesHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
 	authRoutes.Auth(apiGroup)
 	categoryRoutes.Category(apiGroup)
+	quizzesRoutes.Quizzes(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
@@ -92,7 +101,7 @@ func main() {
 
 	// Start the Echo server in a goroutine
 	go func() {
-		if err := e.Start(":8080"); err != nil && err != http.ErrServerClosed {
+		if err := e.Start(":8000"); err != nil && err != http.ErrServerClosed {
 			logrus.Fatalf("Error starting server: %v", err)
 		}
 	}()
