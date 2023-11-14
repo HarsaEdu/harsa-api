@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (categoryHandler *CategoryHandlereImpl) FindById(ctx echo.Context) error {
+func (categoryHandler *CategoryHandlerImpl) FindById(ctx echo.Context) error {
 	idParam := ctx.Param("id")
 	id, _ := strconv.Atoi(idParam)
 

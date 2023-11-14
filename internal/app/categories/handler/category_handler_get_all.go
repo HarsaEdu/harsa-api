@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (categoryHandler *CategoryHandlereImpl) GetAll(ctx echo.Context) error {
+func (categoryHandler *CategoryHandlerImpl) GetAll(ctx echo.Context) error {
 	response, err := categoryHandler.CategoryService.GetAll(ctx)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {

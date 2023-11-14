@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (categoryHandler *CategoryHandlereImpl) Create(ctx echo.Context) error {
+func (categoryHandler *CategoryHandlerImpl) Create(ctx echo.Context) error {
 
 	req := web.CategoryCreateRequest{}
 	err := ctx.Bind(&req)
