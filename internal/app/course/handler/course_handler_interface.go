@@ -7,6 +7,7 @@ import (
 
 type CourseHandler interface {
 	Create(ctx echo.Context) error
+	GetAll(ctx echo.Context) error
 }
 
 type CourseHandlerImpl struct {

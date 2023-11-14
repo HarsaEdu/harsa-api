@@ -10,6 +10,7 @@ import (
 
 type CourseService interface {
 	Create(ctx echo.Context, request web.CourseCreateRequest, instructorId uint) error
+	GetAll() ([]web.GetCourseResponse, error)
 }
 
 type CourseServiceImpl struct {

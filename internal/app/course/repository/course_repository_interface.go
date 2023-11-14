@@ -7,6 +7,7 @@ import (
 
 type CourseRepository interface {
 	Create(course *domain.Course) error
+	GetAll() ([]domain.Course, error)
 }
 
 type CourseRepositoryImpl struct {
