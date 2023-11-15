@@ -9,7 +9,7 @@ import (
 )
 
 func (categoryHandler *CategoryHandlerImpl) GetAll(ctx echo.Context) error {
-	response, err := categoryHandler.CategoryService.GetAll(ctx)
+	response, err := categoryHandler.CategoryService.GetAll()
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

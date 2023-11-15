@@ -21,7 +21,7 @@ func (categoryHandler *CategoryHandlerImpl) Update(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind category request", err)
 	}
 
-	err = categoryHandler.CategoryService.Update(ctx, req, id)
+	err = categoryHandler.CategoryService.Update(req, id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

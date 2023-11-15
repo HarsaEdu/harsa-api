@@ -14,7 +14,7 @@ func (categoryHandler *CategoryHandlerImpl) Delete(ctx echo.Context) error {
 	idParam := ctx.Param("id")
 	id, _ := strconv.Atoi(idParam)
 
-	err := categoryHandler.CategoryService.Delete(ctx, id)
+	err := categoryHandler.CategoryService.Delete(id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

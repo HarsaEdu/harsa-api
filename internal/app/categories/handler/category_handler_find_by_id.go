@@ -13,7 +13,7 @@ func (categoryHandler *CategoryHandlerImpl) FindById(ctx echo.Context) error {
 	idParam := ctx.Param("id")
 	id, _ := strconv.Atoi(idParam)
 
-	result, err := categoryHandler.CategoryService.FindById(ctx, id)
+	result, err := categoryHandler.CategoryService.FindById(id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
