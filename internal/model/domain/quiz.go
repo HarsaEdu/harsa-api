@@ -1,4 +1,5 @@
 package domain
+
 import (
 	"time"
 
@@ -6,14 +7,14 @@ import (
 )
 
 type Quizzes struct {
-	ID              uint           `gorm:"type:int;primarykey" json:"id"`
-	Module_id       uint           `json:"module_id"`
-	User_id         uint           `json:"user_id"`
-	Title           string         `gorm:"type:varchar(225)" json:"title"`
-	Description     string         `gorm:"type:text" json:"description"`
-	Durations       int            `gorm:"type:int" json:"duration"`
-	Questions       []Questions    `json:"questions" gorm:"foreignKey:Quiz_id"`
-	CreatedAt       time.Time      `gorm:"autoCreateTime" json:"created_at"`
-	UpdatedAt       time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
-	DeletedAt       gorm.DeletedAt `json:"deleted_at"`
+	ID          uint           `gorm:"type:int;primarykey" json:"id"`
+	ModuleId    uint           `json:"module_id"`
+	UserId      uint           `json:"user_id"`
+	Title       string         `gorm:"type:varchar(225)" json:"title"`
+	Description string         `gorm:"type:text" json:"description"`
+	Durations   int            `gorm:"type:int" json:"duration"`
+	Questions   []Questions    `json:"questions" gorm:"foreignKey:Quiz_id"`
+	CreatedAt   time.Time      `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
+	DeletedAt   gorm.DeletedAt `json:"deleted_at"`
 }

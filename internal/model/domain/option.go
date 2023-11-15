@@ -1,4 +1,5 @@
 package domain
+
 import (
 	"time"
 
@@ -6,11 +7,11 @@ import (
 )
 
 type Options struct {
-	ID              uint           `gorm:"type:int;primarykey" json:"id"`
-	Question_id     uint           `json:"question_id"`
-	Value           string         `json:"value" gorm:"type:text"`
-	Is_right        bool           `json:"is_right"`
-	CreatedAt       time.Time      `gorm:"autoCreateTime" json:"created_at"`
-	UpdatedAt       time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
-	DeletedAt        gorm.DeletedAt `json:"deleted_at"`
+	ID         uint           `gorm:"type:int;primarykey" json:"id"`
+	QuestionId uint           `json:"question_id"`
+	Value      string         `json:"value" gorm:"type:text"`
+	IsRight    bool           `json:"is_right"`
+	CreatedAt  time.Time      `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt  time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
+	DeletedAt  gorm.DeletedAt `json:"deleted_at"`
 }
