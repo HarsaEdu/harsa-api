@@ -2,11 +2,9 @@ package service
 
 import (
 	"fmt"
-
-	"github.com/labstack/echo/v4"
 )
 
-func (categoryService *CategoryServiceImpl) Delete(ctx echo.Context, id int) error {
+func (categoryService *CategoryServiceImpl) Delete(id int) error {
 
 	IfExist, _ := categoryService.CategoryRepository.FindById(id)
 	if IfExist == nil {
