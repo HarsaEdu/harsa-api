@@ -17,6 +17,9 @@ func (quizzesHandler *QuizzesHandlereImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind quiz request", err)
 	}
 
+	id := ctx.Get("user_id").(uint)
+
+	req.UserId = id
 	err = quizzesHandler.QuizzesService.Create(ctx, req)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
