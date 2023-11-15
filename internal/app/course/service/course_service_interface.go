@@ -5,11 +5,10 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
-	"github.com/labstack/echo/v4"
 )
 
 type CourseService interface {
-	Create(ctx echo.Context, request web.CourseCreateRequest, instructorId uint) error
+	Create(request web.CourseCreateRequest, instructorId uint) error
 	GetAll() ([]web.GetCourseResponse, error)
 }
 

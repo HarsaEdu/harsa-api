@@ -19,7 +19,7 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 
 	instructorId := ctx.Get("user_id").(uint)
 
-	err = courseHandler.CourseService.Create(ctx, courseCreateRequest, instructorId)
+	err = courseHandler.CourseService.Create(courseCreateRequest, instructorId)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
