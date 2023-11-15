@@ -13,7 +13,7 @@ func ConvertQuizRes(quiz *domain.Quizzes) *web.QuizResponse {
 		Id:          quiz.ID,
 		Created_at:  quiz.CreatedAt,
 		Updatad_at:  quiz.UpdatedAt,
-		User_id:     quiz.User_id,
+		UserId:      quiz.UserId,
 		Title:       quiz.Title,
 		Description: quiz.Description,
 		Questions: question,

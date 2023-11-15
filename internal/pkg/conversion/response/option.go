@@ -6,10 +6,10 @@ import (
 )
 
 func ConvertOptionsResForQuestion(option *domain.Options) *web.OptionsResForQuestion {
-    optionRes := web.OptionsResForQuestion{
-        Id:         option.ID,
-		Value:		option.Value,
-		Is_right: 	option.Is_right,
-    }
-    return &optionRes
+	optionRes := web.OptionsResForQuestion{
+		Id:      option.ID,
+		Value:   option.Value,
+		IsRight: option.IsRight,
+	}
+	return &optionRes
 }

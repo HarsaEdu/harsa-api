@@ -13,14 +13,14 @@ func ConvertAllQuestionsQuiz(questions []domain.Questions) []web.QuestionsResFor
 
 		for _, opt := range q.Options {
 			optionRes = append(optionRes, web.OptionsResForQuestion{
-				Id:       opt.ID,
-				Value:    opt.Value,
-				Is_right: opt.Is_right,
+				Id:      opt.ID,
+				Value:   opt.Value,
+				IsRight: opt.IsRight,
 			})
 		}
 
 		question := web.QuestionsResForQuiz{
-			Id:      q.ID,
+			Id:       q.ID,
 			Question: q.Question,
 			Options:  optionRes,
 		}
