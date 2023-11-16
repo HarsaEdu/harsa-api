@@ -14,6 +14,7 @@ type CourseService interface {
 	GetById(id uint) (*web.GetCourseResponse, error)
 	Update(id uint, request *web.CourseUpdateRequest) error
 	UpdateImage(ctx echo.Context, id uint, request *web.CourseUpdateImageRequest) error
+	Delete(id uint) error
 }
 
 type CourseServiceImpl struct {

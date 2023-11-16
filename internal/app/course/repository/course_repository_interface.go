@@ -11,6 +11,7 @@ type CourseRepository interface {
 	GetById(id uint) (*domain.Course, error)
 	Update(id uint, course *domain.Course) error
 	UpdateImage(course *domain.Course) error
+	Delete(id uint) error
 }
 
 type CourseRepositoryImpl struct {
