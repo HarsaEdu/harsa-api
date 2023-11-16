@@ -22,7 +22,7 @@ func (authService *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.Registe
 	// check available username and email
 	existingUser, _ := authService.UserRepository.UserAvailable(r.Username, r.Email)
 	if existingUser != nil {
-		return nil, fmt.Errorf("already exists")
+		return nil, fmt.Errorf("already exist")
 	}
 
 	// convert request to model
@@ -40,7 +40,7 @@ func (authService *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.Registe
 	}
 
 	// convert user data to auth response
-	userResponse := conversionResponse.ConvertToAuthResponse(res)
+	userResponse := conversionResponse.AuthDomainToAuthResponse(res)
 
 	return userResponse, nil
 }

@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/jwt"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
@@ -24,23 +24,19 @@ func (authHandler *AuthHandlerImpl) RegisterUser(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
-		if strings.Contains(err.Error(), "already exists") {
-			return res.StatusAlreadyExist(ctx, "account already exists", err)
+		if strings.Contains(err.Error(), "already exist") {
+			return res.StatusAlreadyExist(ctx, "account already exist", err)
 		}
-		return res.StatusInternalServerError(ctx, "failed to register user, something happen", fmt.Errorf("internal server error"))
+		return res.StatusInternalServerError(ctx, "failed to register user, something happen", err)
 	}
 
 	token, err := jwt.GenerateToken(response)
 	if err != nil {
-		return res.StatusInternalServerError(ctx, "failed to register user, something happen", fmt.Errorf("internal server error"))
+		return res.StatusInternalServerError(ctx, "failed to register user, something happen", err)
 	}
 
-	loginResponse := &web.UserLoginResponse{
-		ID:       response.ID,
-		Username: response.Username,
-		RoleName: response.RoleName,
-		Token:    token,
-	}
+	loginResponse := conversion.AuthResponseToLoginResponse(response)
+	loginResponse.Token = token
 
 	return res.StatusCreated(ctx, "success to register user", loginResponse, nil)
 }
