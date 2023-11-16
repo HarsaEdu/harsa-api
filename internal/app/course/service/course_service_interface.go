@@ -5,6 +5,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
+	"github.com/labstack/echo/v4"
 )
 
 type CourseService interface {
@@ -12,6 +13,7 @@ type CourseService interface {
 	GetAll() ([]web.GetCourseResponse, error)
 	GetById(id uint) (*web.GetCourseResponse, error)
 	Update(id uint, request *web.CourseUpdateRequest) error
+	UpdateImage(ctx echo.Context, id uint, request *web.CourseUpdateImageRequest) error
 }
 
 type CourseServiceImpl struct {

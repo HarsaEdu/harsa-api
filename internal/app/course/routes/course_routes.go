@@ -12,4 +12,5 @@ func (courseRoutes *CourseRoutesImpl) Course(apiGroup *echo.Group) {
 	coursesGroup.GET("", courseRoutes.CourseHandler.GetAll)
 	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetById)
 	coursesGroup.PUT("/:id", courseRoutes.CourseHandler.Update, middleware.InstructorMiddleware)
+	coursesGroup.PATCH("/:id", courseRoutes.CourseHandler.UpdateImage, middleware.InstructorMiddleware)
 }

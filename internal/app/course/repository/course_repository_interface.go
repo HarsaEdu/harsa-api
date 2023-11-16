@@ -10,6 +10,7 @@ type CourseRepository interface {
 	GetAll() ([]domain.Course, error)
 	GetById(id uint) (*domain.Course, error)
 	Update(id uint, course *domain.Course) error
+	UpdateImage(course *domain.Course) error
 }
 
 type CourseRepositoryImpl struct {

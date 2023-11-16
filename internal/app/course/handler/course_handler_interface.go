@@ -10,6 +10,7 @@ type CourseHandler interface {
 	GetAll(ctx echo.Context) error
 	GetById(ctx echo.Context) error
 	Update(ctx echo.Context) error
+	UpdateImage(ctx echo.Context) error
 }
 
 type CourseHandlerImpl struct {
