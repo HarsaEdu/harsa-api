@@ -38,5 +38,5 @@ func (authHandler *AuthHandlerImpl) LoginUser(ctx echo.Context) error {
 		Token:    token,
 	}
 
-	return res.StatusOK(ctx, "success to login", loginResponse)
+	return res.StatusOK(ctx, "success to login", loginResponse, nil)
 }
