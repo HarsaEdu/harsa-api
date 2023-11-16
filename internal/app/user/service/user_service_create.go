@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
@@ -31,24 +32,27 @@ func (userService *UserServiceImpl) UserCreate(ctx echo.Context, userRequest web
 	// hash password
 	userAccount.Password = password.HashPassword(userAccount.Password)
 
-	// insert data and get back user data with id and role name
-	res, err := userService.UserRepository.UserCreate(userAccount)
+	userService.UserRepository.HandleTrx(ctx, func(repo repository.UserRepository) error {
+		// insert data and get back user data with id and role name
+		res, err := userService.UserRepository.UserCreate(userAccount)
 
-	// check if error when insert data
-	if err != nil {
-		return fmt.Errorf("error when creating user %s:", err.Error())
-	}
-	// convert birth date
-	birthDate, err := time.Parse("2006-01-02", userRequest.DateBirth)
+		// check if error when insert data
+		if err != nil {
+			return fmt.Errorf("error when creating user %s:", err.Error())
+		}
+		// convert birth date
+		birthDate, err := time.Parse("2006-01-02", userRequest.DateBirth)
 
-	// convert request to user model
-	userProfile := conversionRequest.UserCreateRequestToUserProfileModel(userRequest, res.ID, birthDate)
+		// convert request to user model
+		userProfile := conversionRequest.UserCreateRequestToUserProfileModel(userRequest, res.ID, birthDate)
 
-	err = userService.UserRepository.UserProfileCreate(userProfile)
+		err = userService.UserRepository.UserProfileCreate(userProfile)
 
-	if err != nil {
-		return fmt.Errorf("error when creating user profile %s:", err.Error())
-	}
+		if err != nil {
+			return fmt.Errorf("error when creating user profile %s:", err.Error())
+		}
+		return nil
+	})
 
 	return nil
 }

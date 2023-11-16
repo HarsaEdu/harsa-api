@@ -10,6 +10,8 @@ type UserHandler interface {
 	UserUpdate(ctx echo.Context) error
 	UserProfileUpdate(ctx echo.Context) error
 	UserDelete(ctx echo.Context) error
+	GetAllUsers(ctx echo.Context) error
+	GetUserDetailByID(ctx echo.Context) error
 }
 
 type UserHandlerImpl struct {

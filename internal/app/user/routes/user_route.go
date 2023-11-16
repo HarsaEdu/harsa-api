@@ -12,4 +12,6 @@ func (userRoutes *UserRoutesImpl) User(apiGroup *echo.Group) {
 	userGroup.PUT("", userRoutes.UserHandler.UserUpdate, middleware.AdminMiddleware)
 	userGroup.DELETE("", userRoutes.UserHandler.UserDelete, middleware.AdminMiddleware)
 	userGroup.PUT("/profile", userRoutes.UserHandler.UserProfileUpdate, middleware.AdminMiddleware)
+	userGroup.GET("", userRoutes.UserHandler.GetAllUsers, middleware.AdminMiddleware)
+	userGroup.GET("/:id", userRoutes.UserHandler.GetUserDetailByID, middleware.AdminMiddleware)
 }

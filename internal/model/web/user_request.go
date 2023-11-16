@@ -42,5 +42,8 @@ type UserUpdateRequest struct {
 }
 
 type UserDeleteRequest struct {
-	ID uint `json:"id" validate:"required"`
+	ID uint `json:"id" param:"id" validate:"required"`
+}
+type UserGetByIDRequest struct {
+	ID uint `json:"id" param:"id" validate:"required"`
 }
