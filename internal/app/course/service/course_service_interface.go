@@ -10,6 +10,7 @@ import (
 type CourseService interface {
 	Create(request *web.CourseCreateRequest, instructorId uint) error
 	GetAll() ([]web.GetCourseResponse, error)
+	GetById(id uint) (*web.GetCourseResponse, error)
 }
 
 type CourseServiceImpl struct {
