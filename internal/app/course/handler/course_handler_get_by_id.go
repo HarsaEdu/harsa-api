@@ -19,10 +19,10 @@ func (courseHandler *CourseHandlerImpl) GetById(ctx echo.Context) error {
 	if err != nil {
 		
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "category not found", err)
+			return res.StatusNotFound(ctx, "course not found", err)
 		}
 
-		return res.StatusInternalServerError(ctx, "failed to create category, something happen", err)
+		return res.StatusInternalServerError(ctx, "failed to get course, something happen", err)
 	}
 
 	return res.StatusOK(ctx, "success to get course", response)
