@@ -30,5 +30,5 @@ func (UserHandler *UserHandlerImpl) UserCreate(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to create user, something happen", fmt.Errorf("internal server error"))
 	}
 
-	return res.StatusCreated(ctx, "success to create user", nil)
+	return res.StatusCreated(ctx, "success to create user", nil, nil)
 }

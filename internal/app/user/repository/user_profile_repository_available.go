@@ -4,12 +4,12 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
-func (registerRepository *UserRepositoryImpl) UserProfileAvailableByID(id uint) (*domain.UserProfile, error) {
+func (userRepository *UserRepositoryImpl) UserProfileAvailableByID(id uint) (*domain.UserProfile, error) {
 	// define domain user
 	userProfile := domain.UserProfile{}
 
 	// get data from database
-	result := registerRepository.DB.Where("id = ?", id).First(&userProfile)
+	result := userRepository.DB.Where("id = ?", id).First(&userProfile)
 
 	// check if error when get data
 	if result.Error != nil {

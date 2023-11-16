@@ -25,7 +25,7 @@ func (UserHandler *UserHandlerImpl) UserUpdate(ctx echo.Context) error {
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusAlreadyExist(ctx, "user not found", err)
+			return res.StatusNotFound(ctx, "user not found", err)
 		}
 		if strings.Contains(err.Error(), "already exists") {
 			return res.StatusAlreadyExist(ctx, "account already exists", err)
@@ -33,5 +33,5 @@ func (UserHandler *UserHandlerImpl) UserUpdate(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to update user, something happen", fmt.Errorf("internal server error"))
 	}
 
-	return res.StatusOK(ctx, "success to update user", nil)
+	return res.StatusOK(ctx, "success to update user", nil, nil)
 }

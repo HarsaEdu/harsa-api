@@ -30,5 +30,5 @@ func (UserHandler *UserHandlerImpl) UserProfileUpdate(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to update user profile, something happen", fmt.Errorf("internal server error"))
 	}
 
-	return res.StatusOK(ctx, "success to update user profile", nil)
+	return res.StatusOK(ctx, "success to update user profile", nil, nil)
 }
