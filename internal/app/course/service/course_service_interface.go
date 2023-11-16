@@ -8,7 +8,7 @@ import (
 )
 
 type CourseService interface {
-	Create(request web.CourseCreateRequest, instructorId uint) error
+	Create(request *web.CourseCreateRequest, instructorId uint) error
 	GetAll() ([]web.GetCourseResponse, error)
 }
 

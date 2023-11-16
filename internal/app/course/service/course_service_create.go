@@ -7,7 +7,7 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 )
 
-func (courseService *CourseServiceImpl) Create(request web.CourseCreateRequest, instructorId uint) error {
+func (courseService *CourseServiceImpl) Create(request *web.CourseCreateRequest, instructorId uint) error {
 	err := courseService.Validate.Struct(request)
 	if err != nil {
 		return err

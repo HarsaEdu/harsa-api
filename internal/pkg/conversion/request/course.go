@@ -5,7 +5,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func CourseCreateRequestToCourseDomain(request web.CourseCreateRequest, instructorId uint) *domain.Course {
+func CourseCreateRequestToCourseDomain(request *web.CourseCreateRequest, instructorId uint) *domain.Course {
 	return &domain.Course{
 		Title:       request.Title,
 		Description: request.Description,
