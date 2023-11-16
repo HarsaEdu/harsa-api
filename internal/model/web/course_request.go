@@ -4,6 +4,7 @@ type CourseCreateRequest struct {
 	Title       string `json:"title" form:"title" validate:"required"`
 	Description string `json:"description" form:"description"`
 	CategoryID  int    `json:"category_id" form:"category_id" validate:"required"`
+	ImageUrl    string `form:"file"`
 }
 
 type CourseUpdateRequest struct {
