@@ -11,3 +11,7 @@ type CourseUpdateRequest struct {
 	Description string `json:"description"`
 	CategoryID  int    `json:"category_id"`
 }
+
+type CourseUpdateImageRequest struct {
+	ImageUrl string `form:"file"`
+}
