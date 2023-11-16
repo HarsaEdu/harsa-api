@@ -23,3 +23,10 @@ func CourseUpdateRequestToCourseDomain(request *web.CourseUpdateRequest, courseI
 		CategoryID:  uint(request.CategoryID),
 	}
 }
+
+func CourseUpdateImageRequestToCourseDomain(request *web.CourseUpdateImageRequest, courseId uint) *domain.Course {
+	return &domain.Course{
+		ID: courseId,
+		ImageUrl:    request.ImageUrl,
+	}
+}
