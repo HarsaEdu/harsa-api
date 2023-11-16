@@ -10,7 +10,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/configs"
 	authHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/handler"
 	authRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/repository"
-	authRoutes "github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
+	authRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
 	authServicePkg "github.com/HarsaEdu/harsa-api/internal/app/auth/service"
 	categoryHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/handler"
 	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
@@ -18,7 +18,7 @@ import (
 	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
 	userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
-	userRoutes "github.com/HarsaEdu/harsa-api/internal/app/user/routes"
+	userRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/user/routes"
 	userServicePkg "github.com/HarsaEdu/harsa-api/internal/app/user/service"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
@@ -68,8 +68,8 @@ func main() {
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
 
 	// Routes
-	authRoutes := authRoutes.NewAuthRoutes(e, authHandler)
-	userRoutes := userRoutes.NewUserRoutes(userHandler)
+	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
+	userRoutes := userRoutesPkg.NewUserRoutes(userHandler)
   categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
 
 	// Setup Routes
