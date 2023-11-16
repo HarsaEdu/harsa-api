@@ -16,7 +16,7 @@ func (courseService *CourseServiceImpl) UpdateImage(ctx echo.Context, id uint, r
 
 	existingCourse, err := courseService.CourseRepository.GetById(id)
 	if existingCourse == nil {
-		return fmt.Errorf("error when finding course : ", err.Error())
+		return fmt.Errorf("course not found")
 	}
 
 	updatedData := conversion.CourseUpdateImageRequestToCourseDomain(request, id)
