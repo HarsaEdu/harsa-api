@@ -11,6 +11,7 @@ type CourseService interface {
 	Create(request *web.CourseCreateRequest, instructorId uint) error
 	GetAll() ([]web.GetCourseResponse, error)
 	GetById(id uint) (*web.GetCourseResponse, error)
+	Update(id uint, request *web.CourseUpdateRequest) error
 }
 
 type CourseServiceImpl struct {

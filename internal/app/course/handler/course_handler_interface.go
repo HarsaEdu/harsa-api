@@ -9,6 +9,7 @@ type CourseHandler interface {
 	Create(ctx echo.Context) error
 	GetAll(ctx echo.Context) error
 	GetById(ctx echo.Context) error
+	Update(ctx echo.Context) error
 }
 
 type CourseHandlerImpl struct {

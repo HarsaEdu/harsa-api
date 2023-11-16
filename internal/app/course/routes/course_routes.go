@@ -11,4 +11,5 @@ func (courseRoutes *CourseRoutesImpl) Course(apiGroup *echo.Group) {
 	coursesGroup.POST("", courseRoutes.CourseHandler.Create, middleware.InstructorMiddleware)
 	coursesGroup.GET("", courseRoutes.CourseHandler.GetAll)
 	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetById)
+	coursesGroup.PUT("/:id", courseRoutes.CourseHandler.Update, middleware.InstructorMiddleware)
 }
