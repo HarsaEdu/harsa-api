@@ -14,3 +14,12 @@ func CourseCreateRequestToCourseDomain(request *web.CourseCreateRequest, instruc
 		CategoryID: uint(request.CategoryID),
 	}
 }
+
+func CourseUpdateRequestToCourseDomain(request *web.CourseUpdateRequest, courseId uint) *domain.Course {
+	return &domain.Course{
+		ID:          courseId,
+		Title:       request.Title,
+		Description: request.Description,
+		CategoryID:  uint(request.CategoryID),
+	}
+}
