@@ -36,3 +36,28 @@ func CourseDomainToCourseGetAllResponse(courseDomain []domain.Course) []web.GetC
 
 	return courseGetAllResponse
 }
+
+func CourseDomainToCourseGetByIdResponse(courseDomain *domain.Course) *web.GetCourseResponse {
+	return &web.GetCourseResponse{
+		ID:        courseDomain.ID,
+		Title: courseDomain.Title,
+		Description: courseDomain.Description,
+		ImageUrl: courseDomain.ImageUrl,
+		Enrolled: courseDomain.Enrolled,
+		Rating: courseDomain.Rating,
+		CreatedAt: courseDomain.CreatedAt,
+		UpdatedAt: courseDomain.UpdatedAt,
+		Category: web.CategoryForCourseResponse{
+			ID: courseDomain.Category.ID,
+			Name: courseDomain.Category.Name,
+		},
+		User: web.UserForCourseResponse{
+			ID: courseDomain.User.ID,
+			Email: courseDomain.User.Email,
+			Role: web.RoleForUserForCourseResponse{
+				ID: courseDomain.User.Role.ID,
+				Name: courseDomain.User.Role.Name,
+			},
+		},
+	}
+}
