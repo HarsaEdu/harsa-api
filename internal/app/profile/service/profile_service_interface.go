@@ -12,6 +12,7 @@ type ProfileService interface {
 	CreateProfile(ctx echo.Context, profile *domain.Profile) error
 	GetAllProfiles() ([]domain.Profile, error)
 	GetProfileByID(id uint) (*domain.Profile, error)
+	UpdateProfile(ctx echo.Context, profile *domain.Profile, id uint) error
 }
 
 type ProfileServiceImpl struct {
