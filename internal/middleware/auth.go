@@ -29,6 +29,12 @@ func AuthMiddleware(next echo.HandlerFunc, condition string) echo.HandlerFunc {
 			return res.StatusBadRequest(c, "invalid token!", err)
 		}
 
+		if condition == "all" {
+			if data.RoleName != "admin" && data.RoleName != "instructor" && data.RoleName != "student" {
+				return res.StatusForbidden(c, "you dont have access!", fmt.Errorf("access forbidden!"))
+			}
+		}
+
 		if condition == "admin" {
 			if data.RoleName != "admin" {
 				return res.StatusForbidden(c, "you dont have access!", fmt.Errorf("access forbidden!"))
@@ -64,4 +70,7 @@ func InstructorMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 }
 func StudentMiddleare(next echo.HandlerFunc) echo.HandlerFunc {
 	return AuthMiddleware(next, "student")
+}
+func AllUserMiddleare(next echo.HandlerFunc) echo.HandlerFunc {
+	return AuthMiddleware(next, "all")
 }
