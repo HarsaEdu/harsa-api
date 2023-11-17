@@ -5,17 +5,19 @@ import (
 
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (userService *UserServiceImpl) UserGetAll(offset int, limit int, search string) ([]domain.UserEntity, int64, error) {
+func (userService *UserServiceImpl) UserGetAll(offset int, limit int, search string) ([]domain.UserEntity, *web.Pagination, error) {
 	users, total, err := userService.UserRepository.UserGetAll(offset, limit, search)
 	if len(search) > 0 && total <= 0 {
-		return nil, total, fmt.Errorf("users not found")
+		return nil, nil, fmt.Errorf("users not found")
 	}
 	if err != nil {
-		return nil, total, fmt.Errorf("internal Server Error")
+		return nil, nil, fmt.Errorf("internal Server Error")
 	}
-	return users, total, nil
+	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
+	return users, pagination, nil
 }
 
 func (userService *UserServiceImpl) GetUserDetail(userRequest web.UserGetByIDRequest) (*domain.UserDetail, error) {

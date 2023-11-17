@@ -13,7 +13,7 @@ type UserService interface {
 	UserUpdate(userRequest web.UserUpdateRequest) error
 	UserProfileUpdate(userRequest web.UserProfileUpdateRequest) error
 	UserDelete(userRequest web.UserDeleteRequest) error
-	UserGetAll(offset int, limit int, search string) ([]domain.UserEntity, int64, error)
+	UserGetAll(offset int, limit int, search string) ([]domain.UserEntity, *web.Pagination, error)
 	GetUserDetail(userRequest web.UserGetByIDRequest) (*domain.UserDetail, error)
 }
 
