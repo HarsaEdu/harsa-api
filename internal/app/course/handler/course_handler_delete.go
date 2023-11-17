@@ -22,5 +22,5 @@ func (courseHandler *CourseHandlerImpl) Delete(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to delete course, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success to delete course", nil)
+	return res.StatusOK(ctx, "success to delete course", nil, nil)
 }
