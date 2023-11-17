@@ -16,7 +16,11 @@ import (
 	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
 	categoryRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
 	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
-	userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"
+	courseHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/course/handler"
+	courseRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/course/repository"
+	courseRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/course/routes"
+	courseServicePkg "github.com/HarsaEdu/harsa-api/internal/app/course/service"
+  userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	userRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/user/routes"
 	userServicePkg "github.com/HarsaEdu/harsa-api/internal/app/user/service"
@@ -56,27 +60,32 @@ func main() {
 	authRepository := authRepositoryPkg.NewAuthRepository(db)
 	userRepository := userRepositoryPkg.NewUserRepository(db)
 	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
+	courseRepository := courseRepositoryPkg.NewCourseRepository(db)
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
 	userService := userServicePkg.NewUserService(userRepository, validate)
   categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
+	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinaryUploader)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
 	userHandler := userHandlerPkg.NewUserHandler(userService)
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
+	courseHandler := courseHandlerPkg.NewCourseHandler(courseService)
 
 	// Routes
 	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
 	userRoutes := userRoutesPkg.NewUserRoutes(userHandler)
   categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
+	courseRoutes := courseRoutesPkg.NewCourseRoutes(courseHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
 	authRoutes.Auth(apiGroup)
 	userRoutes.User(apiGroup)
 	categoryRoutes.Category(apiGroup)
+	courseRoutes.Course(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
