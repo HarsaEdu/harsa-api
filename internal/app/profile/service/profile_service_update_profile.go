@@ -13,18 +13,18 @@ func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, profil
 		return err
 	}
 
-	profileExists, _ := profileService.ProfileRepository.FindByUserID(profileID)
+	profileExists, _ := profileService.ProfileRepository.FindByUserID(profile.UserID)
 	if profileExists == nil {
 		return fmt.Errorf("profile not found")
 	}
-	//fix code below getting image from header
-	if file, _ := ctx.FormFile("image"); file != nil {
+
+	if image, _ := ctx.FormFile("image"); image == nil {
+		profile.ImageURL = profileExists.ImageURL
+	} else {
 		profile.ImageURL, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles")
 		if err != nil {
 			return fmt.Errorf("error uploading image : %s", err.Error())
 		}
-	} else {
-		profile.ImageURL = profileExists.ImageURL
 	}
 
 	err = profileService.ProfileRepository.UpdateProfile(profile, profileID)
