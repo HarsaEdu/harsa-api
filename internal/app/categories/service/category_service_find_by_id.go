@@ -4,10 +4,9 @@ import (
 	"fmt"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
-	"github.com/labstack/echo/v4"
 )
 
-func (categoryService *CategoryServiceImpl) FindById(ctx echo.Context, id int) (*domain.Category, error) {
+func (categoryService *CategoryServiceImpl) FindById(id int) (*domain.Category, error) {
 	result, _ := categoryService.CategoryRepository.FindById(id)
 
 	if result == nil {

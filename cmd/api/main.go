@@ -16,6 +16,10 @@ import (
 	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
 	categoryRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
 	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
+	courseHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/course/handler"
+	courseRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/course/repository"
+	courseRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/course/routes"
+	courseServicePkg "github.com/HarsaEdu/harsa-api/internal/app/course/service"
 	profileHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/profile/handler"
 	profileRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/profile/repository"
 	profileRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/profile/routes"
@@ -58,27 +62,32 @@ func main() {
 	userRepository := userRepositoryPkg.NewUserRepository(db)
 	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
 	profileRepository := profileRepositoryPkg.NewProfileRepository(db)
+	courseRepository := courseRepositoryPkg.NewCourseRepository(db)
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
 	categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
 	profileService := profileServicePkg.NewProfileService(profileRepository, validate, cloudinaryUploader)
+	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinaryUploader)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
 	profileHandler := profileHandlerPkg.NewProfileHandler(profileService)
+	courseHandler := courseHandlerPkg.NewCourseHandler(courseService)
 
 	// Routes
 	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
 	categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
 	profileRoutes := profileRoutesPkg.NewProfileRoutes(e, profileHandler)
+	courseRoutes := courseRoutesPkg.NewCourseRoutes(courseHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
 	authRoutes.Auth(apiGroup)
 	categoryRoutes.Category(apiGroup)
 	profileRoutes.Profile(apiGroup)
+	courseRoutes.Course(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {

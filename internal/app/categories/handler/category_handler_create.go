@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (categoryHandler *CategoryHandlereImpl) Create(ctx echo.Context) error {
+func (categoryHandler *CategoryHandlerImpl) Create(ctx echo.Context) error {
 
 	req := web.CategoryCreateRequest{}
 	err := ctx.Bind(&req)
@@ -17,7 +17,7 @@ func (categoryHandler *CategoryHandlereImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind category request", err)
 	}
 
-	err = categoryHandler.CategoryService.Create(ctx, req)
+	err = categoryHandler.CategoryService.Create(req)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
