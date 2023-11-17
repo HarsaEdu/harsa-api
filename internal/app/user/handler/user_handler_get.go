@@ -24,7 +24,7 @@ func (userHandler *UserHandlerImpl) GetAllUsers(ctx echo.Context) error {
 	if err != nil {
 		return res.StatusBadRequest(ctx, "params offset not valid", err)
 	}
-	response, pagination, err := userHandler.UserService.UserGetAll(offset, limit, params.Get("s"))
+	response, pagination, err := userHandler.UserService.UserGetAll(offset, limit, params.Get("search"))
 	if err != nil {
 		if strings.Contains(err.Error(), "users not found") {
 			return res.StatusNotFound(ctx, "users not found", err)

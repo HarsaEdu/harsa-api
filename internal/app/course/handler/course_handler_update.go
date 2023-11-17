@@ -36,5 +36,5 @@ func (courseHandler *CourseHandlerImpl) Update(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to update course, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success to update course", nil)
+	return res.StatusOK(ctx, "success to update course", nil, nil)
 }
