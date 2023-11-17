@@ -10,7 +10,7 @@ import (
 
 type CourseService interface {
 	Create(ctx echo.Context, request *web.CourseCreateRequest, instructorId uint) error
-	GetAll() ([]web.GetCourseResponse, error)
+	GetAll(offset, limit int, search string) ([]web.GetCourseResponse, *web.Pagination, error)
 	GetById(id uint) (*web.GetCourseResponse, error)
 	Update(id uint, request *web.CourseUpdateRequest) error
 	UpdateImage(ctx echo.Context, id uint, request *web.CourseUpdateImageRequest) error

@@ -25,5 +25,5 @@ func (courseHandler *CourseHandlerImpl) GetById(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to get course, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success to get course", response)
+	return res.StatusOK(ctx, "success to get course", response, nil)
 }
