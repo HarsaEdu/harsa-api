@@ -18,7 +18,7 @@ func (UserHandler *UserHandlerImpl) UserProfileUpdate(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "data request not valid", err)
 	}
 
-	err = UserHandler.UserService.UserProfileUpdate(ctx, userProfileUpdateRequest)
+	err = UserHandler.UserService.UserProfileUpdate(userProfileUpdateRequest)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {

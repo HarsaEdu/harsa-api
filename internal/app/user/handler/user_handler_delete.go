@@ -18,7 +18,7 @@ func (UserHandler *UserHandlerImpl) UserDelete(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "data request not valid", err)
 	}
 
-	err = UserHandler.UserService.UserDelete(ctx, userDeleteRequest)
+	err = UserHandler.UserService.UserDelete(userDeleteRequest)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {

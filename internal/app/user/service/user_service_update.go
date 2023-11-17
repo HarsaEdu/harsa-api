@@ -6,10 +6,9 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
-	"github.com/labstack/echo/v4"
 )
 
-func (userService *UserServiceImpl) UserUpdate(ctx echo.Context, userRequest web.UserUpdateRequest) error {
+func (userService *UserServiceImpl) UserUpdate(userRequest web.UserUpdateRequest) error {
 	// validate the request
 	err := userService.Validate.Struct(userRequest)
 

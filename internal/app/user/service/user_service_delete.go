@@ -4,10 +4,9 @@ import (
 	"fmt"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
-	"github.com/labstack/echo/v4"
 )
 
-func (userService *UserServiceImpl) UserDelete(ctx echo.Context, userRequest web.UserDeleteRequest) error {
+func (userService *UserServiceImpl) UserDelete(userRequest web.UserDeleteRequest) error {
 	// validate the request
 	err := userService.Validate.Struct(userRequest)
 

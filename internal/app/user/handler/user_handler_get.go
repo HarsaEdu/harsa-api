@@ -24,7 +24,7 @@ func (userHandler *UserHandlerImpl) GetAllUsers(ctx echo.Context) error {
 	if err != nil {
 		return res.StatusBadRequest(ctx, "params offset not valid", err)
 	}
-	response, total, err := userHandler.UserService.UserGetAll(ctx)
+	response, total, err := userHandler.UserService.UserGetAll(offset, limit, params.Get("s"))
 	if err != nil {
 		if strings.Contains(err.Error(), "users not found") {
 			return res.StatusNotFound(ctx, "users not found", err)
@@ -49,7 +49,7 @@ func (UserHandler *UserHandlerImpl) GetUserDetailByID(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "data request not valid", err)
 	}
 
-	response, err := UserHandler.UserService.GetUserDetail(ctx, userGetByIDRequest)
+	response, err := UserHandler.UserService.GetUserDetail(userGetByIDRequest)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {

@@ -10,11 +10,11 @@ import (
 
 type UserService interface {
 	UserCreate(ctx echo.Context, userRequest web.UserCreateRequest) error
-	UserUpdate(ctx echo.Context, userRequest web.UserUpdateRequest) error
-	UserProfileUpdate(ctx echo.Context, userRequest web.UserProfileUpdateRequest) error
-	UserDelete(ctx echo.Context, userRequest web.UserDeleteRequest) error
-	UserGetAll(ctx echo.Context) ([]domain.UserEntity, int64, error)
-	GetUserDetail(ctx echo.Context, userRequest web.UserGetByIDRequest) (*domain.UserDetail, error)
+	UserUpdate(userRequest web.UserUpdateRequest) error
+	UserProfileUpdate(userRequest web.UserProfileUpdateRequest) error
+	UserDelete(userRequest web.UserDeleteRequest) error
+	UserGetAll(offset int, limit int, search string) ([]domain.UserEntity, int64, error)
+	GetUserDetail(userRequest web.UserGetByIDRequest) (*domain.UserDetail, error)
 }
 
 type UserServiceImpl struct {
