@@ -9,18 +9,18 @@ import (
 )
 
 func (courseHandler *CourseHandlerImpl) GetAll(ctx echo.Context) error {
-	param := ctx.QueryParams()
-	offset, err := strconv.Atoi(param.Get("offset"))
+	params := ctx.QueryParams()
+	offset, err := strconv.Atoi(params.Get("offset"))
 	if err != nil {
 		return res.StatusBadRequest(ctx, "invalid offset", err)
 	}
 
-	limit, err := strconv.Atoi(param.Get("limit"))
+	limit, err := strconv.Atoi(params.Get("limit"))
 	if err != nil {
 		return res.StatusBadRequest(ctx, "invalid limit", err)
 	}
 
-	response, pagination, err := courseHandler.CourseService.GetAll(offset, limit, param.Get("s"))
+	response, pagination, err := courseHandler.CourseService.GetAll(offset, limit, params.Get("s"))
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "course not found", err)
