@@ -34,5 +34,5 @@ func (authHandler *AuthHandlerImpl) LoginUser(ctx echo.Context) error {
 	loginResponse := conversion.AuthResponseToLoginResponse(response)
 	loginResponse.Token = token
 
-	return res.StatusOK(ctx, "success to login", loginResponse)
+	return res.StatusOK(ctx, "success to login", loginResponse, nil)
 }
