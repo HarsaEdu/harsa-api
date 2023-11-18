@@ -9,5 +9,7 @@ func (quizzesRoutes *QuizzesRoutesImpl) Quizzes(apiGroup *echo.Group) {
 	quizzesGroup := apiGroup.Group("/quizzes")
 
 	quizzesGroup.POST("", quizzesRoutes.QuizzesHandler.Create, middleware.InstructorMiddleware)
+	quizzesGroup.PUT("/:id", quizzesRoutes.QuizzesHandler.Update, middleware.InstructorMiddleware)
+	quizzesGroup.GET("/:id", quizzesRoutes.QuizzesHandler.FindById, middleware.AllUserMiddleare)
 
 }
