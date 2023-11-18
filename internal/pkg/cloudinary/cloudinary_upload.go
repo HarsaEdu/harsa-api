@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (cloudinaryUploader *CloudinaryUploaderImpl) Uploader(c echo.Context, fileheader, folderName string) (string, error) {
+func (cloudinaryUploader *CloudinaryUploaderImpl) Uploader(c echo.Context, fileheader, folderName string, required bool) (string, error) {
 
 	fileHeader, _ := c.FormFile(fileheader)
 	folderPath := fmt.Sprintf("harsa/%s", folderName)
@@ -25,5 +25,10 @@ func (cloudinaryUploader *CloudinaryUploaderImpl) Uploader(c echo.Context, fileh
 		}
 		return response.SecureURL, nil
 	}
-	return "", fmt.Errorf("file not found")
+
+	if required {
+		return "", fmt.Errorf("file not found")
+	}
+
+	return "", nil
 }

@@ -6,7 +6,7 @@ import (
 )
 
 type CloudinaryUploader interface {
-	Uploader(c echo.Context, fileheader, folderName string) (string, error)
+	Uploader(c echo.Context, fileheader, folderName string, required bool) (string, error)
 }
 
 type CloudinaryUploaderImpl struct {
