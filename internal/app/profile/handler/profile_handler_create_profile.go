@@ -3,18 +3,19 @@ package handler
 import (
 	"strings"
 
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
+	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
 	"github.com/labstack/echo/v4"
 )
 
 func (profileHandler *ProfileHandlerImpl) CreateProfile(ctx echo.Context) error {
-	profile := domain.Profile{}
+	userID := ctx.Get("user_id")
+	profile := web.ProfileRequest{}
 	if err := ctx.Bind(&profile); err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind profile model", err)
 	}
 
-	err := profileHandler.ProfileService.CreateProfile(ctx, &profile)
+	err := profileHandler.ProfileService.CreateProfile(ctx, &profile, userID.(uint))
 
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
@@ -32,5 +33,5 @@ func (profileHandler *ProfileHandlerImpl) CreateProfile(ctx echo.Context) error 
 		return res.StatusInternalServerError(ctx, "failed to create profile, something happen", err)
 	}
 
-	return res.StatusCreated(ctx, "Successfuly create profile", nil)
+	return res.StatusCreated(ctx, "Successfuly create profile", nil, nil)
 }

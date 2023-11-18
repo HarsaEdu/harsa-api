@@ -23,5 +23,5 @@ func (profileHandler *ProfileHandlerImpl) GetProfileByID(ctx echo.Context) error
 		}
 		return res.StatusInternalServerError(ctx, "failed to create category, something happen", err)
 	}
-	return res.StatusOK(ctx, "success to get user profile data", result)
+	return res.StatusOK(ctx, "success to get user profile data", result, nil)
 }

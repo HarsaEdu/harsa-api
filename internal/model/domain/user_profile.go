@@ -13,7 +13,7 @@ const (
 
 type UserProfile struct {
 	ID          uint      `gorm:"type:int;primarykey" json:"id"`
-	UserID      uint      `gorm:"type:int;not null" json:"user_id"`
+	UserID      uint      `gorm:"type:int;not null" json:"user_id" form:"user_id"`
 	Class       string    `gorm:"type:varchar(255);" json:"class" form:"class"`
 	ImageUrl    string    `gorm:type:varchar(255)" json:"image_url" form:"image"`
 	FirstName   string    `gorm:"type:varchar(255);not null" json:"first_name" form:"first_name"`
