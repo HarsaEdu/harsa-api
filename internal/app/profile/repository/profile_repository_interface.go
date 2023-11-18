@@ -8,7 +8,6 @@ import (
 type ProfileRepository interface {
 	CreateProfile(profile *domain.Profile) error
 	FindByUserID(id uint) (*domain.Profile, error)
-	GetAllProfiles() ([]domain.Profile, error)
 	UpdateProfile(profile *domain.Profile, id uint) error
 }
 

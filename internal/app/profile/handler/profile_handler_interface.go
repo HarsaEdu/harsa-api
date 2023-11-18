@@ -7,7 +7,6 @@ import (
 
 type ProfileHandler interface {
 	CreateProfile(ctx echo.Context) error
-	GetAllProfiles(ctx echo.Context) error
 	GetProfileByID(ctx echo.Context) error
 	UpdateProfile(ctx echo.Context) error
 }
