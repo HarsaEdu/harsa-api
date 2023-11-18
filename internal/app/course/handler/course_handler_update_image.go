@@ -38,5 +38,5 @@ func (courseHandler *CourseHandlerImpl) UpdateImage(ctx echo.Context) error {
 
 	}
 
-	return res.StatusOK(ctx, "success to update image course", nil)
+	return res.StatusOK(ctx, "success to update image course", nil, nil)
 }

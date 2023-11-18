@@ -25,5 +25,5 @@ func (categoryHandler *CategoryHandlerImpl) Delete(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to delete category, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success to delete category", nil)
+	return res.StatusOK(ctx, "success to delete category", nil, nil)
 }

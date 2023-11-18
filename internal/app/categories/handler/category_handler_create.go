@@ -29,5 +29,5 @@ func (categoryHandler *CategoryHandlerImpl) Create(ctx echo.Context) error {
 
 	}
 
-	return res.StatusCreated(ctx, "success to create category", nil)
+	return res.StatusCreated(ctx, "success to create category", nil, nil)
 }
