@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
@@ -9,7 +10,20 @@ import (
 )
 
 func (categoryHandler *CategoryHandlerImpl) GetAll(ctx echo.Context) error {
-	response, err := categoryHandler.CategoryService.GetAll()
+	params := ctx.QueryParams()
+	limit, err := strconv.Atoi(params.Get("limit"))
+
+	if err != nil {
+		return res.StatusBadRequest(ctx, "params limit not valid", err)
+	}
+
+	offset, err := strconv.Atoi(params.Get("offset"))
+
+	if err != nil {
+		return res.StatusBadRequest(ctx, "params offset not valid", err)
+	}
+
+	response, pagiantion, err := categoryHandler.CategoryService.GetAll(offset, limit, params.Get("search"))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
@@ -20,6 +34,6 @@ func (categoryHandler *CategoryHandlerImpl) GetAll(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to get all category, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success get categories", response)
+	return res.StatusOK(ctx, "success get categories", response, pagiantion)
 
 }
