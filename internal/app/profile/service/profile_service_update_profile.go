@@ -3,20 +3,23 @@ package service
 import (
 	"fmt"
 
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
+	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	"github.com/labstack/echo/v4"
 )
 
-func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, profile *domain.UserProfile, profileID uint) error {
-	err := profileService.Validator.Struct(profile)
+func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, request *web.ProfileRequest, userID uint) error {
+	err := profileService.Validator.Struct(request)
 	if err != nil {
 		return err
 	}
 
-	profileExists, _ := profileService.ProfileRepository.FindByUserID(profile.UserID)
+	profileExists, _ := profileService.ProfileRepository.FindByUserID(userID)
 	if profileExists == nil {
 		return fmt.Errorf("profile not found")
 	}
+
+	profile := conversion.ProfileRequestToProfileModel(userID, request)
 
 	if image, _ := ctx.FormFile("image"); image == nil {
 		profile.ImageUrl = profileExists.ImageUrl
@@ -27,7 +30,7 @@ func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, profil
 		}
 	}
 
-	err = profileService.ProfileRepository.UpdateProfile(profile, profileID)
+	err = profileService.ProfileRepository.UpdateProfile(profile)
 	if err != nil {
 		return fmt.Errorf("something wrong, cannot update profile")
 	}

@@ -1,23 +1,22 @@
 package handler
 
 import (
-	"strconv"
 	"strings"
 
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
+	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
 	"github.com/labstack/echo/v4"
 )
 
 func (profileHandler *ProfileHandlerImpl) UpdateProfile(ctx echo.Context) error {
-	profile := domain.UserProfile{}
+	profile := web.ProfileRequest{}
 	if err := ctx.Bind(&profile); err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind profile model", err)
 	}
 
-	profileID, _ := strconv.Atoi(ctx.Param("profile_id"))
-	err := profileHandler.ProfileService.UpdateProfile(ctx, &profile, uint(profileID))
+	profileID := ctx.Get("user_id")
+	err := profileHandler.ProfileService.UpdateProfile(ctx, &profile, profileID.(uint))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

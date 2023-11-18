@@ -2,8 +2,8 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (profileRepository *ProfileRepositoryImpl) UpdateProfile(profile *domain.UserProfile, id uint) error {
-	result := profileRepository.DB.Where("id=?", id).Updates(&profile)
+func (profileRepository *ProfileRepositoryImpl) UpdateProfile(profile *domain.UserProfile) error {
+	result := profileRepository.DB.Where("user_id=?", profile.UserID).Updates(&profile)
 	if result.Error != nil {
 		return result.Error
 	}
