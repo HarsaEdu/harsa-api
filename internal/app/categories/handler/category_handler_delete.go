@@ -9,12 +9,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (categoryHandler *CategoryHandlereImpl) Delete(ctx echo.Context) error {
+func (categoryHandler *CategoryHandlerImpl) Delete(ctx echo.Context) error {
 
 	idParam := ctx.Param("id")
 	id, _ := strconv.Atoi(idParam)
 
-	err := categoryHandler.CategoryService.Delete(ctx, id)
+	err := categoryHandler.CategoryService.Delete(id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
@@ -25,5 +25,5 @@ func (categoryHandler *CategoryHandlereImpl) Delete(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to delete category, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success to delete category", nil)
+	return res.StatusOK(ctx, "success to delete category", nil, nil)
 }
