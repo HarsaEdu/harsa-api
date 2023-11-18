@@ -7,6 +7,9 @@ import (
 
 type QuizzesRepository interface {
 	Create(newQuiz *domain.Quizzes) error
+	Update(UpdateQuiz *domain.Quizzes, quizExist *domain.Quizzes) error
+	CekId(userId uint, quizId uint, role string) (*domain.Quizzes, error)
+	FindById(quizId uint) (*domain.Quizzes, error)
 }
 
 type QuizzesRepositoryImpl struct {
