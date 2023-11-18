@@ -8,5 +8,5 @@ type QuizRequest struct {
 	Title       string             `gorm:"type:varchar(225)" json:"title" validate:"required"`
 	Description string             `gorm:"type:text" json:"description" validate:"required"`
 	Durations   int                `gorm:"type:int" json:"duration"`
-	Questions   []domain.Questions `json:"questions"`
+	Questions   []domain.Questions `json:"questions" gorm:"foreignKey:QuizId"`
 }
