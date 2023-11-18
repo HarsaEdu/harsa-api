@@ -15,7 +15,7 @@ func (courseService *CourseServiceImpl) Create(ctx echo.Context, request *web.Co
 	}
 
 	course := conversion.CourseCreateRequestToCourseDomain(request, instructorId)
-	course.ImageUrl, err = courseService.CloudinaryUpdloader.Uploader(ctx, "file", "courses")
+	course.ImageUrl, err = courseService.CloudinaryUploader.Uploader(ctx, "file", "courses", false)
 	if err != nil {
 		return fmt.Errorf("error when uploading image : %s", err.Error())
 	}

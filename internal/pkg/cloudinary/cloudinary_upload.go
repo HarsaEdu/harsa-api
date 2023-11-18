@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (cloudinaryUpdloader *CloudinaryUpdloaderImpl) Uploader(c echo.Context, fileheader, folderName string) (string, error) {
+func (cloudinaryUploader *CloudinaryUploaderImpl) Uploader(c echo.Context, fileheader, folderName string, required bool) (string, error) {
 
 	fileHeader, _ := c.FormFile(fileheader)
 	folderPath := fmt.Sprintf("harsa/%s", folderName)
@@ -17,7 +17,7 @@ func (cloudinaryUpdloader *CloudinaryUpdloaderImpl) Uploader(c echo.Context, fil
 	if fileHeader != nil {
 		file, _ := fileHeader.Open()
 		ctx := context.Background()
-		urlCloudinary := fmt.Sprintf("cloudinary://%s:%s@%s", cloudinaryUpdloader.Config.ApiKey, cloudinaryUpdloader.Config.ApiSecret, cloudinaryUpdloader.Config.CloudName)
+		urlCloudinary := fmt.Sprintf("cloudinary://%s:%s@%s", cloudinaryUploader.Config.ApiKey, cloudinaryUploader.Config.ApiSecret, cloudinaryUploader.Config.CloudName)
 		cldService, _ := cloudinary.NewFromURL(urlCloudinary)
 		response, err := cldService.Upload.Upload(ctx, file, uploader.UploadParams{Folder: folderPath})
 		if err != nil {
@@ -25,5 +25,10 @@ func (cloudinaryUpdloader *CloudinaryUpdloaderImpl) Uploader(c echo.Context, fil
 		}
 		return response.SecureURL, nil
 	}
-	return "", fmt.Errorf("file not found")
+
+	if required {
+		return "", fmt.Errorf("file not found")
+	}
+
+	return "", nil
 }

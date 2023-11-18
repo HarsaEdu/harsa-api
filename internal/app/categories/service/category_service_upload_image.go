@@ -20,7 +20,7 @@ func (categoryService *CategoryServiceImpl) UploadImage(ctx echo.Context, reques
 	}
 
 	response := conversionRequest.CategoryUploadImageRequestToCategoriesModel(*request)
-	response.Image_url, err = categoryService.cloudinaryUploader.Uploader(ctx, "file", "categories")
+	response.Image_url, err = categoryService.cloudinaryUploader.Uploader(ctx, "file", "categories", true)
 	if err != nil {
 		return fmt.Errorf("error uploading image : %s", err.Error())
 	}
