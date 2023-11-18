@@ -7,6 +7,8 @@ import (
 
 type QuizzesHandler interface {
 	Create(ctx echo.Context) error
+	Update(ctx echo.Context) error
+	FindById(ctx echo.Context) error
 }
 
 type QuizzesHandlereImpl struct {
