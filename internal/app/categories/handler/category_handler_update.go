@@ -35,10 +35,10 @@ func (categoryHandler *CategoryHandlerImpl) Update(ctx echo.Context) error {
 			return res.StatusAlreadyExist(ctx, "category name already exist", err)
 		}
 
-		return res.StatusInternalServerError(ctx, "failed to delete category, something happen", err)
+		return res.StatusInternalServerError(ctx, "failed to update category, something happen", err)
 
 	}
 
-	return res.StatusOK(ctx, "success to update category", nil)
+	return res.StatusOK(ctx, "success to update category", nil, nil)
 
 }
