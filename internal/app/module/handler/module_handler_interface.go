@@ -7,7 +7,7 @@ import (
 
 type ModuleHandler interface {
 	Create(ctx echo.Context) error
-	// GetAll(ctx echo.Context) error
+	GetAll(ctx echo.Context) error
 	// GetById(ctx echo.Context) error
 	// Update(ctx echo.Context) error
 	// UpdateImage(ctx echo.Context) error

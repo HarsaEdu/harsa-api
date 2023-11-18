@@ -7,7 +7,7 @@ import (
 
 type ModuleRepository interface {
 	Create(module *domain.Module) error
-	// GetAll(offset, limit int, search string) ([]domain.Module, int64, error)
+	GetAll(offset, limit int, search string) ([]domain.Module, int64, error)
 	// GetById(id uint) (*domain.Module, error)
 	GetByTitleAndCourseId(title string, courseId uint) (*domain.Module, error)
 	GetByOrderAndCourseId(order int, courseId uint) (*domain.Module, error)
