@@ -24,7 +24,10 @@ import (
 	profileRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/profile/repository"
 	profileRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/profile/routes"
 	profileServicePkg "github.com/HarsaEdu/harsa-api/internal/app/profile/service"
+	userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
+	userRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/user/routes"
+	userServicePkg "github.com/HarsaEdu/harsa-api/internal/app/user/service"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/web"
@@ -66,25 +69,29 @@ func main() {
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
-	categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
 	profileService := profileServicePkg.NewProfileService(profileRepository, validate, cloudinaryUploader)
+	userService := userServicePkg.NewUserService(userRepository, validate)
+	categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
 	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinaryUploader)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
+	userHandler := userHandlerPkg.NewUserHandler(userService)
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
 	profileHandler := profileHandlerPkg.NewProfileHandler(profileService)
 	courseHandler := courseHandlerPkg.NewCourseHandler(courseService)
 
 	// Routes
 	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
-	categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
 	profileRoutes := profileRoutesPkg.NewProfileRoutes(e, profileHandler)
+	userRoutes := userRoutesPkg.NewUserRoutes(userHandler)
+	categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
 	courseRoutes := courseRoutesPkg.NewCourseRoutes(courseHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
 	authRoutes.Auth(apiGroup)
+	userRoutes.User(apiGroup)
 	categoryRoutes.Category(apiGroup)
 	profileRoutes.Profile(apiGroup)
 	courseRoutes.Course(apiGroup)

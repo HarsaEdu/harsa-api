@@ -30,5 +30,5 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 
 	}
 
-	return res.StatusCreated(ctx, "success to create course", nil)
+	return res.StatusCreated(ctx, "success to create course", nil, nil)
 }
