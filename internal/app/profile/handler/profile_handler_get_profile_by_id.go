@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
@@ -10,10 +9,9 @@ import (
 )
 
 func (profileHandler *ProfileHandlerImpl) GetProfileByID(ctx echo.Context) error {
-	idParam := ctx.Param("profile_id")
-	id, _ := strconv.Atoi(idParam)
+	profileID := ctx.Get("user_id")
 
-	result, err := profileHandler.ProfileService.GetProfileByID(uint(id))
+	result, err := profileHandler.ProfileService.GetProfileByID(profileID.(uint))
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusBadRequest(ctx, "profile not found", err)
