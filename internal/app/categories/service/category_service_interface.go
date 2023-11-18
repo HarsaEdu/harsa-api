@@ -14,7 +14,7 @@ type CategoryService interface {
 	Update(category web.CategoryUpdateRequest, id int) error
 	UploadImage(ctx echo.Context, category *web.CategoryUploadImageRequest, id int) error
 	FindById(id int) (*domain.Category, error)
-	GetAll() ([]domain.Category, error)
+	GetAll(offset, limit int, search string) ([]domain.Category, *web.Pagination, error)
 	Delete(id int) error
 }
 

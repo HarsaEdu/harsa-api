@@ -11,7 +11,7 @@ type CategoryRepository interface {
 	UpdateImage(imageUrl *domain.Category, id int) error
 	FindById(id int) (*domain.Category, error)
 	FindByName(name string) (*domain.Category, error)
-	GetAll() ([]domain.Category, error)
+	GetAll(offset, limit int, search string) ([]domain.Category, int64, error)
 	Delete(id int) error
 }
 
