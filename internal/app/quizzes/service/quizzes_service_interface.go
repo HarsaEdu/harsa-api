@@ -9,6 +9,8 @@ import (
 
 type QuizzesService interface {
 	Create(ctx echo.Context, request web.QuizRequest) error
+	Update(ctx echo.Context, request web.QuizRequest, quizId uint, role string) error
+	FindById(ctx echo.Context, quizId uint) (*web.QuizResponse, error)
 }
 
 type QuizzesServiceImpl struct {
