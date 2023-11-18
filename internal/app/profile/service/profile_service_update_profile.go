@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, profile *domain.Profile, profileID uint) error {
+func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, profile *domain.UserProfile, profileID uint) error {
 	err := profileService.Validator.Struct(profile)
 	if err != nil {
 		return err
@@ -19,9 +19,9 @@ func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, profil
 	}
 
 	if image, _ := ctx.FormFile("image"); image == nil {
-		profile.ImageURL = profileExists.ImageURL
+		profile.ImageUrl = profileExists.ImageUrl
 	} else {
-		profile.ImageURL, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles")
+		profile.ImageUrl, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles")
 		if err != nil {
 			return fmt.Errorf("error uploading image : %s", err.Error())
 		}

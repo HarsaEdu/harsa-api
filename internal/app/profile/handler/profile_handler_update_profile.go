@@ -11,7 +11,7 @@ import (
 )
 
 func (profileHandler *ProfileHandlerImpl) UpdateProfile(ctx echo.Context) error {
-	profile := domain.Profile{}
+	profile := domain.UserProfile{}
 	if err := ctx.Bind(&profile); err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind profile model", err)
 	}
@@ -27,5 +27,5 @@ func (profileHandler *ProfileHandlerImpl) UpdateProfile(ctx echo.Context) error 
 		}
 		return res.StatusInternalServerError(ctx, "failed to get all profiles, something happen", err)
 	}
-	return res.StatusOK(ctx, "success", nil)
+	return res.StatusOK(ctx, "success", nil, nil)
 }

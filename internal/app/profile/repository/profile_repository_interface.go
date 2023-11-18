@@ -6,9 +6,9 @@ import (
 )
 
 type ProfileRepository interface {
-	CreateProfile(profile *domain.Profile) error
-	FindByUserID(id uint) (*domain.Profile, error)
-	UpdateProfile(profile *domain.Profile, id uint) error
+	CreateProfile(profile *domain.UserProfile) error
+	FindByUserID(id uint) (*domain.UserProfile, error)
+	UpdateProfile(profile *domain.UserProfile, id uint) error
 }
 
 type ProfileRepositoryImpl struct {
