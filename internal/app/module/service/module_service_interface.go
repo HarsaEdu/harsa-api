@@ -10,7 +10,7 @@ import (
 
 type ModuleService interface {
 	Create(ctx echo.Context, request *web.ModuleCreateRequest, courseId uint) error
-	GetAll(offset, limit int, search string) ([]domain.Module, *web.Pagination, error)
+	GetAllByCourseId(offset, limit int, search string, courseId uint) ([]domain.Module, *web.Pagination, error)
 	// GetById(id uint) (*web.GetModuleResponse, error)
 	// Update(id uint, request *web.ModuleUpdateRequest) error
 	// UpdateImage(ctx echo.Context, id uint, request *web.ModuleUpdateImageRequest) error

@@ -9,6 +9,12 @@ import (
 )
 
 func (moduleHandler *ModuleHandlerImpl) GetAll(ctx echo.Context) error {
+	paramCourseId := ctx.Param("courseId")
+	courseId, err := strconv.Atoi(paramCourseId)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid course id", err)
+	}
+
 	params := ctx.QueryParams()
 	offset, err := strconv.Atoi(params.Get("offset"))
 	if err != nil {
@@ -20,7 +26,7 @@ func (moduleHandler *ModuleHandlerImpl) GetAll(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "invalid limit", err)
 	}
 
-	response, pagination, err := moduleHandler.ModuleService.GetAll(offset, limit, params.Get("search"))
+	response, pagination, err := moduleHandler.ModuleService.GetAllByCourseId(offset, limit, params.Get("search"), uint(courseId))
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "module not found", err)

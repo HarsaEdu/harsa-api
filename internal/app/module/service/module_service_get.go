@@ -8,8 +8,8 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (moduleService *ModuleServiceImpl) GetAll(offset, limit int, search string) ([]domain.Module, *web.Pagination, error) {
-	result, total, err := moduleService.ModuleRepository.GetAll(offset, limit, search)
+func (moduleService *ModuleServiceImpl) GetAllByCourseId(offset, limit int, search string, courseId uint) ([]domain.Module, *web.Pagination, error) {
+	result, total, err := moduleService.ModuleRepository.GetAllByCourseId(offset, limit, search, courseId)
 	if err != nil {
 		return nil, nil, err
 	

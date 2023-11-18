@@ -2,11 +2,11 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (moduleRepository *ModuleRepositoryImpl) GetAll(offset, limit int, search string) ([]domain.Module, int64, error) {
+func (moduleRepository *ModuleRepositoryImpl) GetAllByCourseId(offset, limit int, search string, courseId uint) ([]domain.Module, int64, error) {
 	var modules []domain.Module
 	var total int64
 
-	query := moduleRepository.DB.Preload("SubModules")
+	query := moduleRepository.DB.Preload("SubModules").Where("course_id = ?", courseId)
 
 	if search != "" {
 		query = query.Where("title LIKE ?", "%"+search+"%")
