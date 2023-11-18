@@ -13,12 +13,13 @@ func (categoryRepository *CategoryRepositoryImpl) GetAll(offset, limit int, sear
 		query = query.Where("categories.name LIKE ? OR categories.description LIKE ?", s, s)
 	}
 
+	query = query.Limit(limit).Offset(offset)
 	query.Find(&category).Count(&total)
 
-	query = query.Offset(offset).Limit(limit)
+	result := query.Find(&category)
 
-	if query.Error != nil {
-		return nil, 0, query.Error
+	if result.Error != nil {
+		return nil, 0, result.Error
 	}
 
 	return category, total, nil
