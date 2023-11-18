@@ -14,10 +14,10 @@ type CategoryHandler interface {
 	Delete(ctx echo.Context) error
 }
 
-type CategoryHandlereImpl struct {
+type CategoryHandlerImpl struct {
 	CategoryService service.CategoryService
 }
 
 func NewCategoryHandler(service service.CategoryService) CategoryHandler {
-	return &CategoryHandlereImpl{CategoryService: service}
+	return &CategoryHandlerImpl{CategoryService: service}
 }

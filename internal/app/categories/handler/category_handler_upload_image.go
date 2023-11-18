@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (categoryHandler *CategoryHandlereImpl) UploadImage(ctx echo.Context) error {
+func (categoryHandler *CategoryHandlerImpl) UploadImage(ctx echo.Context) error {
 	idParam := ctx.Param("id")
 	id, _ := strconv.Atoi(idParam)
 
@@ -35,5 +35,5 @@ func (categoryHandler *CategoryHandlereImpl) UploadImage(ctx echo.Context) error
 
 	}
 
-	return res.StatusOK(ctx, "success to upload image", nil)
+	return res.StatusOK(ctx, "success to upload image", nil, nil)
 }
