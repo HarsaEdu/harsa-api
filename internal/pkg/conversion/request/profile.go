@@ -20,3 +20,19 @@ func ProfileRequestToProfileModel(userID uint, request *web.ProfileRequest) *dom
 		Job:         request.Job,
 	}
 }
+
+func ProfileModelToResponse(request *domain.UserProfile) *web.GetProfileResponse {
+	return &web.GetProfileResponse{
+		Class:       request.Class,
+		ImageUrl:    request.ImageUrl,
+		FirstName:   request.FirstName,
+		LastName:    request.LastName,
+		DateBirth:   request.DateBirth,
+		Bio:         request.Bio,
+		Gender:      request.Gender,
+		PhoneNumber: request.PhoneNumber,
+		City:        request.City,
+		Address:     request.Address,
+		Job:         request.Job,
+	}
+}
