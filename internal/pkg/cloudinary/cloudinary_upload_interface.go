@@ -5,16 +5,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type CloudinaryUpdloader interface {
+type CloudinaryUploader interface {
 	Uploader(c echo.Context, fileheader, folderName string) (string, error)
 }
 
-type CloudinaryUpdloaderImpl struct {
+type CloudinaryUploaderImpl struct {
 	Config *configs.CloudinaryConfig
 }
 
-func NewClodinaryUploader(config *configs.CloudinaryConfig) CloudinaryUpdloader {
-	return &CloudinaryUpdloaderImpl{
+func NewClodinaryUploader(config *configs.CloudinaryConfig) CloudinaryUploader {
+	return &CloudinaryUploaderImpl{
 		Config: config,
 	}
 }

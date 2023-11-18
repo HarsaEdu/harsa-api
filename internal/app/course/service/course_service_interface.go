@@ -20,13 +20,13 @@ type CourseService interface {
 type CourseServiceImpl struct {
 	CourseRepository repository.CourseRepository
 	Validate *validator.Validate
-	CloudinaryUpdloader cloudinary.CloudinaryUpdloader
+	CloudinaryUploader cloudinary.CloudinaryUploader
 }
 
-func NewCourseService(CourseRepository repository.CourseRepository, Validate *validator.Validate, CloudinaryUpdloader cloudinary.CloudinaryUpdloader) CourseService {
+func NewCourseService(CourseRepository repository.CourseRepository, Validate *validator.Validate, CloudinaryUploader cloudinary.CloudinaryUploader) CourseService {
 	return &CourseServiceImpl {
 		CourseRepository: CourseRepository,
 		Validate: Validate,
-		CloudinaryUpdloader: CloudinaryUpdloader,
+		CloudinaryUploader: CloudinaryUploader,
 	}
 }
