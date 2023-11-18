@@ -29,5 +29,5 @@ func (quizzesHandler *QuizzesHandlereImpl) Create(ctx echo.Context) error {
 
 	}
 
-	return res.StatusCreated(ctx, "success to create quiz", nil)
+	return res.StatusCreated(ctx, "success to create quiz", nil, nil)
 }
