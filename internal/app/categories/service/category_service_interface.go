@@ -21,9 +21,9 @@ type CategoryService interface {
 type CategoryServiceImpl struct {
 	CategoryRepository repository.CategoryRepository
 	Validator          *validator.Validate
-	cloudinaryUploader cloudinary.CloudinaryUpdloader
+	cloudinaryUploader cloudinary.CloudinaryUploader
 }
 
-func NewCategoryService(cr repository.CategoryRepository, validate *validator.Validate, cloudinaryUploader cloudinary.CloudinaryUpdloader) CategoryService {
+func NewCategoryService(cr repository.CategoryRepository, validate *validator.Validate, cloudinaryUploader cloudinary.CloudinaryUploader) CategoryService {
 	return &CategoryServiceImpl{CategoryRepository: cr, Validator: validate, cloudinaryUploader: cloudinaryUploader}
 }
