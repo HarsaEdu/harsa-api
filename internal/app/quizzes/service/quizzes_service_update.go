@@ -5,10 +5,9 @@ import (
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
-	"github.com/labstack/echo/v4"
 )
 
-func (quizzesService *QuizzesServiceImpl) Update(ctx echo.Context, request web.QuizRequest, quizId uint, role string) error {
+func (quizzesService *QuizzesServiceImpl) Update(request web.QuizRequest, quizId uint, role string) error {
 	err := quizzesService.Validator.Struct(request)
 	if err != nil {
 		return err
@@ -16,7 +15,7 @@ func (quizzesService *QuizzesServiceImpl) Update(ctx echo.Context, request web.Q
 
 	quiz := conversionRequest.QuizCreateRequestToQuizzesModel(request)
 
-	quizExist, err := quizzesService.QuizzesRepository.CekId(request.UserId, quizId, role)
+	quizExist, err := quizzesService.QuizzesRepository.CekIdFromQuiz(request.UserId, quizId, role)
 	if err != nil { 
 		return fmt.Errorf("error when cek id user in quiz update :%s", err.Error())
 	}

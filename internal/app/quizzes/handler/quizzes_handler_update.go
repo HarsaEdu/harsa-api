@@ -33,7 +33,7 @@ func (quizzesHandler *QuizzesHandlereImpl) Update(ctx echo.Context) error {
 	roleString := fmt.Sprintf("%s", roleInterface)
 	
 	req.UserId = user_id
-	err = quizzesHandler.QuizzesService.Update(ctx, req, uint(id), roleString)
+	err = quizzesHandler.QuizzesService.Update(req, uint(id), roleString)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
@@ -46,5 +46,5 @@ func (quizzesHandler *QuizzesHandlereImpl) Update(ctx echo.Context) error {
 
 	}
 
-	return res.StatusCreated(ctx, "success to update quiz", nil, nil)
+	return res.StatusOK(ctx, "success to update quiz", nil, nil)
 }
