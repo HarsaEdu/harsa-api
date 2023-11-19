@@ -6,7 +6,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
-func (repository *QuizzesRepositoryImpl) CekId(userId uint, quizId uint, role string) (*domain.Quizzes, error) {
+func (repository *QuizzesRepositoryImpl) CekIdFromQuiz(userId uint, quizId uint, role string) (*domain.Quizzes, error) {
 
 	var quiz = domain.Quizzes{}
 
@@ -32,4 +32,27 @@ func (repository *QuizzesRepositoryImpl) CekId(userId uint, quizId uint, role st
 	
 
 	return &quiz, nil
+}
+
+func (repository *QuizzesRepositoryImpl) CekIdFromModule(userId uint, moduleId uint, role string) error {
+
+
+	var module = domain.Modules{}
+
+	if err := repository.DB.First(&module, moduleId).Error; err != nil {
+		return err
+	}
+
+	var course = domain.Course{}
+
+	if err := repository.DB.First(&course, module.CourseId).Error; err != nil {
+		return err
+	}
+
+	if course.UserID != userId && role != "admin" {
+		return fmt.Errorf("unauthorized")
+	}
+	
+
+	return nil
 }
