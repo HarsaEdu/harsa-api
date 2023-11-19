@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (categoryHandler *CategoryHandlereImpl) Update(ctx echo.Context) error {
+func (categoryHandler *CategoryHandlerImpl) Update(ctx echo.Context) error {
 
 	idParam := ctx.Param("id")
 	id, _ := strconv.Atoi(idParam)
@@ -21,7 +21,7 @@ func (categoryHandler *CategoryHandlereImpl) Update(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind category request", err)
 	}
 
-	err = categoryHandler.CategoryService.Update(ctx, req, id)
+	err = categoryHandler.CategoryService.Update(req, id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
@@ -35,10 +35,10 @@ func (categoryHandler *CategoryHandlereImpl) Update(ctx echo.Context) error {
 			return res.StatusAlreadyExist(ctx, "category name already exist", err)
 		}
 
-		return res.StatusInternalServerError(ctx, "failed to delete category, something happen", err)
+		return res.StatusInternalServerError(ctx, "failed to update category, something happen", err)
 
 	}
 
-	return res.StatusOK(ctx, "success to update category", nil)
+	return res.StatusOK(ctx, "success to update category", nil, nil)
 
 }

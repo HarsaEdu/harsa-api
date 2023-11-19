@@ -10,20 +10,20 @@ import (
 )
 
 type CategoryService interface {
-	Create(ctx echo.Context, category web.CategoryCreateRequest) error
-	Update(ctx echo.Context, category web.CategoryUpdateRequest, id int) error
+	Create(category web.CategoryCreateRequest) error
+	Update(category web.CategoryUpdateRequest, id int) error
 	UploadImage(ctx echo.Context, category *web.CategoryUploadImageRequest, id int) error
-	FindById(ctx echo.Context, id int) (*domain.Category, error)
-	GetAll(ctx echo.Context) ([]domain.Category, error)
-	Delete(ctx echo.Context, id int) error
+	FindById(id int) (*domain.Category, error)
+	GetAll(offset, limit int, search string) ([]domain.Category, *web.Pagination, error)
+	Delete(id int) error
 }
 
 type CategoryServiceImpl struct {
 	CategoryRepository repository.CategoryRepository
 	Validator          *validator.Validate
-	cloudinaryUploader cloudinary.CloudinaryUpdloader
+	cloudinaryUploader cloudinary.CloudinaryUploader
 }
 
-func NewCategoryService(cr repository.CategoryRepository, validate *validator.Validate, cloudinaryUploader cloudinary.CloudinaryUpdloader) CategoryService {
+func NewCategoryService(cr repository.CategoryRepository, validate *validator.Validate, cloudinaryUploader cloudinary.CloudinaryUploader) CategoryService {
 	return &CategoryServiceImpl{CategoryRepository: cr, Validator: validate, cloudinaryUploader: cloudinaryUploader}
 }
