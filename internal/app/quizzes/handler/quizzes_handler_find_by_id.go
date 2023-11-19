@@ -18,13 +18,13 @@ func (quizzesHandler *QuizzesHandlereImpl) FindById(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "invalid quiz id", err)
 	}
 
-	result, err := quizzesHandler.QuizzesService.FindById(ctx, uint(id))
+	result, err := quizzesHandler.QuizzesService.FindById(uint(id))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "category not found", err)
+			return res.StatusNotFound(ctx, "quiz not found", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to get quiz by id, something happen", err)
 	}

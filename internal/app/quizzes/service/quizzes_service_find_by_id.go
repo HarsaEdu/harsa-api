@@ -5,10 +5,9 @@ import (
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
-	"github.com/labstack/echo/v4"
 )
 
-func (quizzesService *QuizzesServiceImpl) FindById(ctx echo.Context, quizId uint) (*web.QuizResponse, error) {
+func (quizzesService *QuizzesServiceImpl) FindById(quizId uint) (*web.QuizResponse, error) {
 	
 	quiz, err := quizzesService.QuizzesRepository.FindById(quizId)
 	if err != nil { 
