@@ -20,9 +20,13 @@ func (courseService *CourseServiceImpl) UpdateImage(ctx echo.Context, id uint, r
 	}
 
 	updatedData := conversion.CourseUpdateImageRequestToCourseDomain(request, id)
-	updatedData.ImageUrl, err = courseService.CloudinaryUploader.Uploader(ctx, "file", "courses", true)
+	imageUrl, err := courseService.CloudinaryUploader.Uploader(ctx, "file", "courses", true)
 	if err != nil {
 		return fmt.Errorf("error when uploading image : %s", err.Error())
+	}
+
+	if imageUrl != "" {
+		updatedData.ImageUrl = imageUrl
 	}
 
 	err = courseService.CourseRepository.UpdateImage(updatedData)
