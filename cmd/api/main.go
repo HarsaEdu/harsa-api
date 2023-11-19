@@ -20,7 +20,11 @@ import (
 	courseRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/course/repository"
 	courseRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/course/routes"
 	courseServicePkg "github.com/HarsaEdu/harsa-api/internal/app/course/service"
-    userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"
+	moduleHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/module/handler"
+	moduleRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/module/repository"
+	moduleRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/module/routes"
+	moduleServicePkg "github.com/HarsaEdu/harsa-api/internal/app/module/service"
+	userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	userRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/user/routes"
 	userServicePkg "github.com/HarsaEdu/harsa-api/internal/app/user/service"
@@ -65,6 +69,7 @@ func main() {
 	userRepository := userRepositoryPkg.NewUserRepository(db)
 	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
 	courseRepository := courseRepositoryPkg.NewCourseRepository(db)
+	moduleRepository := moduleRepositoryPkg.NewModuleRepository(db)
 	quizzesRepository := quizzesRepositoryPkg.NewQuizzesRepository(db)
 
 	// Service
@@ -72,6 +77,7 @@ func main() {
 	userService := userServicePkg.NewUserService(userRepository, validate)
     categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
 	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinaryUploader)
+	moduleService := moduleServicePkg.NewModuleService(moduleRepository, validate)
 	quizzesService := quizzesServicePkg.NewQuizzesService(quizzesRepository, validate)
 
 	// Handler
@@ -79,6 +85,7 @@ func main() {
 	userHandler := userHandlerPkg.NewUserHandler(userService)
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
 	courseHandler := courseHandlerPkg.NewCourseHandler(courseService)
+	moduleHandler := moduleHandlerPkg.NewModuleHandler(moduleService)
 	quizzesHandler := quizzesHandlerPkg.NewQuizzesHandler(quizzesService)
 
 	// Routes
@@ -86,6 +93,7 @@ func main() {
 	userRoutes := userRoutesPkg.NewUserRoutes(userHandler)
     categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
 	courseRoutes := courseRoutesPkg.NewCourseRoutes(courseHandler)
+	moduleRoutes := moduleRoutesPkg.NewModuleRoutes(moduleHandler)
 	quizzesRoutes := quizzesRoutesPkg.NewQuizzesRoutes(e, quizzesHandler)
 
 	// Setup Routes
@@ -94,6 +102,8 @@ func main() {
 	userRoutes.User(apiGroup)
 	categoryRoutes.Category(apiGroup)
 	courseRoutes.Course(apiGroup)
+	coursesGroup := courseRoutes.Course(apiGroup)
+	moduleRoutes.Module(coursesGroup)
 	quizzesRoutes.Quizzes(apiGroup)
 
 	// Serve static HTML file for the root path
