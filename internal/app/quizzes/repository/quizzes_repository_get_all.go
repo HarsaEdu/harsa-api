@@ -28,10 +28,6 @@ func (repository *QuizzesRepositoryImpl) GetAll(moduleId uint, offset, limit int
         return nil, 0, result.Error
     }
 
-    if total == 0 {
-        return nil, 0, nil
-    }
-
     if offset >= int(total) {
         return nil, 0, nil
     }
