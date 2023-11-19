@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -18,9 +19,13 @@ func (quizzesHandler *QuizzesHandlereImpl) Create(ctx echo.Context) error {
 	}
 
 	id := ctx.Get("user_id").(uint)
+	
+	roleInterface := ctx.Get("role_name")
+
+	roleString := fmt.Sprintf("%s", roleInterface)
 
 	req.UserId = id
-	err = quizzesHandler.QuizzesService.Create(ctx, req)
+	err = quizzesHandler.QuizzesService.Create(req, roleString)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
