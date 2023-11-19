@@ -11,5 +11,7 @@ func (quizzesRoutes *QuizzesRoutesImpl) Quizzes(apiGroup *echo.Group) {
 	quizzesGroup.POST("", quizzesRoutes.QuizzesHandler.Create, middleware.InstructorMiddleware)
 	quizzesGroup.PUT("/:id", quizzesRoutes.QuizzesHandler.Update, middleware.InstructorMiddleware)
 	quizzesGroup.GET("/:id", quizzesRoutes.QuizzesHandler.FindById, middleware.AllUserMiddleare)
+	quizzesGroup.DELETE("/:id", quizzesRoutes.QuizzesHandler.Delete, middleware.InstructorMiddleware)
+	quizzesGroup.GET("/module/:id", quizzesRoutes.QuizzesHandler.GetAll, middleware.AllUserMiddleare)
 
 }
