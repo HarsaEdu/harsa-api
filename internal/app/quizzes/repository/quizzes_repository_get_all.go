@@ -18,7 +18,7 @@ func (repository *QuizzesRepositoryImpl) GetAll(moduleId uint, offset, limit int
         query = query.Where("title LIKE ? AND module_id = ?", s, moduleId)
     }
 
-    query.Find(&quiz).Count(&total)
+    query.Where("module_id = ?", moduleId).Find(&quiz).Count(&total)
 
     query = query.Limit(limit).Offset(offset)
 
