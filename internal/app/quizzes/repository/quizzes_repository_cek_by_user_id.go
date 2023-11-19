@@ -14,7 +14,7 @@ func (repository *QuizzesRepositoryImpl) CekIdFromQuiz(userId uint, quizId uint,
 		return nil, err
 	}
 
-	var module = domain.Modules{}
+	var module = domain.Module{}
 
 	if err := repository.DB.First(&module, quiz.ModuleId).Error; err != nil {
 		return nil, err
@@ -22,7 +22,7 @@ func (repository *QuizzesRepositoryImpl) CekIdFromQuiz(userId uint, quizId uint,
 
 	var course = domain.Course{}
 
-	if err := repository.DB.First(&course, module.CourseId).Error; err != nil {
+	if err := repository.DB.First(&course, module.CourseID).Error; err != nil {
 		return nil, err
 	}
 
@@ -37,7 +37,7 @@ func (repository *QuizzesRepositoryImpl) CekIdFromQuiz(userId uint, quizId uint,
 func (repository *QuizzesRepositoryImpl) CekIdFromModule(userId uint, moduleId uint, role string) error {
 
 
-	var module = domain.Modules{}
+	var module = domain.Module{}
 
 	if err := repository.DB.First(&module, moduleId).Error; err != nil {
 		return err
@@ -45,7 +45,7 @@ func (repository *QuizzesRepositoryImpl) CekIdFromModule(userId uint, moduleId u
 
 	var course = domain.Course{}
 
-	if err := repository.DB.First(&course, module.CourseId).Error; err != nil {
+	if err := repository.DB.First(&course, module.CourseID).Error; err != nil {
 		return err
 	}
 
