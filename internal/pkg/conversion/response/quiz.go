@@ -22,12 +22,28 @@ func ConvertQuizRes(quiz *domain.Quizzes) *web.QuizResponse {
 	return &quizRes
 }
 
-func ConvertAllQuiz(Quizzes []domain.Quizzes) []web.QuizResponse {
+func ConvertAllQuizRes(quiz *domain.Quizzes) *web.GetAllQuizResponse {
 
-	var quizRes []web.QuizResponse
+	numberQuestions := len(quiz.Questions)
+
+	quizRes := web.GetAllQuizResponse{
+		Id:              quiz.ID,
+		ModuleId:        quiz.ModuleId,
+		Title:           quiz.Title,
+		Description:     quiz.Description,
+		Durations:       quiz.Durations,
+		NumberQuestions: numberQuestions,
+	}
+	return &quizRes
+}
+
+
+func ConvertAllQuiz(Quizzes []domain.Quizzes) []web.GetAllQuizResponse {
+
+	var quizRes []web.GetAllQuizResponse
 
 	for i := range Quizzes {
-		quizRes = append(quizRes, *ConvertQuizRes(&Quizzes[i]))
+		quizRes = append(quizRes, *ConvertAllQuizRes(&Quizzes[i]))
 	}
 
 	return quizRes
