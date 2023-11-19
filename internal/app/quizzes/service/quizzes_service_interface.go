@@ -4,13 +4,14 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/app/quizzes/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
-	"github.com/labstack/echo/v4"
 )
 
 type QuizzesService interface {
-	Create(ctx echo.Context, request web.QuizRequest) error
-	Update(ctx echo.Context, request web.QuizRequest, quizId uint, role string) error
-	FindById(ctx echo.Context, quizId uint) (*web.QuizResponse, error)
+	Create(request web.QuizRequest, role string) error
+	Update(request web.QuizRequest, quizId uint, role string) error
+	FindById(quizId uint) (*web.QuizResponse, error)
+	Delete(userId uint, quizId uint, role string) error
+	GetAll(moduleId uint, offset int, limit int, search string) ([]web.GetAllQuizResponse, *web.Pagination, error)
 }
 
 type QuizzesServiceImpl struct {
