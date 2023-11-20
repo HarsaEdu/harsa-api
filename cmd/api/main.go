@@ -16,6 +16,9 @@ import (
 	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
 	categoryRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
 	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
+	chatbotHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/chatbot/handler"
+	chatbotRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/chatbot/routes"
+	chatbotServicePkg "github.com/HarsaEdu/harsa-api/internal/app/chatbot/service"
 	courseHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/course/handler"
 	courseRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/course/repository"
 	courseRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/course/routes"
@@ -34,6 +37,7 @@ import (
 	userServicePkg "github.com/HarsaEdu/harsa-api/internal/app/user/service"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
 	"github.com/HarsaEdu/harsa-api/web"
 
 	"github.com/go-playground/validator"
@@ -60,6 +64,9 @@ func main() {
 	// Create an validator instance
 	validate := validator.New()
 
+	// Create an Openai instance
+	openaiClient := openai.NewOpenAiClient(&config.OpenAI)
+
 	// Create an Echo instance
 	e := echo.New()
 
@@ -79,6 +86,7 @@ func main() {
 	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinaryUploader)
 	faqsService := faqsServicePkg.NewFaqsService(faqsRepository, validate)
 	moduleService := moduleServicePkg.NewModuleService(moduleRepository, validate)
+	chatbotService := chatbotServicePkg.NewChatbotService(validate, openaiClient)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
@@ -87,6 +95,7 @@ func main() {
 	courseHandler := courseHandlerPkg.NewCourseHandler(courseService)
 	faqsHandler := faqsHandlerPkg.NewFaqsHandler(faqsService)
 	moduleHandler := moduleHandlerPkg.NewModuleHandler(moduleService)
+	chatbotHandler := chatbotHandlerPkg.NewChatbotHandler(chatbotService)
 
 	// Routes
 	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
@@ -95,7 +104,8 @@ func main() {
 	courseRoutes := courseRoutesPkg.NewCourseRoutes(courseHandler)
 	faqsRoutes := faqsRoutesPkg.NewFaqsRoutes(e, faqsHandler)
 	moduleRoutes := moduleRoutesPkg.NewModuleRoutes(moduleHandler)
-
+	chatbotRoutes := chatbotRoutesPkg.NewChatbotRoutes(chatbotHandler)
+	
 	// Setup Routes
 	apiGroup := e.Group("api")
 	authRoutes.Auth(apiGroup)
@@ -105,6 +115,7 @@ func main() {
 	faqsRoutes.Faqs(apiGroup)
 	coursesGroup := courseRoutes.Course(apiGroup)
 	moduleRoutes.Module(coursesGroup)
+	chatbotRoutes.Chatbot(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
