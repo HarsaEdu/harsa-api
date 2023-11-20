@@ -8,13 +8,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (courseService *CourseServiceImpl) UpdateImage(ctx echo.Context, id uint, request *web.CourseUpdateImageRequest) error {
+func (courseService *CourseServiceImpl) UpdateImage(ctx echo.Context, id uint, userId uint, role string, request *web.CourseUpdateImageRequest) error {
 	err := courseService.Validate.Struct(request)
 	if err != nil {
 		return err
 	}
 
-	existingCourse, err := courseService.CourseRepository.GetById(id)
+	existingCourse, err := courseService.CourseRepository.CekIdFromCourse(userId, id, role)
+	if err != nil { 
+		return fmt.Errorf("error when cek id user in course delete : %s", err.Error())
+	}
 	if existingCourse == nil {
 		return fmt.Errorf("course not found")
 	}
