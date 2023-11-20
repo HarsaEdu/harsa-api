@@ -4,6 +4,7 @@ import "github.com/HarsaEdu/harsa-api/configs"
 
 type OpenAiClient interface {
 	CreateCompletion(prompt string) (string, error)
+	CreateChatCompletionStream(prompt string) (string, error)
 }
 
 type OpenAiClientImpl struct {
