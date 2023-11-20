@@ -11,19 +11,24 @@ import (
 
 func (feedbackHandler *FeedbackHandlerImpl) GetAll(ctx echo.Context) error {
 	params := ctx.QueryParams()
-	limit, err := strconv.Atoi(params.Get("limit"))
+	courseid, err := strconv.Atoi(params.Get("course_id"))
+
+	if err != nil {
+		return res.StatusBadRequest(ctx, "params offset not valid", err)
+	}
+	pagesize, err := strconv.Atoi(params.Get("pagesize"))
 
 	if err != nil {
 		return res.StatusBadRequest(ctx, "params limit not valid", err)
 	}
 
-	offset, err := strconv.Atoi(params.Get("offset"))
+	page, err := strconv.Atoi(params.Get("page"))
 
 	if err != nil {
 		return res.StatusBadRequest(ctx, "params offset not valid", err)
 	}
 
-	response, pagination, err := feedbackHandler.FeedbackService.GetAll(offset, limit, params.Get("search"))
+	response, pagination, err := feedbackHandler.FeedbackService.GetAll(courseid, page, pagesize)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
