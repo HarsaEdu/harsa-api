@@ -5,7 +5,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func ProfileRequestToProfileModel(userID uint, request *web.ProfileRequest) *domain.UserProfile {
+func ProfileRequestToProfileModel(userID uint, request *web.UpdateProfileRequest) *domain.UserProfile {
 	return &domain.UserProfile{
 		UserID:      userID,
 		ImageUrl:    request.ImageUrl,
@@ -18,6 +18,17 @@ func ProfileRequestToProfileModel(userID uint, request *web.ProfileRequest) *dom
 		City:        request.City,
 		Address:     request.Address,
 		Job:         request.Job,
+		Class:       request.Class,
+	}
+}
+
+func ProfileCreateRequestToModel(userID uint, request *web.CreateProfileRequest) *domain.UserProfile {
+	return &domain.UserProfile{
+		UserID:      userID,
+		FirstName:   request.FirstName,
+		LastName:    request.LastName,
+		PhoneNumber: request.PhoneNumber,
+		DateBirth:   request.DateBirth,
 	}
 }
 

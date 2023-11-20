@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, request *web.ProfileRequest, userID uint) error {
+func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, request *web.UpdateProfileRequest, userID uint) error {
 	err := profileService.Validator.Struct(request)
 	if err != nil {
 		return err

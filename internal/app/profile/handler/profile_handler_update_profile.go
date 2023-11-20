@@ -10,7 +10,7 @@ import (
 )
 
 func (profileHandler *ProfileHandlerImpl) UpdateProfile(ctx echo.Context) error {
-	profile := web.ProfileRequest{}
+	profile := web.UpdateProfileRequest{}
 	if err := ctx.Bind(&profile); err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind profile model", err)
 	}

@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (profileService *ProfileServiceImpl) CreateProfile(ctx echo.Context, request *web.ProfileRequest, userID uint) error {
+func (profileService *ProfileServiceImpl) CreateProfile(ctx echo.Context, request *web.CreateProfileRequest, userID uint) error {
 	err := profileService.Validator.Struct(request)
 	if err != nil {
 		return err
@@ -19,7 +19,7 @@ func (profileService *ProfileServiceImpl) CreateProfile(ctx echo.Context, reques
 		return fmt.Errorf("profile already exists")
 	}
 
-	profile := conversion.ProfileRequestToProfileModel(userID, request)
+	profile := conversion.ProfileCreateRequestToModel(userID, request)
 
 	profile.ImageUrl, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles", false)
 	if err != nil {

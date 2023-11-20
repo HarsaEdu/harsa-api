@@ -10,7 +10,7 @@ import (
 
 func (profileHandler *ProfileHandlerImpl) CreateProfile(ctx echo.Context) error {
 	userID := ctx.Get("user_id")
-	profile := web.ProfileRequest{}
+	profile := web.CreateProfileRequest{}
 	if err := ctx.Bind(&profile); err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind profile model", err)
 	}
