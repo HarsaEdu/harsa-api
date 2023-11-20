@@ -2,28 +2,26 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (categoryRepository *CategoryRepositoryImpl) GetAll(offset, limit int, search string) ([]domain.Category, int64, error) {
-
+func (faqsRepository *FaqRepositoryImpl) GetAll(offset, limit int, search string) ([]domain.Faqs, int64, error) {
 	if offset < 0 || limit < 0 {
 		return nil, 0, nil
 	}
 
-	category := []domain.Category{}
+	faqs := []domain.Faqs{}
 	var total int64
 
-	query := categoryRepository.DB.Model(&category)
+	query := faqsRepository.DB.Model(&faqs)
 
 	if search != "" {
 		s := "%" + search + "%"
-		query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+		query = query.Where("question LIKE ? OR answer LIKE ?", s, s)
 	}
 
-	query.Find(&category).Count(&total)
+	query.Find(&faqs).Count(&total)
 
 	query = query.Limit(limit).Offset(offset)
 
-	result := query.Find(&category)
-
+	result := query.Find(&faqs)
 	if result.Error != nil {
 		return nil, 0, result.Error
 	}
@@ -36,5 +34,5 @@ func (categoryRepository *CategoryRepositoryImpl) GetAll(offset, limit int, sear
 		return nil, 0, nil
 	}
 
-	return category, total, nil
+	return faqs, total, nil
 }

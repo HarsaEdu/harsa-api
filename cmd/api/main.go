@@ -20,10 +20,18 @@ import (
 	courseRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/course/repository"
 	courseRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/course/routes"
 	courseServicePkg "github.com/HarsaEdu/harsa-api/internal/app/course/service"
+	faqsHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/faqs/handler"
+	faqsRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/faqs/repository"
+	faqsRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/faqs/routes"
+	faqsServicePkg "github.com/HarsaEdu/harsa-api/internal/app/faqs/service"
 	feedbackHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/feedback/handler"
 	feedbackRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/feedback/repository"
 	feedbackRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/feedback/routes"
 	feedbackServicePkg "github.com/HarsaEdu/harsa-api/internal/app/feedback/service"
+	moduleHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/module/handler"
+	moduleRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/module/repository"
+	moduleRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/module/routes"
+	moduleServicePkg "github.com/HarsaEdu/harsa-api/internal/app/module/service"
 	userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	userRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/user/routes"
@@ -66,6 +74,8 @@ func main() {
 	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
 	courseRepository := courseRepositoryPkg.NewCourseRepository(db)
 	feedbackRepository := feedbackRepositoryPkg.NewFeedbackRepository(db)
+	faqsRepository := faqsRepositoryPkg.NewFaqRepository(db)
+	moduleRepository := moduleRepositoryPkg.NewModuleRepository(db)
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
@@ -73,6 +83,8 @@ func main() {
 	categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
 	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinaryUploader)
 	feedbackService := feedbackServicePkg.NewFeedbackService(feedbackRepository, validate)
+	faqsService := faqsServicePkg.NewFaqsService(faqsRepository, validate)
+	moduleService := moduleServicePkg.NewModuleService(moduleRepository, validate)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
@@ -80,6 +92,8 @@ func main() {
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
 	courseHandler := courseHandlerPkg.NewCourseHandler(courseService)
 	feedbackHandler := feedbackHandlerPkg.NewFeedbackHandler(feedbackService)
+	faqsHandler := faqsHandlerPkg.NewFaqsHandler(faqsService)
+	moduleHandler := moduleHandlerPkg.NewModuleHandler(moduleService)
 
 	// Routes
 	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
@@ -87,6 +101,8 @@ func main() {
 	categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
 	courseRoutes := courseRoutesPkg.NewCourseRoutes(courseHandler)
 	feedbackRoutes := feedbackRoutesPkg.NewFeedbackRoutes(e, feedbackHandler)
+	faqsRoutes := faqsRoutesPkg.NewFaqsRoutes(e, faqsHandler)
+	moduleRoutes := moduleRoutesPkg.NewModuleRoutes(moduleHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
@@ -95,6 +111,9 @@ func main() {
 	categoryRoutes.Category(apiGroup)
 	courseRoutes.Course(apiGroup)
 	feedbackRoutes.Feedback(apiGroup)
+	faqsRoutes.Faqs(apiGroup)
+	coursesGroup := courseRoutes.Course(apiGroup)
+	moduleRoutes.Module(coursesGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
