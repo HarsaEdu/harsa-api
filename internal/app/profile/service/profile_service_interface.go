@@ -17,9 +17,9 @@ type ProfileService interface {
 type ProfileServiceImpl struct {
 	ProfileRepository  repository.ProfileRepository
 	Validator          *validator.Validate
-	cloudinaryUploader cloudinary.CloudinaryUpdloader
+	cloudinaryUploader cloudinary.CloudinaryUploader
 }
 
-func NewProfileService(pr repository.ProfileRepository, validator *validator.Validate, cloudinary cloudinary.CloudinaryUpdloader) ProfileService {
+func NewProfileService(pr repository.ProfileRepository, validator *validator.Validate, cloudinary cloudinary.CloudinaryUploader) ProfileService {
 	return &ProfileServiceImpl{ProfileRepository: pr, Validator: validator, cloudinaryUploader: cloudinary}
 }
