@@ -10,6 +10,7 @@ import (
 type AppConfig struct {
 	MySQL      MySQLConfig
 	Cloudinary CloudinaryConfig
+	OpenAI     OpenAI
 }
 
 type MySQLConfig struct {
@@ -24,6 +25,14 @@ type CloudinaryConfig struct {
 	CloudName string
 	ApiKey    string
 	ApiSecret string
+}
+
+type OpenAI struct {
+	ApiKey string
+	Model  string
+	Temperature string
+	MaxTokens string
+	SystemRole string
 }
 
 func LoadConfig() (*AppConfig, error) {
@@ -47,6 +56,13 @@ func LoadConfig() (*AppConfig, error) {
 			CloudName: os.Getenv("CLOUDINARY_CLOUD_NAME"),
 			ApiKey:    os.Getenv("CLOUDINARY_API_KEY"),
 			ApiSecret: os.Getenv("CLOUDINARY_API_SECRET"),
+		},
+		OpenAI: OpenAI{
+			ApiKey: os.Getenv("OPENAI_API_KEY"),
+			Model: os.Getenv("OPENAI_MODEL"),
+			Temperature: os.Getenv("OPENAI_TEMPERATURE"),
+			MaxTokens: os.Getenv("OPENAI_MAX_TOKENS"),
+			SystemRole: os.Getenv("OPENAI_SYSTEM_ROLE"),
 		},
 	}, nil
 }
