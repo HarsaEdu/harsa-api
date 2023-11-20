@@ -2,20 +2,33 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (feedbackRepository *FeedbackRepositoryImpl) GetAll(offset, limit int, search string) ([]domain.Feedback, int64, error) {
+func (feedbackRepository *FeedbackRepositoryImpl) GetAll(courseid, page, pagesize int) ([]domain.Feedback, int64, error) {
 	var feedbacks []domain.Feedback
 	var count int64
 
+	if page < 1 {
+		page = 1
+	}
+
+	if pagesize < 1 {
+		pagesize = 10
+	}
+
 	query := feedbackRepository.DB
 
-	if search != "" {
-		searchQuery := "%" + search + "%"
-		query = query.Where("title LIKE ?", searchQuery)
+	if courseid != 0 {
+		query = query.Where("course_id LIKE ?", courseid)
 	}
 
 	query.Find(&feedbacks).Count(&count)
 
-	query = query.Offset(offset).Limit(limit)
+	offset := (page - 1) * pagesize
+
+	if offset < 0 {
+		offset = 0
+	}
+
+	query = query.Offset(offset).Limit(pagesize)
 
 	result := query.Find(&feedbacks)
 	if result.Error != nil {

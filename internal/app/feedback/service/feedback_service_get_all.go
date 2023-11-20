@@ -8,18 +8,18 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (feedbackService *FeedbackServiceImpl) GetAll(offset, limit int, search string) ([]domain.Feedback, *web.Pagination, error) {
-	result, total, err := feedbackService.FeedbackRepository.GetAll(offset, limit, search)
+func (feedbackService *FeedbackServiceImpl) GetAll(courseid, page, pagesize int) ([]domain.Feedback, *web.Pagination, error) {
+	result, total, err := feedbackService.FeedbackRepository.GetAll(courseid, page, pagesize)
 
 	if total == 0 {
-		return nil, nil, fmt.Errorf("category not found")
+		return nil, nil, fmt.Errorf("feedback not found")
 	}
 
 	if err != nil {
 		return nil, nil, fmt.Errorf("internal Server Error")
 	}
 
-	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
+	pagination := conversion.RecordToPaginationResponse(courseid, pagesize, total)
 
 	return result, pagination, nil
 }
