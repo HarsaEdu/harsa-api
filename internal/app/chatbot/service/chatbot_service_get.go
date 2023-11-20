@@ -8,7 +8,7 @@ func (chatbotService *ChatbotServiceImpl) GetResponse(request *web.GetResponseRe
 		return "", err
 	}
 
-	response, err := chatbotService.OpenAiClient.CreateCompletion(request.Message)
+	response, err := chatbotService.OpenAiClient.CreateChatCompletion(request.Message)
 	if err != nil {
 		return "", err
 	}

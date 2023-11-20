@@ -3,7 +3,7 @@ package openai
 import "github.com/HarsaEdu/harsa-api/configs"
 
 type OpenAiClient interface {
-	CreateCompletion(prompt string) (string, error)
+	CreateChatCompletion(prompt string) (string, error)
 	CreateChatCompletionStream(prompt string) (string, error)
 }
 

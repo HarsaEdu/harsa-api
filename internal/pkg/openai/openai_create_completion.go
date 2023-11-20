@@ -11,7 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (openAiClient *OpenAiClientImpl) CreateCompletion(prompt string) (string, error) {
+func (openAiClient *OpenAiClientImpl) CreateChatCompletion(prompt string) (string, error) {
 	client := openai.NewClient(openAiClient.OpenAIConfig.ApiKey)
 
 	intTemperature, err := strconv.Atoi(openAiClient.OpenAIConfig.Temperature)
