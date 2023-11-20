@@ -21,13 +21,13 @@ func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, reques
 
 	profile := conversion.ProfileRequestToProfileModel(userID, request)
 
-	if image, _ := ctx.FormFile("image"); image == nil {
+	profile.ImageUrl, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles", false)
+	if err != nil {
+		return fmt.Errorf("error uploading image : %s", err.Error())
+	}
+
+	if profile.ImageUrl == "" {
 		profile.ImageUrl = profileExists.ImageUrl
-	} else {
-		profile.ImageUrl, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles")
-		if err != nil {
-			return fmt.Errorf("error uploading image : %s", err.Error())
-		}
 	}
 
 	err = profileService.ProfileRepository.UpdateProfile(profile)
