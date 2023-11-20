@@ -6,7 +6,7 @@ import (
 )
 
 func (profileRoutes *ProfileRoutesImpl) Profile(apiGroup *echo.Group) {
-	profilesGroup := apiGroup.Group("/user_profile")
+	profilesGroup := apiGroup.Group("/profile")
 
 	profilesGroup.POST("", profileRoutes.ProfileHandler.CreateProfile, middleware.AllUserMiddleare)
 	profilesGroup.GET("", profileRoutes.ProfileHandler.GetProfileByID, middleware.AllUserMiddleare)
