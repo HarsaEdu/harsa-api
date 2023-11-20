@@ -13,7 +13,6 @@ type UpdateProfileRequest struct {
 	City        string    `gorm:"type:varchar(20)" json:"city" form:"city" validate:"required"`
 	Address     string    `gorm:"type:varchar(255)" json:"address" form:"address" validate:"required"`
 	Job         string    `gorm:"type:varchar(20)" json:"job" form:"job" validate:"required"`
-	Class       string    `gorm:"type:varchar(255)" json:"class" form:"class" validate:"required"`
 }
 
 type CreateProfileRequest struct {

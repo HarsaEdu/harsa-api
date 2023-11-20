@@ -7,7 +7,6 @@ import (
 )
 
 type GetProfileResponse struct {
-	Class       string        `gorm:"type:varchar(50)" json:"class"`
 	ImageUrl    string        `gorm:"type:varchar(255)" json:"image_url"`
 	FirstName   string        `gorm:"type:varchar(50)" json:"first_name"`
 	LastName    string        `gorm:"type:varchar(50)" json:"last_name"`

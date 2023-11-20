@@ -18,7 +18,6 @@ func ProfileRequestToProfileModel(userID uint, request *web.UpdateProfileRequest
 		City:        request.City,
 		Address:     request.Address,
 		Job:         request.Job,
-		Class:       request.Class,
 	}
 }
 
@@ -34,7 +33,6 @@ func ProfileCreateRequestToModel(userID uint, request *web.CreateProfileRequest)
 
 func ProfileModelToResponse(request *domain.UserProfile) *web.GetProfileResponse {
 	return &web.GetProfileResponse{
-		Class:       request.Class,
 		ImageUrl:    request.ImageUrl,
 		FirstName:   request.FirstName,
 		LastName:    request.LastName,
