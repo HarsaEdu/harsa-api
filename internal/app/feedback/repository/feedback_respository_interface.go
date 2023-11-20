@@ -7,7 +7,7 @@ import (
 
 type FeedbackRepository interface {
 	Create(feedback *domain.Feedback) error
-	GetAll(offset, limit int, search string) ([]domain.Feedback, int64, error)
+	GetAll(courseid, page, pagesize int) ([]domain.Feedback, int64, error)
 	GetById(id int) (*domain.Feedback, error)
 	Update(id int, feedback *domain.Feedback) error
 	Delete(id int) error

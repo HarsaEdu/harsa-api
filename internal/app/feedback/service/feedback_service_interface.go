@@ -11,7 +11,7 @@ type FeedbackService interface {
 	Create(feedback web.FeedbackCreateRequest) error
 	Update(feedback web.FeedbackUpdateRequest, id int) error
 	FindById(id int) (*domain.Feedback, error)
-	GetAll(offset, limit int, search string) ([]domain.Feedback, *web.Pagination, error)
+	GetAll(courseid, page, pagesize int) ([]domain.Feedback, *web.Pagination, error)
 	Delete(id int) error
 }
 
