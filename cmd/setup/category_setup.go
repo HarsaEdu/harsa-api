@@ -7,15 +7,14 @@ import (
 	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func CategorySetup(db *gorm.DB, validate *validator.Validate,cloudinary cloudinary.CloudinaryUploader ,e *echo.Echo) categoryRoutesPkg.CategoryRoutes{
+func CategorySetup(db *gorm.DB, validate *validator.Validate,cloudinary cloudinary.CloudinaryUploader) categoryRoutesPkg.CategoryRoutes{
 	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
 	categoryService := categoryServicePkg.NewCategoryService(categoryRepository,validate,cloudinary)
 	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
-	categoryRoute := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
+	categoryRoute := categoryRoutesPkg.NewCategoryRoutes(categoryHandler)
 
 	return categoryRoute
 }

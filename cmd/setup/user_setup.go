@@ -6,11 +6,10 @@ import (
 	userRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/user/routes"
 	userServicePkg "github.com/HarsaEdu/harsa-api/internal/app/user/service"
 	"github.com/go-playground/validator"
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func UserSetup(db *gorm.DB, validate *validator.Validate, e *echo.Echo) (userRoutesPkg.UserRoutes , userRepositoryPkg.UserRepository){
+func UserSetup(db *gorm.DB, validate *validator.Validate) (userRoutesPkg.UserRoutes , userRepositoryPkg.UserRepository){
 	userRepository := userRepositoryPkg.NewUserRepository(db)
 	userService := userServicePkg.NewUserService(userRepository, validate)
 	userHandler := userHandlerPkg.NewUserHandler(userService)

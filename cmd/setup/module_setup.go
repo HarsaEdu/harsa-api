@@ -6,11 +6,10 @@ import (
 	moduleRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/module/routes"
 	moduleServicePkg "github.com/HarsaEdu/harsa-api/internal/app/module/service"
 	"github.com/go-playground/validator"
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func ModuleSetup(db *gorm.DB, validate *validator.Validate, e *echo.Echo) moduleRoutesPkg.ModuleRoutes {
+func ModuleSetup(db *gorm.DB, validate *validator.Validate) moduleRoutesPkg.ModuleRoutes {
 	moduleRepository := moduleRepositoryPkg.NewModuleRepository(db)
 	moduleService := moduleServicePkg.NewModuleService(moduleRepository, validate)
 	moduleHandler := moduleHandlerPkg.NewModuleHandler(moduleService)
