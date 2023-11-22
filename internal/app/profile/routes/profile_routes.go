@@ -7,7 +7,7 @@ import (
 
 func (profileRoutes *ProfileRoutesImpl) ProfileWeb(apiGroup *echo.Group) {
 	profilesGroup := apiGroup.Group("/profile")
-	profilesGroup.GET("/:profile_id", profileRoutes.ProfileHandler.GetProfileByID, middleware.AllUserMiddleare)
+	profilesGroup.GET("", profileRoutes.ProfileHandler.GetProfileByID, middleware.AllUserMiddleare)
 	profilesGroup.PUT("/:profile_id", profileRoutes.ProfileHandler.UpdateProfile, middleware.AllUserMiddleare)
 }
 
