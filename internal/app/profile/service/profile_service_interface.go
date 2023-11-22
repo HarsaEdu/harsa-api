@@ -10,7 +10,7 @@ import (
 
 type ProfileService interface {
 	CreateProfile(ctx echo.Context, profile *web.CreateProfileRequest, userID uint) error
-	GetProfileByID(id uint) (*web.GetProfileResponse, error)
+	GetProfileByUserID(id uint) (*web.GetProfileResponse, error)
 	UpdateProfile(ctx echo.Context, profile *web.UpdateProfileRequest, id uint) error
 }
 
