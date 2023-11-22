@@ -7,6 +7,7 @@ import (
 
 type InterestHandler interface {
 	CreateInterest(ctx echo.Context) error
+	GetInterest(ctx echo.Context) error
 }
 
 type InterestHandlerImpl struct {

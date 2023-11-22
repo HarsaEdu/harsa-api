@@ -8,6 +8,7 @@ import (
 type InterestRepository interface {
 	CreateInterest(interest *domain.UserInterest) error
 	FindByProfileID(profileID uint) (*domain.UserInterest, error)
+	GetInterest(profileID uint) ([]domain.Course, int64, error)
 }
 
 type InterestRepositoryImpl struct {
