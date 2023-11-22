@@ -6,17 +6,16 @@ import (
 )
 
 type AuthRoutes interface {
-	Auth(apiGroup *echo.Group)
+	AuthWeb(apiGroup *echo.Group)
+	AuthMobile(apiGroup *echo.Group)
 }
 
 type AuthRoutesImpl struct {
-	Echo        *echo.Echo
 	AuthHandler handler.AuthHandler
 }
 
-func NewAuthRoutes(e *echo.Echo, authHandler handler.AuthHandler) AuthRoutes {
+func NewAuthRoutes(authHandler handler.AuthHandler) AuthRoutes {
 	return &AuthRoutesImpl{
-		Echo:        e,
 		AuthHandler: authHandler,
 	}
 }

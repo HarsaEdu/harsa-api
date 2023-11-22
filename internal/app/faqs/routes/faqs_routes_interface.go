@@ -6,17 +6,16 @@ import (
 )
 
 type FaqsRoutes interface {
-	Faqs(apiGroup *echo.Group)
+	FaqsWeb(apiGroup *echo.Group)
+	FaqsMobile(apiGroup *echo.Group)
 }
 
 type FaqsRoutesImpl struct {
-	Echo        *echo.Echo
 	FaqsHandler handler.FaqsHandler
 }
 
-func NewFaqsRoutes(e *echo.Echo, FaqsHandler handler.FaqsHandler) FaqsRoutes {
+func NewFaqsRoutes(FaqsHandler handler.FaqsHandler) FaqsRoutes {
 	return &FaqsRoutesImpl{
-		Echo:        e,
 		FaqsHandler: FaqsHandler,
 	}
 }
