@@ -7,6 +7,7 @@ import (
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
+	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -21,6 +22,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	categoryRoutes := category.CategorySetup(db, validate, cloudinary)
 	faqsRoutes := faqs.FaqsSetup(db, validate)
 	courseRoutes := course.CourseSetup(db, validate, cloudinary)
+	quizzesRoutes := quizzes.QuizzesSetup(db, validate)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
@@ -30,6 +32,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	faqsRoutes.FaqsWeb(apiGroupWeb)
 	coursesGroup := courseRoutes.CourseWeb(apiGroupWeb)
 	moduleRoutes.ModuleWeb(coursesGroup)
+	quizzesRoutes.QuizzesWeb(coursesGroup)
 
 	apiGroupMobile := e.Group("mobile")
 	authRoutes.AuthMobile(apiGroupMobile)
@@ -39,4 +42,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	faqsRoutes.FaqsMobile(apiGroupMobile)
 	coursesGroup = courseRoutes.CourseMobile(apiGroupMobile)
 	moduleRoutes.ModuleMobile(apiGroupMobile)
+	quizzesRoutes.QuizzesMobile(coursesGroup)
 }
