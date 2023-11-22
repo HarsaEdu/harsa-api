@@ -32,7 +32,7 @@ func (quizzesHandler *QuizzesHandlereImpl) Update(ctx echo.Context) error {
 
 	roleString := fmt.Sprintf("%s", roleInterface)
 	
-	req.UserId = user_id
+	req.UserID = user_id
 	err = quizzesHandler.QuizzesService.Update(req, uint(id), roleString)
 
 	if err != nil {

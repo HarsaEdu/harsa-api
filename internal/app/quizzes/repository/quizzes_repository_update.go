@@ -6,7 +6,6 @@ func (repository *QuizzesRepositoryImpl) Update(UpdateQuiz *domain.Quizzes, quiz
 
 	tx := repository.DB.Begin()
 
-	quizExist.ModuleId = UpdateQuiz.ModuleId
 	quizExist.Title = UpdateQuiz.Title
 	quizExist.Description = UpdateQuiz.Description
 	quizExist.Durations = UpdateQuiz.Durations
