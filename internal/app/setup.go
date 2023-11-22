@@ -32,11 +32,11 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	moduleRoutes.ModuleWeb(coursesGroup)
 
 	apiGroupMobile := e.Group("mobile")
-	authRoutes.AuthWeb(apiGroupMobile)
-	userRoutes.UserWeb(apiGroupMobile)
-	categoryRoutes.CategoryWeb(apiGroupMobile)
-	courseRoutes.CourseWeb(apiGroupMobile)
-	faqsRoutes.FaqsWeb(apiGroupMobile)
-	coursesGroup = courseRoutes.CourseWeb(apiGroupMobile)
-	moduleRoutes.ModuleWeb(apiGroupMobile)
+	authRoutes.AuthMobile(apiGroupMobile)
+	userRoutes.UserMobile(apiGroupMobile)
+	categoryRoutes.CategoryMobile(apiGroupMobile)
+	courseRoutes.CourseMobile(apiGroupMobile)
+	faqsRoutes.FaqsMobile(apiGroupMobile)
+	coursesGroup = courseRoutes.CourseMobile(apiGroupMobile)
+	moduleRoutes.ModuleMobile(apiGroupMobile)
 }
