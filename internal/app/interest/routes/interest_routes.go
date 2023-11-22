@@ -6,7 +6,7 @@ import (
 )
 
 func (routes *InterestRoutesImpl) Interest(apiGroup *echo.Group) {
-	interestGroup := apiGroup.Group("/:profile_id/interest")
+	interestGroup := apiGroup.Group("profile/:profile_id/interest")
 
 	interestGroup.POST("", routes.Handler.CreateInterest, middleware.AllUserMiddleare)
 	interestGroup.GET("", routes.Handler.GetInterestRecommendation, middleware.AllUserMiddleare)
