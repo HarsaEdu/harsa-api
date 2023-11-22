@@ -29,10 +29,7 @@ type CloudinaryConfig struct {
 
 type OpenAI struct {
 	ApiKey string
-	Model  string
-	Temperature string
-	MaxTokens string
-	SystemRole string
+	AssistantID string
 }
 
 func LoadConfig() (*AppConfig, error) {
@@ -59,10 +56,7 @@ func LoadConfig() (*AppConfig, error) {
 		},
 		OpenAI: OpenAI{
 			ApiKey: os.Getenv("OPENAI_API_KEY"),
-			Model: os.Getenv("OPENAI_MODEL"),
-			Temperature: os.Getenv("OPENAI_TEMPERATURE"),
-			MaxTokens: os.Getenv("OPENAI_MAX_TOKENS"),
-			SystemRole: os.Getenv("OPENAI_SYSTEM_ROLE"),
+			AssistantID: os.Getenv("OPENAI_ASSISTANT_ID"),
 		},
 	}, nil
 }
