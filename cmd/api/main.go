@@ -8,33 +8,10 @@ import (
 	"syscall"
 
 	"github.com/HarsaEdu/harsa-api/configs"
-	authHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/handler"
-	authRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/repository"
-	authRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/routes"
-	authServicePkg "github.com/HarsaEdu/harsa-api/internal/app/auth/service"
-	categoryHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/handler"
-	categoryRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/repository"
-	categoryRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
-	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
-	courseHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/course/handler"
-	courseRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/course/repository"
-	courseRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/course/routes"
-	courseServicePkg "github.com/HarsaEdu/harsa-api/internal/app/course/service"
-	moduleHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/module/handler"
-	moduleRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/module/repository"
-	moduleRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/module/routes"
-	moduleServicePkg "github.com/HarsaEdu/harsa-api/internal/app/module/service"
-	userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"
-	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
-	userRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/user/routes"
-	userServicePkg "github.com/HarsaEdu/harsa-api/internal/app/user/service"
-	quizzesHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/quizzes/handler"
-	quizzesRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/quizzes/repository"
-	quizzesRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/quizzes/routes"
-	quizzesServicePkg "github.com/HarsaEdu/harsa-api/internal/app/quizzes/service"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/web"
+	"github.com/HarsaEdu/harsa-api/internal/app"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -63,48 +40,8 @@ func main() {
 	// Create an Echo instance
 	e := echo.New()
 
-	// Setup App
-	// Repository
-	authRepository := authRepositoryPkg.NewAuthRepository(db)
-	userRepository := userRepositoryPkg.NewUserRepository(db)
-	categoryRepository := categoryRepositoryPkg.NewCategoryRepository(db)
-	courseRepository := courseRepositoryPkg.NewCourseRepository(db)
-	moduleRepository := moduleRepositoryPkg.NewModuleRepository(db)
-	quizzesRepository := quizzesRepositoryPkg.NewQuizzesRepository(db)
+	app.InitApp(db, validate, cloudinaryUploader, e)
 
-	// Service
-	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
-	userService := userServicePkg.NewUserService(userRepository, validate)
-    categoryService := categoryServicePkg.NewCategoryService(categoryRepository, validate, cloudinaryUploader)
-	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinaryUploader)
-	moduleService := moduleServicePkg.NewModuleService(moduleRepository, validate)
-	quizzesService := quizzesServicePkg.NewQuizzesService(quizzesRepository, validate)
-
-	// Handler
-	authHandler := authHandlerPkg.NewAuthHandler(authService)
-	userHandler := userHandlerPkg.NewUserHandler(userService)
-	categoryHandler := categoryHandlerPkg.NewCategoryHandler(categoryService)
-	courseHandler := courseHandlerPkg.NewCourseHandler(courseService)
-	moduleHandler := moduleHandlerPkg.NewModuleHandler(moduleService)
-	quizzesHandler := quizzesHandlerPkg.NewQuizzesHandler(quizzesService)
-
-	// Routes
-	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
-	userRoutes := userRoutesPkg.NewUserRoutes(userHandler)
-    categoryRoutes := categoryRoutesPkg.NewCategoryRoutes(e, categoryHandler)
-	courseRoutes := courseRoutesPkg.NewCourseRoutes(courseHandler)
-	moduleRoutes := moduleRoutesPkg.NewModuleRoutes(moduleHandler)
-	quizzesRoutes := quizzesRoutesPkg.NewQuizzesRoutes(e, quizzesHandler)
-
-	// Setup Routes
-	apiGroup := e.Group("api")
-	authRoutes.Auth(apiGroup)
-	userRoutes.User(apiGroup)
-	categoryRoutes.Category(apiGroup)
-	courseRoutes.Course(apiGroup)
-	coursesGroup := courseRoutes.Course(apiGroup)
-	moduleRoutes.Module(coursesGroup)
-	quizzesRoutes.Quizzes(apiGroup)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
@@ -114,7 +51,6 @@ func main() {
 		}
 		return c.HTMLBlob(http.StatusOK, file)
 	})
-
 
 	// Middleware and server configuration
 	e.Pre(middleware.RemoveTrailingSlash())
