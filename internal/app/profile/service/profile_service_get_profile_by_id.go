@@ -7,8 +7,8 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 )
 
-func (profileService *ProfileServiceImpl) GetProfileByID(id uint) (*web.GetProfileResponse, error) {
-	result, err := profileService.ProfileRepository.FindByUserID(id)
+func (profileService *ProfileServiceImpl) GetProfileByID(profileID uint) (*web.GetProfileResponse, error) {
+	result, err := profileService.ProfileRepository.GetProfileByID(profileID)
 	if err != nil {
 		return nil, fmt.Errorf("profile not found")
 	}

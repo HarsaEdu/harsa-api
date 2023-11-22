@@ -33,6 +33,7 @@ func ProfileCreateRequestToModel(userID uint, request *web.CreateProfileRequest)
 
 func ProfileModelToResponse(request *domain.UserProfile) *web.GetProfileResponse {
 	return &web.GetProfileResponse{
+		ID:          request.ID,
 		ImageUrl:    request.ImageUrl,
 		FirstName:   request.FirstName,
 		LastName:    request.LastName,

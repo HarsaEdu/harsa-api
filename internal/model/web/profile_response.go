@@ -7,14 +7,15 @@ import (
 )
 
 type GetProfileResponse struct {
-	ImageUrl    string        `gorm:"type:varchar(255)" json:"image_url"`
-	FirstName   string        `gorm:"type:varchar(50)" json:"first_name"`
-	LastName    string        `gorm:"type:varchar(50)" json:"last_name"`
-	DateBirth   time.Time     `gorm:"type:int" json:"date_birth"`
-	Bio         string        `gorm:"type:varchar(255)" json:"bio"`
-	Gender      domain.Gender `gorm:"type:enum('f','m')" json:"gender"`
-	PhoneNumber string        `gorm:"type:varchar(20)" json:"phone_number"`
-	City        string        `gorm:"type:varchar(20)" json:"city" form:"city"`
-	Address     string        `gorm:"type:varchar(255)" json:"address"`
-	Job         string        `gorm:"type:varchar(20)" json:"job"`
+	ID          uint          `json:"profile_id"`
+	ImageUrl    string        `json:"image_url"`
+	FirstName   string        `json:"first_name"`
+	LastName    string        `json:"last_name"`
+	DateBirth   time.Time     `json:"date_birth"`
+	Bio         string        `json:"bio"`
+	Gender      domain.Gender `json:"gender"`
+	PhoneNumber string        `json:"phone_number"`
+	City        string        `json:"city" form:"city"`
+	Address     string        `json:"address"`
+	Job         string        `json:"job"`
 }
