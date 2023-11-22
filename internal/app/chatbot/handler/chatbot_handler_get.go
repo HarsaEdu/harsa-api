@@ -1,29 +1,34 @@
 package handler
 
 import (
-	"fmt"
+	"strconv"
 	"strings"
 
-	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
 	"github.com/labstack/echo/v4"
 )
 
-func (chatbotHandler *ChatbotHandlerImpl) GetResponse(ctx echo.Context) error {
-	getResponseRequest := web.GetResponseRequest{}
-	err := ctx.Bind(&getResponseRequest)
+func (chatbotHandler *ChatbotHandlerImpl) GetAllMessagesInThread(ctx echo.Context) error {
+	threadIdParam := ctx.Param("id")
+
+	limitParam := ctx.QueryParam("limit")
+	limit, err := strconv.Atoi(limitParam)
 	if err != nil {
-		return res.StatusBadRequest(ctx, fmt.Sprintf("failed to bind request : %s", err.Error()), err)
+		return res.StatusBadRequest(ctx, "invalid limit data request", err)
 	}
 
-	response, err := chatbotHandler.ChatbotService.GetResponse(&getResponseRequest)
+	afterParam := ctx.QueryParam("after")
+
+	beforeParam := ctx.QueryParam("before")
+
+	response, err := chatbotHandler.ChatbotService.GetAllMessagesInThread(threadIdParam, limit, afterParam, beforeParam)
 	if err != nil {
-		if strings.Contains(err.Error(), "validation") {
-			return validation.ValidationError(ctx, err)
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "messages not found", err)
 		}
-		return res.StatusInternalServerError(ctx, "failed to get message response, something happen", err)
+
+		return res.StatusInternalServerError(ctx, "failed to get all message, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success to get response", response, nil)
+	return res.StatusOK(ctx, "success to get all message", response, nil)
 }

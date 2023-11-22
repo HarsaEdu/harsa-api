@@ -6,6 +6,7 @@ import (
 )
 
 type ChatbotRepository interface {
+	GetTopicById(id string) (*domain.UserChatTopic, error)
 	CreateUserChatTopic(userChatTopic *domain.UserChatTopic) error
 }
 
