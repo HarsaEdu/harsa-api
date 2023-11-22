@@ -16,7 +16,7 @@ func (repository *QuizzesRepositoryImpl) CekIdFromQuiz(userId uint, quizId uint,
 
 	var module = domain.Module{}
 
-	if err := repository.DB.First(&module, quiz.ModuleId).Error; err != nil {
+	if err := repository.DB.First(&module, quiz.ModuleID).Error; err != nil {
 		return nil, err
 	}
 
