@@ -20,7 +20,7 @@ func (quizzesHandler *QuizzesHandlereImpl) GetAll(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "invalid limit", err)
 	}
 
-	idParam := ctx.Param("id")
+	idParam := ctx.Param("module-id")
 	
 	moduleId, err := strconv.Atoi(idParam)
 	if err != nil {
