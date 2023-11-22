@@ -7,4 +7,5 @@ func (authRoutes *AuthRoutesImpl) Auth(apiGroup *echo.Group) {
 
 	authGroup.POST("/register", authRoutes.AuthHandler.RegisterUser)
 	authGroup.POST("/login", authRoutes.AuthHandler.LoginUser)
+	authGroup.POST("/access-token", authRoutes.AuthHandler.GetAccessToken)
 }
