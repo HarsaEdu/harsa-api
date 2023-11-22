@@ -19,7 +19,6 @@ func (moduleRoutes *ModuleRoutesImpl) ModuleWeb(coursesGruop *echo.Group) {
 func (moduleRoutes *ModuleRoutesImpl) ModuleMobile(coursesGruop *echo.Group) {
 	modulesGroup := coursesGruop.Group("/:courseId/modules")
 
-	modulesGroup.POST("", moduleRoutes.ModuleHandler.Create, middleware.InstructorMiddleware)
 	modulesGroup.GET("", moduleRoutes.ModuleHandler.GetAll, middleware.StudentMiddleare)
 	// modulesGroup.GET("/:id", moduleRoutes.ModuleHandler.GetById)
 	// modulesGroup.PUT("/:id", moduleRoutes.ModuleHandler.Update, middleware.InstructorMiddleware)
