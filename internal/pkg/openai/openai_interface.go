@@ -7,6 +7,10 @@ import (
 
 type OpenAi interface {
 	CreateThread(studentName string, topic string) (string, error)
+	GetAllMessagesInThread(threadId string, limit int, after string, before string) (openai.MessagesList, error)
+	// CreateMessageInThread(threadId string, message string) (string, error)
+	// runMessageInThread(ctx context.Context, threadId string) (string, error)
+	// getResponseMessageInThread(ctx context.Context, threadId string) (string, error)
 }
 
 type OpenAiImpl struct {
