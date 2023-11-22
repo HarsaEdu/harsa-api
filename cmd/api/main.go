@@ -17,6 +17,7 @@ import (
 	categoryRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/routes"
 	categoryServicePkg "github.com/HarsaEdu/harsa-api/internal/app/categories/service"
 	chatbotHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/chatbot/handler"
+	chatbotRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/chatbot/repository"
 	chatbotRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/chatbot/routes"
 	chatbotServicePkg "github.com/HarsaEdu/harsa-api/internal/app/chatbot/service"
 	courseHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/course/handler"
@@ -65,7 +66,7 @@ func main() {
 	validate := validator.New()
 
 	// Create an Openai instance
-	openaiClient := openai.NewOpenAiClient(&config.OpenAI)
+	openAi := openai.NewOpenAi(&config.OpenAI)
 
 	// Create an Echo instance
 	e := echo.New()
@@ -78,6 +79,7 @@ func main() {
 	courseRepository := courseRepositoryPkg.NewCourseRepository(db)
 	faqsRepository := faqsRepositoryPkg.NewFaqRepository(db)
 	moduleRepository := moduleRepositoryPkg.NewModuleRepository(db)
+	chatbotRepository := chatbotRepositoryPkg.NewChatbotRepository(db)
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
@@ -86,7 +88,7 @@ func main() {
 	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinaryUploader)
 	faqsService := faqsServicePkg.NewFaqsService(faqsRepository, validate)
 	moduleService := moduleServicePkg.NewModuleService(moduleRepository, validate)
-	chatbotService := chatbotServicePkg.NewChatbotService(validate, openaiClient)
+	chatbotService := chatbotServicePkg.NewChatbotService(chatbotRepository, userRepository, validate, openAi)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
