@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -19,12 +20,20 @@ func (quizzesHandler *QuizzesHandlereImpl) Create(ctx echo.Context) error {
 	}
 
 	id := ctx.Get("user_id").(uint)
+
+	idParam := ctx.Param("module-id")
+	
+	moduleId, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid module id", err)
+	}
 	
 	roleInterface := ctx.Get("role_name")
 
 	roleString := fmt.Sprintf("%s", roleInterface)
 
-	req.UserId = id
+	req.ModuleID = uint(moduleId)
+	req.UserID = id
 	err = quizzesHandler.QuizzesService.Create(req, roleString)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
