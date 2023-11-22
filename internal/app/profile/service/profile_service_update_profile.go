@@ -8,18 +8,18 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, request *web.UpdateProfileRequest, userID uint) error {
+func (profileService *ProfileServiceImpl) UpdateProfile(ctx echo.Context, request *web.UpdateProfileRequest, profileID uint) error {
 	err := profileService.Validator.Struct(request)
 	if err != nil {
 		return err
 	}
 
-	profileExists, _ := profileService.ProfileRepository.FindByUserID(userID)
+	profileExists, _ := profileService.ProfileRepository.GetProfileByID(profileID)
 	if profileExists == nil {
 		return fmt.Errorf("profile not found")
 	}
 
-	profile := conversion.ProfileRequestToProfileModel(userID, request)
+	profile := conversion.ProfileRequestToProfileModel(profileID, request)
 
 	profile.ImageUrl, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles", false)
 	if err != nil {

@@ -10,5 +10,5 @@ func (profileRoutes *ProfileRoutesImpl) Profile(apiGroup *echo.Group) {
 
 	profilesGroup.POST("", profileRoutes.ProfileHandler.CreateProfile, middleware.AllUserMiddleare)
 	profilesGroup.GET("/:profile_id", profileRoutes.ProfileHandler.GetProfileByID, middleware.AllUserMiddleare)
-	profilesGroup.PUT("", profileRoutes.ProfileHandler.UpdateProfile, middleware.AllUserMiddleare)
+	profilesGroup.PUT("/:profile_id", profileRoutes.ProfileHandler.UpdateProfile, middleware.AllUserMiddleare)
 }

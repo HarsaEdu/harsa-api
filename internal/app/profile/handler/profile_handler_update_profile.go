@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -10,13 +11,17 @@ import (
 )
 
 func (profileHandler *ProfileHandlerImpl) UpdateProfile(ctx echo.Context) error {
+	profileID, err := strconv.Atoi(ctx.Param("profile_id"))
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "cannot convert profile id to int", err)
+	}
+
 	profile := web.UpdateProfileRequest{}
-	if err := ctx.Bind(&profile); err != nil {
+	if err = ctx.Bind(&profile); err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind profile model", err)
 	}
 
-	profileID := ctx.Get("user_id")
-	err := profileHandler.ProfileService.UpdateProfile(ctx, &profile, profileID.(uint))
+	err = profileHandler.ProfileService.UpdateProfile(ctx, &profile, uint(profileID))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
