@@ -1,4 +1,4 @@
-package setup
+package faqs
 
 import (
 	faqsHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/faqs/handler"

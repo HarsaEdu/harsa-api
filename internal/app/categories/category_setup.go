@@ -1,4 +1,4 @@
-package setup
+package category
 
 import (
 	categoryHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/categories/handler"

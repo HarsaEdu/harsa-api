@@ -11,7 +11,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/web"
-	"github.com/HarsaEdu/harsa-api/cmd/setup"
+	"github.com/HarsaEdu/harsa-api/internal/app"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -40,9 +40,8 @@ func main() {
 	// Create an Echo instance
 	e := echo.New()
 
-	setup.AllSetup(db, validate, cloudinaryUploader, e)
+	app.InitApp(db, validate, cloudinaryUploader, e)
 
-	
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {

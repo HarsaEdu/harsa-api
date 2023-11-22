@@ -1,4 +1,4 @@
-package setup
+package user
 
 import (
 	userHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/user/handler"

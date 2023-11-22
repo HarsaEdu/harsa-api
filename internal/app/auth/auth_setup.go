@@ -1,4 +1,4 @@
-package setup
+package auth
 
 import (
 	authHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/auth/handler"

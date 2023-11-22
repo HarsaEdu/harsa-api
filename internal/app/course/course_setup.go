@@ -1,4 +1,4 @@
-package setup
+package course
 
 import (
 	courseHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/course/handler"
