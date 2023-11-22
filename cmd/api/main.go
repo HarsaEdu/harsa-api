@@ -24,6 +24,10 @@ import (
 	faqsRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/faqs/repository"
 	faqsRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/faqs/routes"
 	faqsServicePkg "github.com/HarsaEdu/harsa-api/internal/app/faqs/service"
+	interestHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/interest/handler"
+	interestRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/interest/repository"
+	interestRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/interest/routes"
+	interestServicePkg "github.com/HarsaEdu/harsa-api/internal/app/interest/service"
 	moduleHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/module/handler"
 	moduleRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/module/repository"
 	moduleRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/module/routes"
@@ -71,6 +75,7 @@ func main() {
 	courseRepository := courseRepositoryPkg.NewCourseRepository(db)
 	faqsRepository := faqsRepositoryPkg.NewFaqRepository(db)
 	moduleRepository := moduleRepositoryPkg.NewModuleRepository(db)
+	interestRepository := interestRepositoryPkg.NewInterestRepository(db)
 
 	// Service
 	authService := authServicePkg.NewAuthService(authRepository, userRepository, validate)
@@ -79,6 +84,7 @@ func main() {
 	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinaryUploader)
 	faqsService := faqsServicePkg.NewFaqsService(faqsRepository, validate)
 	moduleService := moduleServicePkg.NewModuleService(moduleRepository, validate)
+	interestServicePkg := interestServicePkg.NewInterestService(interestRepository, validate)
 
 	// Handler
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
@@ -87,6 +93,7 @@ func main() {
 	courseHandler := courseHandlerPkg.NewCourseHandler(courseService)
 	faqsHandler := faqsHandlerPkg.NewFaqsHandler(faqsService)
 	moduleHandler := moduleHandlerPkg.NewModuleHandler(moduleService)
+	interestHandler := interestHandlerPkg.NewInterestHandler(&interestServicePkg)
 
 	// Routes
 	authRoutes := authRoutesPkg.NewAuthRoutes(e, authHandler)
@@ -95,6 +102,7 @@ func main() {
 	courseRoutes := courseRoutesPkg.NewCourseRoutes(courseHandler)
 	faqsRoutes := faqsRoutesPkg.NewFaqsRoutes(e, faqsHandler)
 	moduleRoutes := moduleRoutesPkg.NewModuleRoutes(moduleHandler)
+	interestRoutes := interestRoutesPkg.NewInterestRoutes(interestHandler)
 
 	// Setup Routes
 	apiGroup := e.Group("api")
@@ -103,6 +111,7 @@ func main() {
 	categoryRoutes.Category(apiGroup)
 	courseRoutes.Course(apiGroup)
 	faqsRoutes.Faqs(apiGroup)
+	interestRoutes.Interest(apiGroup)
 	coursesGroup := courseRoutes.Course(apiGroup)
 	moduleRoutes.Module(coursesGroup)
 
