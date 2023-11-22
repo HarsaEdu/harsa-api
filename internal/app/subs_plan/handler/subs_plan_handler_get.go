@@ -18,7 +18,7 @@ func (subsPlanHandler *SubsPlanHandlerImpl) GetAll(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "subs plan not found", err)
 		}
-		return res.StatusInternalServerError(ctx, "failed to get all category, something happen", err)
+		return res.StatusInternalServerError(ctx, "failed to get all subs plan, something happen", err)
 	}
 
 	return res.StatusOK(ctx, "succes to get subsplan", response, pagination)
