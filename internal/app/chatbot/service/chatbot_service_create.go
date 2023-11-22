@@ -37,7 +37,7 @@ func (chatbotService *ChatbotServiceImpl) CreateThread(request *web.CreateThread
 
 	topic := conversion.CreateThreadRequestToUserChatTopicDomain(request, threadId)
 
-	err = chatbotService.ChatbotRepository.CreateThread(topic)
+	err = chatbotService.ChatbotRepository.CreateUserChatTopic(topic)
 	if err != nil {
 		return fmt.Errorf("error when creating thread : %s", err.Error())
 	}

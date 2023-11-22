@@ -6,7 +6,7 @@ import (
 )
 
 type ChatbotRepository interface {
-	CreateThread(userChatTopic *domain.UserChatTopic) error
+	CreateUserChatTopic(userChatTopic *domain.UserChatTopic) error
 }
 
 type ChatbotRepositoryImpl struct {
