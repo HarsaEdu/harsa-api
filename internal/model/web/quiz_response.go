@@ -4,7 +4,7 @@ import "time"
 
 type QuizResponse struct {
 	Id          uint      `json:"id"`
-	ModuleId    uint      `json:"module_id"`
+	ModuleID    uint      `json:"module_id"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	Durations   int       `json:"duration"`
@@ -15,7 +15,7 @@ type QuizResponse struct {
 
 type GetAllQuizResponse struct {
 	Id              uint      `json:"id"`
-	ModuleId        uint      `json:"module_id"`
+	ModuleID        uint      `json:"module_id"`
 	Title           string    `json:"title"`
 	Description     string    `json:"description"`
 	Durations       int       `json:"duration"`

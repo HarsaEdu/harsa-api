@@ -7,7 +7,7 @@ import (
 
 func QuizCreateRequestToQuizzesModel(request web.QuizRequest) *domain.Quizzes {
 	return &domain.Quizzes{
-		ModuleId:    request.ModuleId,
+		ModuleID:    request.ModuleID,
 		Title:       request.Title,
 		Description: request.Description,
 		Durations:   request.Durations,

@@ -8,7 +8,7 @@ import (
 
 type Quizzes struct {
 	ID          uint           `gorm:"type:int;primarykey" json:"id"`
-	ModuleId    uint           `json:"module_id"`
+	ModuleID    uint           `json:"module_id"`
 	Title       string         `gorm:"type:varchar(225)" json:"title"`
 	Description string         `gorm:"type:text" json:"description"`
 	Durations   int            `gorm:"type:int" json:"duration"`
