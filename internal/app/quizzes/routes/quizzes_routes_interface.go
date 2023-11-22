@@ -6,17 +6,16 @@ import (
 )
 
 type QuizzesRoutes interface {
-	Quizzes(apiGroup *echo.Group)
+	QuizzesWeb(apiGroup *echo.Group)
+	QuizzesMobile(apiGroup *echo.Group)
 }
 
 type QuizzesRoutesImpl struct {
-	Echo            *echo.Echo
 	QuizzesHandler   handler.QuizzesHandler
 }
 
-func NewQuizzesRoutes(e *echo.Echo, quizzesHandler handler.QuizzesHandler) QuizzesRoutes {
+func NewQuizzesRoutes(quizzesHandler handler.QuizzesHandler) QuizzesRoutes {
 	return &QuizzesRoutesImpl{
-		Echo:            e,
 		QuizzesHandler: quizzesHandler,
 	}
 }
