@@ -6,17 +6,16 @@ import (
 )
 
 type SubsPlanRoutes interface {
-	SubsPlan(apiGroup *echo.Group)
+	SubsPlanWeb(apiGroup *echo.Group)
+	SubsPlanMobile(apiGroup *echo.Group)
 }
 
 type SubsPlanRoutesImpl struct {
-	Echo            *echo.Echo
 	subsPlanHandler handler.SubsPlanHandler
 }
 
-func NewSubsPlanRoutes(e *echo.Echo, subsPlanHandler handler.SubsPlanHandler) SubsPlanRoutes {
+func NewSubsPlanRoutes(subsPlanHandler handler.SubsPlanHandler) SubsPlanRoutes {
 	return &SubsPlanRoutesImpl{
-		Echo:            e,
 		subsPlanHandler: subsPlanHandler,
 	}
 }
