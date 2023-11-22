@@ -27,6 +27,17 @@ func NewMySQLConnection(config *configs.MySQLConfig) (*gorm.DB, error) {
 }
 
 func migration(db *gorm.DB) {
-
-	db.AutoMigrate(&domain.Category{}, &domain.User{}, &domain.Role{}, &domain.UserProfile{}, &domain.Course{}, &domain.Module{}, &domain.SubModule{}, &domain.Faqs{})
+	db.AutoMigrate(
+		&domain.Category{}, 
+		&domain.User{}, 
+		&domain.Role{},
+		&domain.Quizzes{},
+		&domain.Questions{},
+		&domain.Options{},
+		&domain.UserProfile{}, 
+		&domain.Course{},
+		&domain.Module{}, 
+		&domain.SubModule{},
+		&domain.Faqs{},
+	)
 }
