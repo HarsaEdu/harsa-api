@@ -15,7 +15,7 @@ func (quizzesService *QuizzesServiceImpl) Update(request web.QuizRequest, quizId
 
 	quiz := conversionRequest.QuizCreateRequestToQuizzesModel(request)
 
-	quizExist, err := quizzesService.QuizzesRepository.CekIdFromQuiz(request.UserId, quizId, role)
+	quizExist, err := quizzesService.QuizzesRepository.CekIdFromQuiz(request.UserID, quizId, role)
 	if err != nil { 
 		return fmt.Errorf("error when cek id user in quiz update :%s", err.Error())
 	}
