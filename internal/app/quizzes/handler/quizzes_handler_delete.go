@@ -35,5 +35,5 @@ func (quizzesHandler *QuizzesHandlereImpl) Delete(ctx echo.Context) error {
 
 	}
 
-	return res.StatusOK(ctx, "success to update quiz", nil, nil)
+	return res.StatusOK(ctx, "success to delete quiz", nil, nil)
 }
