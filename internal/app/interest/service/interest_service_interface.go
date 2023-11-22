@@ -9,7 +9,7 @@ import (
 
 type InterestService interface {
 	CreateInterest(profileID uint, request *web.InterestRequest) error
-	GetInterest(profileID uint) ([]domain.Course, error)
+	GetInterestRecommendation(profileID uint) ([]domain.Course, error)
 }
 
 type InterestServiceImpl struct {

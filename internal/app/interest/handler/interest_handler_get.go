@@ -9,12 +9,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (handler *InterestHandlerImpl) GetInterest(ctx echo.Context) error {
+func (handler *InterestHandlerImpl) GetInterestRecommendation(ctx echo.Context) error {
 	profileID, err := strconv.Atoi(ctx.Param("profile_id"))
 	if err != nil {
 		return res.StatusInternalServerError(ctx, "failed to convert param id to int", err)
 	}
-	result, err := handler.Service.GetInterest(uint(profileID))
+	result, err := handler.Service.GetInterestRecommendation(uint(profileID))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
