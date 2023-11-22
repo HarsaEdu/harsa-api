@@ -6,7 +6,8 @@ import (
 )
 
 type ChatbotHandler interface {
-	GetResponse(ctx echo.Context) error
+	CreateThread(ctx echo.Context) error
+	// GetResponse(ctx echo.Context) error
 }
 
 type ChatbotHandlerImpl struct {

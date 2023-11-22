@@ -8,5 +8,6 @@ import (
 func (chatbotRoutes *ChatbotRoutesImpl) Chatbot(apiGroup *echo.Group) {
 	chatBotGroup := apiGroup.Group("/chatbot")
 
-	chatBotGroup.POST("", chatbotRoutes.ChatbotHandler.GetResponse, middleware.StudentMiddleare)
+	chatBotGroup.POST("", chatbotRoutes.ChatbotHandler.CreateThread, middleware.StudentMiddleare)
+	// chatBotGroup.POST("", chatbotRoutes.ChatbotHandler.GetResponse, middleware.StudentMiddleare)
 }

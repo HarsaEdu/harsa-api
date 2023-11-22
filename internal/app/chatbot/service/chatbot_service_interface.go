@@ -1,23 +1,30 @@
 package service
 
 import (
+	"github.com/HarsaEdu/harsa-api/internal/app/chatbot/repository"
+	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
 	"github.com/go-playground/validator"
 )
 
 type ChatbotService interface {
-	GetResponse(request *web.GetResponseRequest) (string, error)
+	CreateThread(request *web.CreateThreadRequest, userId uint) error
+	// GetResponse(request *web.GetResponseRequest) (string, error)
 }
 
 type ChatbotServiceImpl struct {
+	ChatbotRepository repository.ChatbotRepository
+	UserRepository userRepositoryPkg.UserRepository
 	Validate *validator.Validate
-	OpenAiClient openai.OpenAiClient
+	OpenAi openai.OpenAi
 }
 
-func NewChatbotService(Validate *validator.Validate, OpenAiClient openai.OpenAiClient) ChatbotService {
+func NewChatbotService(ChatbotRepository repository.ChatbotRepository, UserRepository userRepositoryPkg.UserRepository, Validate *validator.Validate, OpenAi openai.OpenAi) ChatbotService {
 	return &ChatbotServiceImpl{
+		ChatbotRepository: ChatbotRepository,
+		UserRepository: UserRepository,
 		Validate: Validate,
-		OpenAiClient: OpenAiClient,
+		OpenAi: OpenAi,
 	}
 }
