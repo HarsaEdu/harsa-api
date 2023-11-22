@@ -1,18 +1,22 @@
 package openai
 
-import "github.com/HarsaEdu/harsa-api/configs"
+import (
+	"github.com/HarsaEdu/harsa-api/configs"
+	"github.com/sashabaranov/go-openai"
+)
 
-type OpenAiClient interface {
-	CreateChatCompletion(prompt string) (string, error)
-	CreateChatCompletionStream(prompt string) (string, error)
+type OpenAi interface {
+	CreateThread(studentName string, topic string) (string, error)
 }
 
-type OpenAiClientImpl struct {
+type OpenAiImpl struct {
 	OpenAIConfig *configs.OpenAI
+	Client *openai.Client
 }
 
-func NewOpenAiClient(openAIConfig *configs.OpenAI) OpenAiClient {
-	return &OpenAiClientImpl{
+func NewOpenAi(openAIConfig *configs.OpenAI) OpenAi {
+	return &OpenAiImpl{
 		OpenAIConfig: openAIConfig,
+		Client: openai.NewClient(openAIConfig.ApiKey),
 	}
 }
