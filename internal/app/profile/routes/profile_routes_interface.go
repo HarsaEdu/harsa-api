@@ -6,17 +6,16 @@ import (
 )
 
 type ProfileRoutes interface {
-	Profile(apiGroup *echo.Group)
+	ProfileWeb(apiGroup *echo.Group)
+	ProfileMobile(apiGroup *echo.Group)
 }
 
 type ProfileRoutesImpl struct {
-	Echo           *echo.Echo
 	ProfileHandler handler.ProfileHandler
 }
 
-func NewProfileRoutes(e *echo.Echo, profileHandler handler.ProfileHandler) ProfileRoutes {
+func NewProfileRoutes(profileHandler handler.ProfileHandler) ProfileRoutes {
 	return &ProfileRoutesImpl{
-		Echo:           e,
 		ProfileHandler: profileHandler,
 	}
 }

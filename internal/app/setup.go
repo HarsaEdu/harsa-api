@@ -3,24 +3,26 @@ package app
 import (
 	auth "github.com/HarsaEdu/harsa-api/internal/app/auth"
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
-	module "github.com/HarsaEdu/harsa-api/internal/app/module"
-	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
-	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
+	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
+	module "github.com/HarsaEdu/harsa-api/internal/app/module"
+	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
+	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader,e *echo.Echo) {
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo) {
 
 	userRoutes, userRepo := user.UserSetup(db, validate)
-	authRoutes := auth.AuthSetup(db, validate,userRepo)
+	authRoutes := auth.AuthSetup(db, validate, userRepo)
 	moduleRoutes := module.ModuleSetup(db, validate)
 	categoryRoutes := category.CategorySetup(db, validate, cloudinary)
 	faqsRoutes := faqs.FaqsSetup(db, validate)
 	courseRoutes := course.CourseSetup(db, validate, cloudinary)
+	profileRoutes := profile.ProfileSetup(db, validate, e, cloudinary)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
@@ -30,6 +32,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	faqsRoutes.FaqsWeb(apiGroupWeb)
 	coursesGroup := courseRoutes.CourseWeb(apiGroupWeb)
 	moduleRoutes.ModuleWeb(coursesGroup)
+	profileRoutes.ProfileWeb(apiGroupWeb)
 
 	apiGroupMobile := e.Group("mobile")
 	authRoutes.AuthMobile(apiGroupMobile)
@@ -39,4 +42,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	faqsRoutes.FaqsMobile(apiGroupMobile)
 	coursesGroup = courseRoutes.CourseMobile(apiGroupMobile)
 	moduleRoutes.ModuleMobile(apiGroupMobile)
+	profileRoutes.ProfileMobile(apiGroupMobile)
 }
