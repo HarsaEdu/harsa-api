@@ -12,6 +12,7 @@ type QuizzesService interface {
 	FindById(quizId uint) (*web.QuizResponse, error)
 	Delete(userId uint, quizId uint, role string) error
 	GetAll(moduleId uint, offset int, limit int, search string) ([]web.GetAllQuizResponse, *web.Pagination, error)
+	FindByIdMobile(quizId uint) (*web.QuizResponse, error)
 }
 
 type QuizzesServiceImpl struct {
