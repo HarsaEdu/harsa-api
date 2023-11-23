@@ -35,7 +35,7 @@ func (chatbotService *ChatbotServiceImpl) CreateThread(request *web.CreateThread
 		return fmt.Errorf("error when creating thread : thread is not exist")
 	}
 
-	topic := conversion.CreateThreadRequestToUserChatTopicDomain(request, threadId)
+	topic := conversion.CreateThreadRequestToUserChatTopicDomain(request, userId,threadId)
 
 	err = chatbotService.ChatbotRepository.CreateUserChatTopic(topic)
 	if err != nil {
