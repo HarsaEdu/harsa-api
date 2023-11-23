@@ -3,23 +3,24 @@ package app
 import (
 	auth "github.com/HarsaEdu/harsa-api/internal/app/auth"
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
-	module "github.com/HarsaEdu/harsa-api/internal/app/module"
-	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
-	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
-	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
-	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
+	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
+	feedback "github.com/HarsaEdu/harsa-api/internal/app/feedback"
+	module "github.com/HarsaEdu/harsa-api/internal/app/module"
 	options "github.com/HarsaEdu/harsa-api/internal/app/options"
+	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
+	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
+	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader,e *echo.Echo) {
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo) {
 
 	userRoutes, userRepo := user.UserSetup(db, validate)
-	authRoutes := auth.AuthSetup(db, validate,userRepo)
+	authRoutes := auth.AuthSetup(db, validate, userRepo)
 	moduleRoutes := module.ModuleSetup(db, validate)
 	categoryRoutes := category.CategorySetup(db, validate, cloudinary)
 	faqsRoutes := faqs.FaqsSetup(db, validate)
@@ -27,6 +28,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	quizzesRoutes := quizzes.QuizzesSetup(db, validate)
 	questionsRoutes := questions.QuestionsSetup(db, validate)
 	optionsRoutes := options.OptionsSetup(db, validate)
+	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
@@ -39,6 +41,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	quizzesRoutes.QuizzesWeb(coursesGroup)
 	questionsRoutes.QuestionsWeb(coursesGroup)
 	optionsRoutes.OptionsWeb(coursesGroup)
+	feedbackRoutes.FeedbackWeb(apiGroupWeb)
 
 	apiGroupMobile := e.Group("mobile")
 	authRoutes.AuthMobile(apiGroupMobile)
@@ -49,4 +52,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	coursesGroup = courseRoutes.CourseMobile(apiGroupMobile)
 	moduleRoutes.ModuleMobile(apiGroupMobile)
 	quizzesRoutes.QuizzesMobile(coursesGroup)
+	feedbackRoutes.FeedbackMobile(apiGroupMobile)
 }
