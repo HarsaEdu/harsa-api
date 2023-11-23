@@ -22,6 +22,23 @@ func ConvertQuizRes(quiz *domain.Quizzes) *web.QuizResponse {
 	return &quizRes
 }
 
+func ConvertQuizResMobile(quiz *domain.Quizzes) *web.QuizResponse {
+
+	question:= ConvertAllQuestionsQuizMobile(quiz.Questions)
+
+	quizRes := web.QuizResponse{
+		Id:          quiz.ID,
+		Created_at:  quiz.CreatedAt,
+		Updatad_at:  quiz.UpdatedAt,
+		ModuleID:    quiz.ModuleID,
+		Durations:   quiz.Durations,
+		Title:       quiz.Title,
+		Description: quiz.Description,
+		Questions: question,
+	}
+	return &quizRes
+}
+
 func ConvertAllQuizRes(quiz *domain.Quizzes) *web.GetAllQuizResponse {
 
 	numberQuestions := len(quiz.Questions)

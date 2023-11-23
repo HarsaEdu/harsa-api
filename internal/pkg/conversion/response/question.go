@@ -30,3 +30,28 @@ func ConvertAllQuestionsQuiz(questions []domain.Questions) []web.QuestionsResFor
 
 	return questionRes
 }
+
+func ConvertAllQuestionsQuizMobile(questions []domain.Questions) []web.QuestionsResForQuizMobile {
+	var questionRes []web.QuestionsResForQuizMobile
+
+	for _, q := range questions {
+		var optionRes []web.OptionsResForQuestionMobile
+
+		for _, opt := range q.Options {
+			optionRes = append(optionRes, web.OptionsResForQuestionMobile{
+				Id:      opt.ID,
+				Value:   opt.Value,
+			})
+		}
+
+		question := web.QuestionsResForQuizMobile{
+			Id:       q.ID,
+			Question: q.Question,
+			Options:  optionRes,
+		}
+
+		questionRes = append(questionRes, question)
+	}
+
+	return questionRes
+}

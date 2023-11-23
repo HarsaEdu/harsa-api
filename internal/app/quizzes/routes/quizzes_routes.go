@@ -21,7 +21,7 @@ func (quizzesRoutes *QuizzesRoutesImpl) QuizzesMobile(apiGroup *echo.Group) {
 	quizzesGroup := apiGroup.Group("/module/quizzes")
 	quizzesModule := apiGroup.Group("/module/:module-id/quizzes")
 
-	quizzesGroup.GET("/:id", quizzesRoutes.QuizzesHandler.FindById, middleware.StudentMiddleare)
+	quizzesGroup.GET("/:id", quizzesRoutes.QuizzesHandler.FindByIdMobile, middleware.StudentMiddleare)
 	quizzesModule.GET("", quizzesRoutes.QuizzesHandler.GetAll, middleware.StudentMiddleare)
 
 }
