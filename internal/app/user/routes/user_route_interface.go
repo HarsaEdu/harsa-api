@@ -6,7 +6,8 @@ import (
 )
 
 type UserRoutes interface {
-	User(apiGroup *echo.Group)
+	UserWeb(apiGroup *echo.Group)
+	UserMobile(apiGroup *echo.Group)
 }
 
 type UserRoutesImpl struct {
