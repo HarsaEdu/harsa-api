@@ -10,6 +10,7 @@ import (
 
 type ChatbotService interface {
 	CreateThread(request *web.CreateThreadRequest, userId uint) error
+	GetAllThreadByUserId(userId uint) ([]web.GetAllThreadByUserIdResponse, error)
 	GetAllMessagesInThread(threadId string, limit int, after string, before string) ([]web.GetMessageInThreadResponse, error)
 	// GetResponse(request *web.GetResponseRequest) (string, error)
 }

@@ -7,6 +7,7 @@ import (
 
 type ChatbotHandler interface {
 	CreateThread(ctx echo.Context) error
+	GetAllThreadByUserId(ctx echo.Context) error
 	GetAllMessagesInThread(ctx echo.Context) error
 	// GetResponse(ctx echo.Context) error
 }

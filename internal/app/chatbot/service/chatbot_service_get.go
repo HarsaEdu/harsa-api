@@ -22,3 +22,23 @@ func (chatbotService *ChatbotServiceImpl) GetAllMessagesInThread(threadId string
 
 	return response, nil
 }
+
+func (chatbotService *ChatbotServiceImpl) GetAllThreadByUserId(userId uint) ([]web.GetAllThreadByUserIdResponse, error) {
+	existinUser, err := chatbotService.UserRepository.GetUserByID(userId)
+	if err != nil {
+		return nil, fmt.Errorf("error when get user : %s", err.Error())
+	}
+
+	if existinUser == nil {
+		return nil, fmt.Errorf("user not found")
+	}
+
+	result, err := chatbotService.ChatbotRepository.GetAllTopicByUserId(userId)
+	if err != nil {
+		return nil, fmt.Errorf("error when get all thread : %s", err.Error())
+	}
+
+	response := conversion.UserChatDomainToGetAllThreadByUserIdResponse(result)
+
+	return response, nil
+}

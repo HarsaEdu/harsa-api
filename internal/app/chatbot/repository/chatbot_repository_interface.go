@@ -6,8 +6,9 @@ import (
 )
 
 type ChatbotRepository interface {
-	GetTopicById(id string) (*domain.UserChatTopic, error)
 	CreateUserChatTopic(userChatTopic *domain.UserChatTopic) error
+	GetTopicById(id string) (*domain.UserChatTopic, error)
+	GetAllTopicByUserId(userId uint) ([]domain.UserChatTopic, error)
 }
 
 type ChatbotRepositoryImpl struct {
