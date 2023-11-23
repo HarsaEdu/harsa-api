@@ -8,7 +8,7 @@ import (
 
 type Options struct {
 	ID         uint           `gorm:"type:int;primarykey" json:"id"`
-	QuestionId uint           `json:"question_id"`
+	QuestionID uint           `json:"question_id"`
 	Value      string         `json:"value" gorm:"type:text"`
 	IsRight    bool           `json:"is_right"`
 	CreatedAt  time.Time      `gorm:"autoCreateTime" json:"created_at"`
