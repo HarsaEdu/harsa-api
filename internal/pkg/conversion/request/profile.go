@@ -23,6 +23,7 @@ func ProfileRequestToProfileModel(userID uint, request *web.UpdateProfileRequest
 
 func ProfileCreateRequestToModel(userID uint, request *web.CreateProfileRequest) *domain.UserProfile {
 	return &domain.UserProfile{
+		ID:          userID,
 		UserID:      userID,
 		FirstName:   request.FirstName,
 		LastName:    request.LastName,
