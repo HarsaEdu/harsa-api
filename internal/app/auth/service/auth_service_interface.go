@@ -5,12 +5,12 @@ import (
 	userRepo "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
-	"github.com/labstack/echo/v4"
 )
 
 type AuthService interface {
-	RegisterUser(ctx echo.Context, r web.RegisterUserRequest) (*web.AuthResponse, error)
-	LoginUser(ctx echo.Context, loginUser web.LoginUserRequest) (*web.AuthResponse, error)
+	RegisterUser(userRequest web.RegisterUserRequest) (*web.AuthResponse, error)
+	LoginUser(userRequest web.LoginUserRequest) (*web.AuthResponse, error)
+	GetAccessToken(tokenRequest web.AccessTokenRequest) (*web.AuthResponse, error)
 }
 
 type AuthServiceImpl struct {
