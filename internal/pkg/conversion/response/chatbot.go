@@ -1,9 +1,28 @@
 package conversion
 
 import (
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/sashabaranov/go-openai"
 )
+
+func UserChatDomainToGetAllThreadByUserIdResponse(topics []domain.UserChatTopic) []web.GetAllThreadByUserIdResponse {
+	var topicsResponse []web.GetAllThreadByUserIdResponse
+
+	for _, topic := range topics {
+		topicResponse := web.GetAllThreadByUserIdResponse{
+			ID: topic.ID,
+			UserId: int(topic.UserID),
+			Topic: topic.Topic,
+			CreatedAt: topic.CreatedAt,
+			UpdatedAt: topic.UpdatedAt,
+		}
+
+		topicsResponse = append(topicsResponse, topicResponse)
+	}
+
+	return topicsResponse
+}
 
 func OpenAiThreadMessagesResponseToGetAllMessageInThreadResponse(messages openai.MessagesList) []web.GetMessageInThreadResponse {
 	var messagesResponse []web.GetMessageInThreadResponse
