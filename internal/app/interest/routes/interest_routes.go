@@ -5,8 +5,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (routes *InterestRoutesImpl) Interest(apiGroup *echo.Group) {
-	interestGroup := apiGroup.Group("profile/:profile_id/interest")
+func (routes *InterestRoutesImpl) WebInterest(apiGroup *echo.Group) {
+	interestGroup := apiGroup.Group("/users/profile/:profile_id/interest")
+
+	interestGroup.POST("", routes.Handler.CreateInterest, middleware.AllUserMiddleare)
+	interestGroup.GET("", routes.Handler.GetInterestRecommendation, middleware.AllUserMiddleare)
+}
+
+func (routes *InterestRoutesImpl) MobileInterest(apiGroup *echo.Group) {
+	interestGroup := apiGroup.Group("/users/profile/:profile_id/interest")
 
 	interestGroup.POST("", routes.Handler.CreateInterest, middleware.AllUserMiddleare)
 	interestGroup.GET("", routes.Handler.GetInterestRecommendation, middleware.AllUserMiddleare)

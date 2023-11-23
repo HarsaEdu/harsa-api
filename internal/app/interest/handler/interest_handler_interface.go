@@ -14,8 +14,8 @@ type InterestHandlerImpl struct {
 	Service service.InterestService
 }
 
-func NewInterestHandler(service *service.InterestService) InterestHandler {
+func NewInterestHandler(service service.InterestService) InterestHandler {
 	return &InterestHandlerImpl{
-		Service: *service,
+		Service: service,
 	}
 }

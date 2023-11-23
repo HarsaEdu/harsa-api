@@ -6,7 +6,8 @@ import (
 )
 
 type InterestRoutes interface {
-	Interest(apiGroup *echo.Group)
+	MobileInterest(apiGroup *echo.Group)
+	WebInterest(apiGroup *echo.Group)
 }
 
 type InterestRoutesImpl struct {
