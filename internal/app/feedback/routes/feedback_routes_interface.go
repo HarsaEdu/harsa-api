@@ -6,7 +6,8 @@ import (
 )
 
 type FeedbackRoutes interface {
-	Feedback(apiGroup *echo.Group)
+	FeedbackWeb(apiGroup *echo.Group)
+	FeedbackMobile(apiGroup *echo.Group)
 }
 
 type FeedbackRoutesImpl struct {
@@ -14,9 +15,8 @@ type FeedbackRoutesImpl struct {
 	FeedbackHandler handler.FeedbackHandler
 }
 
-func NewFeedbackRoutes(e *echo.Echo, feedbackHandler handler.FeedbackHandler) FeedbackRoutes {
+func NewFeedbackRoutes(feedbackHandler handler.FeedbackHandler) FeedbackRoutes {
 	return &FeedbackRoutesImpl{
-		Echo:            e,
 		FeedbackHandler: feedbackHandler,
 	}
 }
