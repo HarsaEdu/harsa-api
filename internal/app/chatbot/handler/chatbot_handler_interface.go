@@ -9,7 +9,7 @@ type ChatbotHandler interface {
 	CreateThread(ctx echo.Context) error
 	GetAllThreadByUserId(ctx echo.Context) error
 	GetAllMessagesInThread(ctx echo.Context) error
-	// GetResponse(ctx echo.Context) error
+	ChatWithAssistant(ctx echo.Context) error
 }
 
 type ChatbotHandlerImpl struct {
