@@ -27,15 +27,16 @@ func UserChatDomainToGetAllThreadByUserIdResponse(topics []domain.UserChatTopic)
 func OpenAiThreadMessagesResponseToGetAllMessageInThreadResponse(messages openai.MessagesList) []web.GetMessageInThreadResponse {
 	var messagesResponse []web.GetMessageInThreadResponse
 
-	for _, message := range messages.Messages {
-		messageResponse := web.GetMessageInThreadResponse{
-			ID:        message.ID,
-			Role:      message.Role,
-			Message:   message.Content[0].Text.Value,
-			CreatedAt: message.CreatedAt,
+	for idx, message := range messages.Messages {
+		if idx != len(messages.Messages)-1 {
+			messageResponse := web.GetMessageInThreadResponse{
+				ID:        message.ID,
+				Role:      message.Role,
+				Message:   message.Content[0].Text.Value,
+				CreatedAt: message.CreatedAt,
+			}
+			messagesResponse = append(messagesResponse, messageResponse)
 		}
-
-		messagesResponse = append(messagesResponse, messageResponse)
 
 	}
 
