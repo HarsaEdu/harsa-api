@@ -13,6 +13,7 @@ type CourseRepository interface {
 	UpdateImage(course *domain.Course) error
 	Delete(course *domain.Course) error
 	CekIdFromCourse(userId uint, courseId uint, role string) (*domain.Course, error)
+	CekIdFromUser(userId uint) (error)
 }
 
 type CourseRepositoryImpl struct {

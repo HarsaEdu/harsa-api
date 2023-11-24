@@ -6,7 +6,7 @@ func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search s
 	var courses []domain.Course
 	var count int64
 
-	query := courseRepository.DB.Preload("User.Role").Preload("Category", "name LIKE ?", "%"+category+"%" )
+	query := courseRepository.DB.Preload("User.User.Role").Preload("Category", "name LIKE ?", "%"+category+"%" )
 
 	if search != "" {
 		searchQuery := "%" + search + "%"
