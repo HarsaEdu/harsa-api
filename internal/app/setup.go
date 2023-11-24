@@ -7,8 +7,11 @@ import (
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
 	module "github.com/HarsaEdu/harsa-api/internal/app/module"
+	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
+	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
+	options "github.com/HarsaEdu/harsa-api/internal/app/options"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -23,8 +26,11 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	categoryRoutes := category.CategorySetup(db, validate, cloudinary)
 	faqsRoutes := faqs.FaqsSetup(db, validate)
 	courseRoutes := course.CourseSetup(db, validate, cloudinary)
+	profileRoutes := profile.ProfileSetup(db, validate, e, cloudinary)
 	quizzesRoutes := quizzes.QuizzesSetup(db, validate)
 	interestRoutes := interest.InterestSetup(db, validate)
+	questionsRoutes := questions.QuestionsSetup(db, validate)
+	optionsRoutes := options.OptionsSetup(db, validate)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
@@ -36,6 +42,8 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	moduleRoutes.ModuleWeb(coursesGroup)
 	quizzesRoutes.QuizzesWeb(coursesGroup)
 	interestRoutes.WebInterest(apiGroupWeb)
+	questionsRoutes.QuestionsWeb(coursesGroup)
+	optionsRoutes.OptionsWeb(coursesGroup)
 
 	apiGroupMobile := e.Group("mobile")
 	authRoutes.AuthMobile(apiGroupMobile)
@@ -45,6 +53,8 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	faqsRoutes.FaqsMobile(apiGroupMobile)
 	coursesGroup = courseRoutes.CourseMobile(apiGroupMobile)
 	moduleRoutes.ModuleMobile(apiGroupMobile)
+	profileRoutes.ProfileMobile(apiGroupMobile)
 	quizzesRoutes.QuizzesMobile(coursesGroup)
 	interestRoutes.MobileInterest(apiGroupMobile)
+
 }

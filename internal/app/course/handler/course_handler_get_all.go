@@ -20,7 +20,7 @@ func (courseHandler *CourseHandlerImpl) GetAll(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "invalid limit", err)
 	}
 
-	response, pagination, err := courseHandler.CourseService.GetAll(offset, limit, params.Get("search"))
+	response, pagination, err := courseHandler.CourseService.GetAll(offset, limit, params.Get("search"), params.Get("category"))
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "course not found", err)

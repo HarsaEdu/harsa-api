@@ -11,6 +11,7 @@ type QuizzesHandler interface {
 	FindById(ctx echo.Context) error
 	Delete(ctx echo.Context) error
 	GetAll(ctx echo.Context) error
+	FindByIdMobile(ctx echo.Context) error
 }
 
 type QuizzesHandlereImpl struct {
