@@ -9,12 +9,13 @@ func InterestResultToResponse(interest []domain.Course) *[]web.InterestResponse 
 	response := []web.InterestResponse{}
 
 	for _, value := range interest {
+		name := value.User.FirstName + " " + value.User.LastName
 		result := &web.InterestResponse{
 			CourseID:   value.ID,
 			Title:      value.Title,
 			ImageUrl:   value.ImageUrl,
 			Rating:     value.Rating,
-			Instructor: value.User.Username,
+			Instructor: name,
 		}
 
 		response = append(response, *result)
