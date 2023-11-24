@@ -19,3 +19,16 @@ func (quizzesService *QuizzesServiceImpl) FindById(quizId uint) (*web.QuizRespon
 	return convertRes, nil
 
 }
+
+func (quizzesService *QuizzesServiceImpl) FindByIdMobile(quizId uint) (*web.QuizResponse, error) {
+	
+	quiz, err := quizzesService.QuizzesRepository.FindById(quizId)
+	if err != nil { 
+		return nil, fmt.Errorf("error when find quiz by id :%s", err.Error())
+	}
+
+	convertRes := conversion.ConvertQuizResMobile(quiz)
+
+	return convertRes, nil
+
+}
