@@ -1,6 +1,8 @@
 package openai
 
 import (
+	"context"
+
 	"github.com/HarsaEdu/harsa-api/configs"
 	"github.com/sashabaranov/go-openai"
 )
@@ -8,9 +10,10 @@ import (
 type OpenAi interface {
 	CreateThread(studentName string, topic string) (string, error)
 	GetAllMessagesInThread(threadId string, limit int, after string, before string) (openai.MessagesList, error)
-	// CreateMessageInThread(threadId string, message string) (string, error)
-	// runMessageInThread(ctx context.Context, threadId string) (string, error)
-	// getResponseMessageInThread(ctx context.Context, threadId string) (string, error)
+	CreateMessageInThread(ctx context.Context, threadId string, message string) (openai.Message, error)
+	RunMessageInThread(ctx context.Context, assistant openai.Assistant, threadId string) (openai.Run, error)
+	GetResponseMessageInThread(ctx context.Context, threadId string) (openai.Message, error)
+	ChatWithAssistant(threadId string, message string) (string, error)
 }
 
 type OpenAiImpl struct {

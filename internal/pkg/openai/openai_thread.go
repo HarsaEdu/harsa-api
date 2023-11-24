@@ -3,6 +3,7 @@ package openai
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/sashabaranov/go-openai"
 )
@@ -43,55 +44,65 @@ func (openAi *OpenAiImpl) GetAllMessagesInThread(threadId string, limit int, aft
 	return messages, nil
 }
 
-// func (openAi *OpenAiImpl) CreateMessageInThread(threadId string, message string) (string, error) {
-// 	ctx := context.Background()
+func (openAi *OpenAiImpl) CreateMessageInThread(ctx context.Context, threadId string, message string) (openai.Message, error) {
+	messageContent := openai.MessageRequest{
+		Role: openai.ChatMessageRoleUser,
+		Content: message,
+	}
 
-// 	messageContent := openai.MessageRequest{
-// 		Role: openai.ChatMessageRoleUser,
-// 		Content: message,
-// 	}
+	userMessage, err := openAi.Client.CreateMessage(ctx, threadId, messageContent)
+	if err != nil {
+		return openai.Message{}, err
+	}
 
-// 	userMessage, err := openAi.Client.CreateMessage(ctx, threadId, messageContent)
-// 	if err != nil {
-// 		return "", err
-// 	}
+	return userMessage, nil
+}
 
-// 	return messageRequest, nil
-// }
+func (openAi *OpenAiImpl) RunMessageInThread(ctx context.Context, assistant openai.Assistant, threadId string) (openai.Run, error) {
+	request := openai.RunRequest{
+		AssistantID: assistant.ID,
+		Model: &assistant.Model,
+		Instructions: assistant.Instructions,
+	}
 
-// func (openAi *OpenAiImpl) runMessageInThread(ctx context.Context, threadId string) (string, error) {
-// 	assistant, err := openAi.Client.RetrieveAssistant(ctx, openAi.OpenAIConfig.AssistantID)
-// 	if err != nil {
-// 		return "", err
-// 	}
+	runRequest, err := openAi.Client.CreateRun(ctx, threadId, request)
+	if err != nil {
+		return openai.Run{}, err
+	}
 
-// 	request := openai.RunRequest{
-// 		AssistantID: assistant.ID,
-// 		Model: &assistant.Model,
-// 		Instructions: assistant.Instructions,
-// 	}
+	var run openai.Run
 
-// 	runRequest, err := openAi.Client.CreateRun(ctx, threadId, request)
-// 	if err != nil {
-// 		return "", err
-// 	}
+	for {
+		run, err := openAi.Client.RetrieveRun(ctx, runRequest.ThreadID, runRequest.ID)
+		if err != nil {
+			return openai.Run{}, err
+		}
 
-// 	for {
-// 		run, err := openAi.Client.RetrieveRun(ctx, runRequest.ThreadID, runRequest.ID)
-// 		if err != nil {
-// 			return "", err
-// 		}
+		if run.Status != "in_progress" {
+			break
+		}
 
-// 		if run.Status != "in_progress" {
-// 			break
-// 		}
+		time.Sleep(2 * time.Second)
+	}
 
-// 		time.Sleep(2 * time.Second)
-// 	}
+	return run, nil
+}
 
-// 	return 
-// }
+func (openAi *OpenAiImpl) GetResponseMessageInThread(ctx context.Context, threadId string) (openai.Message, error) {
+	limit := 1
+	order := "desc"
+	after := ""
+	before := ""
 
-// func (openAi *OpenAiImpl) getResponseMessageInThread(ctx context.Context, threadId string) (string, error) {
+	responseMessages, err := openAi.Client.ListMessage(ctx, threadId, &limit, &order, &after, &before)
+	if err != nil {
+		return openai.Message{}, err
+	}
 
-// }
+	responseMessage, err := openAi.Client.RetrieveMessage(ctx, threadId, *responseMessages.FirstID)
+	if err != nil {
+		return openai.Message{}, err
+	}
+
+	return responseMessage, nil
+}
