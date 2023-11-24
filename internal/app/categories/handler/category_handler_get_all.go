@@ -23,7 +23,7 @@ func (categoryHandler *CategoryHandlerImpl) GetAll(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "params offset not valid", err)
 	}
 
-	response, pagiantion, err := categoryHandler.CategoryService.GetAll(offset, limit, params.Get("search"))
+	response, pagination, err := categoryHandler.CategoryService.GetAll(offset, limit, params.Get("search"))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
@@ -34,6 +34,6 @@ func (categoryHandler *CategoryHandlerImpl) GetAll(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to get all category, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success get categories", response, pagiantion)
+	return res.StatusOK(ctx, "success get categories", response, pagination)
 
 }
