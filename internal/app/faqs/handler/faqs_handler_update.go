@@ -31,6 +31,6 @@ func (faqsHandler *FaqsHandlerImpl) Update(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed update faqs, something happen", err)
 
 	}
-	return res.StatusCreated(ctx, "success to update faqs", nil, nil)
+	return res.StatusOK(ctx, "success to update faqs", nil, nil)
 
 }

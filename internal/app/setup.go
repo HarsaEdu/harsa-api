@@ -5,6 +5,7 @@ import (
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
+	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
 	module "github.com/HarsaEdu/harsa-api/internal/app/module"
 	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
@@ -26,6 +27,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	categoryRoutes := category.CategorySetup(db, validate, cloudinary)
 	faqsRoutes := faqs.FaqsSetup(db, validate)
 	courseRoutes := course.CourseSetup(db, validate, cloudinary)
+	subsPlanRoutes := subsPlan.SubsPlanSetup(db, validate, cloudinary)
 	profileRoutes := profile.ProfileSetup(db, validate, e, cloudinary)
 	quizzesRoutes := quizzes.QuizzesSetup(db, validate)
 	interestRoutes := interest.InterestSetup(db, validate)
@@ -38,6 +40,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	categoryRoutes.CategoryWeb(apiGroupWeb)
 	courseRoutes.CourseWeb(apiGroupWeb)
 	faqsRoutes.FaqsWeb(apiGroupWeb)
+	subsPlanRoutes.SubsPlanWeb(apiGroupWeb)
 	coursesGroup := courseRoutes.CourseWeb(apiGroupWeb)
 	moduleRoutes.ModuleWeb(coursesGroup)
 	quizzesRoutes.QuizzesWeb(coursesGroup)
@@ -51,10 +54,10 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	categoryRoutes.CategoryMobile(apiGroupMobile)
 	courseRoutes.CourseMobile(apiGroupMobile)
 	faqsRoutes.FaqsMobile(apiGroupMobile)
+	subsPlanRoutes.SubsPlanMobile(apiGroupMobile)
 	coursesGroup = courseRoutes.CourseMobile(apiGroupMobile)
 	moduleRoutes.ModuleMobile(apiGroupMobile)
 	profileRoutes.ProfileMobile(apiGroupMobile)
 	quizzesRoutes.QuizzesMobile(coursesGroup)
 	interestRoutes.MobileInterest(apiGroupMobile)
-
 }
