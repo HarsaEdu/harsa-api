@@ -6,15 +6,10 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
-type RoleForUserForCourseResponse struct {
-	ID   uint   `json:"id"`
-	Name string `json:"name"`
-}
-
 type UserForCourseResponse struct {
 	ID    uint                         `json:"id"`
-	Email string                       `json:"email"`
-	Role  RoleForUserForCourseResponse `json:"role"`
+	Name string                        `json:"name"`
+	Role  string `json:"role"`
 }
 
 type CategoryForCourseResponse struct {
