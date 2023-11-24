@@ -8,7 +8,7 @@ import (
 
 type UserChatTopic struct {
 	ID        string         `gorm:"type:varchar(255);primarykey" json:"id"`
-	UserID    uint           `gorm:"type:varchar(255)" json:"user_id"`
+	UserID    uint           `gorm:"type:int" json:"user_id"`
 	Topic     string         `gorm:"type:varchar(255)" json:"topic"`
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
