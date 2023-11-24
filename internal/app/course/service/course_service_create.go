@@ -24,6 +24,11 @@ func (courseService *CourseServiceImpl) Create(ctx echo.Context, request *web.Co
 		course.ImageUrl = imageUrl
 	}
 
+	err = courseService.CourseRepository.CekIdFromUser(course.UserID)
+	if err != nil { 
+		return fmt.Errorf("error when cek id user in create course : %s", err.Error())
+	}
+
 	err = courseService.CourseRepository.Create(course)
 	if err != nil {
 		return fmt.Errorf("error when creating course %s", err.Error())
