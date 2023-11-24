@@ -6,7 +6,8 @@ import (
 )
 
 type ModuleRoutes interface {
-	Module(coursesGruop *echo.Group)
+	ModuleWeb(coursesGruop *echo.Group)
+	ModuleMobile(coursesGruop *echo.Group)
 }
 
 type ModuleRoutesImpl struct {

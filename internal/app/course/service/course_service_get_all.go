@@ -7,9 +7,9 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (courseService *CourseServiceImpl) GetAll(offset, limit int, search string) ([]web.GetCourseResponse, *web.Pagination, error) {
+func (courseService *CourseServiceImpl) GetAll(offset, limit int, search string, category string) ([]web.GetCourseResponse, *web.Pagination, error) {
 	var courses []web.GetCourseResponse
-	result, total, err := courseService.CourseRepository.GetAll(offset, limit, search)
+	result, total, err := courseService.CourseRepository.GetAll(offset, limit, search, category)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -19,6 +19,10 @@ func (courseService *CourseServiceImpl) GetAll(offset, limit int, search string)
 	}
 
 	courses = conversion.CourseDomainToCourseGetAllResponse(result)
+
+	if courses == nil {
+		return nil, nil, fmt.Errorf("course not found")
+	}
 
 	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
 	

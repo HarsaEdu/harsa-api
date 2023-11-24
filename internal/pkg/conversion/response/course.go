@@ -10,34 +10,35 @@ func CourseDomainToCourseGetAllResponse(courseDomain []domain.Course) []web.GetC
 
 	for _, course := range courseDomain {
 
-		courseGetAllResponse = append(courseGetAllResponse, web.GetCourseResponse{
-			ID:          course.ID,
-			Title:       course.Title,
-			Description: course.Description,
-			ImageUrl:    course.ImageUrl,
-			Enrolled:    course.Enrolled,
-			Rating:      course.Rating,
-			CreatedAt:   course.CreatedAt,
-			UpdatedAt:   course.UpdatedAt,
-			Category: &web.CategoryForCourseResponse{
-				ID:   course.Category.ID,
-				Name: course.Category.Name,
-			},
-			User: &web.UserForCourseResponse{
-				ID:    course.User.ID,
-				Email: course.User.Email,
-				Role: web.RoleForUserForCourseResponse{
-					ID:   course.User.Role.ID,
-					Name: course.User.Role.Name,
+		if course.Category.ID != 0 {
+			name := course.User.FirstName + " " + course.User.LastName
+			courseGetAllResponse = append(courseGetAllResponse, web.GetCourseResponse{
+				ID:          course.ID,
+				Title:       course.Title,
+				Description: course.Description,
+				ImageUrl:    course.ImageUrl,
+				Enrolled:    course.Enrolled,
+				Rating:      course.Rating,
+				CreatedAt:   course.CreatedAt,
+				UpdatedAt:   course.UpdatedAt,
+				Category: &web.CategoryForCourseResponse{
+					ID:   course.Category.ID,
+					Name: course.Category.Name,
 				},
-			},
-		})
+				User: &web.UserForCourseResponse{
+					ID:    course.User.ID,
+					Name: name,
+					Role: course.User.User.Role.Name,
+				},
+			})
+		}
 	}
 
 	return courseGetAllResponse
 }
 
 func CourseDomainToCourseGetByIdResponse(courseDomain *domain.Course) *web.GetCourseResponse {
+	name := courseDomain.User.FirstName + " " + courseDomain.User.LastName
 	courseGetResponse := &web.GetCourseResponse{
 		ID:          courseDomain.ID,
 		Title:       courseDomain.Title,
@@ -53,11 +54,8 @@ func CourseDomainToCourseGetByIdResponse(courseDomain *domain.Course) *web.GetCo
 		},
 		User: &web.UserForCourseResponse{
 			ID:    courseDomain.User.ID,
-			Email: courseDomain.User.Email,
-			Role: web.RoleForUserForCourseResponse{
-				ID:   courseDomain.User.Role.ID,
-				Name: courseDomain.User.Role.Name,
-			},
+			Name: name,
+			Role: courseDomain.User.User.Role.Name,
 		},
 	}
 
