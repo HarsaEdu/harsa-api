@@ -5,6 +5,7 @@ import (
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
+	feedback "github.com/HarsaEdu/harsa-api/internal/app/feedback"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
 	module "github.com/HarsaEdu/harsa-api/internal/app/module"
@@ -13,6 +14,9 @@ import (
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
 	options "github.com/HarsaEdu/harsa-api/internal/app/options"
+	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
+	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
+	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -33,6 +37,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	interestRoutes := interest.InterestSetup(db, validate)
 	questionsRoutes := questions.QuestionsSetup(db, validate)
 	optionsRoutes := options.OptionsSetup(db, validate)
+	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
@@ -47,6 +52,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	interestRoutes.WebInterest(apiGroupWeb)
 	questionsRoutes.QuestionsWeb(coursesGroup)
 	optionsRoutes.OptionsWeb(coursesGroup)
+	feedbackRoutes.FeedbackWeb(apiGroupWeb)
 
 	apiGroupMobile := e.Group("mobile")
 	authRoutes.AuthMobile(apiGroupMobile)
@@ -59,5 +65,6 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	moduleRoutes.ModuleMobile(apiGroupMobile)
 	profileRoutes.ProfileMobile(apiGroupMobile)
 	quizzesRoutes.QuizzesMobile(coursesGroup)
+	feedbackRoutes.FeedbackMobile(apiGroupMobile)
 	interestRoutes.MobileInterest(apiGroupMobile)
 }
