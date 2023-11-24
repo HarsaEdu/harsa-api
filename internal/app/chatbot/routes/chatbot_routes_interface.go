@@ -6,7 +6,7 @@ import (
 )
 
 type ChatbotRoutes interface {
-	Chatbot(apiGroup *echo.Group)
+	ChatbotMobile(apiGroup *echo.Group)
 }
 
 type ChatbotRoutesImpl struct {

@@ -5,7 +5,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (chatbotRoutes *ChatbotRoutesImpl) Chatbot(apiGroup *echo.Group) {
+func (chatbotRoutes *ChatbotRoutesImpl) ChatbotMobile(apiGroup *echo.Group) {
 	chatBotGroup := apiGroup.Group("/chatbot")
 
 	chatBotGroup.POST("", chatbotRoutes.ChatbotHandler.CreateThread, middleware.StudentMiddleare)
