@@ -3,11 +3,12 @@ package app
 import (
 	auth "github.com/HarsaEdu/harsa-api/internal/app/auth"
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
-	module "github.com/HarsaEdu/harsa-api/internal/app/module"
-	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
-	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
+	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
+	module "github.com/HarsaEdu/harsa-api/internal/app/module"
+	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
+	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
 	options "github.com/HarsaEdu/harsa-api/internal/app/options"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
@@ -16,14 +17,15 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader,e *echo.Echo) {
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo) {
 
 	userRoutes, userRepo := user.UserSetup(db, validate)
-	authRoutes := auth.AuthSetup(db, validate,userRepo)
+	authRoutes := auth.AuthSetup(db, validate, userRepo)
 	moduleRoutes := module.ModuleSetup(db, validate)
 	categoryRoutes := category.CategorySetup(db, validate, cloudinary)
 	faqsRoutes := faqs.FaqsSetup(db, validate)
 	courseRoutes := course.CourseSetup(db, validate, cloudinary)
+	profileRoutes := profile.ProfileSetup(db, validate, e, cloudinary)
 	quizzesRoutes := quizzes.QuizzesSetup(db, validate)
 	questionsRoutes := questions.QuestionsSetup(db, validate)
 	optionsRoutes := options.OptionsSetup(db, validate)
@@ -48,5 +50,6 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	faqsRoutes.FaqsMobile(apiGroupMobile)
 	coursesGroup = courseRoutes.CourseMobile(apiGroupMobile)
 	moduleRoutes.ModuleMobile(apiGroupMobile)
+	profileRoutes.ProfileMobile(apiGroupMobile)
 	quizzesRoutes.QuizzesMobile(coursesGroup)
 }
