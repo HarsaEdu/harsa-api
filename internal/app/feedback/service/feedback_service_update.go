@@ -13,11 +13,24 @@ func (feedbackService *FeedbackServiceImpl) Update(request web.FeedbackUpdateReq
 	if err != nil {
 		return err
 	}
+
+	IfExist, _ := feedbackService.FeedbackRepository.GetById(id)
+	if IfExist == nil {
+		return fmt.Errorf("feedback not found")
+	}
+
 	feedback := conversionRequest.FeedbackUpdateRequestToCategoriesModel(request)
 
 	err = feedbackService.FeedbackRepository.Update(id, feedback)
 	if err != nil {
 		return fmt.Errorf("error when updating : %s", err.Error())
+	}
+
+	if IfExist.Rating != feedback.Rating {
+		err = feedbackService.FeedbackRepository.AutoUpdateRating(IfExist.CourseID)
+		if err != nil {
+			return fmt.Errorf("error when update rating %s", err.Error())
+		}
 	}
 
 	return nil

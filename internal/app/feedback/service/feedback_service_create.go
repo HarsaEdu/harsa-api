@@ -20,6 +20,11 @@ func (feedbackService *FeedbackServiceImpl) Create(request web.FeedbackCreateReq
 		return fmt.Errorf("error when creating feedback %s", err.Error())
 	}
 
+	err = feedbackService.FeedbackRepository.AutoUpdateRating(feedback.CourseID)
+	if err != nil {
+		return fmt.Errorf("error when update rating %s", err.Error())
+	}
+
 	return nil
 
 }

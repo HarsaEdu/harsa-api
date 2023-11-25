@@ -5,13 +5,13 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func CourseDomainToCourseGetAllResponse(courseDomain []domain.Course) []web.GetCourseResponse {
+func CourseDomainToCourseGetAllResponse(courseDomain []domain.CourseEntity) []web.GetCourseResponse {
 	var courseGetAllResponse []web.GetCourseResponse
 
 	for _, course := range courseDomain {
 
-		if course.Category.ID != 0 {
-			name := course.User.FirstName + " " + course.User.LastName
+		if course.CategoryID != 0 {
+			name := course.FirstName + " " + course.LastName
 			courseGetAllResponse = append(courseGetAllResponse, web.GetCourseResponse{
 				ID:          course.ID,
 				Title:       course.Title,
@@ -22,13 +22,13 @@ func CourseDomainToCourseGetAllResponse(courseDomain []domain.Course) []web.GetC
 				CreatedAt:   course.CreatedAt,
 				UpdatedAt:   course.UpdatedAt,
 				Category: &web.CategoryForCourseResponse{
-					ID:   course.Category.ID,
-					Name: course.Category.Name,
+					ID:   course.CategoryID,
+					Name: course.CategoryName,
 				},
 				User: &web.UserForCourseResponse{
-					ID:    course.User.ID,
+					ID:    course.UserID,
 					Name: name,
-					Role: course.User.User.Role.Name,
+					Role: course.RoleName,
 				},
 			})
 		}
@@ -37,46 +37,48 @@ func CourseDomainToCourseGetAllResponse(courseDomain []domain.Course) []web.GetC
 	return courseGetAllResponse
 }
 
-func CourseDomainToCourseGetByIdResponse(courseDomain *domain.Course) *web.GetCourseResponse {
-	name := courseDomain.User.FirstName + " " + courseDomain.User.LastName
-	courseGetResponse := &web.GetCourseResponse{
+func CourseDomainToCourseGetByIdResponse(courseDomain *domain.CourseEntity, module int64) *web.GetCourseResponseById {
+	name := courseDomain.FirstName + " " + courseDomain.LastName
+	courseGetResponse := &web.GetCourseResponseById{
 		ID:          courseDomain.ID,
 		Title:       courseDomain.Title,
 		Description: courseDomain.Description,
 		ImageUrl:    courseDomain.ImageUrl,
 		Enrolled:    courseDomain.Enrolled,
 		Rating:      courseDomain.Rating,
+		TotalModules: module,
 		CreatedAt:   courseDomain.CreatedAt,
 		UpdatedAt:   courseDomain.UpdatedAt,
 		Category: &web.CategoryForCourseResponse{
-			ID:   courseDomain.Category.ID,
-			Name: courseDomain.Category.Name,
+			ID:   courseDomain.CategoryID,
+			Name: courseDomain.CategoryName,
 		},
 		User: &web.UserForCourseResponse{
-			ID:    courseDomain.User.ID,
+			ID:    courseDomain.UserID,
 			Name: name,
-			Role: courseDomain.User.User.Role.Name,
+			Role: courseDomain.RoleName,
 		},
 	}
 
-	for _, module := range courseDomain.Modules {
-		courseGetResponse.Modules = append(courseGetResponse.Modules, &web.ModulesForCourseResponse{
-			ID:          module.ID,
-			Title:       module.Title,
-			Order: module.Order,
-			Type: module.Type,
-			SubModules: []*web.SubModulesForModuleForCourseResponse{}, // Initialize an empty slice,
-		})
+	// for _, module := range courseDomain.Modules {
+	// 	courseGetResponse.Modules = append(courseGetResponse.Modules, &web.ModulesForCourseResponse{
+	// 		ID:          module.ID,
+	// 		Title:       module.Title,
+	// 		Order: module.Order,
+	// 		Type: module.Type,
+	// 		SubModules: []*web.SubModulesForModuleForCourseResponse{}, // Initialize an empty slice,
+	// 	})
 
-		for _, subModule := range module.SubModules {
-			courseGetResponse.Modules[len(courseGetResponse.Modules)-1].SubModules = append(courseGetResponse.Modules[len(courseGetResponse.Modules)-1].SubModules,
-			&web.SubModulesForModuleForCourseResponse{
-				ID: subModule.ID,
-				Title: subModule.Title,
-				Type: subModule.Type,
-			})
-		}
+	// 	for _, subModule := range module.SubModules {
+	// 		courseGetResponse.Modules[len(courseGetResponse.Modules)-1].SubModules = append(courseGetResponse.Modules[len(courseGetResponse.Modules)-1].SubModules,
+	// 		&web.SubModulesForModuleForCourseResponse{
+	// 			ID: subModule.ID,
+	// 			Title: subModule.Title,
+	// 			Type: subModule.Type,
+	// 		})
+	// 	}
 		
-	}
+	// }
+	
 	return courseGetResponse
 }
