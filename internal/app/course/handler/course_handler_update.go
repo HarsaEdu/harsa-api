@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -12,10 +13,17 @@ import (
 
 func (courseHandler *CourseHandlerImpl) Update(ctx echo.Context) error {
 	idParam := ctx.Param("id")
+	
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)
+		return res.StatusBadRequest(ctx, "invalid course id", err)
 	}
+
+	user_id := ctx.Get("user_id").(uint)
+
+	roleInterface := ctx.Get("role_name")
+
+	roleString := fmt.Sprintf("%s", roleInterface)
 
 	request := web.CourseUpdateRequest{}
 	err = ctx.Bind(&request)
@@ -23,7 +31,7 @@ func (courseHandler *CourseHandlerImpl) Update(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind request: ", err)
 	}
 
-	err = courseHandler.CourseService.Update(uint(id), &request)
+	err = courseHandler.CourseService.Update(uint(id), uint(user_id), roleString, &request)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

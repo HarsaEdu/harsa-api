@@ -2,11 +2,11 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search string) ([]domain.Course, int64, error) {
+func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search string, category string) ([]domain.Course, int64, error) {
 	var courses []domain.Course
 	var count int64
 
-	query := courseRepository.DB.Preload("User.Role").Preload("Category")
+	query := courseRepository.DB.Preload("User.User.Role").Preload("Category", "name LIKE ?", "%"+category+"%" )
 
 	if search != "" {
 		searchQuery := "%" + search + "%"
@@ -22,7 +22,7 @@ func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search s
 		return nil, 0, result.Error
 	}
 
-	if count == 0 {
+	if offset >= int(count) {
 		return nil, 0, nil
 	}
 

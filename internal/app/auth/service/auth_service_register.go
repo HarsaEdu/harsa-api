@@ -7,12 +7,11 @@ import (
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	conversionResponse "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
-	"github.com/labstack/echo/v4"
 )
 
-func (authService *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.RegisterUserRequest) (*web.AuthResponse, error) {
+func (authService *AuthServiceImpl) RegisterUser(userRequest web.RegisterUserRequest) (*web.AuthResponse, error) {
 	// validate the request
-	err := authService.Validate.Struct(r)
+	err := authService.Validate.Struct(userRequest)
 
 	// check errors when validate the request
 	if err != nil {
@@ -20,13 +19,13 @@ func (authService *AuthServiceImpl) RegisterUser(ctx echo.Context, r web.Registe
 	}
 
 	// check available username and email
-	existingUser, _ := authService.UserRepository.UserAvailable(r.Username, r.Email)
+	existingUser, _ := authService.UserRepository.UserAvailable(userRequest.Username, userRequest.Email)
 	if existingUser != nil {
 		return nil, fmt.Errorf("already exist")
 	}
 
 	// convert request to model
-	user := conversionRequest.RegisterUserRequestToUserModel(r)
+	user := conversionRequest.RegisterUserRequestToUserModel(userRequest)
 
 	// hash password
 	user.Password = password.HashPassword(user.Password)
