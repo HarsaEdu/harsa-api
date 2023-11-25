@@ -7,6 +7,8 @@ import (
 
 func FeedbackCreateRequestToCategoriesModel(request web.FeedbackCreateRequest) *domain.Feedback {
 	return &domain.Feedback{
+		UserID:  request.UserID,
+		CourseID: request.CourseID,
 		Rating:  request.Rating,
 		Content: request.Content,
 	}
