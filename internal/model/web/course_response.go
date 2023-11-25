@@ -42,5 +42,4 @@ type GetCourseResponse struct {
 	UpdatedAt   time.Time                  `json:"updated_at"`
 	User        *UserForCourseResponse      `json:"user"`
 	Category    *CategoryForCourseResponse  `json:"category"`
-	Modules     []*ModulesForCourseResponse `json:"modules"`
 }
