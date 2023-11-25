@@ -11,8 +11,9 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/app"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
 	"github.com/HarsaEdu/harsa-api/web"
-  
+
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -37,10 +38,13 @@ func main() {
 	// Create an validator instance
 	validate := validator.New()
 
+	// Create an Openai instance
+	openAi := openai.NewOpenAi(&config.OpenAI)
+
 	// Create an Echo instance
 	e := echo.New()
 
-	app.InitApp(db, validate, cloudinaryUploader, e)
+	app.InitApp(db, validate, cloudinaryUploader, e, openAi)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {

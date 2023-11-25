@@ -3,27 +3,26 @@ package app
 import (
 	auth "github.com/HarsaEdu/harsa-api/internal/app/auth"
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
+	"github.com/HarsaEdu/harsa-api/internal/app/chatbot"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
 	feedback "github.com/HarsaEdu/harsa-api/internal/app/feedback"
-	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
 	module "github.com/HarsaEdu/harsa-api/internal/app/module"
-	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
-	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
-	user "github.com/HarsaEdu/harsa-api/internal/app/user"
-	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
 	options "github.com/HarsaEdu/harsa-api/internal/app/options"
+	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
 	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
+	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo) {
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi) {
 
 	userRoutes, userRepo := user.UserSetup(db, validate)
 	authRoutes := auth.AuthSetup(db, validate, userRepo)
@@ -38,6 +37,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	questionsRoutes := questions.QuestionsSetup(db, validate)
 	optionsRoutes := options.OptionsSetup(db, validate)
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
+	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
@@ -67,4 +67,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	quizzesRoutes.QuizzesMobile(coursesGroup)
 	feedbackRoutes.FeedbackMobile(apiGroupMobile)
 	interestRoutes.MobileInterest(apiGroupMobile)
+	chatbotRoutes.ChatbotMobile(apiGroupMobile)
 }
