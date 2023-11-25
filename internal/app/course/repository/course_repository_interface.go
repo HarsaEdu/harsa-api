@@ -7,8 +7,8 @@ import (
 
 type CourseRepository interface {
 	Create(course *domain.Course) error
-	GetAll(offset, limit int, search string, category string) ([]domain.Course, int64, error)
-	GetById(id uint) (*domain.Course, error)
+	GetAll(offset, limit int, search string, category string) ([]domain.CourseEntity, int64, error)
+	GetById(id uint) (*domain.CourseEntity, error)
 	Update(id uint, course *domain.Course) error
 	UpdateImage(course *domain.Course) error
 	Delete(course *domain.Course) error
