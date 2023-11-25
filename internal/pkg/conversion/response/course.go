@@ -37,15 +37,16 @@ func CourseDomainToCourseGetAllResponse(courseDomain []domain.CourseEntity) []we
 	return courseGetAllResponse
 }
 
-func CourseDomainToCourseGetByIdResponse(courseDomain *domain.CourseEntity) *web.GetCourseResponse {
+func CourseDomainToCourseGetByIdResponse(courseDomain *domain.CourseEntity, module int64) *web.GetCourseResponseById {
 	name := courseDomain.FirstName + " " + courseDomain.LastName
-	courseGetResponse := &web.GetCourseResponse{
+	courseGetResponse := &web.GetCourseResponseById{
 		ID:          courseDomain.ID,
 		Title:       courseDomain.Title,
 		Description: courseDomain.Description,
 		ImageUrl:    courseDomain.ImageUrl,
 		Enrolled:    courseDomain.Enrolled,
 		Rating:      courseDomain.Rating,
+		TotalModules: module,
 		CreatedAt:   courseDomain.CreatedAt,
 		UpdatedAt:   courseDomain.UpdatedAt,
 		Category: &web.CategoryForCourseResponse{
