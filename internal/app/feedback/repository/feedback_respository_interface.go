@@ -11,6 +11,7 @@ type FeedbackRepository interface {
 	GetById(id int) (*domain.Feedback, error)
 	Update(id int, feedback *domain.Feedback) error
 	Delete(id int) error
+	AutoUpdateRating(courseId uint) error
 }
 
 type FeedbackRepositoryImpl struct {
