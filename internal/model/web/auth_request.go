@@ -12,5 +12,5 @@ type LoginUserRequest struct {
 	Password string `json:"password"`
 }
 type AccessTokenRequest struct {
-	RefreshToken string `json:"refresh_token" validate:"required`
+	RefreshToken string `json:"refresh_token" validate:"required"`
 }

@@ -16,7 +16,13 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind course request", err)
 	}
 
-	instructorId := ctx.Get("user_id").(uint)
+	var instructorId uint
+
+	if courseCreateRequest.UserId == 0 {
+		instructorId = ctx.Get("user_id").(uint)
+	}
+
+	instructorId = courseCreateRequest.UserId
 
 	err = courseHandler.CourseService.Create(ctx, &courseCreateRequest, instructorId)
 	if err != nil {

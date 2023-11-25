@@ -6,7 +6,6 @@ import (
 )
 
 type ProfileRoutes interface {
-	ProfileWeb(apiGroup *echo.Group)
 	ProfileMobile(apiGroup *echo.Group)
 }
 

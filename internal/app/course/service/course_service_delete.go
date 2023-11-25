@@ -2,16 +2,17 @@ package service
 
 import "fmt"
 
-func (courseService *CourseServiceImpl) Delete(id uint) error {
+func (courseService *CourseServiceImpl) Delete(id uint, userId uint, role string) error {
 
-	IfExist, _ := courseService.CourseRepository.GetById(id)
-	if IfExist == nil {
-		return fmt.Errorf("course not found")
+	courseExist, err := courseService.CourseRepository.CekIdFromCourse(userId, id, role)
+	if err != nil { 
+		return fmt.Errorf("error when cek id user in course delete : %s", err.Error())
 	}
-	err := courseService.CourseRepository.Delete(id)
+
+	err = courseService.CourseRepository.Delete(courseExist)
 
 	if err != nil {
-		return fmt.Errorf("error when deleting : %s", err)
+		return fmt.Errorf("error when deleting : %s", err.Error())
 	}
 
 	return nil

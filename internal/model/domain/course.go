@@ -18,7 +18,7 @@ type Course struct {
 	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"delete_at"`
 	CategoryID  uint           `gorm:"type:int" json:"category_id"`
-	User        User           `gorm:"foreignKey:UserID;references:ID"`
+	User        UserProfile    `gorm:"foreignKey:UserID;references:UserID"`
 	Category    Category       `gorm:"foreignKey:CategoryID;references:ID"`
-	Modules     []*Module       `gorm:"foreignKey:CourseID;references:ID"`
+	Modules     []*Module      `gorm:"foreignKey:CourseID;references:ID"`
 }
