@@ -14,21 +14,22 @@ func (feedbackHandler *FeedbackHandlerImpl) GetAll(ctx echo.Context) error {
 	courseid, err := strconv.Atoi(params.Get("course_id"))
 
 	if err != nil {
-		return res.StatusBadRequest(ctx, "params offset not valid", err)
+		return res.StatusBadRequest(ctx, "params course not valid", err)
 	}
-	pagesize, err := strconv.Atoi(params.Get("pagesize"))
+
+	limit, err := strconv.Atoi(params.Get("limit"))
 
 	if err != nil {
 		return res.StatusBadRequest(ctx, "params limit not valid", err)
 	}
 
-	page, err := strconv.Atoi(params.Get("page"))
+	offset, err := strconv.Atoi(params.Get("offset"))
 
 	if err != nil {
 		return res.StatusBadRequest(ctx, "params offset not valid", err)
 	}
 
-	response, pagination, err := feedbackHandler.FeedbackService.GetAll(courseid, page, pagesize)
+	response, pagination, err := feedbackHandler.FeedbackService.GetAll(courseid, offset, limit)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
