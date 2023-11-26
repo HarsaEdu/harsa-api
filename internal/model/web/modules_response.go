@@ -15,6 +15,12 @@ type SubModuleResponseModule struct {
 	Type        domain.SubModuleType  `json:"type"`
 }
 
+type SubModuleResponseModuleMobile struct {
+	ID          uint                  `json:"id"`
+	Title       string                `json:"title"`
+	Type        domain.SubModuleType  `json:"type"`
+}
+
 type ModuleResponse struct {
 	ID          uint           `json:"id"`
 	CourseID    uint           `json:"course_id"`
@@ -28,4 +34,19 @@ type ModuleResponse struct {
 	SubModules  []SubModuleResponseModule `json:"sub_modules"`
 	Submissions []SubmissionsResponseModule  `json:"submissions"`
 	Quizzes 	[]QuizResponseModule 	   `json:"quizzes"`
+}
+
+type ModuleResponseMobile struct {
+	ID          uint           `json:"id"`
+	CourseID    uint           `json:"course_id"`
+	Section     string         `json:"section"`
+	Title       string         `json:"title"`
+	Description string         `json:"description"`
+	Order       int            `json:"order"`
+	Type        string         `json:"type"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
+	SubModules  []SubModuleResponseModuleMobile `json:"sub_modules"`
+	Submissions []SubmissionsResponseModuleMobile  `json:"submissions"`
+	Quizzes 	[]QuizResponseModuleMobile 	   `json:"quizzes"`
 }

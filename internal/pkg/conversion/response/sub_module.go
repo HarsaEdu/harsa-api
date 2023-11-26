@@ -26,3 +26,23 @@ func ConvertAllSubModuleModule(subModule []*domain.SubModule) []web.SubModuleRes
 
 	return subModuleRes
 }
+
+func ConvertSubModuleResponseModuleMobile(subModule *domain.SubModule) *web.SubModuleResponseModuleMobile{
+	subModuleRes := web.SubModuleResponseModuleMobile{
+		ID:            subModule.ID,
+		Title:         subModule.Title,
+		Type:          subModule.Type,
+	}
+	return &subModuleRes
+}
+
+func ConvertAllSubModuleModuleMobile(subModule []*domain.SubModule) []web.SubModuleResponseModuleMobile {
+
+	var subModuleRes []web.SubModuleResponseModuleMobile
+
+	for i := range subModule {
+		subModuleRes = append(subModuleRes, *ConvertSubModuleResponseModuleMobile(subModule[i]))
+	}
+
+	return subModuleRes
+}

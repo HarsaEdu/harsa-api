@@ -28,3 +28,8 @@ type QuizResponseModule struct {
 	Description string    `json:"description"`
 	Durations   int       `json:"duration"`
 }
+
+type QuizResponseModuleMobile struct {
+	Id          uint      `json:"id"`
+	Title       string    `json:"title"`
+}

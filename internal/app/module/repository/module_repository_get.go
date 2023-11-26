@@ -57,3 +57,4 @@ func (moduleRepository *ModuleRepositoryImpl) GetByTypeAndId(id uint, modulType 
 
 	return &module, nil
 }
+
