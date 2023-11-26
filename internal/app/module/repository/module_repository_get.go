@@ -6,7 +6,7 @@ func (moduleRepository *ModuleRepositoryImpl) GetAllByCourseId(offset, limit int
 	var modules []domain.Module
 	var total int64
 
-	query := moduleRepository.DB.Preload("SubModules").Where("course_id = ?", courseId)
+	query := moduleRepository.DB.Preload("SubModules").Preload("Quizzes").Preload("Submissions").Where("course_id = ?", courseId)
 
 	if search != "" {
 		query = query.Where("title LIKE ?", "%"+search+"%")
