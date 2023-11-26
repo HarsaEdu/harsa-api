@@ -28,3 +28,22 @@ type UserProfile struct {
 	UpdatedAt   time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 	User        User      `gorm:"foreignKey:UserID;references:ID"`
 }
+
+type ProfileDetail struct {
+	UserID        uint      `json:"user_id"`
+	UserProfileID uint      `json:"user_profile_id"`
+	ImageUrl      string    `json:"image_url" form:"image"`
+	RoleID        uint      `json:"role_id"`
+	RoleName      string    `json:"role_name"`
+	Email         string    `json:"email"`
+	Username      string    `json:"username"`
+	FirstName     string    `json:"first_name"`
+	LastName      string    `json:"last_name"`
+	PhoneNumber   string    `json:"phone_number"`
+	DateBirth     time.Time `json:"date_birth"`
+	Bio           string    `json:"bio"`
+	Gender        Gender    `json:"gender"`
+	City          string    `json:"city"`
+	Address       string    `json:"address"`
+	Job           string    `json:"job"`
+}
