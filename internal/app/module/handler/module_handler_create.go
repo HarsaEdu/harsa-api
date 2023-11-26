@@ -24,7 +24,7 @@ func (moduleHandler ModuleHandlerImpl) Create(ctx echo.Context) error {
 
 	roleString := fmt.Sprintf("%s", roleInterface)
 
-	moduleCreateRequest := web.ModuleCreateRequest{}
+	moduleCreateRequest := web.ModuleRequest{}
 	err = ctx.Bind(&moduleCreateRequest)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "data request invalid", err)

@@ -9,7 +9,7 @@ import (
 )
 
 type ModuleService interface {
-	Create(ctx echo.Context, request *web.ModuleCreateRequest, courseId uint, userId uint, role string) error
+	Create(ctx echo.Context, request *web.ModuleRequest, courseId uint, userId uint, role string) error
 	GetAllByCourseId(offset, limit int, search string, courseId uint) ([]domain.Module, *web.Pagination, error)
 	// GetById(id uint) (*web.GetModuleResponse, error)
 	// Update(id uint, request *web.ModuleUpdateRequest) error

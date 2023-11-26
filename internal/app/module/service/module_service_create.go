@@ -8,12 +8,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (moduleService *ModuleServiceImpl) Create(ctx echo.Context, request *web.ModuleCreateRequest, courseId uint, userId uint, role string) error {
+func (moduleService *ModuleServiceImpl) Create(ctx echo.Context, request *web.ModuleRequest, courseId uint, userId uint, role string) error {
 	
 	err := moduleService.ModuleRepository.CekIdFromCourse(userId, courseId, role)
 	if err != nil { 
 		return fmt.Errorf("error when cek id user from course :%s", err.Error())
 	}
+
+	request.CourseID = courseId
 
 	err = moduleService.Validate.Struct(request)
 	if err != nil {
@@ -30,7 +32,7 @@ func (moduleService *ModuleServiceImpl) Create(ctx echo.Context, request *web.Mo
 		return fmt.Errorf("module order already exists")
 	}
 
-	module := conversion.ModuleCreateRequestToModuleDomain(request, courseId)
+	module := conversion.ModuleRequestToModuleDomain(request)
 
 	err = moduleService.ModuleRepository.Create(module)
 	if err != nil {
