@@ -11,4 +11,5 @@ func (profileRoutes *ProfileRoutesImpl) ProfileMobile(apiGroup *echo.Group) {
 	profilesGroup.POST("", profileRoutes.ProfileHandler.CreateProfile, middleware.AllUserMiddleare)
 	profilesGroup.GET("/:profile_id", profileRoutes.ProfileHandler.GetProfileByID, middleware.AdminMiddleware)
 	profilesGroup.PUT("/:profile_id", profileRoutes.ProfileHandler.UpdateProfile, middleware.AllUserMiddleare)
+	profilesGroup.GET("/myprofile", profileRoutes.ProfileHandler.MyProfile, middleware.AllUserMiddleare)
 }
