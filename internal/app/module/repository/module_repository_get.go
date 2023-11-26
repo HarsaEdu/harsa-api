@@ -58,3 +58,13 @@ func (moduleRepository *ModuleRepositoryImpl) GetByTypeAndId(id uint, modulType 
 	return &module, nil
 }
 
+func (moduleRepository *ModuleRepositoryImpl) GetById(id uint) (*domain.Module, error) {
+	module := domain.Module{}
+	result := moduleRepository.DB.Preload("SubModules").Preload("Quizzes").Preload("Submissions").First(&module, id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &module, nil
+}
+
