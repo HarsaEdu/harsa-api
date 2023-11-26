@@ -8,8 +8,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (moduleService *ModuleServiceImpl) Create(ctx echo.Context, request *web.ModuleCreateRequest, courseId uint) error {
-	err := moduleService.Validate.Struct(request)
+func (moduleService *ModuleServiceImpl) Create(ctx echo.Context, request *web.ModuleCreateRequest, courseId uint, userId uint, role string) error {
+	
+	err := moduleService.ModuleRepository.CekIdFromCourse(userId, courseId, role)
+	if err != nil { 
+		return fmt.Errorf("error when cek id user from course :%s", err.Error())
+	}
+
+	err = moduleService.Validate.Struct(request)
 	if err != nil {
 		return err
 	}
