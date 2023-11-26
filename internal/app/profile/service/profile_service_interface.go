@@ -11,7 +11,7 @@ import (
 
 type ProfileService interface {
 	CreateProfile(ctx echo.Context, profile *web.CreateProfileRequest, userID uint) error
-	GetProfileByID(id uint) (*web.GetProfileResponse, error)
+	GetProfileByID(request *web.UserGetByIDRequest) (*domain.ProfileDetail, error)
 	UpdateProfile(ctx echo.Context, profile *web.UpdateProfileRequest, id uint) error
 	MyProfile(request *web.UserGetByIDRequest) (*domain.UserDetail, error)
 }
