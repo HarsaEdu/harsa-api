@@ -5,7 +5,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func (service *ProfileServiceImpl) MyProfile(request *web.UserGetByIDRequest) (*domain.UserDetail, error) {
+func (service *ProfileServiceImpl) MyProfile(request *web.UserGetByIDRequest) (*domain.ProfileDetail, error) {
 	err := service.Validator.Struct(request)
 	if err != nil {
 		return nil, err

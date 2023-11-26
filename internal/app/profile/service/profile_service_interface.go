@@ -13,7 +13,7 @@ type ProfileService interface {
 	CreateProfile(ctx echo.Context, profile *web.CreateProfileRequest, userID uint) error
 	GetProfileByID(request *web.UserGetByIDRequest) (*domain.ProfileDetail, error)
 	UpdateProfile(ctx echo.Context, profile *web.UpdateProfileRequest, id uint) error
-	MyProfile(request *web.UserGetByIDRequest) (*domain.UserDetail, error)
+	MyProfile(request *web.UserGetByIDRequest) (*domain.ProfileDetail, error)
 }
 
 type ProfileServiceImpl struct {
