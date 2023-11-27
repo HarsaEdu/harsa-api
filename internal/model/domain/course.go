@@ -20,8 +20,8 @@ type Course struct {
 	CategoryID         uint           `gorm:"type:int" json:"category_id"`
 	User               User           `gorm:"foreignKey:UserID;references:ID"`
 	Category           Category       `gorm:"foreignKey:CategoryID;references:ID"`
-	Modules            []*Module      `gorm:"foreignKey:CourseID;references:ID"`
-	Feedback           []*Feedback    `gorm:"foreignKey:CourseID;references:ID"`
+	Modules            []Module      `gorm:"foreignKey:CourseID;references:ID"`
+	Feedback           []Feedback    `gorm:"foreignKey:CourseID;references:ID"`
 }
 
 type CourseEntity struct {

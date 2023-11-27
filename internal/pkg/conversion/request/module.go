@@ -15,25 +15,25 @@ func SubModuleCreateRequestToSubModuleDomain(request *web.SubModuleCreateRequest
 	}
 }
 
-func ModuleCreateRequestToModuleDomain(request *web.ModuleCreateRequest, courseId uint) *domain.Module {
-	var subModules []*domain.SubModule
+	// func ModuleCreateRequestToModuleDomain(request *web.ModuleCreateRequest, courseId uint) *domain.Module {
+	// 	var subModules []*domain.SubModule
 
-	module := &domain.Module{
-		CourseID:    courseId,
-		Title:       request.Title,
-		Description: request.Description,
-		Type:        request.Type,
-		Order:       request.Order,
-	}
+	// 	module := &domain.Module{
+	// 		CourseID:    courseId,
+	// 		Title:       request.Title,
+	// 		Description: request.Description,
+	// 		Type:        request.Type,
+	// 		Order:       request.Order,
+	// 	}
 
-	for _, subModule := range request.SubModules {
-		subModules = append(subModules, SubModuleCreateRequestToSubModuleDomain(&subModule, module.ID))
-	}
+	// 	for _, subModule := range request.SubModules {
+	// 		subModules = append(subModules, SubModuleCreateRequestToSubModuleDomain(&subModule, module.ID))
+	// 	}
 
-	module.SubModules = subModules
+	// 	module.SubModules = subModules
 
-	return module
-}
+	// 	return module
+	// }
 
 func ModuleRequestToModuleDomain(request *web.ModuleRequest) *domain.Module {
 	module := &domain.Module{

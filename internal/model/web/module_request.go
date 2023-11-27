@@ -24,5 +24,5 @@ type ModuleRequest struct {
 	Description string `json:"description" validate:"required"`
 	Type        string `json:"type" validate:"required"`
 	Order       int    `json:"order" validate:"required,min=1"`
-	SubModules  []*domain.SubModule `json:"sub_modules"`
+	SubModules  []domain.SubModule `json:"sub_modules"`
 }
