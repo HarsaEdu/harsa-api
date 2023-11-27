@@ -21,6 +21,7 @@ type Course struct {
 	User               User           `gorm:"foreignKey:UserID;references:ID"`
 	Category           Category       `gorm:"foreignKey:CategoryID;references:ID"`
 	Modules            []*Module      `gorm:"foreignKey:CourseID;references:ID"`
+	Feedback           []*Feedback    `gorm:"foreignKey:CourseID;references:ID"`
 }
 
 type CourseEntity struct {
@@ -29,7 +30,7 @@ type CourseEntity struct {
 	Title              string         `json:"title"`
 	Description        string         `json:"description"`
 	Enrolled           int            `json:"enrolled"`
-	Rating             float32           `json:"rating"`
+	Rating             float32        `json:"rating"`
 	ImageUrl           string         `json:"image_url"`
 	CategoryID         uint           `json:"category_id"`
 	CategoryName       string         `json:"category_name"`
