@@ -11,12 +11,6 @@ import (
 
 func (feedbackHandler *FeedbackHandlerImpl) GetAll(ctx echo.Context) error {
 	params := ctx.QueryParams()
-	courseid, err := strconv.Atoi(params.Get("course_id"))
-
-	if err != nil {
-		return res.StatusBadRequest(ctx, "params course not valid", err)
-	}
-
 	limit, err := strconv.Atoi(params.Get("limit"))
 
 	if err != nil {
@@ -29,7 +23,7 @@ func (feedbackHandler *FeedbackHandlerImpl) GetAll(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "params offset not valid", err)
 	}
 
-	response, pagination, err := feedbackHandler.FeedbackService.GetAll(courseid, offset, limit)
+	response, pagination, err := feedbackHandler.FeedbackService.GetAll(offset, limit, params.Get("search"))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
@@ -40,6 +34,6 @@ func (feedbackHandler *FeedbackHandlerImpl) GetAll(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to get all feedback, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success get feedback", response, pagination)
+	return res.StatusOK(ctx, "success get feedbacks", response, pagination)
 
 }
