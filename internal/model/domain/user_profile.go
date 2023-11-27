@@ -26,5 +26,4 @@ type UserProfile struct {
 	Job         string    `gorm:"type:varchar(255)" json:"job" form:"job"`
 	CreatedAt   time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time `gorm:"autoUpdateTime" json:"updated_at"`
-	User        User      `gorm:"foreignKey:UserID;references:ID"`
 }
