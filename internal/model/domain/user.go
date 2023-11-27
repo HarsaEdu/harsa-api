@@ -17,6 +17,7 @@ type User struct {
 	UpdatedAt         time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt         gorm.DeletedAt `json:"delete_at"`
 	Role              Role           `gorm:"foreignKey:RoleID;references:ID"`
+	UserProfile       UserProfile    
 }
 type UserEntity struct {
 	ID          uint   `json:"id"`
