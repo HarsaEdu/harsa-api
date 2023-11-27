@@ -65,3 +65,43 @@ func ConvertAllQuiz(Quizzes []domain.Quizzes) []web.GetAllQuizResponse {
 
 	return quizRes
 }
+
+func ConvertQuizResponseModule(quiz *domain.Quizzes) *web.QuizResponseModule{
+	quizRes := web.QuizResponseModule{
+		Id:          quiz.ID,
+		Durations:   quiz.Durations,
+		Title:       quiz.Title,
+		Description: quiz.Description,
+	}
+	return &quizRes
+}
+
+func ConvertAllQuizModule(Quizzes []domain.Quizzes) []web.QuizResponseModule {
+
+	var quizRes []web.QuizResponseModule
+
+	for i := range Quizzes {
+		quizRes = append(quizRes, *ConvertQuizResponseModule(&Quizzes[i]))
+	}
+
+	return quizRes
+}
+
+func ConvertQuizResponseModuleMobile(quiz *domain.Quizzes) *web.QuizResponseModuleMobile{
+	quizRes := web.QuizResponseModuleMobile{
+		Id:          quiz.ID,
+		Title:       quiz.Title,
+	}
+	return &quizRes
+}
+
+func ConvertAllQuizModuleMobile(Quizzes []domain.Quizzes) []web.QuizResponseModuleMobile {
+
+	var quizRes []web.QuizResponseModuleMobile
+
+	for i := range Quizzes {
+		quizRes = append(quizRes, *ConvertQuizResponseModuleMobile(&Quizzes[i]))
+	}
+
+	return quizRes
+}
