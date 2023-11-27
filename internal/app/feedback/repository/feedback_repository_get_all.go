@@ -15,7 +15,7 @@ func (feedbackRepository *FeedbackRepositoryImpl) GetAll(offset, limit int, sear
 
 	if search != "" {
 		s := "%" + search + "%"
-		query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+		query = query.Where("rating LIKE ?", s)
 	}
 
 	query.Find(&feedback).Count(&total)
