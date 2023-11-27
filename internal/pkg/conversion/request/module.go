@@ -34,3 +34,17 @@ func ModuleCreateRequestToModuleDomain(request *web.ModuleCreateRequest, courseI
 
 	return module
 }
+
+func ModuleRequestToModuleDomain(request *web.ModuleRequest) *domain.Module {
+	module := &domain.Module{
+		CourseID:    request.CourseID,
+		Section:     request.Section,
+		Title:       request.Title,
+		Description: request.Description,
+		Type:        request.Type,
+		Order:       request.Order,
+		SubModules:  request.SubModules,
+	}
+
+	return module
+}

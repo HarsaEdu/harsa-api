@@ -50,7 +50,7 @@ type GetCourseResponseById struct {
 	Description string                     `json:"description"`
 	ImageUrl    string                     `json:"image_url"`
 	Enrolled    int                        `json:"enrolled"`
-	Rating      int                        `json:"rating"`
+	Rating      float32                        `json:"rating"`
 	TotalModules int64                        `json:"total_modules"`
 	CreatedAt   time.Time                  `json:"created_at"`
 	UpdatedAt   time.Time                  `json:"updated_at"`

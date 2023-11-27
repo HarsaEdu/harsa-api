@@ -19,6 +19,7 @@ const (
 type Module struct {
 	ID          uint           `gorm:"type:int;primarykey" json:"id"`
 	CourseID    uint           `gorm:"type:int" json:"course_id"`
+	Section      string         `gorm:"type:varchar(255)" json:"section"`
 	Title       string         `gorm:"type:varchar(255)" json:"title"`
 	Description string         `gorm:"type:varchar(255)" json:"description"`
 	Order       int            `gorm:"type:int" json:"order"`
@@ -27,6 +28,8 @@ type Module struct {
 	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"delete_at"`
 	SubModules  []*SubModule   `gorm:"foreignKey:ModuleID" json:"sub_modules"`
+	Submissions []Submissions  `gorm:"foreignKey:ModuleID" json:"submissions"`
+	Quizzes 	[]Quizzes 	   `gorm:"foreignKey:ModuleID" json:"quizzes"`
 }
 
 type SubModule struct {

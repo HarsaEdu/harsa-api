@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -17,13 +18,19 @@ func (moduleHandler ModuleHandlerImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to convert course id : ", err)
 	}
 
-	moduleCreateRequest := web.ModuleCreateRequest{}
+	id := ctx.Get("user_id").(uint)
+
+	roleInterface := ctx.Get("role_name")
+
+	roleString := fmt.Sprintf("%s", roleInterface)
+
+	moduleCreateRequest := web.ModuleRequest{}
 	err = ctx.Bind(&moduleCreateRequest)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "data request invalid", err)
 	}
 
-	err = moduleHandler.ModuleService.Create(ctx, &moduleCreateRequest, uint(courseId))
+	err = moduleHandler.ModuleService.Create(ctx, &moduleCreateRequest, uint(courseId), uint(id), roleString)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
