@@ -10,11 +10,11 @@ import (
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
 	module "github.com/HarsaEdu/harsa-api/internal/app/module"
 	options "github.com/HarsaEdu/harsa-api/internal/app/options"
+	"github.com/HarsaEdu/harsa-api/internal/app/payment"
 	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
 	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
-	"github.com/HarsaEdu/harsa-api/internal/app/subscription"
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
@@ -40,7 +40,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	optionsRoutes := options.OptionsSetup(db, validate)
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
-	subscriptionRoutes := subscription.SubscriptionSetup(validate, midtransCoreApi, userRepo, subsPlanRepo)
+	paymentRoutes := payment.PaymentSetup(validate, midtransCoreApi, userRepo, subsPlanRepo)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
@@ -71,5 +71,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	feedbackRoutes.FeedbackMobile(apiGroupMobile)
 	interestRoutes.MobileInterest(apiGroupMobile)
 	chatbotRoutes.ChatbotMobile(apiGroupMobile)
-	subscriptionRoutes.SubscriptionMobile(apiGroupMobile)
+	paymentRoutes.PaymentMobile(apiGroupMobile)
 }

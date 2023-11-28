@@ -9,19 +9,19 @@ import (
 	"github.com/midtrans/midtrans-go/coreapi"
 )
 
-type SubscriptionService interface {
-	Subscribe(request *web.CreateSubscribeRequest, userId uint) (*coreapi.ChargeResponse, error)
+type PaymentService interface {
+	CreatePayment(request *web.CreatePaymentRequest, userId uint) (*coreapi.ChargeResponse, error)
 }
 
-type SubscriptionServiceImpl struct {
+type PaymentServiceImpl struct {
 	SubsPlanRepository SubsPlanRepositoryPkg.SubsPlanRepository
 	UserRepository     UserRepositoryPkg.UserRepository
 	MidtransCoreApi    midtrans.MidtransCoreApi
 	Validate           *validator.Validate
 }
 
-func NewSubscriptionService(subsPlanRepository SubsPlanRepositoryPkg.SubsPlanRepository, userRepository UserRepositoryPkg.UserRepository, midtransCoreApi midtrans.MidtransCoreApi, validate *validator.Validate) SubscriptionService {
-	return &SubscriptionServiceImpl{
+func NewPaymentService(subsPlanRepository SubsPlanRepositoryPkg.SubsPlanRepository, userRepository UserRepositoryPkg.UserRepository, midtransCoreApi midtrans.MidtransCoreApi, validate *validator.Validate) PaymentService {
+	return &PaymentServiceImpl{
 		SubsPlanRepository: subsPlanRepository,
 		UserRepository:     userRepository,
 		MidtransCoreApi:    midtransCoreApi,
