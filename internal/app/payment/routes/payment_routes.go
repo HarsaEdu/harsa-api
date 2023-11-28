@@ -13,10 +13,11 @@ import (
 // 	return paymentsGroup
 // }
 
-func (paymentRoutes *PaymentRoutesImpl) PaymentMobile(apiGroup *echo.Group) *echo.Group {
+func (paymentRoutes *PaymentRoutesImpl) PaymentSubscriptionsMobile(apiGroup *echo.Group) *echo.Group {
 	paymentsGroup := apiGroup.Group("/payments")
+	subscriptionsGroup := paymentsGroup.Group("/subscriptions")
 
-	paymentsGroup.POST("", paymentRoutes.PaymentHandler.CreatePayment, middleware.StudentMiddleare)
+	subscriptionsGroup.POST("", paymentRoutes.PaymentHandler.CreatePaymentSubscription, middleware.StudentMiddleare)
 
-	return paymentsGroup
+	return subscriptionsGroup
 }
