@@ -27,6 +27,7 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) Create(enrolled *d
 
 		historyModule := domain.HistoryModule{
 				ModuleID: Module.ID,
+				UserID: enrolled.UserID,
 				CourseTrakingID: enrolled.ID,
 				Progress: 0,
 		}
@@ -39,6 +40,7 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) Create(enrolled *d
         for _, SubModule := range Module.SubModules {
 			historySubModule := domain.HistorySubModule{
                 SubModuleID: SubModule.ID,
+				UserID: enrolled.UserID,
                 HistoryModuleID: historyModule.ID,
                 IsComplete: false,
             }

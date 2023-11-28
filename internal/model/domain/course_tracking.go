@@ -29,6 +29,7 @@ type CourseTracking struct {
 
 type HistoryModule struct{
 	ID uint `gorm:"type:int;primarykey" json:"id"`
+	UserID uint `gorm:"type:int" json:"user_id"`
 	ModuleID uint `gorm:"type:int" json:"module_id"`
 	Module Module `gorm:"foreignKey:ModuleID;references:ID" json:"module"`
 	CourseTrakingID uint `gorm:"type:int" json:"course_traking_id"`
@@ -43,6 +44,7 @@ type HistoryModule struct{
 
 type HistorySubModule struct{
 	ID uint `gorm:"type:int;primarykey" json:"id"`
+	UserID uint `gorm:"type:int" json:"user_id"`
 	SubModuleID uint `gorm:"type:int" json:"sub_module_id"`
 	SubModule SubModule `gorm:"foreignKey:SubModuleID;references:ID" json:"sub_module"`
 	HistoryModuleID uint `gorm:"type:int" json:"history_module_id"`
