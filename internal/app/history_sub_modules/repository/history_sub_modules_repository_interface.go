@@ -11,7 +11,7 @@ import (
 //		UpdateHistorySubModule(request *web.UpdateHistorySubModuleRequest) error
 //	}
 type HistorySubModuleRepository interface {
-	// GetHistorySubModuleByUserID(userID uint) (*domain.HistorySubModule, error)
+	GetHistorySubModuleByUserID(userID uint) ([]domain.HistorySubModule, int64, error)
 	CreateHistorySubModule(request *domain.HistorySubModule) error
 	// UpdateHistorySubModule(request *domain.HistorySubModule) error
 }

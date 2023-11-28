@@ -9,4 +9,5 @@ func (routes *HistorySubModuleRoutesImpl) MobileHistorySubModule(apiGroup *echo.
 	historySubModule := apiGroup.Group("/users/course/module/sub_module")
 
 	historySubModule.POST("", routes.Handler.CreateHistoryModule, middleware.StudentMiddleare)
+	historySubModule.GET("", routes.Handler.GetHistoryModule, middleware.StudentMiddleare)
 }

@@ -7,6 +7,7 @@ import (
 
 type HistorySubModuleHandler interface {
 	CreateHistoryModule(ctx echo.Context) error
+	GetHistoryModule(ctx echo.Context) error
 }
 
 type HistorySubModuleHandlerImpl struct {
