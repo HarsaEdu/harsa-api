@@ -12,7 +12,7 @@ func (repository *QuizzesRepositoryImpl) Update(UpdateQuiz *domain.Quizzes, quiz
     quizExist.Questions = UpdateQuiz.Questions
 
 	if err := tx.Save(&quizExist).Error; err != nil {
-		repository.DB.Rollback()
+		tx.Rollback()
 		return err
 	}
 

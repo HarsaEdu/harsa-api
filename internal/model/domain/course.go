@@ -12,7 +12,7 @@ type Course struct {
 	Title              string         `gorm:"type:varchar(255)" json:"title"`
 	Description        string         `gorm:"type:text" json:"description"`
 	Enrolled           int            `gorm:"type:int" json:"enrolled"`
-	Rating             int            `gorm:"type:int" json:"rating"`
+	Rating             float32        `json:"rating"`
 	ImageUrl           string         `gorm:"type:varchar(255)" json:"image_url"`
 	CreatedAt          time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt          time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
@@ -20,7 +20,8 @@ type Course struct {
 	CategoryID         uint           `gorm:"type:int" json:"category_id"`
 	User               User           `gorm:"foreignKey:UserID;references:ID"`
 	Category           Category       `gorm:"foreignKey:CategoryID;references:ID"`
-	Modules            []*Module      `gorm:"foreignKey:CourseID;references:ID"`
+	Modules            []Module      `gorm:"foreignKey:CourseID;references:ID"`
+	Feedback           []Feedback    `gorm:"foreignKey:CourseID;references:ID"`
 }
 
 type CourseEntity struct {
@@ -29,7 +30,7 @@ type CourseEntity struct {
 	Title              string         `json:"title"`
 	Description        string         `json:"description"`
 	Enrolled           int            `json:"enrolled"`
-	Rating             int            `json:"rating"`
+	Rating             float32        `json:"rating"`
 	ImageUrl           string         `json:"image_url"`
 	CategoryID         uint           `json:"category_id"`
 	CategoryName       string         `json:"category_name"`

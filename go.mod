@@ -13,6 +13,8 @@ require (
 	gorm.io/gorm v1.25.5
 )
 
+require github.com/midtrans/midtrans-go v1.3.7 // indirect
+
 require (
 	github.com/creasty/defaults v1.5.1 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
