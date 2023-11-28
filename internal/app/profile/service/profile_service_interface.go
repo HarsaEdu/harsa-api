@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/HarsaEdu/harsa-api/internal/app/profile/repository"
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
@@ -10,8 +11,9 @@ import (
 
 type ProfileService interface {
 	CreateProfile(ctx echo.Context, profile *web.CreateProfileRequest, userID uint) error
-	GetProfileByID(id uint) (*web.GetProfileResponse, error)
+	GetProfileByID(request *web.UserGetByIDRequest) (*domain.ProfileDetail, error)
 	UpdateProfile(ctx echo.Context, profile *web.UpdateProfileRequest, id uint) error
+	MyProfile(request *web.UserGetByIDRequest) (*domain.ProfileDetail, error)
 }
 
 type ProfileServiceImpl struct {
