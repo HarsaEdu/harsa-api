@@ -6,7 +6,7 @@ import (
 )
 
 type PaymentHandler interface {
-	CreatePayment(ctx echo.Context) error
+	CreatePaymentSubscription(ctx echo.Context) error
 }
 
 type PaymentHandlerImpl struct {

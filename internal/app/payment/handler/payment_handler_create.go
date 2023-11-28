@@ -9,8 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (paymentHandler *PaymentHandlerImpl) CreatePayment(ctx echo.Context) error {
-	request := web.CreatePaymentRequest{}
+func (paymentHandler *PaymentHandlerImpl) CreatePaymentSubscription(ctx echo.Context) error {
+	request := web.CreatePaymentSubscriptionRequest{}
 	err := ctx.Bind(&request)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind payment request", err)
@@ -18,7 +18,7 @@ func (paymentHandler *PaymentHandlerImpl) CreatePayment(ctx echo.Context) error 
 
 	userId := ctx.Get("user_id").(uint)
 
-	response, err := paymentHandler.PaymentService.CreatePayment(&request, userId)
+	response, err := paymentHandler.PaymentService.CreatePaymentSubscription(&request, userId)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

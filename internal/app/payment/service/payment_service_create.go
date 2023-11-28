@@ -4,10 +4,11 @@ import (
 	"fmt"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	"github.com/midtrans/midtrans-go/coreapi"
 )
 
-func (paymentService *PaymentServiceImpl) CreatePayment(request *web.CreatePaymentRequest, userId uint) (*coreapi.ChargeResponse, error) {
+func (paymentService *PaymentServiceImpl) CreatePaymentSubscription(request *web.CreatePaymentSubscriptionRequest, userId uint) (*coreapi.ChargeResponse, error) {
 	err := paymentService.Validate.Struct(request)
 	if err != nil {
 		return nil, err
@@ -23,7 +24,9 @@ func (paymentService *PaymentServiceImpl) CreatePayment(request *web.CreatePayme
 		return nil, fmt.Errorf("error when get subscription plan : %s", err.Error())
 	}
 
-	response, err := paymentService.MidtransCoreApi.CreateTransaction(existingSubsPlan, existingUser)
+	chargeRequest := conversion.CreatePaymentSubscriptionRequestToMidtransChargeRequest(existingSubsPlan, existingUser, request)
+
+	response, err := paymentService.MidtransCoreApi.ChargeTransaction(chargeRequest)
 	if err != nil {
 		return nil, fmt.Errorf("error when create payment : %s", err.Error())
 	}

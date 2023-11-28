@@ -10,7 +10,7 @@ import (
 )
 
 type PaymentService interface {
-	CreatePayment(request *web.CreatePaymentRequest, userId uint) (*coreapi.ChargeResponse, error)
+	CreatePaymentSubscription(request *web.CreatePaymentSubscriptionRequest, userId uint) (*coreapi.ChargeResponse, error)
 }
 
 type PaymentServiceImpl struct {
