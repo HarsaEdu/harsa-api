@@ -12,6 +12,7 @@ import (
 //	}
 type HistorySubModuleRepository interface {
 	GetHistorySubModuleByUserID(userID uint) ([]domain.HistorySubModule, int64, error)
+	GetHistorySubModuleByID(id uint) (*domain.HistorySubModule, error)
 	CreateHistorySubModule(request *domain.HistorySubModule) error
 	UpdateHistorySubModule(request *domain.HistorySubModule, id uint) error
 }
