@@ -1,8 +1,7 @@
 package web
 
 type CreateHistorySubModuleRequest struct {
-	SubModuleID uint `json:"module_id" validate:"required"`
-	IsCompleted bool `json:"is_completed" validate:"required"`
+	SubModuleID uint `json:"sub_module_id" validate:"required"`
 }
 
 type GetHistorySubModuleRequest struct {
@@ -10,6 +9,5 @@ type GetHistorySubModuleRequest struct {
 }
 
 type UpdateHistorySubModuleRequest struct {
-	ID          uint `json:"id" validate:"required"`
-	IsCompleted bool `json:"is_completed" validate:"required"`
+	ID uint `json:"id" validate:"required"`
 }
