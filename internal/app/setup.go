@@ -7,6 +7,7 @@ import (
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
 	feedback "github.com/HarsaEdu/harsa-api/internal/app/feedback"
+	"github.com/HarsaEdu/harsa-api/internal/app/history_sub_modules"
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
 	module "github.com/HarsaEdu/harsa-api/internal/app/module"
 	options "github.com/HarsaEdu/harsa-api/internal/app/options"
@@ -38,6 +39,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	optionsRoutes := options.OptionsSetup(db, validate)
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
+	historySubModuleRoutes := history_sub_modules.HistorySubModuleSetup(db, validate)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
@@ -68,4 +70,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	feedbackRoutes.FeedbackMobile(apiGroupMobile)
 	interestRoutes.MobileInterest(apiGroupMobile)
 	chatbotRoutes.ChatbotMobile(apiGroupMobile)
+	historySubModuleRoutes.MobileHistorySubModule(apiGroupMobile)
 }
