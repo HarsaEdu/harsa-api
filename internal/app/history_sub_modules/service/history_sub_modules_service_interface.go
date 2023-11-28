@@ -9,7 +9,7 @@ import (
 type HistorySubModuleService interface {
 	GetHistorySubModuleByUserID(request *web.GetHistorySubModuleRequest) (*[]web.GetHistorySubModuleResponse, error)
 	CreateHistorySubModule(request *web.CreateHistorySubModuleRequest, userID uint) error
-	//		UpdateHistorySubModule(request *web.UpdateHistorySubModuleRequest) error
+	UpdateHistorySubModule(request *web.UpdateHistorySubModuleRequest) error
 }
 
 type HistorySubModuleServiceImpl struct {

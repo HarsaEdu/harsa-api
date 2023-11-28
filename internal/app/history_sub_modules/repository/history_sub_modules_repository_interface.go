@@ -13,7 +13,7 @@ import (
 type HistorySubModuleRepository interface {
 	GetHistorySubModuleByUserID(userID uint) ([]domain.HistorySubModule, int64, error)
 	CreateHistorySubModule(request *domain.HistorySubModule) error
-	// UpdateHistorySubModule(request *domain.HistorySubModule) error
+	UpdateHistorySubModule(request *domain.HistorySubModule, id uint) error
 }
 
 type HistorySubModuleRepositoryImpl struct {

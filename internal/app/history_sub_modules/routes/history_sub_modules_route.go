@@ -10,4 +10,5 @@ func (routes *HistorySubModuleRoutesImpl) MobileHistorySubModule(apiGroup *echo.
 
 	historySubModule.POST("", routes.Handler.CreateHistoryModule, middleware.StudentMiddleare)
 	historySubModule.GET("", routes.Handler.GetHistoryModule, middleware.StudentMiddleare)
+	historySubModule.PUT("/:sub_module_id", routes.Handler.UpdateHistorySubModule, middleware.StudentMiddleare)
 }

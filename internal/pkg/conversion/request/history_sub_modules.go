@@ -12,3 +12,9 @@ func CreateHistorySubModuleRequestToModel(request *web.CreateHistorySubModuleReq
 		IsCompleted: false,
 	}
 }
+
+func UpdateHistorySubModuleRequestToModel(request *web.UpdateHistorySubModuleRequest) *domain.HistorySubModule {
+	return &domain.HistorySubModule{
+		IsCompleted: true,
+	}
+}
