@@ -16,6 +16,7 @@ import (
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
+	courseTraking "github.com/HarsaEdu/harsa-api/internal/app/course_tracking"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
@@ -41,6 +42,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
 	paymentRoutes := payment.PaymentSetup(validate, midtransCoreApi, userRepo, subsPlanRepo)
+	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
@@ -72,4 +74,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	interestRoutes.MobileInterest(apiGroupMobile)
 	chatbotRoutes.ChatbotMobile(apiGroupMobile)
 	paymentRoutes.PaymentSubscriptionsMobile(apiGroupMobile)
+	courseTrakingRoutes.CourseTrackingMobile(apiGroupMobile)
 }
