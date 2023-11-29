@@ -13,6 +13,9 @@ type ModuleRepository interface {
 	GetByOrderAndCourseId(order int, courseId uint) (*domain.Module, error)
 	GetByTypeAndId(id uint, modulType string) (*domain.Module, error)
 	CekIdFromCourse(userId uint, courseId uint, role string) error
+	CekIdFromModule(userId uint, moduleId uint, role string) (*domain.Module, error)
+	Update(updateModul *domain.Module, moduleExist *domain.Module) error
+	Delete(module *domain.Module) error
 	// Update(id uint, module *domain.Module) error
 	// UpdateImage(module *domain.Module) error
 	// Delete(id uint) error

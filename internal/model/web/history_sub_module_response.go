@@ -1,7 +1,12 @@
 package web
 
-type GetHistorySubModuleResponse struct {
-	ID          uint `json:"id"`
-	SubModuleID uint `json:"module_id"`
-	IsCompleted bool `json:"is_completed"`
+type SubModuleResponseForTracking struct {
+	ID    uint   `json:"id"`
+	Title string `json:"title"`
+}
+
+type HistorySubModuleResponseMobile struct {
+	ID         uint                         `json:"id"`
+	IsComplete bool                         `json:"is_complete"`
+	SubModule  SubModuleResponseForTracking `json:"sub_module"`
 }

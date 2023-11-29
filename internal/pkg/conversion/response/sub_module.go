@@ -5,7 +5,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func ConvertSubModuleResponseModule(subModule *domain.SubModule) *web.SubModuleResponseModule{
+func ConvertSubModuleResponseModule(subModule domain.SubModule) *web.SubModuleResponseModule{
 	subModuleRes := web.SubModuleResponseModule{
 		ID:            subModule.ID,
 		Title:         subModule.Title,
@@ -16,7 +16,7 @@ func ConvertSubModuleResponseModule(subModule *domain.SubModule) *web.SubModuleR
 	return &subModuleRes
 }
 
-func ConvertAllSubModuleModule(subModule []*domain.SubModule) []web.SubModuleResponseModule {
+func ConvertAllSubModuleModule(subModule []domain.SubModule) []web.SubModuleResponseModule {
 
 	var subModuleRes []web.SubModuleResponseModule
 
@@ -36,12 +36,12 @@ func ConvertSubModuleResponseModuleMobile(subModule *domain.SubModule) *web.SubM
 	return &subModuleRes
 }
 
-func ConvertAllSubModuleModuleMobile(subModule []*domain.SubModule) []web.SubModuleResponseModuleMobile {
+func ConvertAllSubModuleModuleMobile(subModule []domain.SubModule) []web.SubModuleResponseModuleMobile {
 
 	var subModuleRes []web.SubModuleResponseModuleMobile
 
 	for i := range subModule {
-		subModuleRes = append(subModuleRes, *ConvertSubModuleResponseModuleMobile(subModule[i]))
+		subModuleRes = append(subModuleRes, *ConvertSubModuleResponseModuleMobile(&subModule[i]))
 	}
 
 	return subModuleRes

@@ -5,15 +5,32 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func GetHistorySubModuleResultToResponse(result []domain.HistorySubModule) []web.GetHistorySubModuleResponse {
-	response := []web.GetHistorySubModuleResponse{}
-	for _, value := range result {
-		history := web.GetHistorySubModuleResponse{
-			ID:          value.ID,
-			SubModuleID: value.SubModuleID,
-			IsCompleted: value.IsCompleted,
-		}
-		response = append(response, history)
+func ConvertSubModuleResponseTrackingMobile(response *domain.SubModule) *web.SubModuleResponseForTracking {
+	return &web.SubModuleResponseForTracking{
+		ID:    response.ID,
+		Title: response.Title,
 	}
-	return response
+}
+
+func ConvertHistorySubmoduleResponseMobile(response *domain.HistorySubModule) *web.HistorySubModuleResponseMobile {
+
+	subModule := ConvertSubModuleResponseTrackingMobile(&response.SubModule)
+
+	return &web.HistorySubModuleResponseMobile{
+		ID:         response.ID,
+		SubModule:  *subModule,
+		IsComplete: response.IsComplete,
+	}
+}
+
+func ConvertAllHistorySubmoduleResponseMobile(response []domain.HistorySubModule) []web.HistorySubModuleResponseMobile {
+
+	var historySubModule []web.HistorySubModuleResponseMobile
+
+	for i := range response {
+		historySubModule = append(historySubModule, *ConvertHistorySubmoduleResponseMobile(&response[i]))
+	}
+
+	return historySubModule
+
 }

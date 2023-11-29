@@ -27,7 +27,7 @@ type Module struct {
 	CreatedAt   time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"delete_at"`
-	SubModules  []*SubModule   `gorm:"foreignKey:ModuleID" json:"sub_modules"`
+	SubModules  []SubModule   `gorm:"foreignKey:ModuleID" json:"sub_modules"`
 	Submissions []Submissions  `gorm:"foreignKey:ModuleID" json:"submissions"`
 	Quizzes 	[]Quizzes 	   `gorm:"foreignKey:ModuleID" json:"quizzes"`
 }

@@ -11,6 +11,7 @@ type AppConfig struct {
 	MySQL      MySQLConfig
 	Cloudinary CloudinaryConfig
 	OpenAI     OpenAI
+	Midtrans   MidtransConfig
 }
 
 type MySQLConfig struct {
@@ -28,8 +29,12 @@ type CloudinaryConfig struct {
 }
 
 type OpenAI struct {
-	ApiKey string
+	ApiKey      string
 	AssistantID string
+}
+
+type MidtransConfig struct {
+	ServerKey string
 }
 
 func LoadConfig() (*AppConfig, error) {
@@ -55,8 +60,11 @@ func LoadConfig() (*AppConfig, error) {
 			ApiSecret: os.Getenv("CLOUDINARY_API_SECRET"),
 		},
 		OpenAI: OpenAI{
-			ApiKey: os.Getenv("OPENAI_API_KEY"),
+			ApiKey:      os.Getenv("OPENAI_API_KEY"),
 			AssistantID: os.Getenv("OPENAI_ASSISTANT_ID"),
+		},
+		Midtrans: MidtransConfig{
+			ServerKey: os.Getenv("MIDTRANS_SERVER_KEY"),
 		},
 	}, nil
 }
