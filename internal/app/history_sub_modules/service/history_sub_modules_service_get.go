@@ -7,7 +7,7 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (service *HistorySubModuleServiceImpl) GetHistorySubModuleByUserID(request *web.GetHistorySubModuleRequest) (*[]web.GetHistorySubModuleResponse, error) {
+func (service *HistorySubModuleServiceImpl) GetHistorySubModuleByUserID(request *web.GetHistorySubModuleRequest) (*[]web.HistorySubModuleResponseMobile, error) {
 	err := service.Validator.Struct(request)
 	if err != nil {
 		return nil, err
@@ -21,6 +21,6 @@ func (service *HistorySubModuleServiceImpl) GetHistorySubModuleByUserID(request 
 	if total == 0 {
 		return nil, fmt.Errorf("not found")
 	}
-	response := conversion.GetHistorySubModuleResultToResponse(result)
+	response := conversion.ConvertAllHistorySubmoduleResponseMobile(result)
 	return &response, nil
 }
