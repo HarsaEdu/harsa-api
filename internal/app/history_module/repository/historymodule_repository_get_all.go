@@ -15,7 +15,7 @@ func (historyModuleRepository *HistoryModuleRepositoryImpl) GetAll(offset, limit
 
 	if search != "" {
 		s := "%" + search + "%"
-		query = query.Where("UserID LIKE ?", s)
+		query = query.Where("user_id LIKE ?", s)
 	}
 
 	query.Find(&historyModule).Count(&total)
