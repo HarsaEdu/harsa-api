@@ -6,7 +6,7 @@ import (
 )
 
 func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingMobile(apiGroup *echo.Group)  {
-	courseTrackingsGroup := apiGroup.Group("/course/:course-id/tracking")
+	courseTrackingsGroup := apiGroup.Group("users/course/:course-id/tracking")
 	courseTrackingsGroupGet := apiGroup.Group("/course/tracking")
 
 	courseTrackingsGroup.POST("", courseTrackingRoutes.CourseTrackingHandler.Create, middleware.StudentMiddleare)
