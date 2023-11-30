@@ -56,6 +56,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	questionsRoutes.QuestionsWeb(coursesGroup)
 	optionsRoutes.OptionsWeb(coursesGroup)
 	feedbackRoutes.FeedbackWeb(apiGroupWeb)
+	paymentRoutes.PaymentWeb(apiGroupWeb)
 
 	apiGroupMobile := e.Group("mobile")
 	authRoutes.AuthMobile(apiGroupMobile)
