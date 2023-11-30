@@ -8,6 +8,7 @@ import (
 
 type MidtransCoreApi interface {
 	ChargeTransaction(request *coreapi.ChargeReq) (*coreapi.ChargeResponse, error)
+	CheckTransactionStatus(orderId string) (string, error)
 }
 
 type MidtransCoreApiImpl struct {
