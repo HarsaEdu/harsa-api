@@ -28,3 +28,11 @@ func PaymentHistoryDomainToPaymentHistoryResponse(paymentHistory *domain.Payment
 		},
 	}
 }
+
+func PaymentHistoryDomainToPaymentHistoryResponses(paymentHistories []domain.PaymentHistory) []web.GetPaymentResponse {
+	var paymentResponses []web.GetPaymentResponse
+	for _, paymentHistory := range paymentHistories {
+		paymentResponses = append(paymentResponses, *PaymentHistoryDomainToPaymentHistoryResponse(&paymentHistory))
+	}
+	return paymentResponses
+}
