@@ -10,11 +10,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func CourseSetup(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader) courseRoutesPkg.CourseRoutes{
+func CourseSetup(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader) (courseRepositoryPkg.CourseRepository, courseRoutesPkg.CourseRoutes){
 	courseRepository := courseRepositoryPkg.NewCourseRepository(db)
 	courseService := courseServicePkg.NewCourseService(courseRepository, validate, cloudinary)
 	courseHandler := courseHandlerPkg.NewCourseHandler(courseService)
 	courseRoute := courseRoutesPkg.NewCourseRoutes(courseHandler)
 
-	return courseRoute
+	return courseRepository, courseRoute
 }

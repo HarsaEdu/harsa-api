@@ -25,11 +25,21 @@ type CourseForTraking struct {
 	Feedback     []FeedBackResponseForTracking `json:"feedback"`   
 }
 
-type CourseTrackingResponseMobile struct {
+type CourseTrackingResponse struct {
 	ID       uint             `json:"id"`
 	User     UserForTracking  `json:"user"`
 	Progress float32          `json:"progress"`
 	Status   domain.StatusCourseTraking `json:"status"`
-	Course   CourseForTraking `json:"course"`
-	HistoryModule []HistoryModuleResponseMobile `json:"history_module"`
+}
+
+type CourseTrackingResponseMobile struct {
+	CourseTracking CourseTrackingResponse `json:"course_tracking"`
+	Course         CourseForTraking `json:"course"`
+	Modul 		   []ModuleResponseForTracking `json:"modul"`
+}
+
+type CourseTrackingSub struct {
+	SubModules []SubModuleResponseForTracking `json:"sub_modules"`
+	Submissions []SubmissionsResponseModuleMobile `json:"submissions"`
+	Quizzes     []QuizResponseForTracking `json:"quizzes"`
 }

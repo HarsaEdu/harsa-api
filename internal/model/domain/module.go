@@ -19,7 +19,6 @@ const (
 type Module struct {
 	ID          uint           `gorm:"type:int;primarykey" json:"id"`
 	CourseID    uint           `gorm:"type:int" json:"course_id"`
-	Section      string         `gorm:"type:varchar(255)" json:"section"`
 	Title       string         `gorm:"type:varchar(255)" json:"title"`
 	Description string         `gorm:"type:varchar(255)" json:"description"`
 	Order       int            `gorm:"type:int" json:"order"`

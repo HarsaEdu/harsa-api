@@ -32,7 +32,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	moduleRoutes := module.ModuleSetup(db, validate)
 	categoryRoutes := category.CategorySetup(db, validate, cloudinary)
 	faqsRoutes := faqs.FaqsSetup(db, validate)
-	courseRoutes := course.CourseSetup(db, validate, cloudinary)
+	courseRepsoitory, courseRoutes := course.CourseSetup(db, validate, cloudinary)
 	subsPlanRoutes, subsPlanRepo := subsPlan.SubsPlanSetup(db, validate, cloudinary)
 	profileRoutes := profile.ProfileSetup(db, validate, e, cloudinary)
 	quizzesRoutes := quizzes.QuizzesSetup(db, validate)
@@ -42,7 +42,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
 	paymentRoutes := payment.PaymentSetup(validate, midtransCoreApi, userRepo, subsPlanRepo)
-	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate)
+	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)

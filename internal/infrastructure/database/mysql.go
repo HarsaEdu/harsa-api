@@ -46,7 +46,6 @@ func migration(db *gorm.DB) {
 		&domain.UserChatTopic{},
 		&domain.Submissions{},
 		&domain.CourseTracking{},
-		&domain.HistoryModule{},
 		&domain.HistorySubModule{},
 		&domain.SubmissionAnswer{},
 		&domain.HistoryQuiz{},

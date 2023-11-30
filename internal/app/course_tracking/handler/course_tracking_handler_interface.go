@@ -8,6 +8,7 @@ import (
 type CourseTrackingHandler interface {
 	Create(ctx echo.Context) error
 	GetById(ctx echo.Context) error
+	FindSub(ctx echo.Context) error
 }
 
 type CourseTrackingHandlerImpl struct {
