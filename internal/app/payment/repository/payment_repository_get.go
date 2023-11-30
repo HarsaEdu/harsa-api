@@ -11,3 +11,13 @@ func (paymentRepository *PaymentRepositoryImpl) GetPaymentHistoryById(paymentHis
 
 	return &paymentHistory, nil
 }
+
+func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistory() ([]domain.PaymentHistory, error) {
+	paymentHistory := []domain.PaymentHistory{}
+	result := paymentRepository.DB.Preload("User.UserProfile").Preload("Item").Find(&paymentHistory)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return paymentHistory, nil
+}

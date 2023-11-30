@@ -10,6 +10,7 @@ func (paymentRoutes *PaymentRoutesImpl) PaymentWeb(apiGroup *echo.Group) *echo.G
 
 	paymentsGroup.POST("/notifications", paymentRoutes.PaymentHandler.NotificationPayment)
 	paymentsGroup.GET("/:id", paymentRoutes.PaymentHandler.GetPaymentHistoryById, middleware.AdminMiddleware)
+	paymentsGroup.GET("", paymentRoutes.PaymentHandler.GetAllPaymentHistory, middleware.AdminMiddleware)
 
 	return paymentsGroup
 }

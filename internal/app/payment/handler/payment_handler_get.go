@@ -21,3 +21,16 @@ func (paymentHandler *PaymentHandlerImpl) GetPaymentHistoryById(ctx echo.Context
 
 	return res.StatusOK(ctx, "success to get payment history", response, nil)
 }
+
+func (paymentHandler *PaymentHandlerImpl) GetAllPaymentHistory(ctx echo.Context) error {
+	response, err := paymentHandler.PaymentService.GetAllPaymentHistory()
+	if err != nil {
+		if response == nil {
+			return res.StatusNotFound(ctx, "payment history not found", err)
+		}
+
+		return res.StatusInternalServerError(ctx, "failed to get payment history, something happen", err)
+	}
+
+	return res.StatusOK(ctx, "success to get payment history", response, nil)
+}
