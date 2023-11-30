@@ -12,6 +12,7 @@ import (
 type PaymentService interface {
 	CreatePaymentSubscription(request *web.CreatePaymentSubscriptionRequest, userId uint) (*web.GetPaymentResponse, error)
 	NotificationPayment(notificationPayload map[string]interface{}) error
+	GetPaymentHistoryById(orderId string) (*web.GetPaymentResponse, error)
 }
 
 type PaymentServiceImpl struct {

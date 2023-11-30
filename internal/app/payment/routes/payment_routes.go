@@ -9,6 +9,7 @@ func (paymentRoutes *PaymentRoutesImpl) PaymentWeb(apiGroup *echo.Group) *echo.G
 	paymentsGroup := apiGroup.Group("/payments")
 
 	paymentsGroup.POST("/notifications", paymentRoutes.PaymentHandler.NotificationPayment)
+	paymentsGroup.GET("/:id", paymentRoutes.PaymentHandler.GetPaymentHistoryById, middleware.AdminMiddleware)
 
 	return paymentsGroup
 }
