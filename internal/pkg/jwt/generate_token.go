@@ -16,6 +16,7 @@ func GenerateToken(userLoginResponse *web.AuthResponse) (string, error) {
 	claims["username"] = userLoginResponse.Username
 	claims["email"] = userLoginResponse.Email
 	claims["role_name"] = userLoginResponse.RoleName
+	claims["user_create"] = userLoginResponse.CreatedAt
 	claims["exp"] = expireTime
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

@@ -1,5 +1,7 @@
 package web
 
+import "time"
+
 type Role string
 
 const (
@@ -9,10 +11,11 @@ const (
 )
 
 type AuthResponse struct {
-	ID       uint   `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	RoleName Role   `json:"role_name"`
+	ID        uint      `json:"id"`
+	Username  string    `json:"username"`
+	Email     string    `json:"email"`
+	RoleName  Role      `json:"role_name"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 type UserLoginResponse struct {
