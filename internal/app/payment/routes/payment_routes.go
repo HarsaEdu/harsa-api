@@ -19,6 +19,7 @@ func (paymentRoutes *PaymentRoutesImpl) PaymentMobile(apiGroup *echo.Group) *ech
 	paymentsGroup := apiGroup.Group("/payments")
 
 	paymentsGroup.GET("", paymentRoutes.PaymentHandler.GetAllPaymentHistoryByUserId, middleware.StudentMiddleare)
+	paymentsGroup.GET("/:id", paymentRoutes.PaymentHandler.GetPaymentHistoryByUserIdAndPaymentId, middleware.StudentMiddleare)
 
 	return paymentsGroup
 }

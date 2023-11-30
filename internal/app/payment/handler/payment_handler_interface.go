@@ -11,6 +11,7 @@ type PaymentHandler interface {
 	GetPaymentHistoryById(ctx echo.Context) error
 	GetAllPaymentHistory(ctx echo.Context) error
 	GetAllPaymentHistoryByUserId(ctx echo.Context) error
+	GetPaymentHistoryByUserIdAndPaymentId(ctx echo.Context) error
 }
 
 type PaymentHandlerImpl struct {

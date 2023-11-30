@@ -31,3 +31,13 @@ func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistoryByUserId(use
 
 	return paymentHistory, nil
 }
+
+func (paymentRepository *PaymentRepositoryImpl) GetPaymentHistoryByUserIdAndPaymentId(userId uint, paymentId string) (*domain.PaymentHistory, error) {
+	paymentHistory := domain.PaymentHistory{}
+	result := paymentRepository.DB.Preload("User.UserProfile").Preload("Item").Where("user_id = ? AND id = ?", userId, paymentId).First(&paymentHistory)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &paymentHistory, nil
+}

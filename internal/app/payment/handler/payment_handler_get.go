@@ -49,3 +49,19 @@ func (paymentHandler *PaymentHandlerImpl) GetAllPaymentHistoryByUserId(ctx echo.
 
 	return res.StatusOK(ctx, "success to get payment history", response, nil)
 }
+
+func (paymentHandler *PaymentHandlerImpl) GetPaymentHistoryByUserIdAndPaymentId(ctx echo.Context) error {
+	userId := ctx.Get("user_id").(uint)
+	paymentId := ctx.Param("id")
+
+	response, err := paymentHandler.PaymentService.GetPaymentHistoryByUserIdAndPaymentId(userId, paymentId)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "payment history not found", err)
+		}
+
+		return res.StatusInternalServerError(ctx, "failed to get payment history, something happen", err)
+	}
+
+	return res.StatusOK(ctx, "success to get payment history", response, nil)
+}

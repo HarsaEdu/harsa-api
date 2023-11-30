@@ -15,6 +15,7 @@ type PaymentService interface {
 	GetPaymentHistoryById(orderId string) (*web.GetPaymentResponse, error)
 	GetAllPaymentHistory() ([]web.GetPaymentResponse, error)
 	GetAllPaymentHistoryByUserId(userId uint) ([]web.GetPaymentResponse, error)
+	GetPaymentHistoryByUserIdAndPaymentId(userId uint, paymentId string) (*web.GetPaymentResponse, error)
 }
 
 type PaymentServiceImpl struct {
