@@ -14,6 +14,7 @@ type CourseRepository interface {
 	Delete(course *domain.Course) error
 	CekIdFromCourse(userId uint, courseId uint, role string) (*domain.Course, error)
 	CekIdFromUser(userId uint) (error)
+	GetByIdMobile(id uint) (*domain.Course, int64, int64,error)
 }
 
 type CourseRepositoryImpl struct {

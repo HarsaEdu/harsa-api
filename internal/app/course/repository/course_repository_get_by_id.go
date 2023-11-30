@@ -1,6 +1,9 @@
 package repository
 
-import "github.com/HarsaEdu/harsa-api/internal/model/domain"
+import (
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
+	"gorm.io/gorm"
+)
 
 func (courseRepository *CourseRepositoryImpl) GetById(id uint) (*domain.CourseEntity, int64, error) {
 	course := &domain.CourseEntity{}
@@ -23,4 +26,29 @@ func (courseRepository *CourseRepositoryImpl) GetById(id uint) (*domain.CourseEn
 	}
 
 	return course, count ,nil
+}
+
+
+func (courseRepository *CourseRepositoryImpl) GetByIdMobile(id uint) (*domain.Course, int64, int64,error) {
+	course := &domain.Course{}
+
+if err := courseRepository.DB.Where("id = ?", id).
+	Preload("User.UserProfile").
+	Preload("Modules").
+	Preload("Feedback.User.UserProfile", func(db *gorm.DB) *gorm.DB {
+		return db.Limit(5)
+	}).
+	Find(&course).Error; err != nil {
+	return nil, 0,0, err
+    }
+
+    countModule := int64(len(course.Modules))
+
+	var countEnroled int64
+
+	if err := courseRepository.DB.Model(&domain.CourseTracking{}).Where("course_id  = ?", id).Count(&countEnroled).Error; err != nil {
+		return nil, 0,0, err
+	}
+
+	return course, countModule, countEnroled, nil
 }
