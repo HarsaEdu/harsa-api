@@ -15,6 +15,7 @@ type CourseService interface {
 	Update(id uint, userId uint, role string, request *web.CourseUpdateRequest) error
 	UpdateImage(ctx echo.Context, id uint, userId uint, role string, request *web.CourseUpdateImageRequest) error
 	Delete(id uint, userId uint, role string) error
+	GetAllMobile(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 }
 
 type CourseServiceImpl struct {

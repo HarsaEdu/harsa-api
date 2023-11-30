@@ -34,3 +34,41 @@ func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search s
 
 	return courses, count, nil
 }
+
+
+func (courseRepository *CourseRepositoryImpl) GetAllMobile(offset, limit int, search string, categoryId uint) ([]domain.Course, int64, error) {
+
+	if offset < 0 || limit < 0 {
+		return nil, 0, nil
+	}
+
+	course := []domain.Course{}
+	var total int64
+
+	query := courseRepository.DB.Model(&course)
+
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+	}
+
+	query.Where("CategoryID = ?", categoryId).Find(&course).Count(&total)
+
+	query = query.Limit(limit).Offset(offset)
+
+	result := query.Preload("Category").Preload("User.UserProfile").Find(&course)
+
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+
+	if total == 0 {
+		return nil, 0, nil
+	}
+
+	if offset >= int(total) {
+		return nil, 0, nil
+	}
+
+	return course, total, nil
+}

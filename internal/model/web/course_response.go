@@ -12,6 +12,11 @@ type UserForCourseResponse struct {
 	Role  string `json:"role"`
 }
 
+type UserForCourseResponseMobile struct {
+	ID    uint                         `json:"id"`
+	Name string                        `json:"name"`
+}
+
 type CategoryForCourseResponse struct {
 	ID   uint   `json:"id"`
 	Name string `json:"name"`
@@ -41,6 +46,16 @@ type GetCourseResponse struct {
 	CreatedAt   time.Time                  `json:"created_at"`
 	UpdatedAt   time.Time                  `json:"updated_at"`
 	User        *UserForCourseResponse      `json:"user"`
+	Category    *CategoryForCourseResponse  `json:"category"`
+}
+
+type GetCourseResponseMobile struct {
+	ID          uint                       `json:"id"`
+	Title       string                     `json:"title"`
+	Description string                     `json:"description"`
+	ImageUrl    string                     `json:"image_url"`
+	Rating      float32                        `json:"rating"`
+	User        *UserForCourseResponseMobile      `json:"user"`
 	Category    *CategoryForCourseResponse  `json:"category"`
 }
 

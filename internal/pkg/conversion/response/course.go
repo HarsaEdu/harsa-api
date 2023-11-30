@@ -82,3 +82,31 @@ func CourseDomainToCourseGetByIdResponse(courseDomain *domain.CourseEntity, modu
 	
 	return courseGetResponse
 }
+
+func CourseDomainToCourseGetAllResponseMobile(courseDomain []domain.Course) []web.GetCourseResponseMobile {
+	var courseGetAllResponse []web.GetCourseResponseMobile
+
+	for _, course := range courseDomain {
+
+		if course.CategoryID != 0 {
+			name := course.User.UserProfile.FirstName + " " + course.User.UserProfile.LastName
+			courseGetAllResponse = append(courseGetAllResponse, web.GetCourseResponseMobile{
+				ID:          course.ID,
+				Title:       course.Title,
+				Description: course.Description,
+				ImageUrl:    course.ImageUrl,
+				Rating:      course.Rating,
+				Category: &web.CategoryForCourseResponse{
+					ID:   course.CategoryID,
+					Name: course.Category.Name,
+				},
+				User: &web.UserForCourseResponseMobile{
+					ID:    course.UserID,
+					Name: name,
+				},
+			})
+		}
+	}
+
+	return courseGetAllResponse
+}
