@@ -40,7 +40,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	optionsRoutes := options.OptionsSetup(db, validate)
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
-	paymentRoutes := payment.PaymentSetup(validate, midtransCoreApi, userRepo, subsPlanRepo)
+	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)
