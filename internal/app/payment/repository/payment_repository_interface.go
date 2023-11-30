@@ -8,6 +8,7 @@ import (
 type PaymentRepository interface {
 	CreatePaymentHistory(paymentHistory *domain.PaymentHistory) error
 	GetPaymentHistory(paymentHistoryId string) (*domain.PaymentHistory, error)
+	UpdateStatusPaymentHistory(status string, orderId string) error
 }
 
 type PaymentRepositoryImpl struct {
