@@ -6,7 +6,8 @@ import (
 )
 
 type CourseRoutes interface {
-	Course(apiGroup *echo.Group) *echo.Group
+	CourseWeb(apiGroup *echo.Group) *echo.Group
+	CourseMobile(apiGroup *echo.Group) *echo.Group
 }
 
 type CourseRoutesImpl struct {

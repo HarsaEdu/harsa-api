@@ -10,11 +10,12 @@ import (
 
 type CourseService interface {
 	Create(ctx echo.Context, request *web.CourseCreateRequest, instructorId uint) error
-	GetAll(offset, limit int, search string) ([]web.GetCourseResponse, *web.Pagination, error)
-	GetById(id uint) (*web.GetCourseResponse, error)
-	Update(id uint, request *web.CourseUpdateRequest) error
-	UpdateImage(ctx echo.Context, id uint, request *web.CourseUpdateImageRequest) error
-	Delete(id uint) error
+	GetAll(offset, limit int, search string, category string) ([]web.GetCourseResponse, *web.Pagination, error)
+	GetById(id uint) (*web.GetCourseResponseById, error)
+	Update(id uint, userId uint, role string, request *web.CourseUpdateRequest) error
+	UpdateImage(ctx echo.Context, id uint, userId uint, role string, request *web.CourseUpdateImageRequest) error
+	Delete(id uint, userId uint, role string) error
+	GetByIdMobile(id uint) (*web.CourseForTraking, error)
 }
 
 type CourseServiceImpl struct {

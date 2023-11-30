@@ -52,4 +52,6 @@ jobs:
               -e CLOUDINARY_CLOUD_NAME=${{secrets.CLOUDINARY_CLOUD_NAME}} \
               -e CLOUDINARY_API_KEY=${{secrets.CLOUDINARY_API_KEY}} \
               -e CLOUDINARY_API_SECRET=${{secrets.CLOUDINARY_API_SECRET}} \
+              -e OPENAI_API_KEY=${{secrets.OPENAI_API_KEY}} \
+              -e OPENAI_ASSISTANT_ID=${{secrets.OPENAI_ASSISTANT_ID}} \
               ${{ secrets.DOCKERHUB_USERNAME }}/harsa-api

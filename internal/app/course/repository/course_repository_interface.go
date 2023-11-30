@@ -7,11 +7,14 @@ import (
 
 type CourseRepository interface {
 	Create(course *domain.Course) error
-	GetAll(offset, limit int, search string) ([]domain.Course, int64, error)
-	GetById(id uint) (*domain.Course, error)
+	GetAll(offset, limit int, search string, category string) ([]domain.CourseEntity, int64, error)
+	GetById(id uint) (*domain.CourseEntity, int64, error)
 	Update(id uint, course *domain.Course) error
 	UpdateImage(course *domain.Course) error
-	Delete(id uint) error
+	Delete(course *domain.Course) error
+	CekIdFromCourse(userId uint, courseId uint, role string) (*domain.Course, error)
+	CekIdFromUser(userId uint) (error)
+	GetByIdMobile(id uint) (*domain.Course, int64, int64,error)
 }
 
 type CourseRepositoryImpl struct {

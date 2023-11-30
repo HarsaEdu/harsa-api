@@ -17,7 +17,7 @@ func (authHandler *AuthHandlerImpl) LoginUser(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "data request not valid", err)
 	}
 
-	response, err := authHandler.AuthService.LoginUser(ctx, loginUserRequest)
+	response, err := authHandler.AuthService.LoginUser(loginUserRequest)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "invalid") {
@@ -26,13 +26,15 @@ func (authHandler *AuthHandlerImpl) LoginUser(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)
 	}
 
-	token, err := jwt.GenerateToken(response)
+	tokenAccess, err := jwt.GenerateAccessToken(response)
+	tokenRefresh, err := jwt.GenerateRefreshToken(response)
 	if err != nil {
 		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)
 	}
 
 	loginResponse := conversion.AuthResponseToLoginResponse(response)
-	loginResponse.Token = token
+	loginResponse.AccessToken = tokenAccess
+	loginResponse.RefreshToken = tokenRefresh
 
 	return res.StatusOK(ctx, "success to login", loginResponse, nil)
 }
