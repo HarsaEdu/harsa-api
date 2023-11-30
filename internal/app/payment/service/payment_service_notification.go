@@ -8,12 +8,12 @@ func (paymentService *PaymentServiceImpl) NotificationPayment(notificationPayloa
 		return fmt.Errorf("error when get order id : order id not found")
 	}
 
-	transactionStatus, err := paymentService.MidtransCoreApi.CheckTransactionStatus(orderId)
+	transactionStatus, transactionResult, err := paymentService.MidtransCoreApi.CheckTransactionStatus(orderId)
 	if err != nil {
 		return fmt.Errorf("error when checking transaction status : %s", err.Error())
 	}
 
-	err = paymentService.PaymentRepository.UpdateStatusPaymentHistory(transactionStatus, orderId)
+	err = paymentService.PaymentRepository.UpdateStatusPaymentHistory(transactionStatus, transactionResult)
 
 	return nil
 }
