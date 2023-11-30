@@ -11,6 +11,7 @@ import (
 
 type PaymentService interface {
 	CreatePaymentSubscription(request *web.CreatePaymentSubscriptionRequest, userId uint) (*coreapi.ChargeResponse, error)
+	NotificationPayment(notificationPayload map[string]interface{}) error
 }
 
 type PaymentServiceImpl struct {

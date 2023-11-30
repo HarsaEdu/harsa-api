@@ -6,7 +6,7 @@ import (
 )
 
 type PaymentRoutes interface {
-	// PaymentWeb(apiGroup *echo.Group) *echo.Group
+	PaymentWeb(apiGroup *echo.Group) *echo.Group
 	PaymentSubscriptionsMobile(apiGroup *echo.Group) *echo.Group
 }
 
