@@ -6,15 +6,10 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
-type RoleForUserForCourseResponse struct {
-	ID   uint   `json:"id"`
-	Name string `json:"name"`
-}
-
 type UserForCourseResponse struct {
 	ID    uint                         `json:"id"`
-	Email string                       `json:"email"`
-	Role  RoleForUserForCourseResponse `json:"role"`
+	Name string                        `json:"name"`
+	Role  string `json:"role"`
 }
 
 type CategoryForCourseResponse struct {
@@ -42,10 +37,23 @@ type GetCourseResponse struct {
 	Description string                     `json:"description"`
 	ImageUrl    string                     `json:"image_url"`
 	Enrolled    int                        `json:"enrolled"`
-	Rating      int                        `json:"rating"`
+	Rating      float32                        `json:"rating"`
 	CreatedAt   time.Time                  `json:"created_at"`
 	UpdatedAt   time.Time                  `json:"updated_at"`
 	User        *UserForCourseResponse      `json:"user"`
 	Category    *CategoryForCourseResponse  `json:"category"`
-	Modules     []*ModulesForCourseResponse `json:"modules"`
+}
+
+type GetCourseResponseById struct {
+	ID          uint                       `json:"id"`
+	Title       string                     `json:"title"`
+	Description string                     `json:"description"`
+	ImageUrl    string                     `json:"image_url"`
+	Enrolled    int                        `json:"enrolled"`
+	Rating      float32                        `json:"rating"`
+	TotalModules int64                        `json:"total_modules"`
+	CreatedAt   time.Time                  `json:"created_at"`
+	UpdatedAt   time.Time                  `json:"updated_at"`
+	User        *UserForCourseResponse      `json:"user"`
+	Category    *CategoryForCourseResponse  `json:"category"`
 }

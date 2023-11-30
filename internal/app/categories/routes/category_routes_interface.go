@@ -6,17 +6,16 @@ import (
 )
 
 type CategoryRoutes interface {
-	Category(apiGroup *echo.Group)
+	CategoryWeb(apiGroup *echo.Group)
+	CategoryMobile(apiGroup *echo.Group)
 }
 
 type CategoryRoutesImpl struct {
-	Echo            *echo.Echo
 	CategoryHandler handler.CategoryHandler
 }
 
-func NewCategoryRoutes(e *echo.Echo, categoryHandler handler.CategoryHandler) CategoryRoutes {
+func NewCategoryRoutes(categoryHandler handler.CategoryHandler) CategoryRoutes {
 	return &CategoryRoutesImpl{
-		Echo:            e,
 		CategoryHandler: categoryHandler,
 	}
 }

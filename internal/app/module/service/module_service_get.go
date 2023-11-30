@@ -3,12 +3,11 @@ package service
 import (
 	"fmt"
 
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (moduleService *ModuleServiceImpl) GetAllByCourseId(offset, limit int, search string, courseId uint) ([]domain.Module, *web.Pagination, error) {
+func (moduleService *ModuleServiceImpl) GetAllByCourseId(offset, limit int, search string, courseId uint) ([]web.ModuleResponse, *web.Pagination, error) {
 	result, total, err := moduleService.ModuleRepository.GetAllByCourseId(offset, limit, search, courseId)
 	if err != nil {
 		return nil, nil, err
@@ -19,7 +18,9 @@ func (moduleService *ModuleServiceImpl) GetAllByCourseId(offset, limit int, sear
 		return nil, nil, fmt.Errorf("module not found")
 	}
 
+	res := conversion.ConvertAllModuleResponse(result)
+
 	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
 
-	return result, pagination, nil
+	return res, pagination, nil
 }
