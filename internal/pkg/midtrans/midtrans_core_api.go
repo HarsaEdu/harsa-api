@@ -1,6 +1,9 @@
 package midtrans
 
 import (
+	"time"
+
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/midtrans/midtrans-go/coreapi"
 )
 
@@ -13,29 +16,39 @@ func (coreApi *MidtransCoreApiImpl) ChargeTransaction(request *coreapi.ChargeReq
 	return response, nil
 }
 
-func (coreApi *MidtransCoreApiImpl) CheckTransactionStatus(orderId string) (string, error) {
+func (coreApi *MidtransCoreApiImpl) CheckTransactionStatus(orderId string) (string, *domain.PaymentTransactionStatus, error) {
 	response, err := coreApi.Client.CheckTransaction(orderId)
+
+	parseSettlementTime, _ := time.Parse("2006-01-02 15:04:05", response.SettlementTime)
+	
 	if err != nil {
-		return "", err
+		return "", nil, err
 	} else {
 		if response != nil {
-			if response.TransactionStatus == "capture" {
-				if response.FraudStatus == "challenge" {
-					return "challenge", nil
-				} else if response.FraudStatus == "accept" {
-					return "success", nil
+			transactionStatus := domain.PaymentTransactionStatus{
+				OrderID: response.OrderID,
+				TransactionStatus: response.TransactionStatus,
+				FraudStatus: response.FraudStatus,
+				SettlementTime: parseSettlementTime,
+			}
+
+			if transactionStatus.TransactionStatus == "capture" {
+				if transactionStatus.FraudStatus == "challenge" {
+					return "challenge", &transactionStatus, nil
+				} else if transactionStatus.FraudStatus == "accept" {
+					return "success", &transactionStatus, nil
 				}
-			} else if response.TransactionStatus == "settlement" {
-				return "success", nil
-			} else if response.TransactionStatus == "deny" {
-				return "deny", nil
-			} else if response.TransactionStatus == "cancel" || response.TransactionStatus == "expire" {
-				return "failure", nil
-			} else if response.TransactionStatus == "pending" {
-				return "pending", nil
+			} else if transactionStatus.TransactionStatus == "settlement" {
+				return "success", &transactionStatus, nil
+			} else if transactionStatus.TransactionStatus == "deny" {
+				return "deny", &transactionStatus, nil
+			} else if transactionStatus.TransactionStatus == "cancel" || transactionStatus.TransactionStatus == "expire" {
+				return "failure", &transactionStatus, nil
+			} else if transactionStatus.TransactionStatus == "pending" {
+				return "pending", &transactionStatus, nil
 			}
 		}
 	}
 
-	return "", nil
+	return "", nil, nil
 }
