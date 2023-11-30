@@ -3,10 +3,10 @@ package web
 
 type ModuleResponseForTracking struct {
 	ID          uint           `json:"id"`
-	Section     string         `json:"section"`
 	Title       string         `json:"title"`
 	Description string         `json:"description"`
 	Order       int            `json:"order"`
+	Progress    float32        `json:"progress"`
 }
 
 type HistoryModuleResponseMobile struct{

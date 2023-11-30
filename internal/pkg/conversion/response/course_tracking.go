@@ -42,21 +42,23 @@ func ConvertUserCourseTraking(userCourse *domain.UserProfile) *web.UserForTracki
 	}
 }
 
-func ConvertCourseTrackingRespose(courseTracking *domain.CourseTracking, enrolled int64, totalModul int64) *web.CourseTrackingResponseMobile {
+func ConvertCourseTrackingRespose(courseTracking *domain.CourseTracking, course *domain.Course,modules []web.ModuleResponseForTracking, enrolled int64, totalModul int64, progress float32) *web.CourseTrackingResponseMobile {
 	
-	course := ConvertCourse(&courseTracking.Course, enrolled, totalModul)
-
 	user := ConvertUserCourseTraking(&courseTracking.User.UserProfile)
 
-	module := ConvertAllHistoryModuleResponseMobile(courseTracking.HistoryModule)
+	courseRes := ConvertCourse(course, enrolled, totalModul)
 	
-	return &web.CourseTrackingResponseMobile{
+	courseTrackingRes := &web.CourseTrackingResponse{
 		ID: courseTracking.ID,
 		User: *user,
-		Progress: courseTracking.Progress,
+		Progress: progress,
 		Status: courseTracking.Status,
-		Course: *course,
-		HistoryModule: module,
+	}
+
+	return &web.CourseTrackingResponseMobile{
+			CourseTracking: *courseTrackingRes,
+			Course: *courseRes,
+			Modul : modules,
 	}
 }
 
