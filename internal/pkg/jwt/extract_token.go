@@ -8,12 +8,13 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func ExtractToken(tokenString string) (*web.UserLoginResponse, error) {
+func ExtractToken(tokenString string) (*web.AuthResponse, error) {
 
 	type CustomClaims struct {
+		ID       uint   `json:"id"`
 		Email    string `json:"email"`
 		Username string `json:"username"`
-		Role     string `json:"role"`
+		RoleName string `json:"role_name"`
 		jwt.RegisteredClaims
 	}
 
@@ -27,10 +28,11 @@ func ExtractToken(tokenString string) (*web.UserLoginResponse, error) {
 	}
 
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
-		extractedToken := &web.UserLoginResponse{
+		extractedToken := &web.AuthResponse{
+			ID:       claims.ID,
 			Username: claims.Username,
 			Email:    claims.Email,
-			Role:     web.Role(claims.Role),
+			RoleName: web.Role(claims.RoleName),
 		}
 		return extractedToken, nil
 	}
