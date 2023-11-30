@@ -13,8 +13,8 @@ type PaymentService interface {
 	CreatePaymentSubscription(request *web.CreatePaymentSubscriptionRequest, userId uint) (*web.GetPaymentResponse, error)
 	NotificationPayment(notificationPayload map[string]interface{}) error
 	GetPaymentHistoryById(orderId string) (*web.GetPaymentResponse, error)
-	GetAllPaymentHistory() ([]web.GetPaymentResponse, error)
-	GetAllPaymentHistoryByUserId(userId uint) ([]web.GetPaymentResponse, error)
+	GetAllPaymentHistory(offset, limit int, search string, status string) ([]web.GetPaymentResponse, *web.Pagination, error)
+	GetAllPaymentHistoryByUserId(userId uint, offset, limit int, search string, status string) ([]web.GetPaymentResponse, *web.Pagination, error)
 	GetPaymentHistoryByUserIdAndPaymentId(userId uint, paymentId string) (*web.GetPaymentResponse, error)
 }
 

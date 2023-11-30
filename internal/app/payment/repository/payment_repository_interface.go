@@ -8,8 +8,8 @@ import (
 type PaymentRepository interface {
 	CreatePaymentHistory(paymentHistory *domain.PaymentHistory) error
 	GetPaymentHistoryById(paymentHistoryId string) (*domain.PaymentHistory, error)
-	GetAllPaymentHistory() ([]domain.PaymentHistory, error)
-	GetAllPaymentHistoryByUserId(userId uint) ([]domain.PaymentHistory, error)
+	GetAllPaymentHistory(offset, limit int, search string, status string) ([]domain.PaymentHistory, int64, error)
+	GetAllPaymentHistoryByUserId(userId uint, offset, limit int, search string, status string) ([]domain.PaymentHistory, int64, error)
 	GetPaymentHistoryByUserIdAndPaymentId(userId uint, paymentId string) (*domain.PaymentHistory, error)
 	UpdateStatusPaymentHistory(status string, transactionResult *domain.PaymentTransactionStatus) error
 }
