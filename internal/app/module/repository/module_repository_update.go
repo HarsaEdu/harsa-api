@@ -8,7 +8,6 @@ func (moduleRepository *ModuleRepositoryImpl) Update(updateModul *domain.Module,
 
 	moduleExist.Title = updateModul.Title
 	moduleExist.Description = updateModul.Description
-	moduleExist.Section = updateModul.Section
     moduleExist.Type = updateModul.Type
 	moduleExist.Order = updateModul.Order
 	moduleExist.SubModules = updateModul.SubModules
