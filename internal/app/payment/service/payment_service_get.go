@@ -37,3 +37,18 @@ func (paymentService *PaymentServiceImpl) GetAllPaymentHistory() ([]web.GetPayme
 
 	return response, nil
 }
+
+func (paymentService *PaymentServiceImpl) GetAllPaymentHistoryByUserId(userId uint) ([]web.GetPaymentResponse, error) {
+	paymentHistory, err := paymentService.PaymentRepository.GetAllPaymentHistoryByUserId(userId)
+	if err != nil {
+		return nil, fmt.Errorf("error when get payment history by user id : %s", err.Error())
+	}
+
+	if paymentHistory == nil {
+		return nil, fmt.Errorf("payment history not found")
+	}
+
+	response := conversionResponse.PaymentHistoryDomainToPaymentHistoryResponses(paymentHistory)
+
+	return response, nil
+}

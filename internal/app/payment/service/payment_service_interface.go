@@ -14,6 +14,7 @@ type PaymentService interface {
 	NotificationPayment(notificationPayload map[string]interface{}) error
 	GetPaymentHistoryById(orderId string) (*web.GetPaymentResponse, error)
 	GetAllPaymentHistory() ([]web.GetPaymentResponse, error)
+	GetAllPaymentHistoryByUserId(userId uint) ([]web.GetPaymentResponse, error)
 }
 
 type PaymentServiceImpl struct {

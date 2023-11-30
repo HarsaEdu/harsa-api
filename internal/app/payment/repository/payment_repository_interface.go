@@ -9,6 +9,7 @@ type PaymentRepository interface {
 	CreatePaymentHistory(paymentHistory *domain.PaymentHistory) error
 	GetPaymentHistoryById(paymentHistoryId string) (*domain.PaymentHistory, error)
 	GetAllPaymentHistory() ([]domain.PaymentHistory, error)
+	GetAllPaymentHistoryByUserId(userId uint) ([]domain.PaymentHistory, error)
 	UpdateStatusPaymentHistory(status string, transactionResult *domain.PaymentTransactionStatus) error
 }
 
