@@ -37,7 +37,7 @@ func (paymentService *PaymentServiceImpl) CreatePaymentSubscription(request *web
 		return nil, fmt.Errorf("error when create payment history : %s", err.Error())
 	}
 
-	paymentHistoryResponse, err := paymentService.PaymentRepository.GetPaymentHistory(paymentHistory.ID)
+	paymentHistoryResponse, err := paymentService.PaymentRepository.GetPaymentHistoryById(paymentHistory.ID)
 	if err != nil {
 		return nil, fmt.Errorf("error when get payment history : %s", err.Error())
 	}
