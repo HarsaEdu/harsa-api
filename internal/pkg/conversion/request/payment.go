@@ -63,3 +63,27 @@ func ChargeResponseToPaymentHistoryDomain(response *coreapi.ChargeResponse, cust
 		ExpiredAt: parseExpireTime,
 	}
 }
+
+func PaymentHistoryDomainToPaymentHistoryResponse(paymentHistory *domain.PaymentHistory) *web.GetPaymentResponse {
+	return &web.GetPaymentResponse{
+		ID: paymentHistory.ID,
+		UserId: paymentHistory.UserId,
+		ItemId: paymentHistory.ItemId,
+		Status: paymentHistory.Status,
+		Method: paymentHistory.Method,
+		GrossAmount: paymentHistory.GrossAmount,
+		BankName: paymentHistory.BankName,
+		VaNumber: paymentHistory.VaNumber,
+		CreatedAt: paymentHistory.CreatedAt,
+		UpdatedAt: paymentHistory.UpdatedAt,
+		ExpiredAt: paymentHistory.ExpiredAt,
+		Customer: web.PaymentCustomerResponse{
+			ID: paymentHistory.User.ID,
+			Name: paymentHistory.User.UserProfile.FirstName + " " + paymentHistory.User.UserProfile.LastName,
+		},
+		Item: web.PaymentItemResponse{
+			ID: paymentHistory.Item.ID,
+			Name: paymentHistory.Item.Title,
+		},
+	}
+}
