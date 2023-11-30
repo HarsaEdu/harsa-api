@@ -4,7 +4,8 @@ import (
 	"fmt"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
-	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
+	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
+	conversionResponse "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
 func (paymentService *PaymentServiceImpl) CreatePaymentSubscription(request *web.CreatePaymentSubscriptionRequest, userId uint) (*web.GetPaymentResponse, error) {
@@ -23,14 +24,14 @@ func (paymentService *PaymentServiceImpl) CreatePaymentSubscription(request *web
 		return nil, fmt.Errorf("error when get subscription plan : %s", err.Error())
 	}
 
-	chargeRequest := conversion.CreatePaymentSubscriptionRequestToMidtransChargeRequest(existingSubsPlan, existingUser, request)
+	chargeRequest := conversionRequest.CreatePaymentSubscriptionRequestToMidtransChargeRequest(existingSubsPlan, existingUser, request)
 
 	chargeRequestResponse, err := paymentService.MidtransCoreApi.ChargeTransaction(chargeRequest)
 	if err != nil {
 		return nil, fmt.Errorf("error when create payment : %s", err.Error())
 	}
 
-	paymentHistory := conversion.ChargeResponseToPaymentHistoryDomain(chargeRequestResponse, existingUser, existingSubsPlan.ID)
+	paymentHistory := conversionRequest.ChargeResponseToPaymentHistoryDomain(chargeRequestResponse, existingUser, existingSubsPlan.ID)
 
 	err = paymentService.PaymentRepository.CreatePaymentHistory(paymentHistory)
 	if err != nil {
@@ -42,7 +43,7 @@ func (paymentService *PaymentServiceImpl) CreatePaymentSubscription(request *web
 		return nil, fmt.Errorf("error when get payment history : %s", err.Error())
 	}
 
-	response := conversion.PaymentHistoryDomainToPaymentHistoryResponse(paymentHistoryResponse)
+	response := conversionResponse.PaymentHistoryDomainToPaymentHistoryResponse(paymentHistoryResponse)
 
 	return response, nil
 }

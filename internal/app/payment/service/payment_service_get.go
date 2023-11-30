@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
-	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
+	conversionResponse "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
 func (paymentService *PaymentServiceImpl) GetPaymentHistoryById(orderId string) (*web.GetPaymentResponse, error) {
@@ -17,7 +17,7 @@ func (paymentService *PaymentServiceImpl) GetPaymentHistoryById(orderId string) 
 		return nil, fmt.Errorf("payment history not found")
 	}
 
-	response := conversion.PaymentHistoryDomainToPaymentHistoryResponse(paymentHistory)
+	response := conversionResponse.PaymentHistoryDomainToPaymentHistoryResponse(paymentHistory)
 
 	return response, nil
 }
