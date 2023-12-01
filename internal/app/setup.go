@@ -72,6 +72,6 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	feedbackRoutes.FeedbackMobile(apiGroupMobile)
 	interestRoutes.MobileInterest(apiGroupMobile)
 	chatbotRoutes.ChatbotMobile(apiGroupMobile)
-	submissionRoutes.SubmissionMobile(apiGroupMobile)
+	submissionRoutes.SubmissionMobile(coursesGroup)
 
 }
