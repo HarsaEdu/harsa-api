@@ -20,5 +20,5 @@ func (categoryRoutes *CategoryRoutesImpl) CategoryWeb(apiGroup *echo.Group) {
 func (categoryRoutes *CategoryRoutesImpl) CategoryMobile(apiGroup *echo.Group) {
 	categoriesGroup := apiGroup.Group("/categories")
 
-	categoriesGroup.GET("", categoryRoutes.CategoryHandler.GetAll, middleware.StudentMiddleare)
+	categoriesGroup.GET("", categoryRoutes.CategoryHandler.GetAll)
 }

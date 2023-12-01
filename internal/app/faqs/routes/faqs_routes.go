@@ -18,6 +18,6 @@ func (faqsRoutes *FaqsRoutesImpl) FaqsWeb(apiGroup *echo.Group) {
 func (faqsRoutes *FaqsRoutesImpl) FaqsMobile(apiGroup *echo.Group) {
 	categoriesGroup := apiGroup.Group("/faqs")
 
-	categoriesGroup.GET("", faqsRoutes.FaqsHandler.GetAll, middleware.StudentMiddleare)
+	categoriesGroup.GET("", faqsRoutes.FaqsHandler.GetAll)
 
 }
