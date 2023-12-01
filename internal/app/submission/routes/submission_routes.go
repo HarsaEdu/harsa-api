@@ -17,6 +17,6 @@ func (subsPlanRoutes *SubmissionRoutesImpl) SubmissionWeb(apiGroup *echo.Group) 
 func (subsPlanRoutes *SubmissionRoutesImpl) SubmissionMobile(apiGroup *echo.Group) {
 	submissionsGroup := apiGroup.Group("/modules/:moduleId/submissions")
 
-	submissionsGroup.GET("", subsPlanRoutes.submissionHandler.GetAllMobile, middleware.InstructorMiddleware)
+	submissionsGroup.GET("", subsPlanRoutes.submissionHandler.GetAllMobile, middleware.StudentMiddleare)
 
 }
