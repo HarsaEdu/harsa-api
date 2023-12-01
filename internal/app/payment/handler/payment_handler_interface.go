@@ -7,6 +7,11 @@ import (
 
 type PaymentHandler interface {
 	CreatePaymentSubscription(ctx echo.Context) error
+	NotificationPayment(ctx echo.Context) error
+	GetPaymentHistoryById(ctx echo.Context) error
+	GetAllPaymentHistory(ctx echo.Context) error
+	GetAllPaymentHistoryByUserId(ctx echo.Context) error
+	GetPaymentHistoryByUserIdAndPaymentId(ctx echo.Context) error
 }
 
 type PaymentHandlerImpl struct {
