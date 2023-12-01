@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
@@ -9,7 +10,11 @@ import (
 )
 
 func (submissionHandler *SubmissionHandlerImpl) GetAllWeb(ctx echo.Context) error {
-	data, err := submissionHandler.SubmissionService.GetAll()
+
+	idParam := ctx.Param("moduleId")
+	id, _ := strconv.Atoi(idParam)
+
+	data, err := submissionHandler.SubmissionService.GetAll(id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

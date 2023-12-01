@@ -7,8 +7,8 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (submissionService *SubmissionServiceImpl) GetAll() ([]web.SubmissionsResponseModule, error) {
-	data, total, err := submissionService.SubmissionRepository.GetAll()
+func (submissionService *SubmissionServiceImpl) GetAll(moduleId int) ([]web.SubmissionsResponseModule, error) {
+	data, total, err := submissionService.SubmissionRepository.GetAll(moduleId)
 	if err != nil {
 		return nil, fmt.Errorf("internal Server Error")
 	}
