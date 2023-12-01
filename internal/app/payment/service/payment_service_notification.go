@@ -15,5 +15,18 @@ func (paymentService *PaymentServiceImpl) NotificationPayment(notificationPayloa
 
 	err = paymentService.PaymentRepository.UpdateStatusPaymentHistory(transactionStatus, transactionResult)
 
+	transaction, err := paymentService.PaymentRepository.GetPaymentHistoryById(transactionResult.OrderID)
+	if err != nil {
+		return fmt.Errorf("error when get payment history : %s", err.Error())
+	}
+
+	if transaction == nil {
+		return fmt.Errorf("error when get payment history : payment history not found")
+	}
+
+	if transaction.Status == "success" {
+		err = paymentService.SubscriptionService.SubscriptionAdd(transaction.UserId, uint(transaction.Item.Duration_days))
+	}
+
 	return nil
 }
