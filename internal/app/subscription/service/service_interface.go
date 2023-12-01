@@ -2,7 +2,6 @@ package service
 
 import (
 	"github.com/HarsaEdu/harsa-api/internal/app/subscription/repository"
-	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 )
 
@@ -13,12 +12,10 @@ type SubscriptionService interface {
 
 type SubscriptionServiceImpl struct {
 	SubscriptionRepository repository.SubscriptionRepository
-	Validate               *validator.Validate
 }
 
-func NewSubscriptionService(SubscriptionRepository repository.SubscriptionRepository, validate *validator.Validate) SubscriptionService {
+func NewSubscriptionService(SubscriptionRepository repository.SubscriptionRepository) SubscriptionService {
 	return &SubscriptionServiceImpl{
 		SubscriptionRepository: SubscriptionRepository,
-		Validate:               validate,
 	}
 }
