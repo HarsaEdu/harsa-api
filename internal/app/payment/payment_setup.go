@@ -6,6 +6,8 @@ import (
 	paymentRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/payment/routes"
 	paymentServicePkg "github.com/HarsaEdu/harsa-api/internal/app/payment/service"
 	subsPlanRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/subs_plan/repository"
+	subscriptionRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/subscription/repository"
+	subscriptionServicePkg "github.com/HarsaEdu/harsa-api/internal/app/subscription/service"
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/go-playground/validator"
@@ -13,8 +15,10 @@ import (
 )
 
 func PaymentSetup(db *gorm.DB, validate *validator.Validate, midtransCoreApi midtrans.MidtransCoreApi, userRepository userRepositoryPkg.UserRepository, subsPlanRepository subsPlanRepositoryPkg.SubsPlanRepository) paymentRoutesPkg.PaymentRoutes {
+	subscriptionRepository := subscriptionRepositoryPkg.NewSubscriptionRepository(db)
 	paymentRepository := paymentRepositoryPkg.NewPaymentRepository(db)
-	paymentService := paymentServicePkg.NewPaymentService(paymentRepository, subsPlanRepository, userRepository, midtransCoreApi, validate)
+	subscriptionService := subscriptionServicePkg.NewSubscriptionService(subscriptionRepository)
+	paymentService := paymentServicePkg.NewPaymentService(paymentRepository, subsPlanRepository, userRepository, subscriptionService, midtransCoreApi, validate)
 	paymentHandler := paymentHandlerPkg.NewPaymentHandler(paymentService)
 	paymentRoutes := paymentRoutesPkg.NewPaymentRoutes(paymentHandler)
 

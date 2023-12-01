@@ -61,5 +61,6 @@ func ChargeResponseToPaymentHistoryDomain(response *coreapi.ChargeResponse, cust
 		CreatedAt: parseTransactionTime,
 		UpdatedAt: parseTransactionTime,
 		ExpiredAt: parseExpireTime,
+		SettlementTime: parseTransactionTime,
 	}
 }
