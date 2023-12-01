@@ -6,8 +6,8 @@ import (
 )
 
 type SubscriptionRepository interface {
-	AddSubscription(*domain.Subscription) error
-	UpdateSubscription(*domain.Subscription) error
+	AddSubscription(subscription *domain.Subscription) error
+	UpdateSubscription(subscription *domain.Subscription) error
 	FindSubscription(userID uint) (*domain.Subscription, error)
 }
 

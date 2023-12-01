@@ -4,10 +4,8 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
-func (subscriptionRepository *SubscriptionRepositoryImpl) UpdateSubscription(*domain.Subscription) error {
-	subscription := &domain.Subscription{}
-
-	result := subscriptionRepository.DB.Updates(&subscription)
+func (subscriptionRepository *SubscriptionRepositoryImpl) UpdateSubscription(subscription *domain.Subscription) error {
+	result := subscriptionRepository.DB.Save(subscription)
 
 	if result.Error != nil {
 		return result.Error
