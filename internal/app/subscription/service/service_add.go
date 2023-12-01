@@ -26,12 +26,12 @@ func (subscriptionService *SubscriptionServiceImpl) SubscriptionAdd(user_id uint
 	}
 
 	if subscription == nil {
-		err := subscriptionService.SubscriptionRepository.AddSubscription(user_id, days)
+		err := subscriptionService.SubscriptionRepository.AddSubscription(subscription)
 		if err != nil {
 			return fmt.Errorf("error when add subscription %s:", err.Error())
 		}
 	} else {
-		err := subscriptionService.SubscriptionRepository.UpdateSubscription(user_id, days)
+		err := subscriptionService.SubscriptionRepository.UpdateSubscription(subscription)
 		if err != nil {
 			return fmt.Errorf("error when update subscription %s:", err.Error())
 		}
