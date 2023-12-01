@@ -11,8 +11,9 @@ type SubmissionService interface {
 	Create(ctx echo.Context, request web.SubmissionRequest) error
 	Update(ctx echo.Context, request *web.SubmissionUpdateRequest, submissionId int) error
 	Delete(id int) error
-	GetAll() ([]web.SubmissionsResponseModule, error)
-	GetAllMobile() ([]web.SubmissionsResponseModuleMobile, error)
+	GetAll(moduleId int) ([]web.SubmissionsResponseModule, error)
+	FindById(id int) (*web.SubmissionsResponseModuleMobile, error)
+	GetAllMobile(moduleId int) ([]web.SubmissionsResponseModuleMobile, error)
 }
 
 type SubmissionServiceImpl struct {

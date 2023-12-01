@@ -11,6 +11,7 @@ type SubmissionHandler interface {
 	Delete(ctx echo.Context) error
 	GetAllWeb(ctx echo.Context) error
 	GetAllMobile(ctx echo.Context) error
+	FindById(ctx echo.Context) error
 }
 
 type SubmissionHandlerImpl struct {
