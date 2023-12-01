@@ -15,7 +15,7 @@ func (submissionService *SubmissionServiceImpl) Update(ctx echo.Context, request
 		return err
 	}
 
-	ifExist := submissionService.SubmissionRepository.FindById(submissionId)
+	ifExist, _ := submissionService.SubmissionRepository.FindById(submissionId)
 	if ifExist == nil {
 		return fmt.Errorf("submission not found")
 	}

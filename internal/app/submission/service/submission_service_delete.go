@@ -4,7 +4,7 @@ import "fmt"
 
 func (submissionService *SubmissionServiceImpl) Delete(id int) error {
 
-	ifExist := submissionService.SubmissionRepository.FindById(id)
+	ifExist, _ := submissionService.SubmissionRepository.FindById(id)
 	if ifExist == nil {
 		return fmt.Errorf("submission not found")
 	}
