@@ -7,15 +7,15 @@ import (
 
 func SubmissionRequestToSubmissionDomain(request *web.SubmissionRequest) *domain.Submissions {
 	return &domain.Submissions{
-		Title:       request.Title,
-		Description: request.Description,
-		ModuleID:    request.ModuleID,
+		Title:    request.Title,
+		Content:  request.Content,
+		ModuleID: request.ModuleID,
 	}
 }
 
 func SubmissionUpdateRequestToSubmissionDomain(request *web.SubmissionUpdateRequest) *domain.Submissions {
 	return &domain.Submissions{
-		Title:       request.Title,
-		Description: request.Description,
+		Title:   request.Title,
+		Content: request.Content,
 	}
 }

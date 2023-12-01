@@ -7,9 +7,9 @@ import (
 
 func ConvertSubmissionResponseModule(submission *domain.Submissions) *web.SubmissionsResponseModule {
 	submissionRes := web.SubmissionsResponseModule{
-		Id:          submission.ID,
-		Title:       submission.Title,
-		Description: submission.Description,
+		Id:      submission.ID,
+		Title:   submission.Title,
+		Content: submission.Content,
 	}
 	return &submissionRes
 }

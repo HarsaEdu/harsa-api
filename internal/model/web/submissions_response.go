@@ -5,7 +5,7 @@ import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 type SubmissionsResponseModule struct {
 	Id          uint   `json:"id"`
 	Title       string `json:"title"`
-	Description string `json:"description"`
+	Content string `json:"content"`
 }
 
 type SubmissionsResponseModuleMobile struct {
