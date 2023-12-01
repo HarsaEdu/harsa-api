@@ -18,5 +18,6 @@ func (submissionRoutes *SubmissionRoutesImpl) SubmissionMobile(apiGroup *echo.Gr
 	submissionsGroup := apiGroup.Group("/modules/:moduleId/submissions")
 
 	submissionsGroup.GET("", submissionRoutes.submissionHandler.GetAllMobile, middleware.StudentMiddleare)
+	submissionsGroup.GET("/:id", submissionRoutes.submissionHandler.FindById, middleware.StudentMiddleare)
 
 }
