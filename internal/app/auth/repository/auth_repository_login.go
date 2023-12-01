@@ -10,7 +10,7 @@ func (authRepository *AuthRepositoryImpl) LoginUser(id uint) (*domain.Auth, erro
 
 	// get user data from database
 	result := authRepository.DB.Model(&domain.User{}).
-		Select("users.id as id, username, email, roles.name as role_name").
+		Select("users.id as id, username, email, roles.name as role_name, users.created_at as created_at").
 		Joins("left join roles on roles.id = users.role_id").
 		Where("users.id = ?", id).
 		First(&auth)
