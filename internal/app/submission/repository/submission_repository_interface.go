@@ -8,6 +8,7 @@ import (
 type SubmissionRepository interface {
 	Create(submission *domain.Submissions) error
 	Update(submission *domain.Submissions, submissionId int) error
+	GetAll() ([]domain.Submissions, int64, error)
 	FindById(id int) error
 	Delete(id int) error
 }
