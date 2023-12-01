@@ -14,8 +14,8 @@ func (profileService *ProfileServiceImpl) CreateProfile(ctx echo.Context, reques
 		return err
 	}
 
-	profileExists, _ := profileService.ProfileRepository.FindByUserID(userID)
-	if profileExists != nil {
+	profileExists := profileService.ProfileRepository.IsExists(userID)
+	if profileExists {
 		return fmt.Errorf("profile already exists")
 	}
 

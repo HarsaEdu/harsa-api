@@ -7,9 +7,10 @@ import (
 
 type ProfileRepository interface {
 	CreateProfile(profile *domain.UserProfile) error
-	FindByUserID(id uint) (*domain.UserProfile, error)
+	FindByUserID(userID uint) (*domain.ProfileDetail, error)
 	UpdateProfile(profile *domain.UserProfile) error
-	GetProfileByID(profileID uint) (*domain.UserProfile, error)
+	GetProfileByID(profileID uint) (*domain.ProfileDetail, error)
+	IsExists(userID uint) bool
 }
 
 type ProfileRepositoryImpl struct {

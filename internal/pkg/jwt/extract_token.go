@@ -3,6 +3,7 @@ package jwt
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/golang-jwt/jwt/v5"
@@ -11,10 +12,11 @@ import (
 func ExtractToken(tokenString string) (*web.AuthResponse, error) {
 
 	type CustomClaims struct {
-		ID       uint   `json:"id"`
-		Email    string `json:"email"`
-		Username string `json:"username"`
-		RoleName string `json:"role_name"`
+		ID        uint      `json:"id"`
+		Email     string    `json:"email"`
+		Username  string    `json:"username"`
+		RoleName  string    `json:"role_name"`
+		CreatedAt time.Time `json:"created_at"`
 		jwt.RegisteredClaims
 	}
 
@@ -29,10 +31,11 @@ func ExtractToken(tokenString string) (*web.AuthResponse, error) {
 
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
 		extractedToken := &web.AuthResponse{
-			ID:       claims.ID,
-			Username: claims.Username,
-			Email:    claims.Email,
-			RoleName: web.Role(claims.RoleName),
+			ID:        claims.ID,
+			Username:  claims.Username,
+			Email:     claims.Email,
+			RoleName:  web.Role(claims.RoleName),
+			CreatedAt: claims.CreatedAt,
 		}
 		return extractedToken, nil
 	}

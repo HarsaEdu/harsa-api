@@ -23,6 +23,10 @@ func AuthMiddleware(next echo.HandlerFunc, condition string) echo.HandlerFunc {
 			return res.StatusBadRequest(c, "invalid token.", fmt.Errorf("invalid token"))
 		}
 
+		if userToken[0] != "Bearer" {
+			return res.StatusBadRequest(c, "invalid token type.", fmt.Errorf("invalid token type"))
+		}
+
 		data, err := jwt.ExtractToken(userToken[1])
 
 		if err != nil {
@@ -56,6 +60,7 @@ func AuthMiddleware(next echo.HandlerFunc, condition string) echo.HandlerFunc {
 		c.Set("user_id", data.ID)
 		c.Set("role_name", data.RoleName)
 		c.Set("username", data.Username)
+		c.Set("create_user", data.CreatedAt.Unix())
 
 		return next(c)
 	}
