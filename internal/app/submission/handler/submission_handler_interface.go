@@ -9,6 +9,8 @@ type SubmissionHandler interface {
 	Create(ctx echo.Context) error
 	Update(ctx echo.Context) error
 	Delete(ctx echo.Context) error
+	GetAllWeb(ctx echo.Context) error
+	GetAllMobile(ctx echo.Context) error
 }
 
 type SubmissionHandlerImpl struct {
