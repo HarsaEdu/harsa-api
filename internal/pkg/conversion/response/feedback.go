@@ -21,6 +21,7 @@ func ConvertFeedbackForTracking(feedback *domain.Feedback) *web.FeedBackResponse
 		ID:   feedback.ID,
 		Rating: feedback.Rating,
 		Content: feedback.Content,
+		CreatedAt: feedback.CreatedAt,
 		User: *user,
 	}
 }
