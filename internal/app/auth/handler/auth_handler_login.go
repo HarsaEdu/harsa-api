@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -20,7 +21,7 @@ func (authHandler *AuthHandlerImpl) LoginUser(ctx echo.Context) error {
 	response, err := authHandler.AuthService.LoginUser(loginUserRequest)
 
 	if response.RoleName == "student" {
-		return res.StatusNotFound(ctx, "user not found", err)
+		return res.StatusNotFound(ctx, "user not found", fmt.Errorf("invalid username or password"))
 	}
 
 	if err != nil {
@@ -53,7 +54,7 @@ func (authHandler *AuthHandlerImpl) LoginUserStudent(ctx echo.Context) error {
 	response, err := authHandler.AuthService.LoginUser(loginUserRequest)
 
 	if response.RoleName != "student" {
-		return res.StatusNotFound(ctx, "user not found", err)
+		return res.StatusNotFound(ctx, "user not found", fmt.Errorf("invalid username or password"))
 	}
 
 	if err != nil {
