@@ -46,10 +46,10 @@ func (moduleHandler ModuleHandlerImpl) CreateSection(ctx echo.Context) error {
 }
 
 func (moduleHandler ModuleHandlerImpl) CreateModule(ctx echo.Context) error {
-	paramCourseId := ctx.Param("courseId")
-	courseId, err := strconv.Atoi(paramCourseId)
+	paramSectionId := ctx.Param("sectionId")
+	sectionId, err := strconv.Atoi(paramSectionId)
 	if err != nil {
-		return res.StatusBadRequest(ctx, "failed to convert course id : ", err)
+		return res.StatusBadRequest(ctx, "failed to convert section id : ", err)
 	}
 
 	id := ctx.Get("user_id").(uint)
@@ -64,7 +64,7 @@ func (moduleHandler ModuleHandlerImpl) CreateModule(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "data request invalid", err)
 	}
 
-	err = moduleHandler.ModuleService.CreateModule(&moduleCreateRequest, uint(courseId), uint(id), roleString)
+	err = moduleHandler.ModuleService.CreateModule(&moduleCreateRequest, uint(sectionId), uint(id), roleString)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
