@@ -24,7 +24,7 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindByIdMobile(crourseTr
 		return nil, fmt.Errorf(" :%s", err.Error())
 	}
 
-	listModule ,err := courseTrackingService.CourseTrackingRepository.FindAllModuleTracking(course.Modules ,courseTraking.UserID)
+	listModule ,err := courseTrackingService.CourseTrackingRepository.FindAllModuleTracking(course.Section ,courseTraking.UserID)
 	if err != nil { 
 		return nil, fmt.Errorf("eror when find module tracking :%s", err.Error())
 	}

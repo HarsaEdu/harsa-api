@@ -11,7 +11,7 @@ type CourseTrackingRepository interface {
 	FindById(courseTrackingId uint) (*domain.CourseTracking ,error)
 	CountProgressModule(moduleID uint, userID uint) (float32 ,error)
 	CountProgressCourse(courseID uint, userID uint) (float32 ,error)
-	FindAllModuleTracking(module []domain.Module, userID uint) ([]web.ModuleResponseForTracking, error)
+	FindAllModuleTracking(sections []domain.Section, userID uint) ([]web.SectionResponseMobile, error)
 	FindAllSubModule(moduleId uint, userID uint) ([]web.SubModuleResponseForTracking, error)
 	FindAllSubmission(moduleId uint, userID uint) ([]web.SubmissionsResponseModuleMobile, error)
 	FindAllQuiz(moduleId uint, userID uint) ([]web.QuizResponseForTracking, error)

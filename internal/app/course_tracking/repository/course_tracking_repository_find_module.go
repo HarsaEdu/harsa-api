@@ -7,22 +7,28 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTracking(module []domain.Module, userID uint) ([]web.ModuleResponseForTracking, error) {
+func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTracking(sections []domain.Section, userID uint) ([]web.SectionResponseMobile, error) {
 
-	var allModule []web.ModuleResponseForTracking
+	allSection:= []web.SectionResponseMobile{}
 
-	for _, module := range module {
+	for _,section := range sections {
 
-		progrees, err := courseTrackingRepository.CountProgressModule(module.ID, userID)
-		if err != nil {
-			return nil, err
+		var allModule []web.ModuleResponseForTracking
+		for _, module := range section.Modules {
+
+			progrees, err := courseTrackingRepository.CountProgressModule(module.ID, userID)
+			if err != nil {
+				return nil, err
+			}
+
+			convertModul := conversion.ConvertModuleResponseTrackingMobile(&module, progrees)		
+			allModule = append(allModule, *convertModul)
 		}
-
-		convertModul := conversion.ConvertModuleResponseTrackingMobile(&module, progrees)		
-		allModule = append(allModule, *convertModul)
+		sectionRes:= conversion.ConvertSectionResponseMobile(&section, allModule)
+		allSection = append(allSection, *sectionRes)
 	}
 
-    return allModule, nil
+    return allSection, nil
 }
 
 func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindModuleTracking(moduleID uint, userID uint) (*web.ModuleResponseForTracking, error) {
