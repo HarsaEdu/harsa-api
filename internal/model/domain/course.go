@@ -11,7 +11,6 @@ type Course struct {
 	UserID             uint           `gorm:"type:int" json:"user_id"`
 	Title              string         `gorm:"type:varchar(255)" json:"title"`
 	Description        string         `gorm:"type:text" json:"description"`
-	Enrolled           int            `gorm:"type:int" json:"enrolled"`
 	Rating             float32        `json:"rating"`
 	ImageUrl           string         `gorm:"type:varchar(255)" json:"image_url"`
 	CreatedAt          time.Time      `gorm:"autoCreateTime" json:"created_at"`
@@ -20,6 +19,7 @@ type Course struct {
 	CategoryID         uint           `gorm:"type:int" json:"category_id"`
 	User               User           `gorm:"foreignKey:UserID;references:ID"`
 	Category           Category       `gorm:"foreignKey:CategoryID;references:ID"`
+	Section            []Section      `gorm:"foreignKey:CourseID;references:ID"`
 	Modules            []Module      `gorm:"foreignKey:CourseID;references:ID"`
 	Feedback           []Feedback    `gorm:"foreignKey:CourseID;references:ID"`
 }
