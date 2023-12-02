@@ -10,7 +10,7 @@ type FeedbackRepository interface {
 	GetAll(offset, limit int, search string) ([]domain.Feedback, int64, error)
 	GetById(id int) (*domain.Feedback, error)
 	GetByIdUserAndCourseId(userId, courseId uint) (*domain.Feedback, error)
-	Update(id int, feedback *domain.Feedback) error
+	UpdateByUserAndCourseId(userId, courseId uint, feedback *domain.Feedback) error
 	Delete(id int) error
 	AutoUpdateRating(courseId uint) error
 }

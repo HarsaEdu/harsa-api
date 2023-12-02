@@ -18,6 +18,6 @@ func (feedbackRoutes *FeedbackRoutesImpl) FeedbackMobile(apiGroup *echo.Group) {
 
 	feedbacksGroup.POST("", feedbackRoutes.FeedbackHandler.Create, middleware.StudentMiddleare)
 	feedbacksGroup.GET("", feedbackRoutes.FeedbackHandler.GetByIdUserAndCourseId, middleware.StudentMiddleare)
-	feedbacksGroup.PUT("/:id", feedbackRoutes.FeedbackHandler.Update, middleware.StudentMiddleare)
+	feedbacksGroup.PUT("", feedbackRoutes.FeedbackHandler.UpdateByUserAndCourseId, middleware.StudentMiddleare)
 	feedbacksGroup.DELETE("/:id", feedbackRoutes.FeedbackHandler.Delete, middleware.StudentMiddleare)
 }

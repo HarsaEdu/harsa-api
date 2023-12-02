@@ -7,21 +7,21 @@ import (
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 )
 
-func (feedbackService *FeedbackServiceImpl) Update(request web.FeedbackUpdateRequest, id int) error {
+func (feedbackService *FeedbackServiceImpl) UpdateByUserAndCourseId(request web.FeedbackUpdateRequest, userId, courseId uint) error {
 	// Check if the request is valid
 	err := feedbackService.Validator.Struct(request)
 	if err != nil {
 		return err
 	}
 
-	IfExist, _ := feedbackService.FeedbackRepository.GetById(id)
+	IfExist, _ := feedbackService.FeedbackRepository.GetByIdUserAndCourseId(userId, courseId)
 	if IfExist == nil {
 		return fmt.Errorf("feedback not found")
 	}
 
 	feedback := conversionRequest.FeedbackUpdateRequestToCategoriesModel(request)
 
-	err = feedbackService.FeedbackRepository.Update(id, feedback)
+	err = feedbackService.FeedbackRepository.UpdateByUserAndCourseId(userId, courseId, feedback)
 	if err != nil {
 		return fmt.Errorf("error when updating : %s", err.Error())
 	}

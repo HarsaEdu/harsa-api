@@ -9,7 +9,7 @@ import (
 
 type FeedbackService interface {
 	Create(feedback web.FeedbackCreateRequest, userId uint, courseId uint) error
-	Update(feedback web.FeedbackUpdateRequest, id int) error
+	UpdateByUserAndCourseId(feedback web.FeedbackUpdateRequest, userId, courseId uint) error
 	FindById(id int) (*domain.Feedback, error)
 	GetAll(offset, limit int, search string) ([]domain.Feedback, *web.Pagination, error)
 	GetByIdUserAndCourseId(userId, courseId uint) (*domain.Feedback, error)
