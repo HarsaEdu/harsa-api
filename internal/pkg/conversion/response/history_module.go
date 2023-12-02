@@ -10,7 +10,7 @@ func ConvertModuleResponseTrackingMobile(response *domain.Module, progress float
 		ID:          response.ID,
 		Title:       response.Title,
 		Description: response.Description,
-		Order: response.Order,
+		Order: response.OrderBy,
 		Progress: progress,
 	}
 }

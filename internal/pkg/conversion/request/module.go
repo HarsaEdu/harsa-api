@@ -40,9 +40,19 @@ func ModuleRequestToModuleDomain(request *web.ModuleRequest) *domain.Module {
 		CourseID:    request.CourseID,
 		Title:       request.Title,
 		Description: request.Description,
-		Type:        request.Type,
-		Order:       request.Order,
+		OrderBy:       request.Order,
 		SubModules:  request.SubModules,
+	}
+
+	return module
+}
+
+func SectionRequestToSectionDomain(request *web.SectionRequest) *domain.Section {
+	module := &domain.Section{
+		CourseID:    request.CourseID,
+		Title:       request.Title,
+		OrderBy:       request.Order,
+		Modules:     []domain.Module{request.Modules},
 	}
 
 	return module

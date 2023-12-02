@@ -24,11 +24,9 @@ type SubModuleResponseModuleMobile struct {
 type ModuleResponse struct {
 	ID          uint           `json:"id"`
 	CourseID    uint           `json:"course_id"`
-	Section     string         `json:"section"`
 	Title       string         `json:"title"`
 	Description string         `json:"description"`
 	Order       int            `json:"order"`
-	Type        string         `json:"type"`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 	SubModules  []SubModuleResponseModule `json:"sub_modules"`
@@ -49,4 +47,19 @@ type ModuleResponseMobile struct {
 	SubModules  []SubModuleResponseModuleMobile `json:"sub_modules"`
 	Submissions []SubmissionsResponseModuleMobile  `json:"submissions"`
 	Quizzes 	[]QuizResponseModuleMobile 	   `json:"quizzes"`
+}
+
+type SectionResponse struct {
+	ID          uint           `json:"id"`
+	CourseID    uint           `json:"course_id"`
+	Title       string         `json:"title"`
+	Order       int            `json:"order"`
+	Modules     []ModuleResponseWithTitle `json:"modules"`
+}
+
+type ModuleResponseWithTitle struct {
+	ID          uint           `json:"id"`
+	Title       string         `json:"title"`
+	Description string         `json:"description"`
+	Order       int            `json:"order"`
 }

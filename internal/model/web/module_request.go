@@ -19,10 +19,23 @@ type SubModuleCreateRequest struct {
 
 type ModuleRequest struct {
 	CourseID    uint   `json:"course_id" validate:"required"`
-	Section     string `json:"section" validate:"required"`
 	Title       string `json:"title" validate:"required"`
 	Description string `json:"description" validate:"required"`
-	Type        string `json:"type" validate:"required"`
-	Order       int    `json:"order" validate:"required,min=1"`
+	Order       int    `json:"order"`
 	SubModules  []domain.SubModule `json:"sub_modules"`
+}
+
+type ModuleOrderRequest struct {
+	Order       int    `json:"order"`
+}
+
+type SectionRequest struct {
+	CourseID  uint `json:"course_id" validate:"required"`
+	Title   string `json:"title" validate:"required"`
+	Order    int    `json:"order" `
+	Modules  domain.Module `json:"modules"`
+}
+
+type SectionOrderRequest struct {
+	Order    int    `json:"order" `
 }
