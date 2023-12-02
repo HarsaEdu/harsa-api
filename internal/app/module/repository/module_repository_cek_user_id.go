@@ -8,17 +8,39 @@ import (
 
 func (moduleRepository *ModuleRepositoryImpl) CekIdFromCourse(userId uint, courseId uint, role string) error {
 
-	var course = domain.Course{}
+	var userIDCourse uint
 
-	if err := moduleRepository.DB.First(&course, courseId).Error; err != nil {
+	if err := moduleRepository.DB.Model(&domain.Course{}).Where("id = ?", courseId).Select("user_id").Scan(&userIDCourse).Error; err != nil {
 		return err
 	}
 
-	if course.UserID != userId && role != "admin" {
+	if userIDCourse != userId && role != "admin" {
 		return fmt.Errorf("unauthorized")
 	}
 
 	return nil
+}
+
+func (moduleRepository *ModuleRepositoryImpl) CekIdFromSection(userId uint, sectionId uint, role string) (*domain.Section, error) {
+
+
+	var section = domain.Section{} 
+
+	if err := moduleRepository.DB.First(&section, sectionId).Error; err != nil {
+		return nil, err
+	}
+
+	var userIDCourse uint
+
+	if err := moduleRepository.DB.Model(&domain.Course{}).Where("id = ?", section.CourseID).Select("user_id").Scan(&userIDCourse).Error; err != nil {
+		return nil, err
+	}
+
+	if userIDCourse != userId && role != "admin" {
+		return nil, fmt.Errorf("unauthorized")
+	}
+
+	return &section, nil
 }
 
 func (moduleRepository *ModuleRepositoryImpl) CekIdFromModule(userId uint, moduleId uint, role string) (*domain.Module, error) {
@@ -29,15 +51,14 @@ func (moduleRepository *ModuleRepositoryImpl) CekIdFromModule(userId uint, modul
 		return nil, err
 	}
 	
-	var course = domain.Course{}
+	var userIDCourse uint
 
-	if err := moduleRepository.DB.First(&course, module.CourseID).Error; err != nil {
+	if err := moduleRepository.DB.Model(&domain.Course{}).Where("id = ?", module.CourseID).Select("user_id").Scan(&userIDCourse).Error; err != nil {
 		return nil, err
 	}
 
-	if course.UserID != userId && role != "admin" {
+	if userIDCourse != userId && role != "admin" {
 		return nil, fmt.Errorf("unauthorized")
 	}
-
 	return &module, nil
 }
