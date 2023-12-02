@@ -6,6 +6,7 @@ func ConvertToSubModuleTrackingResponse(module *web.ModuleResponseForTracking, h
 	return &web.SubModuleTrackingResponse{
 		ID:               module.ID,
 		Title:            module.Title,
+		Description:      module.Description,
 		Progress:         module.Progress,
 		Order:            module.Order,
 		HistorySubModule: *history,
