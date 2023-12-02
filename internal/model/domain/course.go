@@ -20,7 +20,6 @@ type Course struct {
 	User               User           `gorm:"foreignKey:UserID;references:ID"`
 	Category           Category       `gorm:"foreignKey:CategoryID;references:ID"`
 	Section            []Section      `gorm:"foreignKey:CourseID;references:ID"`
-	Modules            []Module      `gorm:"foreignKey:CourseID;references:ID"`
 	Feedback           []Feedback    `gorm:"foreignKey:CourseID;references:ID"`
 }
 
