@@ -12,3 +12,14 @@ func (feedbackRepository *FeedbackRepositoryImpl) GetById(id int) (*domain.Feedb
 
 	return feedback, nil
 }
+
+func (feedbackRepository *FeedbackRepositoryImpl) GetByIdUserAndCourseId(userId, courseId uint) (*domain.Feedback, error) {
+	feedback := &domain.Feedback{}
+
+	result := feedbackRepository.DB.Preload("User.UserProfile").Where("user_id = ? AND course_id = ?", userId, courseId).First(&feedback)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return feedback, nil
+}

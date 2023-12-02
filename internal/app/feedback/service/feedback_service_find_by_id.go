@@ -15,3 +15,13 @@ func (feedbackService *FeedbackServiceImpl) FindById(id int) (*domain.Feedback, 
 
 	return result, nil
 }
+
+func (feedbackService *FeedbackServiceImpl) GetByIdUserAndCourseId(userId, courseId uint) (*domain.Feedback, error) {
+	result, _ := feedbackService.FeedbackRepository.GetByIdUserAndCourseId(userId, courseId)
+
+	if result == nil {
+		return nil, fmt.Errorf("feedback not found")
+	}
+
+	return result, nil
+}
