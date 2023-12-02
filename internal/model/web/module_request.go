@@ -18,7 +18,7 @@ type SubModuleCreateRequest struct {
 }
 
 type ModuleRequest struct {
-	CourseID    uint   `json:"course_id" validate:"required"`
+	SectionID    uint   `json:"section_id" validate:"required"`
 	Title       string `json:"title" validate:"required"`
 	Description string `json:"description" validate:"required"`
 	Order       int    `json:"order"`

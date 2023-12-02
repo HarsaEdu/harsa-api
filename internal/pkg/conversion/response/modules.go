@@ -16,7 +16,7 @@ func ConvertModuleResponse(module *domain.Module) *web.ModuleResponse{
 
 	moduleRes := web.ModuleResponse{
 		ID:            module.ID,
-		CourseID:      module.CourseID,
+		SectionID:     module.SectionID,
 		Title:         module.Title,
 		Description:   module.Description,
 		Order:         module.OrderBy,
@@ -89,7 +89,7 @@ func ConvertAllModuleResponse(module []domain.Module) []web.ModuleResponse{
 func ConvertModuleRequest(module *web.ModuleRequest) *domain.Module{
 	
 	moduleRes := domain.Module{
-		CourseID:      module.CourseID,
+		SectionID:      module.SectionID,
 		Title:         module.Title,
 		Description:   module.Description,
 		OrderBy:       module.Order,
@@ -107,7 +107,7 @@ func ConvertModuleResponseMobile(module *domain.Module) *web.ModuleResponseMobil
 
 	moduleRes := web.ModuleResponseMobile{
 		ID:            module.ID,
-		CourseID:      module.CourseID,
+		SectionID:      module.SectionID,
 		Title:         module.Title,
 		Description:   module.Description,
 		Order:         module.OrderBy,
@@ -130,4 +130,17 @@ func ConvertAllModuleResponseMobile(module []domain.Module) []web.ModuleResponse
 	}
 
 	return moduleRes
+}
+
+
+func ConvertSectionResponseMobile(section *domain.Section,modules []web.ModuleResponseForTracking) *web.SectionResponseMobile{
+
+	sectionRes := web.SectionResponseMobile{
+		ID:            section.ID,
+		CourseID:      section.CourseID,
+		Title:         section.Title,
+		Order:         section.OrderBy,
+		Modules:       modules,
+	}
+	return &sectionRes
 }

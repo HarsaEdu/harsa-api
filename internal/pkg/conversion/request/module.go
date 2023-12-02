@@ -37,7 +37,7 @@ func SubModuleCreateRequestToSubModuleDomain(request *web.SubModuleCreateRequest
 
 func ModuleRequestToModuleDomain(request *web.ModuleRequest) *domain.Module {
 	module := &domain.Module{
-		CourseID:    request.CourseID,
+		SectionID:    request.SectionID,
 		Title:       request.Title,
 		Description: request.Description,
 		OrderBy:       request.Order,
