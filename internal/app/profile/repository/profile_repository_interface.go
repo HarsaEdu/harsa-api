@@ -10,6 +10,7 @@ type ProfileRepository interface {
 	FindByUserID(userID uint) (*domain.ProfileDetail, error)
 	UpdateProfile(profile *domain.UserProfile) error
 	GetProfileByID(profileID uint) (*domain.ProfileDetail, error)
+	IsExists(userID uint) bool
 }
 
 type ProfileRepositoryImpl struct {

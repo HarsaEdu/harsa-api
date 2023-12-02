@@ -5,6 +5,7 @@ import (
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
 	"github.com/HarsaEdu/harsa-api/internal/app/chatbot"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
+	courseTraking "github.com/HarsaEdu/harsa-api/internal/app/course_tracking"
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
 	feedback "github.com/HarsaEdu/harsa-api/internal/app/feedback"
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
@@ -14,9 +15,10 @@ import (
 	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
 	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
+	submission "github.com/HarsaEdu/harsa-api/internal/app/submission"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
+
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
-	courseTraking "github.com/HarsaEdu/harsa-api/internal/app/course_tracking"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
@@ -41,7 +43,8 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	optionsRoutes := options.OptionsSetup(db, validate)
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
-	paymentRoutes := payment.PaymentSetup(validate, midtransCoreApi, userRepo, subsPlanRepo)
+	submissionRoutes := submission.SubmissionSetup(db, validate)
+	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo)
 	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory)
 
 	apiGroupWeb := e.Group("web")
@@ -58,6 +61,8 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	questionsRoutes.QuestionsWeb(coursesGroup)
 	optionsRoutes.OptionsWeb(coursesGroup)
 	feedbackRoutes.FeedbackWeb(apiGroupWeb)
+	submissionRoutes.SubmissionWeb(coursesGroup)
+	paymentRoutes.PaymentWeb(apiGroupWeb)
 
 	apiGroupMobile := e.Group("mobile")
 	authRoutes.AuthMobile(apiGroupMobile)
@@ -73,6 +78,9 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	feedbackRoutes.FeedbackMobile(apiGroupMobile)
 	interestRoutes.MobileInterest(apiGroupMobile)
 	chatbotRoutes.ChatbotMobile(apiGroupMobile)
+	submissionRoutes.SubmissionMobile(coursesGroup)
+
+	paymentRoutes.PaymentMobile(apiGroupMobile)
 	paymentRoutes.PaymentSubscriptionsMobile(apiGroupMobile)
 	courseTrakingRoutes.CourseTrackingMobile(apiGroupMobile)
 }
