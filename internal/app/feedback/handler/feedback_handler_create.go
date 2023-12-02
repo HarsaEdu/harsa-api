@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (feedbackHandler *FeedbackHandlerImpl) Create(ctx echo.Context) error {
+func (feedbackHandler *FeedbackHandlerImpl) CreateByUserAndCourseId(ctx echo.Context) error {
 	courseIdParam := ctx.Param("courseId")
 	courseId, _ := strconv.Atoi(courseIdParam)
 
@@ -22,7 +22,7 @@ func (feedbackHandler *FeedbackHandlerImpl) Create(ctx echo.Context) error {
 
 	userId := ctx.Get("user_id").(uint)
 
-	err = feedbackHandler.FeedbackService.Create(req, userId, uint(courseId))
+	err = feedbackHandler.FeedbackService.CreateByUserAndCourseId(req, userId, uint(courseId))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

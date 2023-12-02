@@ -6,7 +6,7 @@ import (
 )
 
 type FeedbackHandler interface {
-	Create(ctx echo.Context) error
+	CreateByUserAndCourseId(ctx echo.Context) error
 	UpdateByUserAndCourseId(ctx echo.Context) error
 	FindById(ctx echo.Context) error
 	GetAll(ctx echo.Context) error

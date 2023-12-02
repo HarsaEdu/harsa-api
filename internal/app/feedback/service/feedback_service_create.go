@@ -7,7 +7,7 @@ import (
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 )
 
-func (feedbackService *FeedbackServiceImpl) Create(request web.FeedbackCreateRequest, userId uint, courseId uint) error {
+func (feedbackService *FeedbackServiceImpl) CreateByUserAndCourseId(request web.FeedbackCreateRequest, userId uint, courseId uint) error {
 	err := feedbackService.Validator.Struct(request)
 	if err != nil {
 		return err
