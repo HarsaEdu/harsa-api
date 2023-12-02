@@ -17,7 +17,6 @@ func ConvertModuleResponse(module *domain.Module) *web.ModuleResponse{
 	moduleRes := web.ModuleResponse{
 		ID:            module.ID,
 		CourseID:      module.CourseID,
-		Section:       module.Section,
 		Title:         module.Title,
 		Description:   module.Description,
 		Order:         module.Order,
@@ -54,7 +53,6 @@ func ConvertModuleResponseMobile(module *domain.Module) *web.ModuleResponseMobil
 	moduleRes := web.ModuleResponseMobile{
 		ID:            module.ID,
 		CourseID:      module.CourseID,
-		Section:       module.Section,
 		Title:         module.Title,
 		Description:   module.Description,
 		Order:         module.Order,

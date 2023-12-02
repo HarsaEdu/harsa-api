@@ -15,3 +15,14 @@ func (courseService *CourseServiceImpl) GetById(id uint) (*web.GetCourseResponse
 
 	return response, nil
 }
+
+func (courseService *CourseServiceImpl) GetByIdMobile(id uint) (*web.CourseForTraking, error) {
+	result, countModule, countEnroled , err := courseService.CourseRepository.GetByIdMobile(id)
+	if err != nil {
+		return nil, err
+	}
+
+	response := conversion.ConvertCourse(result,countEnroled,countModule)
+
+	return response, nil
+}

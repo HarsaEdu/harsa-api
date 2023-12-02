@@ -11,6 +11,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/app"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
 	"github.com/HarsaEdu/harsa-api/web"
 
@@ -41,10 +42,13 @@ func main() {
 	// Create an Openai instance
 	openAi := openai.NewOpenAi(&config.OpenAI)
 
+	// Create an Midtrans Core Api instance
+	midtransCoreApi := midtrans.NewMidtransCoreApi(&config.Midtrans)
+
 	// Create an Echo instance
 	e := echo.New()
 
-	app.InitApp(db, validate, cloudinaryUploader, e, openAi)
+	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
