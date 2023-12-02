@@ -6,23 +6,18 @@ import (
 )
 
 func (feedbackRoutes *FeedbackRoutesImpl) FeedbackWeb(apiGroup *echo.Group) {
-	feedbackGroup := apiGroup.Group("/feedback")
+	feedbacksGroup := apiGroup.Group("/feedbacks")
 
-	feedbackGroup.POST("", feedbackRoutes.FeedbackHandler.Create, middleware.StudentMiddleare)
-	feedbackGroup.GET("", feedbackRoutes.FeedbackHandler.GetAll)
-	feedbackGroup.GET("/:id", feedbackRoutes.FeedbackHandler.FindById)
-	feedbackGroup.PUT("/:id", feedbackRoutes.FeedbackHandler.Update, middleware.StudentMiddleare)
-	feedbackGroup.DELETE("/:id", feedbackRoutes.FeedbackHandler.Delete, middleware.StudentMiddleare)
+	feedbacksGroup.GET("", feedbackRoutes.FeedbackHandler.GetAll)
+	feedbacksGroup.GET("/:id", feedbackRoutes.FeedbackHandler.FindById)
 
 }
 
 func (feedbackRoutes *FeedbackRoutesImpl) FeedbackMobile(apiGroup *echo.Group) {
-	feedbackGroup := apiGroup.Group("/feedback")
+	feedbacksGroup := apiGroup.Group("/:courseId/feedbacks")
 
-	feedbackGroup.POST("", feedbackRoutes.FeedbackHandler.Create, middleware.StudentMiddleare)
-	feedbackGroup.GET("", feedbackRoutes.FeedbackHandler.GetAll)
-	feedbackGroup.GET("/:id", feedbackRoutes.FeedbackHandler.FindById)
-	feedbackGroup.PUT("/:id", feedbackRoutes.FeedbackHandler.Update, middleware.StudentMiddleare)
-	feedbackGroup.DELETE("/:id", feedbackRoutes.FeedbackHandler.Delete, middleware.StudentMiddleare)
-
+	feedbacksGroup.POST("", feedbackRoutes.FeedbackHandler.Create, middleware.StudentMiddleare)
+	feedbacksGroup.GET("", feedbackRoutes.FeedbackHandler.GetByIdUserAndCourseId, middleware.StudentMiddleare)
+	feedbacksGroup.PUT("/:id", feedbackRoutes.FeedbackHandler.Update, middleware.StudentMiddleare)
+	feedbacksGroup.DELETE("/:id", feedbackRoutes.FeedbackHandler.Delete, middleware.StudentMiddleare)
 }
