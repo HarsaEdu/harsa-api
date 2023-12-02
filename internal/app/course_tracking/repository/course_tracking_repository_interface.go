@@ -18,6 +18,7 @@ type CourseTrackingRepository interface {
 	FindAllSub(moduleId uint, userID uint) (*web.CourseTrackingSub, error)
 	FindModuleTracking(moduleID uint, userID uint) (*web.ModuleResponseForTracking, error)
 	FindSubModuleByID(moduleID uint, userID uint, subModuleID uint) (*domain.HistorySubModule, *domain.SubModule, error)
+	FindSubmissionByID(moduleID uint, userID uint, subModuleID uint) (*domain.SubmissionAnswer, *domain.Submissions, error)
 }
 
 type CourseTrackingRepositoryImpl struct {

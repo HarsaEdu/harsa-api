@@ -37,3 +37,21 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(module
 
 	return res, nil
 }
+
+func (courseTrackingService *CourseTrackingServiceImpl) FindSubmissionByID(moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingResponse, error) {
+	module, err := courseTrackingService.CourseTrackingRepository.FindModuleTracking(moduleID, userID)
+	if err != nil {
+		return nil, fmt.Errorf("module not found")
+	}
+
+	submissionAnswer, submission, err := courseTrackingService.CourseTrackingRepository.FindSubmissionByID(moduleID, userID, submissionID)
+	if err != nil {
+		return nil, fmt.Errorf("history not found")
+	}
+
+	newAnswer := conversion.ConvertSubmissionAnswerTracking(submissionAnswer, submission.Title)
+	newSubmission := conversion.ConvertSubmissionResponseModule(submission)
+
+	res := conversion.ConvertSubmissionAnswerTrackingResponse(module, newAnswer, newSubmission)
+	return res, nil
+}

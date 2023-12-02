@@ -12,6 +12,7 @@ type CourseTrackingService interface {
 	FindByIdMobile(crourseTrackingId uint) (*web.CourseTrackingResponseMobile, error)
 	FindSubByIdMobile(courseID uint, userID uint) (*web.CourseTrackingSub, error)
 	FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTrackingResponse, error)
+	FindSubmissionByID(moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingResponse, error)
 }
 
 type CourseTrackingServiceImpl struct {

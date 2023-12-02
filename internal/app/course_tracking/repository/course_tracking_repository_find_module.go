@@ -93,6 +93,23 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindSubModuleByID(
 	return &historySubModule, &subModule, nil
 }
 
+func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindSubmissionByID(moduleID uint, userID uint, submissionID uint) (*domain.SubmissionAnswer, *domain.Submissions, error) {
+	historySubmission := domain.SubmissionAnswer{}
+	err := courseTrackingRepository.DB.
+		Where("submission_id = ? AND user_id = ?", submissionID, userID).Preload("Submission").
+		First(&historySubmission).Error
+	if err != nil {
+		return nil, nil, err
+	}
+
+	submission := domain.Submissions{}
+	err = courseTrackingRepository.DB.Where("module_id = ? AND id = ?", moduleID, submissionID).First(&submission).Error
+	if err != nil {
+		return nil, nil, err
+	}
+	return &historySubmission, &submission, nil
+}
+
 func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllSubmission(moduleId uint, userID uint) ([]web.SubmissionsResponseModuleMobile, error) {
 	var submission []domain.Submissions
 

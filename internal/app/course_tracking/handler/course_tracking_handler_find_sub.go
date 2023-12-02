@@ -23,3 +23,19 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) FindSubModuleByID(ctx ec
 	}
 	return res.StatusOK(ctx, "success to get sub module tracking", result, nil)
 }
+
+func (courseTrackingHandler *CourseTrackingHandlerImpl) FindSubmissionByID(ctx echo.Context) error {
+	moduleID, _ := strconv.Atoi(ctx.Param("module-id"))
+	submissionID, _ := strconv.Atoi(ctx.Param("submission-id"))
+	id := ctx.Get("user_id").(uint)
+
+	result, err := courseTrackingHandler.CourseTrackingService.FindSubmissionByID(uint(moduleID), id, uint(submissionID))
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "submission tracking not found", err)
+		}
+
+		return res.StatusInternalServerError(ctx, "failed to get submission tracking, something happen", err)
+	}
+	return res.StatusOK(ctx, "success to get submission answer tracking", result, nil)
+}
