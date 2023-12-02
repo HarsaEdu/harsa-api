@@ -1,42 +1,90 @@
 package repository
 
-import "github.com/HarsaEdu/harsa-api/internal/model/domain"
+import (
+	"fmt"
 
-func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search string, category string) ([]domain.CourseEntity, int64, error) {
-	var courses []domain.CourseEntity
-	var count int64
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
+	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
+	"gorm.io/gorm"
+)
 
-	query := courseRepository.DB.Model(&domain.Course{}).Select("courses.id as id, title, courses.description as description, enrolled, rating, courses.image_url as image_url,  courses.created_at as created_at, courses.updated_at as updated_at, roles.name as role_name, user_profiles.user_id as user_id, user_profiles.first_name as first_name, user_profiles.last_name as last_name, user_profiles.job as job, categories.id as category_id, categories.name as category_name").
-		Joins("left join user_profiles on user_profiles.user_id = courses.user_id").
-		Joins("left join users on users.id = user_profiles.user_id").
-		Joins("left join roles on roles.id = users.role_id"). 
-		Joins("left join categories on categories.id = courses.category_id")
+func (courseRepository *CourseRepositoryImpl) GetAllByUserId(offset, limit int, search string, userID uint) ([]domain.Course, int64, error) {
+	if offset < 0 || limit <= 0 {
+		return nil, 0, fmt.Errorf("invalid offset or limit")
+	}
 
-	query.Where("categories.name LIKE ?", "%"+category+"%" )
+	courses := []domain.Course{}
+	var total int64
+
+	query := courseRepository.DB.Model(&courses)
 
 	if search != "" {
-		searchQuery := "%" + search + "%"
-		query = query.Where("title LIKE ?", searchQuery)
+		s := "%" + search + "%"
+		query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+	}
+	query.Where("user_id = ?", userID).Count(&total).Find(&courses)
+	query = query.Limit(limit).Offset(offset)
+
+	if offset >= int(total) {
+		return nil, 0,  nil
 	}
 
-	query.Find(&courses).Count(&count)
+	result := query.Preload("Feedback.User.UserProfile", func(db *gorm.DB) *gorm.DB {
+		return db.Limit(3)
+	}).Find(&courses)
 
-	query = query.Offset(offset).Limit(limit)
-
-	result := query.Find(&courses)
 	if result.Error != nil {
-		return nil, 0, result.Error
+		return nil, 0,  result.Error
 	}
 
-	if offset >= int(count) {
-		return nil, 0, nil
+	return courses, total, nil
+}
+
+func (courseRepository *CourseRepositoryImpl) GetNameUser(userId uint) (string, error) {
+	
+	var userProfile = domain.UserProfile{}
+
+	if err := courseRepository.DB.First(&userProfile).Where("user_id = ?", userId).Error; err != nil {
+		return "", err
 	}
 
-	return courses, count, nil
+	return userProfile.FirstName, nil
 }
 
 
-func (courseRepository *CourseRepositoryImpl) GetAllMobile(offset, limit int, search string, categoryId uint) ([]domain.Course, int64, error) {
+func (courseRepository *CourseRepositoryImpl) GetDashBoardIntructur(offset, limit int, search string, userID uint) (*web.DashboardIntructur, int64,error) {
+	courses, total,  err := courseRepository.GetAllByUserId(offset, limit, search, userID)
+	if err != nil {
+		return nil,0, fmt.Errorf("get all eror : %w", err)
+	}
+	name ,err:= courseRepository.GetNameUser(userID)
+	if err != nil {
+		return nil,0, fmt.Errorf("get get name eror : %w", err)
+	}
+	res := []web.CourseResponseForIntructur{}
+	for _, course := range courses {
+		countUser , err:=  courseRepository.CountUserInCourse(course.ID)
+		if err != nil {
+			return nil,0,  fmt.Errorf("get count user eror : %w", err)
+		}
+		countUserActive ,err:=  courseRepository.CountActiveUsersInCourse(course.ID)
+		if err != nil {
+			return nil,0, fmt.Errorf("get count user active eror : %w", err)
+		}
+
+		convert := conversion.CourseDomainToCourseGetResponse(&course,countUser,countUserActive)
+
+		res = append(res, *convert)
+	}
+
+	result := conversion.CourseResponseForIntructur(res,name)
+
+	return result,total, err
+}
+
+
+func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search string, categoryId uint) ([]domain.Course, int64, error) {
 
 	if offset < 0 || limit < 0 {
 		return nil, 0, nil
@@ -60,10 +108,6 @@ func (courseRepository *CourseRepositoryImpl) GetAllMobile(offset, limit int, se
 
 	if result.Error != nil {
 		return nil, 0, result.Error
-	}
-
-	if total == 0 {
-		return nil, 0, nil
 	}
 
 	if offset >= int(total) {

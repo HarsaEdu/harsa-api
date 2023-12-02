@@ -7,9 +7,11 @@ import (
 
 func (courseRoutes *CourseRoutesImpl) CourseWeb(apiGroup *echo.Group) *echo.Group {
 	coursesGroup := apiGroup.Group("/courses")
+	dashboardsGroup := apiGroup.Group("/dashboard")
 
 	coursesGroup.POST("", courseRoutes.CourseHandler.Create, middleware.InstructorMiddleware)
-	coursesGroup.GET("", courseRoutes.CourseHandler.GetAll, middleware.InstructorMiddleware)
+	dashboardsGroup.GET("/instructur", courseRoutes.CourseHandler.GetAllByUserId, middleware.InstructorMiddleware)
+	coursesGroup.GET("", courseRoutes.CourseHandler.GetAll, middleware.AdminMiddleware)
 	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetById, middleware.InstructorMiddleware)
 	coursesGroup.PUT("/:id", courseRoutes.CourseHandler.Update, middleware.InstructorMiddleware)
 	coursesGroup.PATCH("/:id", courseRoutes.CourseHandler.UpdateImage, middleware.InstructorMiddleware)
@@ -22,7 +24,7 @@ func (courseRoutes *CourseRoutesImpl) CourseMobile(apiGroup *echo.Group) *echo.G
 	coursesGroup := apiGroup.Group("/courses")
 
 	coursesGroup.GET("", courseRoutes.CourseHandler.GetAll)
-	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetById, middleware.StudentMiddleare)
+	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetById)
 
 	return coursesGroup
 }

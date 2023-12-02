@@ -12,7 +12,7 @@ type CourseHandler interface {
 	Update(ctx echo.Context) error
 	UpdateImage(ctx echo.Context) error
 	Delete(ctx echo.Context) error
-	GetAllMobile(ctx echo.Context) error
+	GetAllByUserId(ctx echo.Context) error
 }
 
 type CourseHandlerImpl struct {
