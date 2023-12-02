@@ -21,11 +21,6 @@ func (moduleService *ModuleServiceImpl) CreateSection(request *web.SectionReques
 		return err
 	}
 
-	existingModule, _ := moduleService.ModuleRepository.GetByTitleAndCourseId(request.Modules.Title, courseId)
-	if existingModule != nil {
-		return fmt.Errorf("module name already exists")
-	}
-
 	existingSection, _ := moduleService.ModuleRepository.GetByTitleSectionAndCourseId(request.Title, courseId)
 	if existingSection != nil {
 		return fmt.Errorf("section name already exists")
@@ -41,21 +36,21 @@ func (moduleService *ModuleServiceImpl) CreateSection(request *web.SectionReques
 	return nil
 }
 
-func (moduleService *ModuleServiceImpl) CreateModule(request *web.ModuleRequest, courseId uint, userId uint, role string) error {
+func (moduleService *ModuleServiceImpl) CreateModule(request *web.ModuleRequest, sectionId uint, userId uint, role string) error {
 	
-	err := moduleService.ModuleRepository.CekIdFromCourse(userId, courseId, role)
+	_,err := moduleService.ModuleRepository.CekIdFromSection(userId, sectionId, role)
 	if err != nil { 
 		return fmt.Errorf("error when cek id user from course :%s", err.Error())
 	}
 
-	request.CourseID = courseId
+	request.SectionID = sectionId
 
 	err = moduleService.Validate.Struct(request)
 	if err != nil {
 		return err
 	}
 
-	existingModule, _ := moduleService.ModuleRepository.GetByTitleAndCourseId(request.Title, courseId)
+	existingModule, _ := moduleService.ModuleRepository.GetByTitleAndSectionId(request.Title, sectionId)
 	if existingModule != nil {
 		return fmt.Errorf("module name already exists")
 	}
