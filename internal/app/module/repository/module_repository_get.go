@@ -46,9 +46,9 @@ func (moduleRepository *ModuleRepositoryImpl) GetAllModuleBySecsionId( sectionId
 	return &section, nil
 }
 
-func (moduleRepository *ModuleRepositoryImpl) GetByTitleAndCourseId(title string, courseId uint) (*domain.Module, error) {
+func (moduleRepository *ModuleRepositoryImpl) GetByTitleAndSectionId(title string, sectionId uint) (*domain.Module, error) {
 	module := domain.Module{}
-	result := moduleRepository.DB.Where("title = ? AND course_id = ?", title, courseId).First(&module)
+	result := moduleRepository.DB.Where("title = ? AND section_id = ?", title, sectionId).First(&module)
 	if result.Error != nil {
 		return nil, result.Error
 	}

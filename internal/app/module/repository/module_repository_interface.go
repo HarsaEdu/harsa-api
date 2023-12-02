@@ -13,7 +13,7 @@ type ModuleRepository interface {
 	UpdateOrderModule(order int, moduleExist *domain.Module) error
 	UpdateOrderSection(order int, sectionExist *domain.Section) error
 	DeleteSection(section *domain.Section) error
-	GetByTitleAndCourseId(title string, courseId uint) (*domain.Module, error)
+	GetByTitleAndSectionId(title string, sectionId uint) (*domain.Module, error)
 	GetByOrderAndCourseId(order int, courseId uint) (*domain.Module, error)
 	GetByTypeAndId(id uint, modulType string) (*domain.Module, error)
 	CekIdFromCourse(userId uint, courseId uint, role string) error
