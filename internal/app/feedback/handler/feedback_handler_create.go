@@ -17,11 +17,9 @@ func (feedbackHandler *FeedbackHandlerImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind feedback request", err)
 	}
 
-	id := ctx.Get("user_id").(uint)
-	
-	req.UserID = id
+	userId := ctx.Get("user_id").(uint)
 
-	err = feedbackHandler.FeedbackService.Create(req)
+	err = feedbackHandler.FeedbackService.Create(req, userId)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

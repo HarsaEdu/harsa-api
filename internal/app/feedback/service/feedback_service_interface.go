@@ -8,7 +8,7 @@ import (
 )
 
 type FeedbackService interface {
-	Create(feedback web.FeedbackCreateRequest) error
+	Create(feedback web.FeedbackCreateRequest, userId uint) error
 	Update(feedback web.FeedbackUpdateRequest, id int) error
 	FindById(id int) (*domain.Feedback, error)
 	GetAll(offset, limit int, search string) ([]domain.Feedback, *web.Pagination, error)

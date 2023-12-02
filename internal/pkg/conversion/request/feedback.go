@@ -5,9 +5,9 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func FeedbackCreateRequestToCategoriesModel(request web.FeedbackCreateRequest) *domain.Feedback {
+func FeedbackCreateRequestToCategoriesModel(request web.FeedbackCreateRequest, userId uint) *domain.Feedback {
 	return &domain.Feedback{
-		UserID:  request.UserID,
+		UserID:  userId,
 		CourseID: request.CourseID,
 		Rating:  request.Rating,
 		Content: request.Content,
