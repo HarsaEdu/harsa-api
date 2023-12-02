@@ -12,6 +12,7 @@ type AppConfig struct {
 	Cloudinary CloudinaryConfig
 	OpenAI     OpenAI
 	Midtrans   MidtransConfig
+	Firebase   FirebaseConfig
 }
 
 type MySQLConfig struct {
@@ -35,6 +36,9 @@ type OpenAI struct {
 
 type MidtransConfig struct {
 	ServerKey string
+}
+type FirebaseConfig struct {
+	FirebaseAuthKey string
 }
 
 func LoadConfig() (*AppConfig, error) {
@@ -65,6 +69,9 @@ func LoadConfig() (*AppConfig, error) {
 		},
 		Midtrans: MidtransConfig{
 			ServerKey: os.Getenv("MIDTRANS_SERVER_KEY"),
+		},
+		Firebase: FirebaseConfig{
+			FirebaseAuthKey: os.Getenv("FIREBASE_AUTH_KEY"),
 		},
 	}, nil
 }
