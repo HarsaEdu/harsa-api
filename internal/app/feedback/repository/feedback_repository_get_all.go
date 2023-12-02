@@ -11,7 +11,7 @@ func (feedbackRepository *FeedbackRepositoryImpl) GetAll(offset, limit int, sear
 	feedback := []domain.Feedback{}
 	var total int64
 
-	query := feedbackRepository.DB.Model(&feedback)
+	query := feedbackRepository.DB.Model(&feedback).Preload("User.UserProfile")
 
 	if search != "" {
 		s := "%" + search + "%"

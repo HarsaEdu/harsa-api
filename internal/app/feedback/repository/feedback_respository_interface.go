@@ -11,7 +11,7 @@ type FeedbackRepository interface {
 	GetById(id int) (*domain.Feedback, error)
 	GetByIdUserAndCourseId(userId, courseId uint) (*domain.Feedback, error)
 	UpdateByUserAndCourseId(userId, courseId uint, feedback *domain.Feedback) error
-	Delete(id int) error
+	DeleteByUserAndCourseId(userId, courseId uint) error
 	AutoUpdateRating(courseId uint) error
 }
 
