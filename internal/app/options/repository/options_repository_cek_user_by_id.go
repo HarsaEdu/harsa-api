@@ -7,41 +7,49 @@ import (
 )
 
 func (repositoryOptions *OptionsRepositoryImpl) CekIdFromOption(userId uint, optionId uint, role string) (*domain.Options, error) {
+	tx := repositoryOptions.DB.Begin()
 
-	var option = domain.Options{}
-
-	if err := repositoryOptions.DB.First(&option, optionId).Error; err != nil {
-		return nil, err
-	}
-	
-	var question = domain.Questions{}
-
-	if err := repositoryOptions.DB.First(&question, option.QuestionID).Error; err != nil {
-		return nil, err
-	}
-	
-	var quiz = domain.Quizzes{}
-
-	if err := repositoryOptions.DB.First(&quiz, question.QuizID).Error; err != nil {
+	var option domain.Options
+	if err := tx.First(&option, optionId).Error; err != nil {
+		tx.Rollback()
 		return nil, err
 	}
 
-	var module = domain.Module{}
+	getScannedValue := func(model interface{}, condition string, value interface{}, dest interface{}) error {
+		if err := tx.Model(model).Where(condition, value).Select(dest).Scan(dest).Error; err != nil {
+			tx.Rollback()
+			return err
+		}
+		return nil
+	}
 
-	if err := repositoryOptions.DB.First(&module, quiz.ModuleID).Error; err != nil {
+	var userID, quizID, moduleID, sectionID, courseID uint
+
+	if err := getScannedValue(&domain.Questions{}, "id = ?", option.QuestionID, &quizID); err != nil {
 		return nil, err
 	}
 
-	var course = domain.Course{}
-
-	if err := repositoryOptions.DB.First(&course, module.CourseID).Error; err != nil {
+	if err := getScannedValue(&domain.Quizzes{}, "id = ?", quizID, &moduleID); err != nil {
 		return nil, err
 	}
 
-	if course.UserID != userId && role != "admin" {
+	if err := getScannedValue(&domain.Module{}, "id = ?", moduleID, &sectionID); err != nil {
+		return nil, err
+	}
+
+	if err := getScannedValue(&domain.Section{}, "id = ?", sectionID, &courseID); err != nil {
+		return nil, err
+	}
+
+	if err := getScannedValue(&domain.Course{}, "id = ?", courseID, &userID); err != nil {
+		return nil, err
+	}
+
+	tx.Commit()
+
+	if userID != userId && role != "admin" {
 		return nil, fmt.Errorf("unauthorized")
 	}
-	
 
 	return &option, nil
 }
