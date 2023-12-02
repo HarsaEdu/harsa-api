@@ -14,14 +14,14 @@ func (moduleService *ModuleServiceImpl) UpdateModule(request *web.ModuleRequest,
 		return fmt.Errorf("error when cek id user from course :%s", err.Error())
 	}
 
-	request.CourseID = existingModule.CourseID
+	request.SectionID = existingModule.SectionID
 
 	err = moduleService.Validate.Struct(request)
 	if err != nil {
 		return err
 	}
 
-	existingModuleTitle, _ := moduleService.ModuleRepository.GetByTitleAndCourseId(request.Title, existingModule.CourseID)
+	existingModuleTitle, _ := moduleService.ModuleRepository.GetByTitleAndSectionId(request.Title, existingModule.SectionID)
 	if existingModuleTitle != nil {
 		return fmt.Errorf("module name already exists")
 	}
