@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -10,6 +11,8 @@ import (
 )
 
 func (feedbackHandler *FeedbackHandlerImpl) Create(ctx echo.Context) error {
+	courseIdParam := ctx.Param("courseId")
+	courseId, _ := strconv.Atoi(courseIdParam)
 
 	req := web.FeedbackCreateRequest{}
 	err := ctx.Bind(&req)
@@ -19,7 +22,7 @@ func (feedbackHandler *FeedbackHandlerImpl) Create(ctx echo.Context) error {
 
 	userId := ctx.Get("user_id").(uint)
 
-	err = feedbackHandler.FeedbackService.Create(req, userId)
+	err = feedbackHandler.FeedbackService.Create(req, userId, uint(courseId))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

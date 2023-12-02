@@ -1,7 +1,6 @@
 package web
 
 type FeedbackCreateRequest struct {
-	CourseID 	uint	`json:"course_id" validate:"required"`
 	Rating  	int		`json:"rating" validate:"required"`
 	Content 	string`json:"content"`
 }
