@@ -50,10 +50,16 @@ func (moduleRepository *ModuleRepositoryImpl) CekIdFromModule(userId uint, modul
 	if err := moduleRepository.DB.First(&module, moduleId).Error; err != nil {
 		return nil, err
 	}
+
+	var courseID uint
+
+	if err := moduleRepository.DB.Model(&domain.Section{}).Where("id = ?", module.SectionID).Select("user_id").Scan(&courseID).Error; err != nil {
+		return nil, err
+	}
 	
 	var userIDCourse uint
 
-	if err := moduleRepository.DB.Model(&domain.Course{}).Where("id = ?", module.CourseID).Select("user_id").Scan(&userIDCourse).Error; err != nil {
+	if err := moduleRepository.DB.Model(&domain.Course{}).Where("id = ?", courseID ).Select("user_id").Scan(&userIDCourse).Error; err != nil {
 		return nil, err
 	}
 
