@@ -15,6 +15,7 @@ func ConvertModuleResponseTrackingMobile(response *domain.Module, progress float
 	}
 }
 
+
 func ConvertAllSubInModule(subModules []web.SubModuleResponseForTracking, submissions []web.SubmissionsResponseModuleMobile, quizzes []web.QuizResponseForTracking) *web.CourseTrackingSub{
 	return &web.CourseTrackingSub{
 		SubModules: subModules,

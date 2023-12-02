@@ -42,7 +42,7 @@ func ConvertUserCourseTraking(userCourse *domain.UserProfile) *web.UserForTracki
 	}
 }
 
-func ConvertCourseTrackingRespose(courseTracking *domain.CourseTracking, course *domain.Course,modules []web.ModuleResponseForTracking, enrolled int64, totalModul int64, progress float32) *web.CourseTrackingResponseMobile {
+func ConvertCourseTrackingRespose(courseTracking *domain.CourseTracking, course *domain.Course,sections []web.SectionResponseMobile, enrolled int64, totalModul int64, progress float32) *web.CourseTrackingResponseMobile {
 	
 	user := ConvertUserCourseTraking(&courseTracking.User.UserProfile)
 
@@ -58,7 +58,7 @@ func ConvertCourseTrackingRespose(courseTracking *domain.CourseTracking, course 
 	return &web.CourseTrackingResponseMobile{
 			CourseTracking: *courseTrackingRes,
 			Course: *courseRes,
-			Modul : modules,
+			Sections : sections,
 	}
 }
 

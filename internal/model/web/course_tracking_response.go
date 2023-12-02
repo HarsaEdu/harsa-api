@@ -35,7 +35,7 @@ type CourseTrackingResponse struct {
 type CourseTrackingResponseMobile struct {
 	CourseTracking CourseTrackingResponse `json:"course_tracking"`
 	Course         CourseForTraking `json:"course"`
-	Modul 		   []ModuleResponseForTracking `json:"modul"`
+	Sections		   []SectionResponseMobile `json:"sections"`
 }
 
 type CourseTrackingSub struct {

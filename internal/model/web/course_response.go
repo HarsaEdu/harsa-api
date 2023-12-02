@@ -49,6 +49,20 @@ type GetCourseResponse struct {
 	Category    *CategoryForCourseResponse  `json:"category"`
 }
 
+type CourseResponseForIntructur struct {
+	ID          uint                       `json:"id"`
+	Title       string                     `json:"title"`
+	ImageUrl    string                     `json:"image_url"`
+	FeedBack    []FeedBackResponseForTracking `json:"feedback"`
+	TotalUser   int64                        `json:"total_user"`
+	TotalActiveUser int64                        `json:"total_active_user"`
+}
+
+type DashboardIntructur struct {
+	FirstName string `json:"first_name"`
+	Course    []CourseResponseForIntructur `json:"course"`
+}
+
 type GetCourseResponseMobile struct {
 	ID          uint                       `json:"id"`
 	Title       string                     `json:"title"`
@@ -57,6 +71,13 @@ type GetCourseResponseMobile struct {
 	Rating      float32                        `json:"rating"`
 	User        *UserForCourseResponseMobile      `json:"user"`
 	Category    *CategoryForCourseResponse  `json:"category"`
+}
+
+type CourseResponse struct{
+	ID          uint                       `json:"id"`
+	Title       string                     `json:"title"`
+	Description string                     `json:"description"`
+	UserID      uint                       `json:"user_id"`
 }
 
 type GetCourseResponseById struct {
