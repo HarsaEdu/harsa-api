@@ -25,6 +25,8 @@ type ModuleRepository interface {
 	UpdateSection(UpdateSection *domain.Section, sectionExist *domain.Section) error
 	CekIdFromSection(userId uint, sectionId uint, role string) (*domain.Section, error)
 	GetModuleById(id uint) (*domain.Module, error)
+	CekIdFromSubModule(userId uint, subModuleId uint, role string) (*domain.SubModule, error)
+	DeleteSubModule(subModule *domain.SubModule) error
 }
 
 type ModuleRepositoryImpl struct {

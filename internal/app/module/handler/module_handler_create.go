@@ -35,6 +35,9 @@ func (moduleHandler ModuleHandlerImpl) CreateSection(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot create this section" ,err)
+		}
 		if strings.Contains(err.Error(), "already exist") {
 			return res.StatusAlreadyExist(ctx, err.Error(), err)
 		}
@@ -68,6 +71,9 @@ func (moduleHandler ModuleHandlerImpl) CreateModule(ctx echo.Context) error {
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot create this module" ,err)
 		}
 		if strings.Contains(err.Error(), "already exist") {
 			return res.StatusAlreadyExist(ctx, err.Error(), err)

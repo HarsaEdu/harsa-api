@@ -17,6 +17,7 @@ type ModuleHandler interface {
 	UpdateSectionOrder(ctx echo.Context) error
 	DeleteModule(ctx echo.Context) error
 	DeleteSection(ctx echo.Context) error
+	DeleteSubModule(ctx echo.Context) error
 }
 
 type ModuleHandlerImpl struct {

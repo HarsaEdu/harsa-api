@@ -18,6 +18,7 @@ type ModuleService interface {
 	DeleteModule(moduleId uint, userId uint, role string) error
 	DeleteSection(sectionId uint, userId uint, role string) error
 	GetModuleById(moduleId uint) (*web.ModuleResponse, error)
+	DeleteSubModule(subModuleId uint, userId uint, role string) error
 }
 
 type ModuleServiceImpl struct {

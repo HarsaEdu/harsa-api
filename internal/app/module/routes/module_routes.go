@@ -17,6 +17,7 @@ func (moduleRoutes *ModuleRoutesImpl) ModuleWeb(coursesGruop *echo.Group) {
 	modulesGroup.PUT("/module/:id", moduleRoutes.ModuleHandler.UpdateModule, middleware.InstructorMiddleware)
 	sectionGroup.PUT("/:id", moduleRoutes.ModuleHandler.UpdateSection, middleware.InstructorMiddleware)
 	modulesGroup.DELETE("/module/:id", moduleRoutes.ModuleHandler.DeleteModule, middleware.InstructorMiddleware)
+	modulesGroup.DELETE("/module/sub-module/:id", moduleRoutes.ModuleHandler.DeleteSubModule, middleware.InstructorMiddleware)
 	sectionGroup.DELETE("/:id", moduleRoutes.ModuleHandler.DeleteSection, middleware.InstructorMiddleware)
 	modulesGroup.PUT("/module/order", moduleRoutes.ModuleHandler.UpdateModuleOrder, middleware.InstructorMiddleware)
 	sectionGroup.PUT("/order", moduleRoutes.ModuleHandler.UpdateSectionOrder, middleware.InstructorMiddleware)
