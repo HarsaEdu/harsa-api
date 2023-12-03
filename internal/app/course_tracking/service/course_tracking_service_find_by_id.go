@@ -19,12 +19,7 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindByIdMobile(crourseTr
 		return nil, fmt.Errorf(" :%s", err.Error())
 	}
 
-	progress ,err := courseTrackingService.CourseTrackingRepository.CountProgressCourse(courseTraking.CourseID,courseTraking.UserID)
-	if err != nil { 
-		return nil, fmt.Errorf(" :%s", err.Error())
-	}
-
-	listModule ,err := courseTrackingService.CourseTrackingRepository.FindAllModuleTracking(course.Section ,courseTraking.UserID)
+	listModule, progress ,err := courseTrackingService.CourseTrackingRepository.FindAllModuleTrackingWithProgress(course.Section ,courseTraking.UserID,courseTraking.CourseID)
 	if err != nil { 
 		return nil, fmt.Errorf("eror when find module tracking :%s", err.Error())
 	}

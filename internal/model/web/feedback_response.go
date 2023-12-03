@@ -13,4 +13,5 @@ type FeedBackResponseForTracking struct {
 type UserForFeedBack struct {
 	ID   uint   `json:"id"`
 	Name string `json:"name"`
+	ImageUrl string `json:"image_url"`
 }

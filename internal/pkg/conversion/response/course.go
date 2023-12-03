@@ -136,7 +136,7 @@ func CourseDomainToCourseGetAllResponseMobile(courseDomain []domain.Course) []we
 				ImageUrl:    course.ImageUrl,
 				Rating:      course.Rating,
 				Category: &web.CategoryForCourseResponse{
-					ID:   course.CategoryID,
+					ID:   course.Category.ID,
 					Name: course.Category.Name,
 				},
 				User: &web.UserForCourseResponseMobile{
