@@ -86,21 +86,21 @@ func (courseRepository *CourseRepositoryImpl) GetNameUser(userId uint) (string, 
 func (courseRepository *CourseRepositoryImpl) GetDashBoardIntructur(offset, limit int, search string, userID uint) (*web.DashboardIntructur, int64,error) {
 	courses, total,  err := courseRepository.GetAllByUserId(offset, limit, search, userID)
 	if err != nil {
-		return nil,0, fmt.Errorf("get all eror : %w", err)
+		return nil,0, fmt.Errorf("get all eror : %s", err)
 	}
 	name ,err:= courseRepository.GetNameUser(userID)
 	if err != nil {
-		return nil,0, fmt.Errorf("get get name eror : %w", err)
+		return nil,0, fmt.Errorf("get get name eror : %s", err)
 	}
 	res := []web.CourseResponseForIntructur{}
 	for _, course := range courses {
 		countUser , err:=  courseRepository.CountUserInCourse(course.ID)
 		if err != nil {
-			return nil,0,  fmt.Errorf("get count user eror : %w", err)
+			return nil,0,  fmt.Errorf("get count user eror : %s", err)
 		}
 		countUserActive ,err:=  courseRepository.CountActiveUsersInCourse(course.ID)
 		if err != nil {
-			return nil,0, fmt.Errorf("get count user active eror : %w", err)
+			return nil,0, fmt.Errorf("get count user active eror : %s", err)
 		}
 
 		convert := conversion.CourseDomainToCourseGetResponse(&course,countUser,countUserActive)
@@ -161,7 +161,7 @@ func (courseRepository *CourseRepositoryImpl) GetDetailDashBoardIntructur(course
 	return convert, err
 }
 
-func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search string, categoryId uint) ([]domain.Course, int64, error) {
+func (courseRepository *CourseRepositoryImpl) GetAllByCategory(offset, limit int, search string, categoryId uint) ([]domain.Course, int64, error) {
 
 	if offset < 0 || limit < 0 {
 		return nil, 0, nil
@@ -177,7 +177,7 @@ func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search s
 		query = query.Where("name LIKE ? OR description LIKE ?", s, s)
 	}
 
-	query.Where("CategoryID = ?", categoryId).Find(&course).Count(&total)
+	query.Where("category_id = ?", categoryId).Find(&course).Count(&total)
 
 	query = query.Limit(limit).Offset(offset)
 
@@ -192,4 +192,38 @@ func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search s
 	}
 
 	return course, total, nil
+}
+
+func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search string, category string) ([]domain.Course, int64, error) {
+    if offset < 0 || limit < 0 {
+        return nil, 0, fmt.Errorf("Offset and limit must be non-negative")
+    }
+
+    courses := []domain.Course{}
+    var total int64
+
+    query := courseRepository.DB.Model(&courses).Preload("User.UserProfile")
+
+    if search != "" {
+        s := "%" + search + "%"
+        query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+    }
+
+    if category != "" {
+        query = query.Joins("JOIN categories ON categories.id = courses.category_id").Where("categories.name LIKE ?", "%"+category+"%")
+    }
+
+    query.Model(&courses).Count(&total)
+
+    result := query.Limit(limit).Offset(offset).Preload("Category").Find(&courses)
+
+    if result.Error != nil {
+        return nil, 0, result.Error
+    }
+
+    if offset >= int(total) {
+        return nil, 0, nil
+    }
+
+    return courses, total, nil
 }

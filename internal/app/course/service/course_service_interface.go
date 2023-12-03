@@ -15,10 +15,11 @@ type CourseService interface {
 	Update(id uint, userId uint, role string, request *web.CourseUpdateRequest) error
 	UpdateImage(ctx echo.Context, id uint, userId uint, role string, request *web.CourseUpdateImageRequest) error
 	Delete(id uint, userId uint, role string) error
-	GetAll(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
+	GetAll(offset, limit int, search string, category string) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 	GetByIdMobile(id uint) (*web.CourseForTraking, error)
 	GetAllCourseByUserId(offset, limit int, search string, userID uint) (*web.DashboardAllCourseIntructur, *web.Pagination, error)
 	GetDeatailCourse(id uint) (*web.CourseResponseForIntructur, error)
+	GetAllByCategory(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 }
 
 type CourseServiceImpl struct {

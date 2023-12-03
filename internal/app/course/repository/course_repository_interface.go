@@ -16,11 +16,12 @@ type CourseRepository interface {
 	Delete(course *domain.Course) error
 	CekIdFromCourse(userId uint, courseId uint, role string) (*domain.Course, error)
 	GetByIdMobile(id uint) (*domain.Course, int64, int64,error)
-	GetAll(offset, limit int, search string, categoryId uint) ([]domain.Course, int64, error)
+	GetAll(offset, limit int, search string, category string) ([]domain.Course, int64, error) 
 	GetDashBoardIntructur(offset, limit int, search string, userID uint) (*web.DashboardIntructur, int64,error)
 	GetAllCourseByUserId(offset, limit int, search string, userID uint) ([]domain.Course, int64, error)
 	GetAllCourseDashBoardIntructur(offset, limit int, search string, userID uint) (*web.DashboardAllCourseIntructur, int64,error)
 	GetDetailDashBoardIntructur(courseID uint) (*web.CourseResponseForIntructur, error)
+	GetAllByCategory(offset, limit int, search string, categoryId uint) ([]domain.Course, int64, error)
 }
 
 type CourseRepositoryImpl struct {
