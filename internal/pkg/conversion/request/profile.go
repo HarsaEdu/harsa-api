@@ -29,6 +29,7 @@ func ProfileCreateRequestToModel(userID uint, request *web.CreateProfileRequest)
 		LastName:    request.LastName,
 		PhoneNumber: request.PhoneNumber,
 		DateBirth:   request.DateBirth,
+		Gender: request.Gender,
 	}
 }
 
