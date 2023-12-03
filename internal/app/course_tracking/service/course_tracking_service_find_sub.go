@@ -18,7 +18,7 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubByIdMobile(module
 
 }
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTrackingResponse, error) {
+func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error) {
 	module, err := courseTrackingService.CourseTrackingRepository.FindModuleTracking(moduleID, userID)
 	if err != nil {
 		return nil, fmt.Errorf("module not found")
@@ -31,7 +31,7 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(module
 	if err != nil {
 		return nil, fmt.Errorf("progress not found")
 	}
-	newHistory := conversion.ConvertHistorySubmoduleResponseMobile(history)
+	newHistory := conversion.ConvertHistorySubmoduleTracking(history)
 	newSubModule := conversion.ConvertSubModuleResponseModule(*subModule)
 	res := conversion.ConvertToSubModuleTrackingResponse(module, newHistory, newSubModule, progress)
 

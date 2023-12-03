@@ -23,6 +23,13 @@ func ConvertHistorySubmoduleResponseMobile(response *domain.HistorySubModule) *w
 	}
 }
 
+func ConvertHistorySubmoduleTracking(response *domain.HistorySubModule) *web.HistorySubModuleTracking {
+	return &web.HistorySubModuleTracking{
+		ID:         response.ID,
+		IsComplete: response.IsComplete,
+	}
+}
+
 // func ConvertAllHistorySubmoduleResponseMobile(response []domain.HistorySubModule) []web.HistorySubModuleResponseMobile {
 
 // 	var historySubModule []web.HistorySubModuleResponseMobile

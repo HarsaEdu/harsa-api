@@ -15,3 +15,8 @@ type HistorySubModuleResponseMobile struct {
 	Type       domain.SubModuleType
 	IsComplete bool `json:"is_complete"`
 }
+
+type HistorySubModuleTracking struct {
+	ID         uint `json:"history_sub_module_id"`
+	IsComplete bool `json:"is_complete"`
+}

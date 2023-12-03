@@ -12,7 +12,7 @@ type CourseTrackingService interface {
 	Create(request web.CourseTrackingRequest) error
 	FindByIdMobile(crourseTrackingId uint) (*web.CourseTrackingResponseMobile, error)
 	FindSubByIdMobile(courseID uint, userID uint) (*web.CourseTrackingSub, error)
-	FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTrackingResponse, error)
+	FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error)
 	FindSubmissionByID(moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error)
 	FindQuizzByID(moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error)
 }
