@@ -14,7 +14,7 @@ type HistoryQuizResponseMobile struct {
 }
 
 type HistoryQuizTracking struct {
-	HistoryQuizID uint `json:"history_id"`
+	HistoryQuizID uint `json:"history_quizz_id"`
 	IsComplete    bool `json:"is_complete"`
 }
 
