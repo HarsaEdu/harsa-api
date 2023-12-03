@@ -10,10 +10,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (feedbackHandler *FeedbackHandlerImpl) Update(ctx echo.Context) error {
+func (feedbackHandler *FeedbackHandlerImpl) UpdateByUserAndCourseId(ctx echo.Context) error {
+	courseIdParam := ctx.Param("courseId")
+	courseId, _ := strconv.Atoi(courseIdParam)
 
-	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
+	userId := ctx.Get("user_id").(uint)
 
 	req := web.FeedbackUpdateRequest{}
 	err := ctx.Bind(&req)
@@ -21,7 +22,7 @@ func (feedbackHandler *FeedbackHandlerImpl) Update(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind feedback request", err)
 	}
 
-	err = feedbackHandler.FeedbackService.Update(req, id)
+	err = feedbackHandler.FeedbackService.UpdateByUserAndCourseId(req, userId, uint(courseId))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
