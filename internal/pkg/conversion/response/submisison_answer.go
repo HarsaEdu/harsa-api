@@ -24,6 +24,7 @@ func ConvertSubmissionAnswerTracking(response *domain.SubmissionAnswer) *web.Sub
 	}
 	return &web.SubmissionAnswerTracking{
 		Id:         response.SubmissionID,
+		Status:     response.Status,
 		IsComplete: completed,
 	}
 }

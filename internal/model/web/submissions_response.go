@@ -16,8 +16,9 @@ type SubmissionsResponseModuleMobile struct {
 }
 
 type SubmissionAnswerTracking struct {
-	Id         uint `json:"submission_answer_id"`
-	IsComplete bool `json:"is_complete"`
+	Id         uint                          `json:"submission_answer_id"`
+	Status     domain.StatusSubmissionAnswer `json:"status"`
+	IsComplete bool                          `json:"is_complete"`
 }
 
 type SubmissionAnswerRes struct {
