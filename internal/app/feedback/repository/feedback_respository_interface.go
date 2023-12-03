@@ -8,7 +8,7 @@ import (
 type FeedbackRepository interface {
 	Create(feedback *domain.Feedback) error
 	GetAllByCourseId(courseId uint, offset, limit int, search string) ([]domain.Feedback, int64, error)
-	GetById(id int) (*domain.Feedback, error)
+	GetByIdAndCourseId(courseId, id uint) (*domain.Feedback, error)
 	GetByIdUserAndCourseId(userId, courseId uint) (*domain.Feedback, error)
 	UpdateByUserAndCourseId(userId, courseId uint, feedback *domain.Feedback) error
 	DeleteByUserAndCourseId(userId, courseId uint) error

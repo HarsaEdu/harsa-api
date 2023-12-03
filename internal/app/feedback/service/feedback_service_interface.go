@@ -9,7 +9,7 @@ import (
 type FeedbackService interface {
 	CreateByUserAndCourseId(feedback web.FeedbackCreateRequest, userId uint, courseId uint) error
 	UpdateByUserAndCourseId(feedback web.FeedbackUpdateRequest, userId, courseId uint) error
-	FindById(id int) (*web.FeedBackResponseForTracking, error)
+	GetByIdAndCourseId(courseId, id uint) (*web.FeedBackResponseForTracking, error)
 	GetAllByCourseId(courseId uint, offset, limit int, search string) ([]web.FeedBackResponseForTracking, *web.Pagination, error)
 	GetByIdUserAndCourseId(userId, courseId uint) (*web.FeedBackResponseForTracking, error)
 	DeleteByUserAndCourseId(userId, courseId uint) error

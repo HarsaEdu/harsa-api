@@ -9,11 +9,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (feedbackHandler *FeedbackHandlerImpl) FindById(ctx echo.Context) error {
+func (feedbackHandler *FeedbackHandlerImpl) GetByIdAndCourseId(ctx echo.Context) error {
 	idParam := ctx.Param("id")
 	id, _ := strconv.Atoi(idParam)
 
-	result, err := feedbackHandler.FeedbackService.FindById(id)
+	courseIdParam := ctx.Param("courseId")
+	courseId, _ := strconv.Atoi(courseIdParam)
+
+	result, err := feedbackHandler.FeedbackService.GetByIdAndCourseId(uint(courseId), uint(id))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
