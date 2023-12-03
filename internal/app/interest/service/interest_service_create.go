@@ -7,19 +7,24 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 )
 
-func (service *InterestServiceImpl) CreateInterest(profileID uint, request *web.InterestRequest) error {
+func (service *InterestServiceImpl) CreateInterest(userID uint, request *web.InterestRequest) error {
 	err := service.Validator.Struct(request)
 	if err != nil {
 		return err
 	}
 
-	_, err = service.InterestRepository.FindByProfileID(profileID)
+	profileExists, err := service.ProfileRepository.FindByUserID(userID)
+	if err != nil {
+		return fmt.Errorf("profile not found")
+	}
+
+	_, err = service.InterestRepository.FindByProfileID(profileExists.UserProfileID)
 	if err == nil {
 		return fmt.Errorf("interest exists")
 	}
 
 	for _, value := range request.CategoryID {
-		interest := conversion.InterestRequestToModel(profileID, value)
+		interest := conversion.InterestRequestToModel(profileExists.UserProfileID, value)
 		err = service.InterestRepository.CreateInterest(interest)
 		if err != nil {
 			return fmt.Errorf("failed to create interest, something happen")
