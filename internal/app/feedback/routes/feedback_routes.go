@@ -8,7 +8,7 @@ import (
 func (feedbackRoutes *FeedbackRoutesImpl) FeedbackWeb(apiGroup *echo.Group) {
 	feedbacksGroup := apiGroup.Group("/:courseId/feedbacks")
 
-	feedbacksGroup.GET("", feedbackRoutes.FeedbackHandler.GetAll)
+	feedbacksGroup.GET("", feedbackRoutes.FeedbackHandler.GetAllByCourseId)
 	feedbacksGroup.GET("/:id", feedbackRoutes.FeedbackHandler.FindById)
 
 }

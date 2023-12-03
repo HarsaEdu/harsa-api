@@ -9,7 +9,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (feedbackHandler *FeedbackHandlerImpl) GetAll(ctx echo.Context) error {
+func (feedbackHandler *FeedbackHandlerImpl) GetAllByCourseId(ctx echo.Context) error {
+	courseIdParam := ctx.Param("courseId")
+	courseId, _ := strconv.Atoi(courseIdParam)
+
 	params := ctx.QueryParams()
 	limit, err := strconv.Atoi(params.Get("limit"))
 
@@ -23,7 +26,7 @@ func (feedbackHandler *FeedbackHandlerImpl) GetAll(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "params offset not valid", err)
 	}
 
-	response, pagination, err := feedbackHandler.FeedbackService.GetAll(offset, limit, params.Get("search"))
+	response, pagination, err := feedbackHandler.FeedbackService.GetAllByCourseId(uint(courseId), offset, limit, params.Get("search"))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

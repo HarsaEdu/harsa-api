@@ -2,7 +2,7 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (feedbackRepository *FeedbackRepositoryImpl) GetAll(offset, limit int, search string) ([]domain.Feedback, int64, error) {
+func (feedbackRepository *FeedbackRepositoryImpl) GetAllByCourseId(courseId uint, offset, limit int, search string) ([]domain.Feedback, int64, error) {
 
 	if offset < 0 || limit < 0 {
 		return nil, 0, nil
@@ -11,7 +11,7 @@ func (feedbackRepository *FeedbackRepositoryImpl) GetAll(offset, limit int, sear
 	feedback := []domain.Feedback{}
 	var total int64
 
-	query := feedbackRepository.DB.Model(&feedback).Preload("User.UserProfile")
+	query := feedbackRepository.DB.Model(&feedback).Preload("User.UserProfile").Where("course_id = ?", courseId)
 
 	if search != "" {
 		s := "%" + search + "%"

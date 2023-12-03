@@ -9,7 +9,7 @@ type FeedbackHandler interface {
 	CreateByUserAndCourseId(ctx echo.Context) error
 	UpdateByUserAndCourseId(ctx echo.Context) error
 	FindById(ctx echo.Context) error
-	GetAll(ctx echo.Context) error
+	GetAllByCourseId(ctx echo.Context) error
 	GetByIdUserAndCourseId(ctx echo.Context) error
 	DeleteByUserAndCourseId(ctx echo.Context) error
 }
