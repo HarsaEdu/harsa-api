@@ -11,11 +11,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func ProfileSetup(db *gorm.DB, validate *validator.Validate, e *echo.Echo, cloudinary cloudinary.CloudinaryUploader) profileRoutesPkg.ProfileRoutes {
+func ProfileSetup(db *gorm.DB, validate *validator.Validate, e *echo.Echo, cloudinary cloudinary.CloudinaryUploader) (profileRoutesPkg.ProfileRoutes, profileRepositoryPkg.ProfileRepository) {
 	profileRepository := profileRepositoryPkg.NewProfileRepository(db)
 	profileService := profileServicePkg.NewProfileService(profileRepository, validate, cloudinary)
 	profileHandler := profileHandlerPkg.NewProfileHandler(profileService)
 	profileRoute := profileRoutesPkg.NewProfileRoutes(profileHandler)
 
-	return profileRoute
+	return profileRoute, profileRepository
 }

@@ -11,11 +11,26 @@ func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingMobile(apiGr
 	moduleTrackingGroup := apiGroup.Group("/users/course/module/:module-id")
 
 	courseTrackingsGroup.POST("/enrolled", courseTrackingRoutes.CourseTrackingHandler.Create, middleware.StudentMiddleare)
+	courseTrackingsGroupGet.GET("/trackings", courseTrackingRoutes.CourseTrackingHandler.GetAllTracking, middleware.StudentMiddleare)
 	courseTrackingsGroupGet.GET("/tracking/:id", courseTrackingRoutes.CourseTrackingHandler.GetById, middleware.StudentMiddleare)
-	courseTrackingsGroupGet.GET("/module/:module-id", courseTrackingRoutes.CourseTrackingHandler.FindSub, middleware.StudentMiddleare)
+	courseTrackingsGroupGet.GET("/module/:module-id", courseTrackingRoutes.CourseTrackingHandler.FindSub, middleware.StudentMiddleare
 
 	moduleTrackingGroup.GET("/tracking", courseTrackingRoutes.CourseTrackingHandler.FindModuleHistory, middleware.StudentMiddleare)
 	moduleTrackingGroup.GET("/sub-module/:sub-module-id", courseTrackingRoutes.CourseTrackingHandler.FindSubModuleByID, middleware.StudentMiddleare)
 	moduleTrackingGroup.GET("/submission/:submission-id", courseTrackingRoutes.CourseTrackingHandler.FindSubmissionByID, middleware.StudentMiddleare)
 	moduleTrackingGroup.GET("/quizz/:quizz-id", courseTrackingRoutes.CourseTrackingHandler.FindQuizzByID, middleware.StudentMiddleare)
 }
+	
+}
+
+func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingWeb(apiGroup *echo.Group)  {
+	profileTrackingsGroup := apiGroup.Group("/profile/tracking/user")
+	userTrackingGroup     := apiGroup.Group("/course/:course-id/user")
+	
+	profileTrackingsGroup.GET("/:id", courseTrackingRoutes.CourseTrackingHandler.GetAllTrackingWeb, middleware.InstructorMiddleware)
+	userTrackingGroup.GET("", courseTrackingRoutes.CourseTrackingHandler.GetAllTrackingUserWeb, middleware.InstructorMiddleware)
+	userTrackingGroup.DELETE("/tracking-id", courseTrackingRoutes.CourseTrackingHandler.DeleteEnrolled, middleware.InstructorMiddleware)
+	
+}
+
+

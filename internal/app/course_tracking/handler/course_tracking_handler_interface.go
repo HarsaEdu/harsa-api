@@ -13,6 +13,10 @@ type CourseTrackingHandler interface {
 	FindSubmissionByID(ctx echo.Context) error
 	FindQuizzByID(ctx echo.Context) error
 	FindModuleHistory(ctx echo.Context) error
+	GetAllTracking(ctx echo.Context) error
+	GetAllTrackingWeb(ctx echo.Context) error
+	GetAllTrackingUserWeb(ctx echo.Context) error
+	DeleteEnrolled(ctx echo.Context) error
 }
 
 type CourseTrackingHandlerImpl struct {

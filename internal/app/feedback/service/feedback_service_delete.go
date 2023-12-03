@@ -4,13 +4,13 @@ import (
 	"fmt"
 )
 
-func (feedbackService *FeedbackServiceImpl) Delete(id int) error {
+func (feedbackService *FeedbackServiceImpl) DeleteByUserAndCourseId(userId, courseId uint) error {
 
-	IfExist, _ := feedbackService.FeedbackRepository.GetById(id)
+	IfExist, _ := feedbackService.FeedbackRepository.GetByIdUserAndCourseId(userId, courseId)
 	if IfExist == nil {
 		return fmt.Errorf("feedback not found")
 	}
-	err := feedbackService.FeedbackRepository.Delete(id)
+	err := feedbackService.FeedbackRepository.DeleteByUserAndCourseId(userId, courseId)
 	if err != nil {
 		return fmt.Errorf("error when deleting : %s", err)
 	}

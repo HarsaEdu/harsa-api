@@ -37,6 +37,10 @@ func (courseHandler *CourseHandlerImpl) Update(ctx echo.Context) error {
 			return validation.ValidationError(ctx, err)
 		}
 
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot update this course" ,err)
+		}
+
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "course not found", err)
 		}
