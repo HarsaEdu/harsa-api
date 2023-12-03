@@ -10,11 +10,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func SubsPlanSetup(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader) subsPlanRoutesPkg.SubsPlanRoutes {
+func SubsPlanSetup(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader) (subsPlanRoutesPkg.SubsPlanRoutes, subsPlanRepositoryPkg.SubsPlanRepository) {
 	subsPlanRepository := subsPlanRepositoryPkg.NewSubsPlanRepository(db)
 	subsPlanService := subsPlanServicePkg.NewsubsPlanService(subsPlanRepository, validate, cloudinary)
 	subsPlanHandler := subsPlanHandlerPkg.NewFaqsHandler(subsPlanService)
 	subsPlanRoutes := subsPlanRoutesPkg.NewSubsPlanRoutes(subsPlanHandler)
 
-	return subsPlanRoutes
+	return subsPlanRoutes, subsPlanRepository
 }

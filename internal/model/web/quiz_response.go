@@ -21,3 +21,15 @@ type GetAllQuizResponse struct {
 	Durations       int       `json:"duration"`
 	NumberQuestions int       `json:"number_questions"`
 }
+
+type QuizResponseModule struct {
+	Id          uint      `json:"id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Durations   int       `json:"duration"`
+}
+
+type QuizResponseModuleMobile struct {
+	Id          uint      `json:"id"`
+	Title       string    `json:"title"`
+}

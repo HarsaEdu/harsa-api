@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
 	"github.com/labstack/echo/v4"
@@ -14,7 +15,9 @@ func (profileHandler *ProfileHandlerImpl) GetProfileByID(ctx echo.Context) error
 	if err != nil {
 		return res.StatusInternalServerError(ctx, "cannot convert profile id to int", err)
 	}
-	result, err := profileHandler.ProfileService.GetProfileByID(uint(profileID))
+	request := web.UserGetByIDRequest{}
+	request.ID = uint(profileID)
+	result, err := profileHandler.ProfileService.GetProfileByID(&request)
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusBadRequest(ctx, "profile not found", err)

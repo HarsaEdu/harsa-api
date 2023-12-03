@@ -2,17 +2,17 @@ package service
 
 import (
 	"github.com/HarsaEdu/harsa-api/internal/app/feedback/repository"
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
 )
 
 type FeedbackService interface {
-	Create(feedback web.FeedbackCreateRequest) error
-	Update(feedback web.FeedbackUpdateRequest, id int) error
-	FindById(id int) (*domain.Feedback, error)
-	GetAll(courseid, page, pagesize int) ([]domain.Feedback, *web.Pagination, error)
-	Delete(id int) error
+	CreateByUserAndCourseId(feedback web.FeedbackCreateRequest, userId uint, courseId uint) error
+	UpdateByUserAndCourseId(feedback web.FeedbackUpdateRequest, userId, courseId uint) error
+	GetByIdAndCourseId(courseId, id uint) (*web.FeedBackResponseForTracking, error)
+	GetAllByCourseId(courseId uint, offset, limit int, search string) ([]web.FeedBackResponseForTracking, *web.Pagination, error)
+	GetByIdUserAndCourseId(userId, courseId uint) (*web.FeedBackResponseForTracking, error)
+	DeleteByUserAndCourseId(userId, courseId uint) error
 }
 
 type FeedbackServiceImpl struct {

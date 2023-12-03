@@ -41,6 +41,10 @@ func (courseHandler *CourseHandlerImpl) UpdateImage(ctx echo.Context) error {
 			return res.StatusBadRequest(ctx, "file not found", err)
 		}
 
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot update this course" ,err)
+		}
+
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "course not found", err)
 		}

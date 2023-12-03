@@ -7,35 +7,45 @@ import (
 )
 
 func (repositoryQuestions *QuestionsRepositoryImpl) CekIdFromQuestion(userId uint, questionId uint, role string) (*domain.Questions, error) {
+	tx := repositoryQuestions.DB.Begin()
 
-	var question = domain.Questions{}
-
-	if err := repositoryQuestions.DB.First(&question, questionId).Error; err != nil {
-		return nil, err
-	}
-	
-	var quiz = domain.Quizzes{}
-
-	if err := repositoryQuestions.DB.First(&quiz, question.QuizID).Error; err != nil {
+	var question domain.Questions
+	if err := tx.First(&question, questionId).Error; err != nil {
+		tx.Rollback()
 		return nil, err
 	}
 
-	var module = domain.Module{}
+	getScannedValue := func(model interface{}, condition string, value interface{}, dest interface{}) error {
+		if err := tx.Model(model).Where(condition, value).Select(dest).Scan(dest).Error; err != nil {
+			tx.Rollback()
+			return err
+		}
+		return nil
+	}
 
-	if err := repositoryQuestions.DB.First(&module, quiz.ModuleID).Error; err != nil {
+	var userID, moduleID, sectionID, courseID uint
+
+	if err := getScannedValue(&domain.Quizzes{}, "id = ?", question.QuizID, &moduleID); err != nil {
 		return nil, err
 	}
 
-	var course = domain.Course{}
-
-	if err := repositoryQuestions.DB.First(&course, module.CourseID).Error; err != nil {
+	if err := getScannedValue(&domain.Module{}, "id = ?", moduleID, &sectionID); err != nil {
 		return nil, err
 	}
 
-	if course.UserID != userId && role != "admin" {
+	if err := getScannedValue(&domain.Section{}, "id = ?", sectionID, &courseID); err != nil {
+		return nil, err
+	}
+
+	if err := getScannedValue(&domain.Course{}, "id = ?", courseID, &userID); err != nil {
+		return nil, err
+	}
+
+	tx.Commit()
+
+	if userID != userId && role != "admin" {
 		return nil, fmt.Errorf("unauthorized")
 	}
-	
 
 	return &question, nil
 }

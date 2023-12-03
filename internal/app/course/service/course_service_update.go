@@ -15,7 +15,7 @@ func (courseService *CourseServiceImpl) Update(id uint, userId uint, role string
 
 	existingCourse, err := courseService.CourseRepository.CekIdFromCourse(userId, id, role)
 	if err != nil { 
-		return fmt.Errorf("error when cek id user in update course  : %s", err.Error())
+		return fmt.Errorf("error when cek id user in udapte course  : %s", err.Error())
 	}
 	if existingCourse == nil {
 		return fmt.Errorf("course not found")

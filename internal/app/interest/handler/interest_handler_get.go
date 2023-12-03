@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
@@ -10,11 +9,8 @@ import (
 )
 
 func (handler *InterestHandlerImpl) GetInterestRecommendation(ctx echo.Context) error {
-	profileID, err := strconv.Atoi(ctx.Param("profile_id"))
-	if err != nil {
-		return res.StatusInternalServerError(ctx, "failed to convert param id to int", err)
-	}
-	result, err := handler.Service.GetInterestRecommendation(uint(profileID))
+	userID := ctx.Get("user_id").(uint)
+	result, err := handler.Service.GetInterestRecommendation(userID)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

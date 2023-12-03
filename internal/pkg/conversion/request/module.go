@@ -15,22 +15,45 @@ func SubModuleCreateRequestToSubModuleDomain(request *web.SubModuleCreateRequest
 	}
 }
 
-func ModuleCreateRequestToModuleDomain(request *web.ModuleCreateRequest, courseId uint) *domain.Module {
-	var subModules []*domain.SubModule
+	// func ModuleCreateRequestToModuleDomain(request *web.ModuleCreateRequest, courseId uint) *domain.Module {
+	// 	var subModules []*domain.SubModule
 
+	// 	module := &domain.Module{
+	// 		CourseID:    courseId,
+	// 		Title:       request.Title,
+	// 		Description: request.Description,
+	// 		Type:        request.Type,
+	// 		Order:       request.Order,
+	// 	}
+
+	// 	for _, subModule := range request.SubModules {
+	// 		subModules = append(subModules, SubModuleCreateRequestToSubModuleDomain(&subModule, module.ID))
+	// 	}
+
+	// 	module.SubModules = subModules
+
+	// 	return module
+	// }
+
+func ModuleRequestToModuleDomain(request *web.ModuleRequest) *domain.Module {
 	module := &domain.Module{
-		CourseID:    courseId,
+		SectionID:    request.SectionID,
 		Title:       request.Title,
 		Description: request.Description,
-		Type:        request.Type,
-		Order:       request.Order,
+		OrderBy:       request.Order,
+		SubModules:  request.SubModules,
 	}
 
-	for _, subModule := range request.SubModules {
-		subModules = append(subModules, SubModuleCreateRequestToSubModuleDomain(&subModule, module.ID))
-	}
+	return module
+}
 
-	module.SubModules = subModules
+func SectionRequestToSectionDomain(request *web.SectionRequest) *domain.Section {
+	module := &domain.Section{
+		CourseID:    request.CourseID,
+		Title:       request.Title,
+		OrderBy:       request.Order,
+		Modules:     []domain.Module{request.Modules},
+	}
 
 	return module
 }
