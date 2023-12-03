@@ -13,6 +13,6 @@ func (authRoutes *AuthRoutesImpl) AuthMobile(apiGroup *echo.Group) {
 	authGroup := apiGroup.Group("/auth")
 
 	authGroup.POST("/register", authRoutes.AuthHandler.RegisterUser)
-	authGroup.POST("/login", authRoutes.AuthHandler.LoginUser)
+	authGroup.POST("/login", authRoutes.AuthHandler.LoginUserStudent)
 	authGroup.POST("/access-token", authRoutes.AuthHandler.GetAccessToken)
 }

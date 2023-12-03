@@ -2,42 +2,39 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (feedbackRepository *FeedbackRepositoryImpl) GetAll(courseid, page, pagesize int) ([]domain.Feedback, int64, error) {
-	var feedbacks []domain.Feedback
-	var count int64
+func (feedbackRepository *FeedbackRepositoryImpl) GetAllByCourseId(courseId uint, offset, limit int, search string) ([]domain.Feedback, int64, error) {
 
-	if page < 1 {
-		page = 1
+	if offset < 0 || limit < 0 {
+		return nil, 0, nil
 	}
 
-	if pagesize < 1 {
-		pagesize = 10
+	feedback := []domain.Feedback{}
+	var total int64
+
+	query := feedbackRepository.DB.Model(&feedback).Preload("User.UserProfile").Where("course_id = ?", courseId)
+
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("rating LIKE ?", s)
 	}
 
-	query := feedbackRepository.DB
+	query.Find(&feedback).Count(&total)
 
-	if courseid != 0 {
-		query = query.Where("course_id LIKE ?", courseid)
-	}
+	query = query.Limit(limit).Offset(offset)
 
-	query.Find(&feedbacks).Count(&count)
+	result := query.Find(&feedback)
 
-	offset := (page - 1) * pagesize
-
-	if offset < 0 {
-		offset = 0
-	}
-
-	query = query.Offset(offset).Limit(pagesize)
-
-	result := query.Find(&feedbacks)
 	if result.Error != nil {
 		return nil, 0, result.Error
 	}
 
-	if count == 0 {
+	if total == 0 {
 		return nil, 0, nil
 	}
 
-	return feedbacks, count, nil
+	if offset >= int(total) {
+		return nil, 0, nil
+	}
+
+	return feedback, total, nil
 }

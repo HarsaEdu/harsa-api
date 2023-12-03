@@ -25,7 +25,7 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) Create(ctx echo.Context)
 
 	req.CourseID = uint(courseId)
 	req.UserID = id
-	req.Status = "in_progress"
+	req.Status = "in progress"
 	err = courseTrackingHandler.CourseTrackingService.Create(req)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
