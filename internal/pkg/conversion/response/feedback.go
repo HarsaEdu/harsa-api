@@ -10,6 +10,7 @@ func ConvertUserFeedback(userCourse *domain.UserProfile) *web.UserForFeedBack {
 	return &web.UserForFeedBack{
 		ID:   userCourse.ID,
 		Name: name,
+		ImageUrl: userCourse.ImageUrl,
 	}
 }
 

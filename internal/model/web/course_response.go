@@ -12,6 +12,11 @@ type UserForCourseResponse struct {
 	Role  string `json:"role"`
 }
 
+type UserForCourseResponseMobile struct {
+	ID    uint                         `json:"id"`
+	Name string                        `json:"name"`
+}
+
 type CategoryForCourseResponse struct {
 	ID   uint   `json:"id"`
 	Name string `json:"name"`
@@ -42,6 +47,48 @@ type GetCourseResponse struct {
 	UpdatedAt   time.Time                  `json:"updated_at"`
 	User        *UserForCourseResponse      `json:"user"`
 	Category    *CategoryForCourseResponse  `json:"category"`
+}
+
+type CourseResponseForIntructur struct {
+	ID          uint                       `json:"id"`
+	Title       string                     `json:"title"`
+	ImageUrl    string                     `json:"image_url"`
+	FeedBack    []FeedBackResponseForTracking `json:"feedback"`
+	TotalUser   int64                        `json:"total_user"`
+	TotalActiveUser int64                        `json:"total_active_user"`
+}
+
+type AllCourseResponseForIntructur struct {
+	ID          uint                       `json:"id"`
+	Title       string                     `json:"title"`
+	ImageUrl    string                     `json:"image_url"`
+}
+
+type DashboardAllCourseIntructur struct {
+	FirstName string `json:"first_name"`
+	Course    []AllCourseResponseForIntructur `json:"course"`
+}
+
+type DashboardIntructur struct {
+	FirstName string `json:"first_name"`
+	Course    []CourseResponseForIntructur `json:"course"`
+}
+
+type GetCourseResponseMobile struct {
+	ID          uint                       `json:"id"`
+	Title       string                     `json:"title"`
+	Description string                     `json:"description"`
+	ImageUrl    string                     `json:"image_url"`
+	Rating      float32                        `json:"rating"`
+	User        *UserForCourseResponseMobile      `json:"user"`
+	Category    *CategoryForCourseResponse  `json:"category"`
+}
+
+type CourseResponse struct{
+	ID          uint                       `json:"id"`
+	Title       string                     `json:"title"`
+	Description string                     `json:"description"`
+	UserID      uint                       `json:"user_id"`
 }
 
 type GetCourseResponseById struct {

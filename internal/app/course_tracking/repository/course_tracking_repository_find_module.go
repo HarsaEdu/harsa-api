@@ -7,23 +7,74 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTracking(module []domain.Module, userID uint) ([]web.ModuleResponseForTracking, error) {
+func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTracking(sections []domain.Section, userID uint) ([]web.SectionResponseMobile, error) {
 
-	var allModule []web.ModuleResponseForTracking
+	allSection:= []web.SectionResponseMobile{}
 
-	for _, module := range module {
+	for _,section := range sections {
 
-		progrees, err := courseTrackingRepository.CountProgressModule(module.ID, userID)
-		if err != nil {
-			return nil, err
+		var allModule []web.ModuleResponseForTracking
+		for _, module := range section.Modules {
+
+			progrees, err := courseTrackingRepository.CountProgressModule(module.ID, userID)
+			if err != nil {
+				return nil, err
+			}
+
+			convertModul := conversion.ConvertModuleResponseTrackingMobile(&module, progrees)		
+			allModule = append(allModule, *convertModul)
 		}
-
-		convertModul := conversion.ConvertModuleResponseTrackingMobile(&module, progrees)		
-		allModule = append(allModule, *convertModul)
+		sectionRes:= conversion.ConvertSectionResponseMobile(&section, allModule)
+		allSection = append(allSection, *sectionRes)
 	}
 
-    return allModule, nil
+    return allSection, nil
 }
+
+func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTrackingWithProgress(sections []domain.Section, userID uint, courseID uint) ([]web.SectionResponseMobile, float32 ,error) {
+
+	var status string
+
+	if err := courseTrackingRepository.DB.Model(&domain.CourseTracking{}).Where("course_id = ? and user_id = ?", courseID, userID).Pluck("status", &status).Error; err != nil {
+		return nil,0, err
+	}
+
+	allSection:= []web.SectionResponseMobile{}
+
+	var totalProgress float32
+	var totalModule float32
+
+	for _,section := range sections {
+
+		var allModule []web.ModuleResponseForTracking
+		for _, module := range section.Modules {
+
+			progrees, err := courseTrackingRepository.CountProgressModule(module.ID, userID)
+			if err != nil {
+				return nil,0, err
+			}
+
+			totalProgress += progrees
+
+			convertModul := conversion.ConvertModuleResponseTrackingMobile(&module, progrees)		
+			allModule = append(allModule, *convertModul)
+		}
+		totalModule += float32(len(section.Modules))
+		sectionRes:= conversion.ConvertSectionResponseMobile(&section, allModule)
+		allSection = append(allSection, *sectionRes)
+	}
+
+	progress := totalProgress / totalModule
+	if status == "in progress" && progress == 100{
+		newStatus := "completed"
+		result := courseTrackingRepository.DB.Model(&domain.CourseTracking{}).Where("course_id = ? and user_id = ?", courseID, userID).Update("status", newStatus)
+		if result.Error != nil {
+			return nil, 0,result.Error
+		}
+	}
+    return allSection, progress, nil
+}
+
 
 func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindModuleTracking(moduleID uint, userID uint) (*web.ModuleResponseForTracking, error) {
 

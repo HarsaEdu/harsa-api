@@ -7,52 +7,71 @@ import (
 )
 
 func (repository *QuizzesRepositoryImpl) CekIdFromQuiz(userId uint, quizId uint, role string) (*domain.Quizzes, error) {
+	tx := repository.DB.Begin()
 
-	var quiz = domain.Quizzes{}
-
-	if err := repository.DB.First(&quiz, quizId).Error; err != nil {
+	var quiz domain.Quizzes
+	if err := tx.First(&quiz, quizId).Error; err != nil {
+		tx.Rollback()
 		return nil, err
 	}
 
-	var module = domain.Module{}
+	getScannedValue := func(model interface{}, condition string, value interface{}, dest interface{}) error {
+		if err := tx.Model(model).Where(condition, value).Select(dest).Scan(dest).Error; err != nil {
+			tx.Rollback()
+			return err
+		}
+		return nil
+	}
 
-	if err := repository.DB.First(&module, quiz.ModuleID).Error; err != nil {
+	var sectionID, courseID, userID uint
+
+	if err := getScannedValue(&domain.Module{}, "id = ?", quiz.ModuleID, &sectionID); err != nil {
 		return nil, err
 	}
 
-	var course = domain.Course{}
-
-	if err := repository.DB.First(&course, module.CourseID).Error; err != nil {
+	if err := getScannedValue(&domain.Section{}, "id = ?", sectionID, &courseID); err != nil {
 		return nil, err
 	}
 
-	if course.UserID != userId && role != "admin" {
+	if err := getScannedValue(&domain.Course{}, "id = ?", courseID, &userID); err != nil {
+		return nil, err
+	}
+
+	tx.Commit()
+
+	if userID != userId && role != "admin" {
 		return nil, fmt.Errorf("unauthorized")
 	}
-	
 
 	return &quiz, nil
 }
 
+
 func (repository *QuizzesRepositoryImpl) CekIdFromModule(userId uint, moduleId uint, role string) error {
+	tx := repository.DB.Begin()
 
+	var sectionID, courseID, userID uint
 
-	var module = domain.Module{}
-
-	if err := repository.DB.First(&module, moduleId).Error; err != nil {
+	if err := repository.DB.Model(&domain.Module{}).Where("id = ?", moduleId).Select("section_id").Scan(&sectionID).Error; err != nil {
+		tx.Rollback()
 		return err
 	}
 
-	var course = domain.Course{}
-
-	if err := repository.DB.First(&course, module.CourseID).Error; err != nil {
+	if err := repository.DB.Model(&domain.Section{}).Where("id = ?", sectionID).Select("course_id").Scan(&courseID).Error; err != nil {
+		tx.Rollback()
 		return err
 	}
 
-	if course.UserID != userId && role != "admin" {
+	if err := repository.DB.Model(&domain.Course{}).Where("id = ?", courseID).Select("user_id").Scan(&userID).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	tx.Commit()
+
+	if userID != userId && role != "admin" {
 		return fmt.Errorf("unauthorized")
 	}
-	
 
 	return nil
 }

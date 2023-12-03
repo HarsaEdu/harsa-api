@@ -7,6 +7,7 @@ import (
 
 type CourseTrackingRoutes interface {
 	CourseTrackingMobile(apiGroup *echo.Group)
+	CourseTrackingWeb(apiGroup *echo.Group)
 }
 
 type CourseTrackingRoutesImpl struct {

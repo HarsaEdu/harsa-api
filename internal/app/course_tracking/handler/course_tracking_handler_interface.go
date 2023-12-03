@@ -9,6 +9,10 @@ type CourseTrackingHandler interface {
 	Create(ctx echo.Context) error
 	GetById(ctx echo.Context) error
 	FindSub(ctx echo.Context) error
+	GetAllTracking(ctx echo.Context) error
+	GetAllTrackingWeb(ctx echo.Context) error
+	GetAllTrackingUserWeb(ctx echo.Context) error
+	DeleteEnrolled(ctx echo.Context) error
 }
 
 type CourseTrackingHandlerImpl struct {
