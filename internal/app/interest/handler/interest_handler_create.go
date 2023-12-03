@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -12,19 +10,15 @@ import (
 )
 
 func (handler *InterestHandlerImpl) CreateInterest(ctx echo.Context) error {
-	id, err := strconv.Atoi(ctx.Param("profile_id"))
-	if err != nil {
-		return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)
-	}
-	fmt.Println("id", id)
+	userId := ctx.Get("user_id").(uint)
 
 	request := web.InterestRequest{}
-	err = ctx.Bind(&request)
+	err := ctx.Bind(&request)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind request", err)
 	}
 
-	err = handler.Service.CreateInterest(uint(id), &request)
+	err = handler.Service.CreateInterest(userId, &request)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

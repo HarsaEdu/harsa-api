@@ -5,7 +5,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingMobile(apiGroup *echo.Group)  {
+func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingMobile(apiGroup *echo.Group) {
 	courseTrackingsGroup := apiGroup.Group("/users/course/:course-id")
 	courseTrackingsGroupGet := apiGroup.Group("/users/course")
 
@@ -25,3 +25,4 @@ func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingWeb(apiGroup
 	userTrackingGroup.DELETE("/tracking-id", courseTrackingRoutes.CourseTrackingHandler.DeleteEnrolled, middleware.InstructorMiddleware)
 	
 }
+
