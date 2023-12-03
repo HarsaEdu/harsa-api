@@ -55,4 +55,5 @@ jobs:
               -e OPENAI_API_KEY=${{secrets.OPENAI_API_KEY}} \
               -e OPENAI_ASSISTANT_ID=${{secrets.OPENAI_ASSISTANT_ID}} \
               -e FIREBASE_AUTH_KEY=${{secrets.FIREBASE_AUTH_KEY}} \
+              -e MIDTRANS_SERVER_KEY=${{secrets.MIDTRANS_SERVER_KEY}} \
               ${{ secrets.DOCKERHUB_USERNAME }}/harsa-api
