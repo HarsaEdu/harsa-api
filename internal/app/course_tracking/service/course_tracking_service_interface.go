@@ -15,6 +15,7 @@ type CourseTrackingService interface {
 	FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error)
 	FindSubmissionByID(moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error)
 	FindQuizzByID(moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error)
+	FindModuleHistory(moduleID uint, userID uint) (*web.ModuleTrackingByID, error)
 }
 
 type CourseTrackingServiceImpl struct {

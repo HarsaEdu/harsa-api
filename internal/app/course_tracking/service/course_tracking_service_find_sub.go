@@ -18,6 +18,18 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubByIdMobile(module
 
 }
 
+func (courseTrackingService *CourseTrackingServiceImpl) FindModuleHistory(moduleID uint, userID uint) (*web.ModuleTrackingByID, error) {
+	module, err := courseTrackingService.CourseTrackingRepository.FindModuleTracking(moduleID, userID)
+
+	courseTracking, err := courseTrackingService.CourseTrackingRepository.FindAllSub(moduleID, userID)
+	if err != nil {
+		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
+	}
+
+	res := conversion.ConvertToModuleTrackingByID(module, courseTracking)
+	return res, nil
+}
+
 func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error) {
 	module, err := courseTrackingService.CourseTrackingRepository.FindModuleTracking(moduleID, userID)
 	if err != nil {

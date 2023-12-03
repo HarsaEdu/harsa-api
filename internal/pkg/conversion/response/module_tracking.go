@@ -13,3 +13,16 @@ func ConvertToSubModuleTrackingResponse(module *web.ModuleResponseForTracking, h
 		SubModule:        *subModule,
 	}
 }
+
+func ConvertToModuleTrackingByID(module *web.ModuleResponseForTracking, moduleItems *web.CourseTrackingSub) *web.ModuleTrackingByID {
+	return &web.ModuleTrackingByID{
+		ID:          module.ID,
+		Title:       module.Title,
+		Description: module.Description,
+		Progress:    module.Progress,
+		Order:       module.Order,
+		SubModules:  moduleItems.SubModules,
+		Submissions: moduleItems.Submissions,
+		Quizzes:     moduleItems.Quizzes,
+	}
+}

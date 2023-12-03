@@ -14,6 +14,7 @@ func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingMobile(apiGr
 	courseTrackingsGroupGet.GET("/tracking/:id", courseTrackingRoutes.CourseTrackingHandler.GetById, middleware.StudentMiddleare)
 	courseTrackingsGroupGet.GET("/module/:module-id", courseTrackingRoutes.CourseTrackingHandler.FindSub, middleware.StudentMiddleare)
 
+	moduleTrackingGroup.GET("/tracking", courseTrackingRoutes.CourseTrackingHandler.FindModuleHistory, middleware.StudentMiddleare)
 	moduleTrackingGroup.GET("/sub-module/:sub-module-id", courseTrackingRoutes.CourseTrackingHandler.FindSubModuleByID, middleware.StudentMiddleare)
 	moduleTrackingGroup.GET("/submission/:submission-id", courseTrackingRoutes.CourseTrackingHandler.FindSubmissionByID, middleware.StudentMiddleare)
 	moduleTrackingGroup.GET("/quizz/:quizz-id", courseTrackingRoutes.CourseTrackingHandler.FindQuizzByID, middleware.StudentMiddleare)

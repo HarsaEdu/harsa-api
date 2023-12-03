@@ -12,6 +12,7 @@ type CourseTrackingHandler interface {
 	FindSubModuleByID(ctx echo.Context) error
 	FindSubmissionByID(ctx echo.Context) error
 	FindQuizzByID(ctx echo.Context) error
+	FindModuleHistory(ctx echo.Context) error
 }
 
 type CourseTrackingHandlerImpl struct {

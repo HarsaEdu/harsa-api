@@ -8,6 +8,21 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func (courseTrackingHandler *CourseTrackingHandlerImpl) FindModuleHistory(ctx echo.Context) error {
+	moduleID, _ := strconv.Atoi(ctx.Param("module-id"))
+	id := ctx.Get("user_id").(uint)
+
+	result, err := courseTrackingHandler.CourseTrackingService.FindModuleHistory(uint(moduleID), id)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "module not found", err)
+		}
+
+		return res.StatusInternalServerError(ctx, "failed to get module tracking, something happen", err)
+	}
+	return res.StatusOK(ctx, "success to get module tracking", result, nil)
+}
+
 func (courseTrackingHandler *CourseTrackingHandlerImpl) FindSubModuleByID(ctx echo.Context) error {
 	moduleID, _ := strconv.Atoi(ctx.Param("module-id"))
 	subModuleID, _ := strconv.Atoi(ctx.Param("sub-module-id"))
