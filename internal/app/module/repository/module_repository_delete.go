@@ -19,3 +19,12 @@ func (moduleRepository *ModuleRepositoryImpl) DeleteSection(section *domain.Sect
 
 	return nil
 }
+
+func (moduleRepository *ModuleRepositoryImpl) DeleteSubModule(subModule *domain.SubModule) error {
+
+	if err := moduleRepository.DB.Delete(&subModule).Error; err != nil {
+		return  err
+	}
+
+	return nil
+}

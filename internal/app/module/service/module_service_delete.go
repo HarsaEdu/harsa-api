@@ -23,7 +23,7 @@ func (moduleService *ModuleServiceImpl) DeleteSection(sectionId uint, userId uin
 
 	existingSection, err := moduleService.ModuleRepository.CekIdFromSection(userId, sectionId, role)
 	if err != nil {
-		return fmt.Errorf("error when cek id user from course :%s", err.Error())
+		return fmt.Errorf("error when cek id user from section :%s", err.Error())
 	}
 
 	err = moduleService.ModuleRepository.DeleteSection(existingSection)
@@ -34,3 +34,18 @@ func (moduleService *ModuleServiceImpl) DeleteSection(sectionId uint, userId uin
 	return nil
 }
 
+
+func (moduleService *ModuleServiceImpl) DeleteSubModule(subModuleId uint, userId uint, role string) error {
+
+	existingSubmodule, err := moduleService.ModuleRepository.CekIdFromSubModule(userId, subModuleId, role)
+	if err != nil {
+		return fmt.Errorf("error when cek id user from course :%s", err.Error())
+	}
+
+	err = moduleService.ModuleRepository.DeleteSubModule(existingSubmodule)
+	if err != nil {
+		return fmt.Errorf("error when update section : %s", err.Error())
+	}
+
+	return nil
+}

@@ -36,6 +36,9 @@ func (moduleHandler *ModuleHandlerImpl) UpdateModule(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot update this module" ,err)
+		}
 
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "module not found", err)
@@ -72,15 +75,17 @@ func (moduleHandler *ModuleHandlerImpl) UpdateModuleOrder(ctx echo.Context) erro
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
-
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot delete this module order" ,err)
+		}
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "module not found", err)
 		}
 
-		return res.StatusInternalServerError(ctx, "failed to update module, something happen", err)
+		return res.StatusInternalServerError(ctx, "failed to update order module, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success to update module", nil, nil)
+	return res.StatusOK(ctx, "success to update order module", nil, nil)
 }
 
 func (moduleHandler *ModuleHandlerImpl) UpdateSection(ctx echo.Context) error {
@@ -107,6 +112,9 @@ func (moduleHandler *ModuleHandlerImpl) UpdateSection(ctx echo.Context) error {
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot update this section" ,err)
 		}
 
 		if strings.Contains(err.Error(), "not found") {
@@ -144,14 +152,17 @@ func (moduleHandler *ModuleHandlerImpl) UpdateSectionOrder(ctx echo.Context) err
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot update this section order" ,err)
+		}
 
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "section not found", err)
 		}
 
-		return res.StatusInternalServerError(ctx, "failed to update section, something happen", err)
+		return res.StatusInternalServerError(ctx, "failed to update order section, something happen", err)
 	}
 
-	return res.StatusOK(ctx, "success to update section", nil, nil)
+	return res.StatusOK(ctx, "success to update order section", nil, nil)
 }
 
