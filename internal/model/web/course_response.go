@@ -58,6 +58,17 @@ type CourseResponseForIntructur struct {
 	TotalActiveUser int64                        `json:"total_active_user"`
 }
 
+type AllCourseResponseForIntructur struct {
+	ID          uint                       `json:"id"`
+	Title       string                     `json:"title"`
+	ImageUrl    string                     `json:"image_url"`
+}
+
+type DashboardAllCourseIntructur struct {
+	FirstName string `json:"first_name"`
+	Course    []AllCourseResponseForIntructur `json:"course"`
+}
+
 type DashboardIntructur struct {
 	FirstName string `json:"first_name"`
 	Course    []CourseResponseForIntructur `json:"course"`

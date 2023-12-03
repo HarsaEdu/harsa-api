@@ -41,6 +41,36 @@ func (courseRepository *CourseRepositoryImpl) GetAllByUserId(offset, limit int, 
 	return courses, total, nil
 }
 
+func (courseRepository *CourseRepositoryImpl) GetAllCourseByUserId(offset, limit int, search string, userID uint) ([]domain.Course, int64, error) {
+	if offset < 0 || limit <= 0 {
+		return nil, 0, fmt.Errorf("invalid offset or limit")
+	}
+
+	courses := []domain.Course{}
+	var total int64
+
+	query := courseRepository.DB.Model(&courses)
+
+	if search != "" {
+		s := "%" + search + "%"
+		query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+	}
+	query.Where("user_id = ?", userID).Count(&total).Find(&courses)
+	query = query.Limit(limit).Offset(offset)
+
+	if offset >= int(total) {
+		return nil, 0,  nil
+	}
+
+	result := query.Find(&courses)
+
+	if result.Error != nil {
+		return nil, 0,  result.Error
+	}
+
+	return courses, total, nil
+}
+
 func (courseRepository *CourseRepositoryImpl) GetNameUser(userId uint) (string, error) {
 	
 	var userProfile = domain.UserProfile{}
@@ -83,6 +113,53 @@ func (courseRepository *CourseRepositoryImpl) GetDashBoardIntructur(offset, limi
 	return result,total, err
 }
 
+func (courseRepository *CourseRepositoryImpl) GetAllCourseDashBoardIntructur(offset, limit int, search string, userID uint) (*web.DashboardAllCourseIntructur, int64,error) {
+	courses, total,  err := courseRepository.GetAllCourseByUserId(offset, limit, search, userID)
+	if err != nil {
+		return nil,0, fmt.Errorf("get all eror : %w", err)
+	}
+	name ,err:= courseRepository.GetNameUser(userID)
+	if err != nil {
+		return nil,0, fmt.Errorf("get get name eror : %w", err)
+	}
+	res := []web.AllCourseResponseForIntructur{}
+	for _, course := range courses {
+
+		convert := conversion.ConvertAllCourseIntructure(&course)
+
+		res = append(res, *convert)
+	}
+
+	result := conversion.AllCourseResponseForIntructur(res,name)
+
+	return result,total, err
+}
+
+func (courseRepository *CourseRepositoryImpl) GetDetailDashBoardIntructur(courseID uint) (*web.CourseResponseForIntructur, error) {
+
+	course := domain.Course{}
+
+	result := courseRepository.DB.Preload("Feedback.User.UserProfile", func(db *gorm.DB) *gorm.DB {
+		return db.Limit(3)
+	}).First(&course, courseID)
+
+	if result.Error != nil {
+		return nil,   result.Error
+	}
+
+		countUser , err:=  courseRepository.CountUserInCourse(course.ID)
+		if err != nil {
+			return nil, fmt.Errorf("get count user eror : %w", err)
+		}
+		countUserActive ,err:=  courseRepository.CountActiveUsersInCourse(course.ID)
+		if err != nil {
+			return nil, fmt.Errorf("get count user active eror : %w", err)
+		}
+
+		convert := conversion.CourseDomainToCourseGetResponse(&course,countUser,countUserActive)
+
+	return convert, err
+}
 
 func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search string, categoryId uint) ([]domain.Course, int64, error) {
 

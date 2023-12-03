@@ -39,6 +39,26 @@ func CourseDomainToCourseGetResponse(course *domain.Course, countUser int64, cou
 	return courseResponseForIntructur
 }
 
+func ConvertAllCourseIntructure(course *domain.Course) *web.AllCourseResponseForIntructur {
+	var courseResponseForIntructur *web.AllCourseResponseForIntructur
+
+	courseResponseForIntructur = &web.AllCourseResponseForIntructur{
+		ID:          course.ID,
+		Title:       course.Title,
+		ImageUrl:    course.ImageUrl,
+	}
+
+	return courseResponseForIntructur
+}
+
+func AllCourseResponseForIntructur(course []web.AllCourseResponseForIntructur, firstName string) *web.DashboardAllCourseIntructur{
+
+	return &web.DashboardAllCourseIntructur{
+		FirstName: firstName,
+		Course: course,
+	}
+}
+
 func ConvertCourseResponse(course *domain.Course) *web.CourseResponse {
 	return &web.CourseResponse{
 		ID:          course.ID,

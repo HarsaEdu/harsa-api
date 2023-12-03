@@ -17,6 +17,8 @@ type CourseService interface {
 	Delete(id uint, userId uint, role string) error
 	GetAll(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 	GetByIdMobile(id uint) (*web.CourseForTraking, error)
+	GetAllCourseByUserId(offset, limit int, search string, userID uint) (*web.DashboardAllCourseIntructur, *web.Pagination, error)
+	GetDeatailCourse(id uint) (*web.CourseResponseForIntructur, error)
 }
 
 type CourseServiceImpl struct {
