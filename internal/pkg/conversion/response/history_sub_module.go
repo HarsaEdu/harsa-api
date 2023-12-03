@@ -9,15 +9,35 @@ func ConvertSubModuleResponseTrackingMobile(response *domain.SubModule, complete
 	return &web.SubModuleResponseForTracking{
 		ID:          response.ID,
 		Title:       response.Title,
-		Type :       response.Type,
 		Is_complete: complete,
 	}
 }
 
 // func ConvertHistorySubmoduleResponseMobile(response *domain.HistorySubModule) *web.HistorySubModuleResponseMobile {
-	
+
+// 	subModule := ConvertSubModuleResponseTrackingMobile(&response.SubModule)
+
+// 	return &web.HistorySubModuleResponseMobile{
+// 		ID:         response.ID,
+// 		SubModule:  *subModule,
+// 		IsComplete: response.IsComplete,
+// 	}
+// }
+
+// func ConvertAllHistorySubmoduleResponseMobile(response []domain.HistorySubModule) []web.HistorySubModuleResponseMobile {
+
+// 	var historySubModule []web.HistorySubModuleResponseMobile{
+// 		ID:          response.ID,
+// 		Title:       response.Title,
+// 		Type :       response.Type,
+// 		Is_complete: complete,
+// 	}
+// }
+
+// func ConvertHistorySubmoduleResponseMobile(response *domain.HistorySubModule) *web.HistorySubModuleResponseMobile {
+
 // 	subModule:= ConvertSubModuleResponseTrackingMobile(&response.SubModule)
-	
+
 // 	return &web.HistorySubModuleResponseMobile{
 // 		ID:          response.ID,
 // 		SubModule:   *subModule,
@@ -26,7 +46,7 @@ func ConvertSubModuleResponseTrackingMobile(response *domain.SubModule, complete
 // }
 
 // func ConvertAllHistorySubmoduleResponseMobile(response []domain.HistorySubModule) []web.HistorySubModuleResponseMobile {
-	
+
 // 	var historySubModule []web.HistorySubModuleResponseMobile
 
 // 	for i := range response {
@@ -34,5 +54,5 @@ func ConvertSubModuleResponseTrackingMobile(response *domain.SubModule, complete
 // 	}
 
 // 	return historySubModule
-		
+
 // }
