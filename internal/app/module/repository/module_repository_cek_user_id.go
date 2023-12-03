@@ -53,7 +53,7 @@ func (moduleRepository *ModuleRepositoryImpl) CekIdFromModule(userId uint, modul
 
 	var courseID uint
 
-	if err := moduleRepository.DB.Model(&domain.Section{}).Where("id = ?", module.SectionID).Select("user_id").Scan(&courseID).Error; err != nil {
+	if err := moduleRepository.DB.Model(&domain.Section{}).Where("id = ?", module.SectionID).Select("course_id").Scan(&courseID).Error; err != nil {
 		return nil, err
 	}
 	
@@ -67,4 +67,36 @@ func (moduleRepository *ModuleRepositoryImpl) CekIdFromModule(userId uint, modul
 		return nil, fmt.Errorf("unauthorized")
 	}
 	return &module, nil
+}
+
+func (moduleRepository *ModuleRepositoryImpl) CekIdFromSubModule(userId uint, subModuleId uint, role string) (*domain.SubModule, error) {
+
+	var subModule = domain.SubModule{}
+
+	if err := moduleRepository.DB.First(&subModule, subModuleId).Error; err != nil {
+		return nil, err
+	}
+
+	var sectionId uint
+
+	if err := moduleRepository.DB.Model(&domain.Module{}).Where("id = ?", subModule.ModuleID).Select("section_id").Scan(&sectionId).Error; err != nil {
+		return nil, err
+	}
+
+	var courseID uint
+
+	if err := moduleRepository.DB.Model(&domain.Section{}).Where("id = ?", sectionId).Select("course_id").Scan(&courseID).Error; err != nil {
+		return nil, err
+	}
+	
+	var userIDCourse uint
+
+	if err := moduleRepository.DB.Model(&domain.Course{}).Where("id = ?", courseID ).Select("user_id").Scan(&userIDCourse).Error; err != nil {
+		return nil, err
+	}
+
+	if userIDCourse != userId && role != "admin" {
+		return nil, fmt.Errorf("unauthorized")
+	}
+	return &subModule, nil
 }
