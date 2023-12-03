@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -10,12 +11,11 @@ import (
 )
 
 func (handler *HistorySubModuleHandlerImpl) CreateHistoryModule(ctx echo.Context) error {
-	request := web.CreateHistorySubModuleRequest{}
-	err := ctx.Bind(&request)
+	subModuleId, err := strconv.Atoi(ctx.Param("sub-module-id"))
 	if err != nil {
-		return res.StatusInternalServerError(ctx, "cannot bind to request model", err)
+		return res.StatusInternalServerError(ctx, "cannot convert sub module id", err)
 	}
-
+	request := web.CreateHistorySubModuleRequest{SubModuleID: uint(subModuleId)}
 	err = handler.Service.CreateHistorySubModule(&request, ctx.Get("user_id").(uint))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
