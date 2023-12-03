@@ -55,3 +55,25 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubmissionByID(modul
 	res := conversion.ConvertSubmissionAnswerTrackingResponse(module, newAnswer, newSubmission)
 	return res, nil
 }
+
+func (courseTrackingService *CourseTrackingServiceImpl) FindQuizzByID(moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error) {
+	module, err := courseTrackingService.CourseTrackingRepository.FindModuleTracking(moduleID, userID)
+	if err != nil {
+		return nil, fmt.Errorf("module not found")
+	}
+
+	historyQuizz, err := courseTrackingService.CourseTrackingRepository.FindQuizzByID(moduleID, userID, quizzID)
+	if err != nil {
+		return nil, fmt.Errorf("history not found")
+	}
+
+	quizz, err := courseTrackingService.QuizzService.FindByIdMobile(quizzID)
+	if err != nil {
+		return nil, err
+	}
+
+	newHistory := conversion.ConvertHistoryQuizForTracking(historyQuizz)
+	res := conversion.ConvertHistoryQuizTrackingResponse(module, newHistory, quizz)
+
+	return res, nil
+}

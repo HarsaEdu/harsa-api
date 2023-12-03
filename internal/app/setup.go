@@ -5,6 +5,7 @@ import (
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
 	"github.com/HarsaEdu/harsa-api/internal/app/chatbot"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
+	courseTraking "github.com/HarsaEdu/harsa-api/internal/app/course_tracking"
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
 	feedback "github.com/HarsaEdu/harsa-api/internal/app/feedback"
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
@@ -16,7 +17,6 @@ import (
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
-	courseTraking "github.com/HarsaEdu/harsa-api/internal/app/course_tracking"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
@@ -35,14 +35,14 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	courseRepsoitory, courseRoutes := course.CourseSetup(db, validate, cloudinary)
 	subsPlanRoutes, subsPlanRepo := subsPlan.SubsPlanSetup(db, validate, cloudinary)
 	profileRoutes := profile.ProfileSetup(db, validate, e, cloudinary)
-	quizzesRoutes := quizzes.QuizzesSetup(db, validate)
+	quizzesRoutes, quizzService := quizzes.QuizzesSetup(db, validate)
 	interestRoutes := interest.InterestSetup(db, validate)
 	questionsRoutes := questions.QuestionsSetup(db, validate)
 	optionsRoutes := options.OptionsSetup(db, validate)
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
 	paymentRoutes := payment.PaymentSetup(validate, midtransCoreApi, userRepo, subsPlanRepo)
-	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory)
+	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService)
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)

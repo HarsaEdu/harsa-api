@@ -39,3 +39,19 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) FindSubmissionByID(ctx e
 	}
 	return res.StatusOK(ctx, "success to get submission answer tracking", result, nil)
 }
+
+func (courseTrackingHandler *CourseTrackingHandlerImpl) FindQuizzByID(ctx echo.Context) error {
+	moduleID, _ := strconv.Atoi(ctx.Param("module-id"))
+	quizzID, _ := strconv.Atoi(ctx.Param("quizz-id"))
+	id := ctx.Get("user_id").(uint)
+
+	result, err := courseTrackingHandler.CourseTrackingService.FindQuizzByID(uint(moduleID), id, uint(quizzID))
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "quizz tracking not found", err)
+		}
+
+		return res.StatusInternalServerError(ctx, "failed to get quizz tracking, something happen", err)
+	}
+	return res.StatusOK(ctx, "success to get quizz tracking", result, nil)
+}
