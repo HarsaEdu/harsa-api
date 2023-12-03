@@ -17,24 +17,19 @@ func ConvertSubmissionAnswerResponseTrackingMobile(responseSubmission *domain.Su
 	}
 }
 
-func ConvertSubmissionAnswerTracking(response *domain.SubmissionAnswer, title string) *web.SubmissionsResponseModuleMobile {
+func ConvertSubmissionAnswerTracking(response *domain.SubmissionAnswer) *web.SubmissionAnswerTracking {
 	var completed bool = false
 	if response.Status == "accepted" {
 		completed = true
 	}
-	return &web.SubmissionsResponseModuleMobile{
-		Id:    response.ID,
-		Title: title,
-		SubmissionAnswer: web.SubmissionAnswerRes{
-			Id:     response.ID,
-			Status: response.Status,
-		},
-		Is_complete: completed,
+	return &web.SubmissionAnswerTracking{
+		Id:         response.SubmissionID,
+		IsComplete: completed,
 	}
 }
 
-func ConvertSubmissionAnswerTrackingResponse(module *web.ModuleResponseForTracking, answer *web.SubmissionsResponseModuleMobile, submission *web.SubmissionsResponseModule) *web.SubmissionAnswerTrackingResponse {
-	return &web.SubmissionAnswerTrackingResponse{
+func ConvertSubmissionAnswerTrackingResponse(module *web.ModuleResponseForTracking, answer *web.SubmissionAnswerTracking, submission *web.SubmissionsResponseModule) *web.SubmissionAnswerTrackingByIDResponse {
+	return &web.SubmissionAnswerTrackingByIDResponse{
 		ID:               module.ID,
 		Title:            module.Title,
 		Description:      module.Description,
