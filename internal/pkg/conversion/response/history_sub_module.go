@@ -9,10 +9,27 @@ func ConvertSubModuleResponseTrackingMobile(response *domain.SubModule, complete
 	return &web.SubModuleResponseForTracking{
 		ID:          response.ID,
 		Title:       response.Title,
+		Type:        response.Type,
 		Is_complete: complete,
 	}
 }
 
+
+func ConvertHistorySubmoduleResponseMobile(response *domain.HistorySubModule) *web.HistorySubModuleResponseMobile {
+	return &web.HistorySubModuleResponseMobile{
+		ID:         response.ID,
+		Title:      response.SubModule.Title,
+		Type:       response.SubModule.Type,
+		IsComplete: response.IsComplete,
+	}
+}
+
+func ConvertHistorySubmoduleTracking(response *domain.HistorySubModule) *web.HistorySubModuleTracking {
+	return &web.HistorySubModuleTracking{
+		ID:         response.ID,
+		IsComplete: response.IsComplete,
+	}
+}
 // func ConvertHistorySubmoduleResponseMobile(response *domain.HistorySubModule) *web.HistorySubModuleResponseMobile {
 
 // 	subModule := ConvertSubModuleResponseTrackingMobile(&response.SubModule)

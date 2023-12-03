@@ -37,8 +37,9 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	faqsRoutes := faqs.FaqsSetup(db, validate)
 	courseRepsoitory, courseRoutes := course.CourseSetup(db, validate, cloudinary)
 	subsPlanRoutes, subsPlanRepo := subsPlan.SubsPlanSetup(db, validate, cloudinary)
+	quizzesRoutes, quizzService := quizzes.QuizzesSetup(db, validate)
+	interestRoutes := interest.InterestSetup(db, validate)
 	profileRoutes, profileRepo := profile.ProfileSetup(db, validate, e, cloudinary)
-	quizzesRoutes := quizzes.QuizzesSetup(db, validate)
 	interestRoutes := interest.InterestSetup(db, validate, profileRepo)
 	questionsRoutes := questions.QuestionsSetup(db, validate)
 	optionsRoutes := options.OptionsSetup(db, validate)
@@ -46,8 +47,9 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
 	submissionRoutes := submission.SubmissionSetup(db, validate)
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo)
-	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory)
+	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService)
 	historySubModuleRoutes := historySubModule.HistorySubModuleSetup(db, validate)
+
 
 	apiGroupWeb := e.Group("web")
 	authRoutes.AuthWeb(apiGroupWeb)

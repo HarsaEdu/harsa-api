@@ -10,7 +10,13 @@ type SubModuleResponseForTracking struct {
 }
 
 type HistorySubModuleResponseMobile struct {
-	ID         uint                         `json:"id"`
-	IsComplete bool                         `json:"is_complete"`
-	SubModule  SubModuleResponseForTracking `json:"sub_module"`
+	ID         uint   `json:"id"`
+	Title      string `json:"title"`
+	Type       domain.SubModuleType
+	IsComplete bool `json:"is_complete"`
+}
+
+type HistorySubModuleTracking struct {
+	ID         uint `json:"history_sub_module_id"`
+	IsComplete bool `json:"is_complete"`
 }

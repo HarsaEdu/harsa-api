@@ -1,8 +1,9 @@
 package service
 
 import (
+	repositoryCourse "github.com/HarsaEdu/harsa-api/internal/app/course/repository"
 	repositoryCourseTracking "github.com/HarsaEdu/harsa-api/internal/app/course_tracking/repository"
-	repositoryCourse"github.com/HarsaEdu/harsa-api/internal/app/course/repository"
+	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes/service"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
 )
@@ -11,6 +12,10 @@ type CourseTrackingService interface {
 	Create(request web.CourseTrackingRequest) error
 	FindByIdMobile(crourseTrackingId uint) (*web.CourseTrackingResponseMobile, error)
 	FindSubByIdMobile(courseID uint, userID uint) (*web.CourseTrackingSub, error)
+	FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error)
+	FindSubmissionByID(moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error)
+	FindQuizzByID(moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error)
+	FindModuleHistory(moduleID uint, userID uint) (*web.ModuleTrackingByID, error)
 	GetAllCourseByUserIdMobile(offset, limit int, search string, userID uint, status string) ([]web.GetAllCourseForTraking, *web.Pagination, error)
 	GetAllCourseByUserIdWeb(offset, limit int, userID uint) ([]web.CourseTrackingResponseWeb, *web.Pagination, error)
 	GetAllUserCourseWeb(offset, limit int, courseID uint, search string) ([]web.CourseTrackingUserWeb, *web.Pagination, error)
@@ -18,15 +23,17 @@ type CourseTrackingService interface {
 }
 
 type CourseTrackingServiceImpl struct {
-	CourseRepository repositoryCourse.CourseRepository
+	CourseRepository         repositoryCourse.CourseRepository
 	CourseTrackingRepository repositoryCourseTracking.CourseTrackingRepository
-	Validator          *validator.Validate
+	QuizzService             quizzes.QuizzesService
+	Validator                *validator.Validate
 }
 
-func NewCourseTrackingService(repositoryTracking repositoryCourseTracking.CourseTrackingRepository, validator *validator.Validate, courseRepository repositoryCourse.CourseRepository) CourseTrackingService {
+func NewCourseTrackingService(repositoryTracking repositoryCourseTracking.CourseTrackingRepository, validator *validator.Validate, courseRepository repositoryCourse.CourseRepository, quizzService quizzes.QuizzesService) CourseTrackingService {
 	return &CourseTrackingServiceImpl{
-		CourseRepository: courseRepository,
+		CourseRepository:         courseRepository,
 		CourseTrackingRepository: repositoryTracking,
-		Validator:          validator,
+		QuizzService:             quizzService,
+		Validator:                validator,
 	}
 }
