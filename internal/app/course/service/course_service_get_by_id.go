@@ -16,6 +16,15 @@ func (courseService *CourseServiceImpl) GetById(id uint) (*web.CourseResponse, e
 	return response, nil
 }
 
+func (courseService *CourseServiceImpl) GetDeatailCourse(id uint) (*web.CourseResponseForIntructur, error) {
+	result,  err := courseService.CourseRepository.GetDetailDashBoardIntructur(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
 func (courseService *CourseServiceImpl) GetByIdMobile(id uint) (*web.CourseForTraking, error) {
 	result, countModule, countEnroled , err := courseService.CourseRepository.GetByIdMobile(id)
 	if err != nil {
