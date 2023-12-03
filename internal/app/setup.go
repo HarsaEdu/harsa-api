@@ -38,7 +38,6 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	courseRepsoitory, courseRoutes := course.CourseSetup(db, validate, cloudinary)
 	subsPlanRoutes, subsPlanRepo := subsPlan.SubsPlanSetup(db, validate, cloudinary)
 	quizzesRoutes, quizzService := quizzes.QuizzesSetup(db, validate)
-	interestRoutes := interest.InterestSetup(db, validate)
 	profileRoutes, profileRepo := profile.ProfileSetup(db, validate, e, cloudinary)
 	interestRoutes := interest.InterestSetup(db, validate, profileRepo)
 	questionsRoutes := questions.QuestionsSetup(db, validate)
