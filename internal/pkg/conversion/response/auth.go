@@ -7,10 +7,11 @@ import (
 
 func AuthDomainToAuthResponse(auth *domain.Auth) *web.AuthResponse {
 	return &web.AuthResponse{
-		ID:       auth.ID,
-		Username: auth.Username,
-		Email:    auth.Email,
-		RoleName: web.Role(auth.RoleName),
+		ID:        auth.ID,
+		Username:  auth.Username,
+		Email:     auth.Email,
+		RoleName:  web.Role(auth.RoleName),
+		CreatedAt: auth.CreatedAt,
 	}
 }
 

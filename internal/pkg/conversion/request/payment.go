@@ -2,6 +2,7 @@ package conversion
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -14,20 +15,19 @@ func CreatePaymentSubscriptionRequestToMidtransChargeRequest(subscription *domai
 	orderId := fmt.Sprintf("%s", uuid.New().String())
 
 	item := midtrans.ItemDetails{
-		ID: fmt.Sprintf("SUBSPLAN-%d", subscription.ID),
-		Name: subscription.Title,
-		Price: int64(subscription.Price),
-		Qty: 1,
-		Brand: "HarsaEdu",
+		ID:           fmt.Sprintf("SUBSPLAN-%d", subscription.ID),
+		Name:         subscription.Title,
+		Price:        int64(subscription.Price),
+		Qty:          1,
+		Brand:        "HarsaEdu",
 		MerchantName: "HarsaEdu",
-		Category: "Subscription Plan",
+		Category:     "Subscription Plan",
 	}
-
 
 	chargeRequest := coreapi.ChargeReq{
 		PaymentType: coreapi.PaymentTypeBankTransfer,
 		TransactionDetails: midtrans.TransactionDetails{
-			OrderID: orderId,
+			OrderID:  orderId,
 			GrossAmt: int64(subscription.Price),
 		},
 		CustomerDetails: &midtrans.CustomerDetails{
@@ -43,4 +43,23 @@ func CreatePaymentSubscriptionRequestToMidtransChargeRequest(subscription *domai
 	}
 
 	return &chargeRequest
+}
+
+func ChargeResponseToPaymentHistoryDomain(response *coreapi.ChargeResponse, customer *domain.UserDetail, itemId uint) *domain.PaymentHistory {
+	parseTransactionTime, _ := time.Parse("2006-01-02 15:04:05", response.TransactionTime)
+	parseExpireTime, _ := time.Parse("2006-01-02 15:04:05", response.ExpiryTime)
+	return &domain.PaymentHistory{
+		ID:             response.OrderID,
+		UserId:         customer.UserID,
+		ItemId:         itemId,
+		Status:         response.TransactionStatus,
+		Method:         response.PaymentType,
+		GrossAmount:    response.GrossAmount,
+		BankName:       response.VaNumbers[0].Bank,
+		VaNumber:       response.VaNumbers[0].VANumber,
+		CreatedAt:      parseTransactionTime,
+		UpdatedAt:      parseTransactionTime,
+		ExpiredAt:      parseExpireTime,
+		SettlementTime: parseTransactionTime,
+	}
 }
