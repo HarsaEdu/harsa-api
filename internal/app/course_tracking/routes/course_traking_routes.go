@@ -13,7 +13,7 @@ func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingMobile(apiGr
 	courseTrackingsGroup.POST("/enrolled", courseTrackingRoutes.CourseTrackingHandler.Create, middleware.StudentMiddleare)
 	courseTrackingsGroupGet.GET("/trackings", courseTrackingRoutes.CourseTrackingHandler.GetAllTracking, middleware.StudentMiddleare)
 	courseTrackingsGroupGet.GET("/tracking/:id", courseTrackingRoutes.CourseTrackingHandler.GetById, middleware.StudentMiddleare)
-	courseTrackingsGroupGet.GET("/module/:module-id", courseTrackingRoutes.CourseTrackingHandler.FindSub, middleware.StudentMiddleare
+	courseTrackingsGroupGet.GET("/module/:module-id", courseTrackingRoutes.CourseTrackingHandler.FindSub, middleware.StudentMiddleare)
 
 	moduleTrackingGroup.GET("/tracking", courseTrackingRoutes.CourseTrackingHandler.FindModuleHistory, middleware.StudentMiddleare)
 	moduleTrackingGroup.GET("/sub-module/:sub-module-id", courseTrackingRoutes.CourseTrackingHandler.FindSubModuleByID, middleware.StudentMiddleare)
@@ -21,7 +21,6 @@ func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingMobile(apiGr
 	moduleTrackingGroup.GET("/quizz/:quizz-id", courseTrackingRoutes.CourseTrackingHandler.FindQuizzByID, middleware.StudentMiddleare)
 }
 	
-}
 
 func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingWeb(apiGroup *echo.Group)  {
 	profileTrackingsGroup := apiGroup.Group("/profile/tracking/user")
