@@ -1,9 +1,8 @@
 package domain
 
 type SubmissionsAnswerDetail struct {
-	ID      uint   `gorm:"type:int;primarykey" json:"id"`
-	Title   string `json:"title"`
-	Content string `gorm:"type:text" json:"content"`
+	ID      uint   `json:"id"`
+	FirstName   string `json:"first_name"`
+	LastName   string `json:"last_name"`
 	Status  string `json:"status"`
-	Peserta string `json:"peserta"`
 }

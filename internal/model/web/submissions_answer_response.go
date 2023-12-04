@@ -17,9 +17,6 @@ type SubmissionAnswerList struct {
 }
 
 type SubmissionAnswerResponseWeb struct {
-	ID      uint   `gorm:"type:int;primarykey" json:"id"`
-	Title   string `json:"title"`
-	Content string `gorm:"type:text" json:"content"`
-	Peserta *UserForCourseResponse
-	Answer  *SubmissionAnswerResponseMobile
+	Submission SubmissionsResponseModule `json:"submission"`
+	SubmissionAnswer []domain.SubmissionsAnswerDetail `json:"submission_answer"`
 }

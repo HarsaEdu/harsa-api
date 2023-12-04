@@ -26,22 +26,29 @@ func ConvertSubmissionAnswerResponseMobile(response *domain.SubmissionAnswer) *w
 	}
 }
 
-func ConverstSubmissionAnswerToResponseWeb(responseSubmission []domain.SubmissionsAnswerDetail) []*web.SubmissionAnswerResponseWeb {
-
-	var response []*web.SubmissionAnswerResponseWeb
-
-	for _, val := range responseSubmission {
-		response = append(response, &web.SubmissionAnswerResponseWeb{
-			Title:   val.Title,
-			Content: val.Content,
-			Peserta: &web.UserForCourseResponse{Name: val.Peserta},
-			Answer:  &web.SubmissionAnswerResponseMobile{Submission: val.Content},
-		},
-		)
+ func ConverstSubmissionAnswerToResponseWeb(answer []domain.SubmissionsAnswerDetail, submission *web.SubmissionsResponseModule) *web.SubmissionAnswerResponseWeb {
+	return &web.SubmissionAnswerResponseWeb{
+		Submission: *submission,
+		SubmissionAnswer: answer,
 	}
 
-	return response
-}
+
+ }
+
+// 	var response []*web.SubmissionAnswerResponseWeb
+
+// 	for _, val := range responseSubmission {
+// 		response = append(response, &web.SubmissionAnswerResponseWeb{
+// 			Title:   val.Title,
+// 			Content: val.Content,
+// 			Peserta: &web.UserForCourseResponse{Name: val.Peserta},
+// 			Answer:  &web.SubmissionAnswerResponseMobile{Submission: val.Content},
+// 		},
+// 		)
+// 	}
+
+// 	return response
+// }
 
 // func ConvertSubmissionAnswerResponseMobile(response *domain.SubmissionAnswer) *web.SubmissionAnswerResponseMobile {
 

@@ -9,7 +9,7 @@ type SubmissionAnswerHandler interface {
 	Create(ctx echo.Context) error
 	Update(ctx echo.Context) error
 	FindById(ctx echo.Context) error
-	// Get(ctx echo.Context) error
+	Get(ctx echo.Context) error
 }
 
 type SubmissionAnswerHandlerImpl struct {

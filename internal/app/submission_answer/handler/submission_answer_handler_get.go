@@ -1,30 +1,39 @@
 package handler
 
-// import (
-// 	"github.com/labstack/echo/v4"
-// )
+import (
+	"strconv"
+	"strings"
 
-// func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Get(ctx echo.Context) error {
-// 	// idModuleParam := ctx.Param("moduleId")
-// 	// idModule, err := strconv.Atoi(idModuleParam)
-// 	// if err != nil {
-// 	// 	return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)
-// 	// }
+	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
+	"github.com/labstack/echo/v4"
+)
 
-// 	// params := ctx.QueryParams()
-// 	// offset, err := strconv.Atoi(params.Get("offset"))
-// 	// if err != nil {
-// 	// 	return res.StatusBadRequest(ctx, "invalid offset", err)
-// 	// }
+func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Get(ctx echo.Context) error {
+	
+	idSubmissionParam := ctx.Param("submission-id")
+	idSubmission, err := strconv.Atoi(idSubmissionParam)
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)
+	}
 
-// 	// limit, err := strconv.Atoi(params.Get("limit"))
-// 	// if err != nil {
-// 	// 	return res.StatusBadRequest(ctx, "invalid limit", err)
-// 	// }
+	params := ctx.QueryParams()
+	offset, err := strconv.Atoi(params.Get("offset"))
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid offset", err)
+	}
 
-// 	// // answer,submission,pagination,total, err := submissionAnswerHandler.SubmissionAnswerservice.Get(offset, limit, idModule, ctx.Param(params.Get("search")))
+	limit, err := strconv.Atoi(params.Get("limit"))
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid limit", err)
+	}
 
-// 	// // data:=[answer,submission]
+	answer, pagination, err := submissionAnswerHandler.SubmissionAnswerservice.Get(offset, limit, idSubmission, ctx.Param(params.Get("search")))
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "submission answer  not found", err)
+		}
 
-// 	// // return res.StatusOK(ctx,"success get submissions",,)
-// }
+		return res.StatusInternalServerError(ctx, "failed to get all submission answer , something happen", err)
+	}
+	return res.StatusOK(ctx,"success get submissions",answer,pagination)
+}
