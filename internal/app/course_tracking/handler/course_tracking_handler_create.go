@@ -37,3 +37,35 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) Create(ctx echo.Context)
 
 	return res.StatusCreated(ctx, "success to create course tracking", nil, nil)
 }
+
+func (courseTrackingHandler *CourseTrackingHandlerImpl) CreateWeb(ctx echo.Context) error {
+
+	req := web.CourseTrackingRequest{}
+
+	idUserParam := ctx.Param("user-id")
+	userId, err := strconv.Atoi(idUserParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid user id", err)
+	}
+
+	idParam := ctx.Param("course-id")
+	courseId, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid course id", err)
+	}
+	
+
+	req.CourseID = uint(courseId)
+	req.UserID = uint(userId)
+	req.Status = "in progress"
+	err = courseTrackingHandler.CourseTrackingService.Create(req)
+	if err != nil {
+		if strings.Contains(err.Error(), "validation") {
+			return validation.ValidationError(ctx, err)
+		}
+		return res.StatusInternalServerError(ctx, "failed to create course tracking, something happen", err)
+
+	}
+
+	return res.StatusCreated(ctx, "success to create course tracking", nil, nil)
+}
