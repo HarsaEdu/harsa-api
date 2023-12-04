@@ -2,7 +2,9 @@ package service
 
 import (
 	"fmt"
+	"strings"
 
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	"github.com/labstack/echo/v4"
@@ -14,11 +16,15 @@ func (submissionAnswerService *SubmissionAnswerServiceImpl) Create(ctx echo.Cont
 
 	result.SubmissionID = uint(idSubmission)
 	result.UserID = uint(idUser)
+	result.Status = domain.StatusSubmissionAnswerSubmitted
 
 	fileUrl, err := submissionAnswerService.CloudinaryUploader.Uploader(ctx, "file", "submission_answer", true)
-	if fileUrl != "" {
-		result.SubmittedUrl = fileUrl
+	if !strings.HasSuffix(fileUrl, ".pdf") {
+		return fmt.Errorf("invalid file format")
 	}
+
+	result.SubmittedUrl = fileUrl
+
 	if err != nil {
 		return fmt.Errorf("error when uploading submission answer : %s", err.Error())
 	}

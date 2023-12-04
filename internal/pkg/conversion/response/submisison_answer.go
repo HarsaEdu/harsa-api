@@ -17,14 +17,40 @@ func ConvertSubmissionAnswerResponseTrackingMobile(responseSubmission *domain.Su
 	}
 }
 
+func ConvertSubmissionAnswerResponseMobile(response *domain.SubmissionAnswer) *web.SubmissionAnswerResponseMobile {
+	return &web.SubmissionAnswerResponseMobile{
+		ID:         response.ID,
+		Status:     response.Status,
+		Feedback:   response.Feedback,
+		Submission: response.SubmittedUrl,
+	}
+}
+
+func ConverstSubmissionAnswerToResponseWeb(responseSubmission []domain.SubmissionsAnswerDetail) []*web.SubmissionAnswerResponseWeb {
+
+	var response []*web.SubmissionAnswerResponseWeb
+
+	for _, val := range responseSubmission {
+		response = append(response, &web.SubmissionAnswerResponseWeb{
+			Title:   val.Title,
+			Content: val.Content,
+			Peserta: &web.UserForCourseResponse{Name: val.Peserta},
+			Answer:  &web.SubmissionAnswerResponseMobile{Submission: val.Content},
+		},
+		)
+	}
+
+	return response
+}
+
 // func ConvertSubmissionAnswerResponseMobile(response *domain.SubmissionAnswer) *web.SubmissionAnswerResponseMobile {
 
 // Submission:= ConvertSubmissionAnswerResponseTrackingMobile(&response.Submission)
 
 // 	return &web.SubmissionAnswerResponseMobile{
 // 		ID:          response.ID,
-// 		Submission:   *Submission,
 // 		Status: response.Status,
+// 		Submission:   *Submission,
 // 	}
 // }
 

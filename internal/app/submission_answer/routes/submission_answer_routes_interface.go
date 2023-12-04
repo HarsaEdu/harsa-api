@@ -7,7 +7,7 @@ import (
 
 type SubmissionAnswerRoutes interface {
 	SubmissionAnswerWeb(apiGroup *echo.Group)
-	// SubmissionAnswerMobile(apiGroup *echo.Group)
+	SubmissionAnswerMobile(apiGroup *echo.Group)
 }
 
 type SubmissionAnswerRoutesImpl struct {

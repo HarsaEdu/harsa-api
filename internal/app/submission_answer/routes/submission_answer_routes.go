@@ -10,3 +10,11 @@ func (submissionAnswerRoutes *SubmissionAnswerRoutesImpl) SubmissionAnswerWeb(ap
 
 	submissionAnswerGroup.POST("", submissionAnswerRoutes.SubmissionAnswerHandler.Create, middleware.StudentMiddleare)
 }
+
+func (submissionAnswerRoutes *SubmissionAnswerRoutesImpl) SubmissionAnswerMobile(apiGroup *echo.Group) {
+	submissionAnswerGroup := apiGroup.Group("/submissions/:idSubmission/submission-answer")
+
+	submissionAnswerGroup.POST("", submissionAnswerRoutes.SubmissionAnswerHandler.Create, middleware.StudentMiddleare)
+	submissionAnswerGroup.PATCH("/:id", submissionAnswerRoutes.SubmissionAnswerHandler.Update, middleware.StudentMiddleare)
+	submissionAnswerGroup.GET("/:id", submissionAnswerRoutes.SubmissionAnswerHandler.FindById, middleware.StudentMiddleare)
+}

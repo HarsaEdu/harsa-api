@@ -8,3 +8,7 @@ import (
 func ConvertSubmissionAnswerRequestToSubmissionAnswerDomain(request *web.SubmissionAnswerRequest) *domain.SubmissionAnswer {
 	return &domain.SubmissionAnswer{SubmittedUrl: request.SubmittedUrl, Status: request.Status}
 }
+
+func ConvertSubmissionAnswerUpdateToSubmissionAnswerDomain(request *web.SubmissionAnswerUpdateRequest) *domain.SubmissionAnswer {
+	return &domain.SubmissionAnswer{SubmittedUrl: request.SubmittedUrl}
+}

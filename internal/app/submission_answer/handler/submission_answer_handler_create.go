@@ -18,7 +18,7 @@ func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Create(ctx echo.Cont
 		return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)
 	}
 
-	idUser := 3
+	idUser := ctx.Get("user_id").(uint)
 
 	req := web.SubmissionAnswerRequest{}
 	err = ctx.Bind(&req)
@@ -27,10 +27,13 @@ func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Create(ctx echo.Cont
 		return res.StatusBadRequest(ctx, "failed to bind submission answer request", err)
 	}
 
-	err = submissionAnswerHandler.SubmissionAnswerservice.Create(ctx, &req, idSubmission, idUser)
+	err = submissionAnswerHandler.SubmissionAnswerservice.Create(ctx, &req, idSubmission, int(idUser))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "file") {
+			return res.StatusBadRequest(ctx, "Only accept a PDF file", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to create submission answer, something happen", err)
 	}
