@@ -10,6 +10,7 @@ func ConvertUserFeedback(userCourse *domain.UserProfile) *web.UserForFeedBack {
 	return &web.UserForFeedBack{
 		ID:   userCourse.ID,
 		Name: name,
+		ImageUrl: userCourse.ImageUrl,
 	}
 }
 
@@ -22,6 +23,8 @@ func ConvertFeedbackForTracking(feedback *domain.Feedback) *web.FeedBackResponse
 		Rating: feedback.Rating,
 		Content: feedback.Content,
 		User: *user,
+		CreatedAt: feedback.CreatedAt,
+		UpdatedAt: feedback.UpdatedAt,
 	}
 }
 

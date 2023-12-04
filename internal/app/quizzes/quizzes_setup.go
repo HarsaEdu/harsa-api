@@ -9,11 +9,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func QuizzesSetup(db *gorm.DB, validate *validator.Validate) quizzesRoutesPkg.QuizzesRoutes {
+func QuizzesSetup(db *gorm.DB, validate *validator.Validate) (quizzesRoutesPkg.QuizzesRoutes, quizzesServicePkg.QuizzesService) {
 	quizzesRepository := quizzesRepositoryPkg.NewQuizzesRepository(db)
 	quizzesService := quizzesServicePkg.NewQuizzesService(quizzesRepository, validate)
 	quizzesHandler := quizzesHandlerPkg.NewQuizzesHandler(quizzesService)
 	quizzesRoute := quizzesRoutesPkg.NewQuizzesRoutes(quizzesHandler)
 
-	return quizzesRoute
+	return quizzesRoute, quizzesService
 }

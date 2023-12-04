@@ -5,20 +5,17 @@ import (
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
 	"github.com/labstack/echo/v4"
 )
 
-func (feedbackHandler *FeedbackHandlerImpl) Delete(ctx echo.Context) error {
+func (feedbackHandler *FeedbackHandlerImpl) DeleteByUserAndCourseId(ctx echo.Context) error {
+	courseIdParam := ctx.Param("courseId")
+	courseId, _ := strconv.Atoi(courseIdParam)
 
-	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
+	userId := ctx.Get("user_id").(uint)
 
-	err := feedbackHandler.FeedbackService.Delete(id)
+	err := feedbackHandler.FeedbackService.DeleteByUserAndCourseId(userId, uint(courseId))
 	if err != nil {
-		if strings.Contains(err.Error(), "validation") {
-			return validation.ValidationError(ctx, err)
-		}
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "feedback not found", err)
 		}

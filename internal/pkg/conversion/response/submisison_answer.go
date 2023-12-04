@@ -17,6 +17,7 @@ func ConvertSubmissionAnswerResponseTrackingMobile(responseSubmission *domain.Su
 	}
 }
 
+
 func ConvertSubmissionAnswerResponseMobile(response *domain.SubmissionAnswer) *web.SubmissionAnswerResponseMobile {
 	return &web.SubmissionAnswerResponseMobile{
 		ID:         response.ID,
@@ -82,6 +83,29 @@ func ConvertAllSubissionAnswerUser(answer []domain.SubmissionsAnswerDetail)[]web
 // 		Submission:   *Submission,
 // 	}
 // }
+func ConvertSubmissionAnswerTracking(response *domain.SubmissionAnswer) *web.SubmissionAnswerTracking {
+	var completed bool = false
+	if response.Status == "accepted" {
+		completed = true
+	}
+	return &web.SubmissionAnswerTracking{
+		Id:         response.SubmissionID,
+		Status:     response.Status,
+		IsComplete: completed,
+	}
+}
+
+func ConvertSubmissionAnswerTrackingResponse(module *web.ModuleResponseForTracking, answer *web.SubmissionAnswerTracking, submission *web.SubmissionsResponseModule) *web.SubmissionAnswerTrackingByIDResponse {
+	return &web.SubmissionAnswerTrackingByIDResponse{
+		ID:               module.ID,
+		Title:            module.Title,
+		Description:      module.Description,
+		Progress:         module.Progress,
+		Order:            module.Order,
+		SubmissionAnswer: *answer,
+		Submission:       *submission,
+	}
+}
 
 // func ConvertAllSubmissionAnswerResponseMobile(response []domain.SubmissionAnswer) []web.SubmissionAnswerResponseMobile {
 
