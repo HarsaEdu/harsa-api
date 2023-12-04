@@ -6,14 +6,14 @@ func (submissionAnswerRepository *SubmissionAnswerRepositoryImpl) Get(offset, li
 	submissionAnswer := []domain.SubmissionsAnswerDetail{}
 	var count int64
 
-	query := submissionAnswerRepository.DB.Model(&domain.SubmissionAnswer{}).Select("submission_answers.id as id,user_profiles.first_name as first_name, user_profiles.last_name as last_name  ,submission_answers.status as status").Joins("JOIN user_profiles on user_profiles.user_id=submission_answers.user_id").Where("submission_answers.submission_id = ?", submissionID).Count(&count)
+	query := submissionAnswerRepository.DB.Model(&domain.SubmissionAnswer{}).Select("submission_answers.id as id,user_profiles.first_name as first_name, user_profiles.last_name as last_name  ,submission_answers.status as status").Joins("JOIN user_profiles on user_profiles.user_id=submission_answers.user_id").Where("submission_answers.submission_id = ?", submissionID)
 
 	if search != "" {
 		s := "%" + search + "%"
 		query = query.Where("user_profiles.first_name LIKE ? OR user_profiles.last_name LIKE ?", s, s)
 	}
 
-	// query.Find(&submissionAnswer)
+	query.Count(&count)
 
 	query = query.Limit(limit).Offset(offset)
 	result := query.Find(&submissionAnswer)

@@ -12,11 +12,12 @@ type SubmissionAnswerResponseMobile struct {
 }
 
 type SubmissionAnswerList struct {
-	Peserta string `json:"peserta"`
+	ID   uint `json:"id"`
+	Name string `json:"name"`
 	Status  string `json:"status"`
 }
 
 type SubmissionAnswerResponseWeb struct {
 	Submission SubmissionsResponseModule `json:"submission"`
-	SubmissionAnswer []domain.SubmissionsAnswerDetail `json:"submission_answer"`
+	SubmissionAnswer []SubmissionAnswerList `json:"submission_answer"`
 }
