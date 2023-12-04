@@ -1,6 +1,10 @@
 package web
 
-import "github.com/HarsaEdu/harsa-api/internal/model/domain"
+import (
+	"time"
+
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
+)
 
 type UserForTracking struct {
 	ID   uint   `json:"id"`
@@ -36,6 +40,7 @@ type GetAllCourseForTraking struct {
 	ImageUrl     string        `json:"image_url"`
 	Status       domain.StatusCourseTraking `json:"status"`
 	Progress     float32       `json:"progress"`
+	CreatedAt    time.Time        `json:"created_at"`
 }
 
 type CourseTrackingResponse struct {

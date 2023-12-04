@@ -26,7 +26,7 @@ type ModuleRequest struct {
 }
 
 type ModuleOrderRequest struct {
-	Order       int    `json:"order"`
+	Order       int    `json:"order" validate:"required"`
 }
 
 type SectionRequest struct {
@@ -37,5 +37,5 @@ type SectionRequest struct {
 }
 
 type SectionOrderRequest struct {
-	Order    int    `json:"order" `
+	Order    int    `json:"order" validate:"required"`
 }

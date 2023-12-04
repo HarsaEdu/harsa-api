@@ -56,9 +56,9 @@ func (moduleService *ModuleServiceImpl) UpdateModuleOrder(request *web.ModuleOrd
 	return nil
 }
 
-func (moduleService *ModuleServiceImpl) UpdateSectionOrder(request *web.SectionOrderRequest, moduleId uint, userId uint, role string) error {
+func (moduleService *ModuleServiceImpl) UpdateSectionOrder(request *web.SectionOrderRequest, sectionId uint, userId uint, role string) error {
 
-	existingSection, err := moduleService.ModuleRepository.CekIdFromSection(userId, moduleId, role)
+	existingSection, err := moduleService.ModuleRepository.CekIdFromSection(userId, sectionId, role)
 	if err != nil {
 		return fmt.Errorf("error when cek id user from course :%s", err.Error())
 	}

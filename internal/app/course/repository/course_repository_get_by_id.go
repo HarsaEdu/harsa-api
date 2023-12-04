@@ -6,15 +6,19 @@ import (
 )
 
 func (courseRepository *CourseRepositoryImpl) GetById(id uint) (*domain.Course, error) {
+    course := domain.Course{} 
 
-	course := domain.Course{} 
+    if err := courseRepository.DB.Preload("Section", func(db *gorm.DB) *gorm.DB {
+        return db.Order("order_by ASC, id ASC")
+    }).Preload("Section.Modules", func(db *gorm.DB) *gorm.DB {
+        return db.Order("modules.order_by ASC, modules.id ASC")
+    }).First(&course, id).Error; err != nil {
+        return nil, err
+    }
 
-	if err := courseRepository.DB.First(&course, id).Error; err != nil {
-		return nil, err
-	}
-
-	return &course, nil
+    return &course, nil
 }
+
 
 
 func (courseRepository *CourseRepositoryImpl) GetByIdMobile(id uint) (*domain.Course, int64, int64,error) {
@@ -22,7 +26,11 @@ func (courseRepository *CourseRepositoryImpl) GetByIdMobile(id uint) (*domain.Co
 
 if err := courseRepository.DB.Where("id = ?", id).
 	Preload("User.UserProfile").
-	Preload("Section.Modules").
+	Preload("Section", func(db *gorm.DB) *gorm.DB {
+        return db.Order("order_by ASC, id ASC")
+    }).Preload("Section.Modules", func(db *gorm.DB) *gorm.DB {
+        return db.Order("modules.order_by ASC, modules.id ASC")
+    }).
 	Preload("Feedback.User.UserProfile", func(db *gorm.DB) *gorm.DB {
 		return db.Limit(5)
 	}).
