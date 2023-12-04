@@ -19,8 +19,8 @@ func (moduleRoutes *ModuleRoutesImpl) ModuleWeb(coursesGruop *echo.Group) {
 	modulesGroup.DELETE("/module/:id", moduleRoutes.ModuleHandler.DeleteModule, middleware.InstructorMiddleware)
 	modulesGroup.DELETE("/module/sub-module/:id", moduleRoutes.ModuleHandler.DeleteSubModule, middleware.InstructorMiddleware)
 	sectionGroup.DELETE("/:id", moduleRoutes.ModuleHandler.DeleteSection, middleware.InstructorMiddleware)
-	modulesGroup.PUT("/module/order", moduleRoutes.ModuleHandler.UpdateModuleOrder, middleware.InstructorMiddleware)
-	sectionGroup.PUT("/order", moduleRoutes.ModuleHandler.UpdateSectionOrder, middleware.InstructorMiddleware)
+	modulesGroup.PUT("/module/:id/order", moduleRoutes.ModuleHandler.UpdateModuleOrder, middleware.InstructorMiddleware)
+	modulesGroup.PUT("/:id/order", moduleRoutes.ModuleHandler.UpdateSectionOrder, middleware.InstructorMiddleware)
 }
 
 func (moduleRoutes *ModuleRoutesImpl) ModuleMobile(coursesGruop *echo.Group) {

@@ -132,7 +132,7 @@ func (moduleHandler *ModuleHandlerImpl) UpdateSectionOrder(ctx echo.Context) err
 	
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		return res.StatusBadRequest(ctx, "invalid module id", err)
+		return res.StatusBadRequest(ctx, "invalid section id", err)
 	}
 
 	user_id := ctx.Get("user_id").(uint)
