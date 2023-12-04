@@ -104,3 +104,25 @@ type GetCourseResponseById struct {
 	User        *UserForCourseResponse      `json:"user"`
 	Category    *CategoryForCourseResponse  `json:"category"`
 }
+
+type GetCourseResponseByIdWeb struct{
+	ID uint `json:"id"`
+	Title string `json:"title"`
+	Description string `json:"description"`
+	ImageUrl string `json:"image_url"`
+	Section []SectionResponseGetByIdWeb `json:"section"`
+}
+
+type SectionResponseGetByIdWeb struct {
+	ID uint `json:"id"`
+	Title string `json:"title"`
+	OrderBy int `json:"order"`
+	Module []ModuleResponseGetByIdWeb `json:"module"`
+}
+
+type ModuleResponseGetByIdWeb struct {
+	ID uint `json:"id"`
+	Title string `json:"title"`
+	Description string `json:"description"`
+	OrderBy int `json:"order"`
+}

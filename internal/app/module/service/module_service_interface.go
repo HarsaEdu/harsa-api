@@ -13,7 +13,7 @@ type ModuleService interface {
 	GetAllModuleBySectionId(sectionId uint) (*web.SectionResponse, error)
 	UpdateModule(request *web.ModuleRequest, moduleId uint, userId uint, role string) error
 	UpdateModuleOrder(request *web.ModuleOrderRequest, moduleId uint, userId uint, role string) error
-	UpdateSectionOrder(request *web.SectionOrderRequest, moduleId uint, userId uint, role string) error
+	UpdateSectionOrder(request *web.SectionOrderRequest, sectionId uint, userId uint, role string) error
 	UpdateSection(request *web.SectionRequest, sectionId uint, userId uint, role string) error
 	DeleteModule(moduleId uint, userId uint, role string) error
 	DeleteSection(sectionId uint, userId uint, role string) error

@@ -58,6 +58,7 @@ func ConvertCourseTrakingMobile(courseTracking *domain.CourseTracking, progress 
 			Description: courseTracking.Course.Description,
 			Status: courseTracking.Status,
 			Progress: progress,
+			CreatedAt: courseTracking.CreatedAt,
 	}
 }
 
