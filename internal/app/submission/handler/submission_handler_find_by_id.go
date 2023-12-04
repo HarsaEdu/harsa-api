@@ -11,8 +11,10 @@ import (
 
 func (submissionHandler *SubmissionHandlerImpl) FindById(ctx echo.Context) error {
 	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
-
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid submission id", err)
+	}
 	data, err := submissionHandler.SubmissionService.FindById(id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {

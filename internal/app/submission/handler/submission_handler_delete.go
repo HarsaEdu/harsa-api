@@ -11,9 +11,12 @@ import (
 
 func (submissionHandler *SubmissionHandlerImpl) Delete(ctx echo.Context) error {
 	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid submission id", err)
+	}
 
-	err := submissionHandler.SubmissionService.Delete(id)
+	err = submissionHandler.SubmissionService.Delete(id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

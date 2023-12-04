@@ -11,7 +11,10 @@ import (
 
 func (submissionHandler *SubmissionHandlerImpl) GetAllMobile(ctx echo.Context) error {
 	idParam := ctx.Param("moduleId")
-	id, _ := strconv.Atoi(idParam)
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid module id", err)
+	}
 	data, err := submissionHandler.SubmissionService.GetAllMobile(id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {

@@ -16,7 +16,6 @@ func (submissionService *SubmissionServiceImpl) Create(ctx echo.Context, request
 	}
 
 	result := conversion.SubmissionRequestToSubmissionDomain(&request)
-
 	err = submissionService.SubmissionRepository.Create(result)
 	if err != nil {
 		return fmt.Errorf("error when creating submission %s", err.Error())
