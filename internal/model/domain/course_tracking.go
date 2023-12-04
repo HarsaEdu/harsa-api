@@ -43,6 +43,7 @@ const (
 	StatusSubmissionAnswerAccepted StatusSubmissionAnswer = "accepted"
 	StatusSubmissionAnswerPending  StatusSubmissionAnswer = "pending"
 	StatusSubmissionAnswerRejected StatusSubmissionAnswer = "rejected"
+	StatusSubmissionAnswerSubmitted StatusSubmissionAnswer = "submitted"
 	StatusSubmissionAnswerNotSubmitted StatusSubmissionAnswer = "not submitted"
 )
 
