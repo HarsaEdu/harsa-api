@@ -9,11 +9,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func SubmissionSetup(db *gorm.DB, validate *validator.Validate) submissionRoutesPkg.SubmissionRoutes {
+func SubmissionSetup(db *gorm.DB, validate *validator.Validate) (submissionRoutesPkg.SubmissionRoutes, submissionRepositoryPkg.SubmissionRepository) {
 	submissionRepository := submissionRepositoryPkg.NewSubmissionRepository(db)
 	submissionService := submissionServicePkg.NewSubmissionService(submissionRepository, *validate)
 	submissionHandler := submissionHandlerPkg.NewSubmissionHandler(submissionService)
 	submissionRoutes := submissionRoutesPkg.NewSubmissionRoutes(submissionHandler)
 
-	return submissionRoutes
+	return submissionRoutes, submissionRepository
 }
