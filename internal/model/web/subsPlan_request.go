@@ -16,5 +16,5 @@ type SubsPlanUpdateRequest struct {
 }
 
 type SubsPlanUpdateImage struct {
-	Image_url string `form:"image"`
+	Image_url string `form:"image" validate:"required"`
 }

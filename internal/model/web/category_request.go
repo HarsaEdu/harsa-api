@@ -11,5 +11,5 @@ type CategoryUpdateRequest struct {
 }
 
 type CategoryUploadImageRequest struct {
-	CategoryImage string `json:"file" form:"file"`
+	CategoryImage string `json:"file" form:"file" validate:"required"`
 }

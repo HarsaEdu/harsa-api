@@ -17,6 +17,72 @@ func ConvertSubmissionAnswerResponseTrackingMobile(responseSubmission *domain.Su
 	}
 }
 
+
+func ConvertSubmissionAnswerResponseMobile(response *domain.SubmissionAnswer) *web.SubmissionAnswerResponseMobile {
+	return &web.SubmissionAnswerResponseMobile{
+		ID:         response.ID,
+		Status:     response.Status,
+		Feedback:   response.Feedback,
+		Submission: response.SubmittedUrl,
+	}
+}
+
+func ConvertSubissionAnswerUser(answer *domain.SubmissionsAnswerDetail)*web.SubmissionAnswerList{
+	
+	name := answer.FirstName + " " + answer.LastName
+	
+	return &web.SubmissionAnswerList{
+		ID: answer.ID,
+		Name: name,
+		Status: answer.Status,
+	}
+
+}
+
+func ConvertAllSubissionAnswerUser(answer []domain.SubmissionsAnswerDetail)[]web.SubmissionAnswerList{
+	var response []web.SubmissionAnswerList
+	for i := range answer {
+		response = append(response, *ConvertSubissionAnswerUser(&answer[i]))
+	}
+	return response
+
+}
+
+ func ConverstSubmissionAnswerToResponseWeb(answer []domain.SubmissionsAnswerDetail, submission *web.SubmissionsResponseModule) *web.SubmissionAnswerResponseWeb {
+	
+	answers:= ConvertAllSubissionAnswerUser(answer)
+	
+	return &web.SubmissionAnswerResponseWeb{
+		Submission: *submission,
+		SubmissionAnswer: answers,
+	}
+ }
+
+// 	var response []*web.SubmissionAnswerResponseWeb
+
+// 	for _, val := range responseSubmission {
+// 		response = append(response, &web.SubmissionAnswerResponseWeb{
+// 			Title:   val.Title,
+// 			Content: val.Content,
+// 			Peserta: &web.UserForCourseResponse{Name: val.Peserta},
+// 			Answer:  &web.SubmissionAnswerResponseMobile{Submission: val.Content},
+// 		},
+// 		)
+// 	}
+
+// 	return response
+// }
+
+// func ConvertSubmissionAnswerResponseMobile(response *domain.SubmissionAnswer) *web.SubmissionAnswerResponseMobile {
+
+// Submission:= ConvertSubmissionAnswerResponseTrackingMobile(&response.Submission)
+
+// 	return &web.SubmissionAnswerResponseMobile{
+// 		ID:          response.ID,
+// 		Status: response.Status,
+// 		Submission:   *Submission,
+// 	}
+// }
 func ConvertSubmissionAnswerTracking(response *domain.SubmissionAnswer) *web.SubmissionAnswerTracking {
 	var completed bool = false
 	if response.Status == "accepted" {

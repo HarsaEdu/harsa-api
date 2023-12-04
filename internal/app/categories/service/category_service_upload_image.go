@@ -9,11 +9,7 @@ import (
 )
 
 func (categoryService *CategoryServiceImpl) UploadImage(ctx echo.Context, request *web.CategoryUploadImageRequest, id int) error {
-	err := categoryService.Validator.Struct(request)
-	if err != nil {
-		return err
-	}
-
+	var err error
 	existingCategoryId, _ := categoryService.CategoryRepository.FindById(id)
 	if existingCategoryId == nil {
 		return fmt.Errorf("category not found")
@@ -28,6 +24,11 @@ func (categoryService *CategoryServiceImpl) UploadImage(ctx echo.Context, reques
 	err = categoryService.CategoryRepository.UpdateImage(response, id)
 	if err != nil {
 		return fmt.Errorf("error when updating : %s", err.Error())
+	}
+
+	err = categoryService.Validator.Struct(response)
+	if err != nil {
+		return err
 	}
 
 	return nil
