@@ -9,7 +9,7 @@ import (
 )
 
 func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Get(ctx echo.Context) error {
-	
+
 	idSubmissionParam := ctx.Param("submission-id")
 	idSubmission, err := strconv.Atoi(idSubmissionParam)
 	if err != nil {
@@ -30,10 +30,10 @@ func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Get(ctx echo.Context
 	answer, pagination, err := submissionAnswerHandler.SubmissionAnswerservice.Get(offset, limit, idSubmission, ctx.Param(params.Get("search")))
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "submission answer  not found", err)
+			return res.StatusNotFound(ctx, "submission answer not found", err)
 		}
 
 		return res.StatusInternalServerError(ctx, "failed to get all submission answer , something happen", err)
 	}
-	return res.StatusOK(ctx,"success get submissions",answer,pagination)
+	return res.StatusOK(ctx, "success get submissions", answer, pagination)
 }
