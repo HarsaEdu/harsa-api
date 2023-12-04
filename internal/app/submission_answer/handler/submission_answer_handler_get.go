@@ -27,7 +27,7 @@ func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Get(ctx echo.Context
 		return res.StatusBadRequest(ctx, "invalid limit", err)
 	}
 
-	answer, pagination, err := submissionAnswerHandler.SubmissionAnswerservice.Get(offset, limit, idSubmission, ctx.Param(params.Get("search")))
+	answer, pagination, err := submissionAnswerHandler.SubmissionAnswerservice.Get(offset, limit, idSubmission, params.Get("search"))
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "submission answer not found", err)

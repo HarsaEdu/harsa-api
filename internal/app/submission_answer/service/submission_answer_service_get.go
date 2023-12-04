@@ -7,7 +7,7 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (submissionAnswerService *SubmissionAnswerServiceImpl) Get(offset, limit, submissionID int, search string) (*web.SubmissionAnswerResponseWeb, *web.Pagination, error) {
+func (submissionAnswerService *SubmissionAnswerServiceImpl) Get(offset, limit, submissionID int, search string) ([]web.SubmissionAnswerList, *web.Pagination, error) {
 	answer, total, err := submissionAnswerService.Repository.Get(offset, limit, search, uint(submissionID))
 	if total == 0 {
 		return nil, nil, fmt.Errorf("not found")
@@ -16,13 +16,7 @@ func (submissionAnswerService *SubmissionAnswerServiceImpl) Get(offset, limit, s
 		return nil, nil, err
 	}
 
-	submission, err := submissionAnswerService.SubmissionRepo.FindById(submissionID)
-	if err != nil {
-		return nil, nil,  err
-	}
-
-	submissionRes := conversion.ConvertSubmissionResponseModule(submission)
-	answerRes := conversion.ConverstSubmissionAnswerToResponseWeb(answer,submissionRes)
+	answerRes := conversion.ConvertAllSubissionAnswerUser(answer)
 	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
 
 	return answerRes, pagination, nil
