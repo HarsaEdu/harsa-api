@@ -15,7 +15,7 @@ func (moduleService *ModuleServiceImpl) GetAllSectionByCourseId(offset, limit in
 	}
 
 	if result == nil {
-		return nil, nil, fmt.Errorf("module not found")
+		return nil, nil, fmt.Errorf("Section not found")
 	}
 
 	res := conversion.ConvertAllSectionResponse(result)
