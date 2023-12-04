@@ -21,7 +21,7 @@ func (courseRepository *CourseRepositoryImpl) GetAllByUserId(offset, limit int, 
 
 	if search != "" {
 		s := "%" + search + "%"
-		query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+		query = query.Where("courses.title LIKE ? OR courses.description LIKE ?", s, s)
 	}
 	query.Where("user_id = ?", userID).Count(&total).Find(&courses)
 	query = query.Limit(limit).Offset(offset)
@@ -53,7 +53,7 @@ func (courseRepository *CourseRepositoryImpl) GetAllCourseByUserId(offset, limit
 
 	if search != "" {
 		s := "%" + search + "%"
-		query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+		query = query.Where("courses.title LIKE ? OR courses.description LIKE ?", s, s)
 	}
 	query.Where("user_id = ?", userID).Count(&total).Find(&courses)
 	query = query.Limit(limit).Offset(offset)
@@ -174,7 +174,7 @@ func (courseRepository *CourseRepositoryImpl) GetAllByCategory(offset, limit int
 
 	if search != "" {
 		s := "%" + search + "%"
-		query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+		query = query.Where("courses.title LIKE ? OR courses.description LIKE ?", s, s)
 	}
 
 	query.Where("category_id = ?", categoryId).Find(&course).Count(&total)
@@ -206,7 +206,7 @@ func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search s
 
     if search != "" {
         s := "%" + search + "%"
-        query = query.Where("name LIKE ? OR description LIKE ?", s, s)
+        query = query.Where("courses.title LIKE ? OR courses.description LIKE ?", s, s)
     }
 
     if category != "" {
