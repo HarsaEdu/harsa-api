@@ -27,6 +27,7 @@ func (courseRoutes *CourseRoutesImpl) CourseMobile(apiGroup *echo.Group) *echo.G
 
 	coursesGroup.GET("", courseRoutes.CourseHandler.GetAll)
 	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetById)
+	coursesGroup.GET("/:id/enrolled", courseRoutes.CourseHandler.GetByIdMobile,middleware.StudentMiddleare)
 	coursesGroup.GET("/category/:id", courseRoutes.CourseHandler.GetAllByCategory)
 
 	return coursesGroup

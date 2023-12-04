@@ -18,6 +18,7 @@ func CourseCreateRequestToCourseDomain(request *web.CourseCreateRequest, instruc
 func CourseUpdateRequestToCourseDomain(request *web.CourseUpdateRequest, courseId uint) *domain.Course {
 	return &domain.Course{
 		ID:          courseId,
+		UserID:      request.UserId,
 		Title:       request.Title,
 		Description: request.Description,
 		CategoryID:  uint(request.CategoryID),

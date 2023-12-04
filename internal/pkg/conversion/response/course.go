@@ -149,3 +149,64 @@ func CourseDomainToCourseGetAllResponseMobile(courseDomain []domain.Course) []we
 
 	return courseGetAllResponse
 }
+
+func ConvertCourseGetByIdResponseWeb(course *domain.Course) *web.GetCourseResponseByIdWeb {
+	
+	section := ConvertAllSectionGetByIdResponseWeb(course.Section)
+	
+	courseGetResponse := &web.GetCourseResponseByIdWeb{
+		ID:          course.ID,
+		Title:       course.Title,
+		Description: course.Description,
+		ImageUrl:    course.ImageUrl,
+		Section:     section,
+	}
+
+	return courseGetResponse
+}
+
+
+func ConvertSectionGetByIdResponseWeb(section *domain.Section) *web.SectionResponseGetByIdWeb {
+	
+	module := ConvertAllModuleGetByIdResponseWeb(section.Modules)
+	sectionGetResponse := &web.SectionResponseGetByIdWeb{
+		ID:          section.ID,
+		Title:       section.Title,
+		OrderBy:     section.OrderBy,
+		Module: module,
+	}
+
+	return sectionGetResponse
+}
+
+func ConvertModuleGetByIdResponseWeb(module *domain.Module) *web.ModuleResponseGetByIdWeb {
+	moduleGetResponse := &web.ModuleResponseGetByIdWeb{
+		ID:          module.ID,
+		Title:       module.Title,
+		OrderBy:     module.OrderBy,
+		Description: module.Description,
+	}
+
+	return moduleGetResponse
+
+}
+
+func ConvertAllModuleGetByIdResponseWeb(module []domain.Module) []web.ModuleResponseGetByIdWeb {
+	var moduleGetResponse []web.ModuleResponseGetByIdWeb
+
+	for _, module := range module {
+		moduleGetResponse =append(moduleGetResponse, *ConvertModuleGetByIdResponseWeb(&module))
+	}
+
+	return moduleGetResponse
+}
+
+func ConvertAllSectionGetByIdResponseWeb(section []domain.Section) []web.SectionResponseGetByIdWeb {
+	var sectionGetResponse []web.SectionResponseGetByIdWeb
+
+	for _, section := range section {
+		sectionGetResponse =append(sectionGetResponse, *ConvertSectionGetByIdResponseWeb(&section))
+	}
+
+	return sectionGetResponse
+}
