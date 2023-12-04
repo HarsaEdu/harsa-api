@@ -24,7 +24,7 @@ func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistory(offset, lim
 	}
 
 	if search != "" {
-		query.Where("item.name LIKE ?", "%"+search+"%")
+		query.Joins("JOIN subs_plans ON subs_plans.id = payment_histories.item_id").Where("subs_plans.title LIKE ?", "%"+search+"%")
 	}
 
 	query.Order("created_at DESC").Find(&paymentHistory).Count(&count)
@@ -54,7 +54,7 @@ func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistoryByUserId(use
 	}
 
 	if search != "" {
-		query.Where("Item.name LIKE ?", "%"+search+"%")
+		query.Joins("JOIN subs_plans ON subs_plans.id = payment_histories.item_id").Where("subs_plans.title LIKE ?", "%"+search+"%")
 	}
 
 	query.Order("created_at DESC").Find(&paymentHistory).Count(&count)

@@ -11,6 +11,7 @@ func ConvertUserCourse(userCourse *domain.UserProfile) *web.UserForCourse {
 		ID: userCourse.ID,
 		Name: name,
 		Job: userCourse.Job,
+		ImageUrl: userCourse.ImageUrl,
 	}
 }
 
@@ -39,10 +40,29 @@ func ConvertUserCourseTraking(userCourse *domain.UserProfile) *web.UserForTracki
 	return &web.UserForTracking {
 		ID: userCourse.ID,
 		Name: name,
+		ImageUrl: userCourse.ImageUrl,
 	}
 }
 
-func ConvertCourseTrackingRespose(courseTracking *domain.CourseTracking, course *domain.Course,modules []web.ModuleResponseForTracking, enrolled int64, totalModul int64, progress float32) *web.CourseTrackingResponseMobile {
+func ConvertCourseTrakingMobile(courseTracking *domain.CourseTracking, progress float32) *web.GetAllCourseForTraking {
+	
+	userIntructur := ConvertUserCourse(&courseTracking.Course.User.UserProfile)
+	userStudent   := ConvertUserCourseTraking(&courseTracking.User.UserProfile)
+
+	return &web.GetAllCourseForTraking {
+			ID: courseTracking.CourseID,
+			UserIntructur: *userIntructur,
+			UserStudent: *userStudent,
+			ImageUrl: courseTracking.Course.ImageUrl,
+			Title: courseTracking.Course.Title,
+			Description: courseTracking.Course.Description,
+			Status: courseTracking.Status,
+			Progress: progress,
+			CreatedAt: courseTracking.CreatedAt,
+	}
+}
+
+func ConvertCourseTrackingRespose(courseTracking *domain.CourseTracking, course *domain.Course,sections []web.SectionResponseMobile, enrolled int64, totalModul int64, progress float32) *web.CourseTrackingResponseMobile {
 	
 	user := ConvertUserCourseTraking(&courseTracking.User.UserProfile)
 
@@ -58,7 +78,53 @@ func ConvertCourseTrackingRespose(courseTracking *domain.CourseTracking, course 
 	return &web.CourseTrackingResponseMobile{
 			CourseTracking: *courseTrackingRes,
 			Course: *courseRes,
-			Modul : modules,
+			Sections : sections,
 	}
+}
+
+
+func ConvertCourseTrackingResponeWeb(courseTracking *domain.CourseTracking) *web.CourseTrackingResponseWeb{
+
+	return &web.CourseTrackingResponseWeb{
+		ID : courseTracking.Course.ID,
+		Title: courseTracking.Course.Title,
+	}
+}
+
+func ConvertAllCourseTrackingResponeWeb(courseTrackings []domain.CourseTracking) []web.CourseTrackingResponseWeb{
+
+	var courseTrackingResponseWebs []web.CourseTrackingResponseWeb
+
+	for _, courseTracking := range courseTrackings {
+		courseTrackingResponseWebs = append(courseTrackingResponseWebs, *ConvertCourseTrackingResponeWeb(&courseTracking))
+	}
+
+	return courseTrackingResponseWebs
+}
+
+
+func ConvertCourseTrackingUserWeb(courseTracking *domain.CourseTracking) *web.CourseTrackingUserWeb{
+	name := courseTracking.User.UserProfile.FirstName + " " + courseTracking.User.UserProfile.LastName
+	return &web.CourseTrackingUserWeb{
+		CourseTrakingID: courseTracking.ID,
+		UserID : courseTracking.User.ID,
+		Name: name,
+		UserName: courseTracking.User.Username,
+		Email: courseTracking.User.Email,
+		PhoneNumber: courseTracking.User.UserProfile.PhoneNumber,
+		Address: courseTracking.User.UserProfile.Address,
+	}
+}
+
+
+func ConvertAllCourseTackingUserWeb(courseTrackings []domain.CourseTracking) []web.CourseTrackingUserWeb{
+
+	var courseTrackingUserWebs []web.CourseTrackingUserWeb
+
+	for _, courseTracking := range courseTrackings {
+		courseTrackingUserWebs = append(courseTrackingUserWebs, *ConvertCourseTrackingUserWeb(&courseTracking))
+	}
+
+	return courseTrackingUserWebs
 }
 

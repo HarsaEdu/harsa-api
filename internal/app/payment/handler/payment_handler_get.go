@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -44,6 +45,10 @@ func (paymentHandler *PaymentHandlerImpl) GetAllPaymentHistory(ctx echo.Context)
 		return res.StatusInternalServerError(ctx, "failed to get payment history, something happen", err)
 	}
 
+	if response == nil {
+		return res.StatusNotFound(ctx, "payment history not found", fmt.Errorf("error when get payment history : payment history not found"))
+	}
+
 	return res.StatusOK(ctx, "success to get payment history", response, pagination)
 }
 
@@ -67,6 +72,10 @@ func (paymentHandler *PaymentHandlerImpl) GetAllPaymentHistoryByUserId(ctx echo.
 		}
 
 		return res.StatusInternalServerError(ctx, "failed to get payment history, something happen", err)
+	}
+
+	if response == nil {
+		return res.StatusNotFound(ctx, "payment history not found", fmt.Errorf("error when get payment history : payment history not found"))
 	}
 
 	return res.StatusOK(ctx, "success to get payment history", response, pagination)

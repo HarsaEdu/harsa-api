@@ -3,13 +3,12 @@ package service
 import (
 	"fmt"
 
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (feedbackService *FeedbackServiceImpl) GetAll(courseid, page, pagesize int) ([]domain.Feedback, *web.Pagination, error) {
-	result, total, err := feedbackService.FeedbackRepository.GetAll(courseid, page, pagesize)
+func (feedbackService *FeedbackServiceImpl) GetAllByCourseId(courseId uint, offset, limit int, search string) ([]web.FeedBackResponseForTracking, *web.Pagination, error) {
+	result, total, err := feedbackService.FeedbackRepository.GetAllByCourseId(courseId, offset, limit, search)
 
 	if total == 0 {
 		return nil, nil, fmt.Errorf("feedback not found")
@@ -19,7 +18,9 @@ func (feedbackService *FeedbackServiceImpl) GetAll(courseid, page, pagesize int)
 		return nil, nil, fmt.Errorf("internal Server Error")
 	}
 
-	pagination := conversion.RecordToPaginationResponse(courseid, pagesize, total)
+	response := conversion.ConvertAllFeedBackResponseMobile(result)
 
-	return result, pagination, nil
+	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
+
+	return response, pagination, nil
 }

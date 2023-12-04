@@ -17,6 +17,7 @@ func UserCreateRequestToUserModel(userRequest web.UserCreateRequest) *domain.Use
 }
 func UserCreateRequestToUserProfileModel(userRequest web.UserCreateRequest, userID uint, birthDate time.Time) *domain.UserProfile {
 	return &domain.UserProfile{
+		ID: userID,
 		UserID:      userID,
 		FirstName:   userRequest.FirstName,
 		LastName:    userRequest.LastName,
