@@ -29,10 +29,9 @@ func (moduleRepository *ModuleRepositoryImpl) UpdateModule(updateModul *domain.M
 
 func (moduleRepository *ModuleRepositoryImpl) UpdateOrderModule(order int, moduleExist *domain.Module) error {
 
-	moduleExist.OrderBy = order
-
-	if err := moduleRepository.DB.Save(&moduleExist).Error; err != nil {
-		return err
+	result := moduleRepository.DB.Where("id = ?", moduleExist.ID).Updates(&domain.Module{OrderBy: order})
+	if result.Error != nil {
+		return result.Error
 	}
 
 	return nil
@@ -40,10 +39,9 @@ func (moduleRepository *ModuleRepositoryImpl) UpdateOrderModule(order int, modul
 
 func (moduleRepository *ModuleRepositoryImpl) UpdateOrderSection(order int, sectionExist *domain.Section) error {
 
-	sectionExist.OrderBy = order
-
-	if err := moduleRepository.DB.Save(&sectionExist).Error; err != nil {
-		return err
+	result := moduleRepository.DB.Where("id = ?", sectionExist.ID).Updates(&domain.Module{OrderBy: order})
+	if result.Error != nil {
+		return result.Error
 	}
 
 	return nil
