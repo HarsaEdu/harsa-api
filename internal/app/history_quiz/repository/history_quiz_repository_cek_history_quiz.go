@@ -9,8 +9,7 @@ func (historyQuizRepository *HistoryQuizRepositoryImpl) Cek(userId uint, quizID 
 
 	historyQuiz := domain.HistoryQuiz{}
 
-	if err := historyQuizRepository.DB.Model(&domain.HistoryQuiz{}).Where("user_id  = ? AND quiz_id = ?" ,userId,quizID).
-		Preload("User.UserProfile").Preload("HistoryQuizAnswer.Options").First(&historyQuiz).
+	if err := historyQuizRepository.DB.Model(&domain.HistoryQuiz{}).Where("user_id  = ? AND quiz_id = ?" ,userId,quizID).First(&historyQuiz).
 		Error; err != nil {
 		return nil,  err
 	}

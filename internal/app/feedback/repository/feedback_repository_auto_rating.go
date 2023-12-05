@@ -9,7 +9,7 @@ func (feedbackRepository *FeedbackRepositoryImpl) AutoUpdateRating(courseId uint
 
 	var count int64
 
-	if err := tx.Find(&listFeedBack).Where("course_id = ?",courseId).Count(&count).Error; err != nil {
+	if err := tx.Model(&domain.Feedback{}).Where("course_id = ?",courseId).Find(&listFeedBack).Count(&count).Error; err != nil {
 		return err
 	}
 
