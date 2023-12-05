@@ -19,6 +19,7 @@ import (
 	submission "github.com/HarsaEdu/harsa-api/internal/app/submission"
 	submissionAnswer "github.com/HarsaEdu/harsa-api/internal/app/submission_answer"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
+	historyQuiz"github.com/HarsaEdu/harsa-api/internal/app/history_quiz"
 
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
@@ -51,6 +52,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo)
 	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService)
 	historySubModuleRoutes := historySubModule.HistorySubModuleSetup(db, validate)
+	historyQuizRoutes := historyQuiz.HistoryQuizSetup(db, validate)
 
 
 	apiGroupWeb := e.Group("web")
@@ -71,6 +73,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes.PaymentWeb(apiGroupWeb)
 	submissionAnswerRoutes.SubmissionAnswerWeb(coursesGroup)
 	courseTrakingRoutes.CourseTrackingWeb(apiGroupWeb)
+	historyQuizRoutes.HistoryQuizWeb(coursesGroup)
 
 	apiGroupMobile := e.Group("mobile")
 	authRoutes.AuthMobile(apiGroupMobile)
@@ -88,7 +91,8 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	chatbotRoutes.ChatbotMobile(apiGroupMobile)
 	submissionRoutes.SubmissionMobile(coursesGroup)
 	submissionAnswerRoutes.SubmissionAnswerMobile(coursesGroup)
-
+	historyQuizRoutes.HistoryQuizMobile(coursesGroup)
+	
 	paymentRoutes.PaymentMobile(apiGroupMobile)
 	paymentRoutes.PaymentSubscriptionsMobile(apiGroupMobile)
 	courseTrakingRoutes.CourseTrackingMobile(apiGroupMobile)
