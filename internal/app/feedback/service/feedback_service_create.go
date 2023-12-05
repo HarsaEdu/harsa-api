@@ -8,7 +8,12 @@ import (
 )
 
 func (feedbackService *FeedbackServiceImpl) CreateByUserAndCourseId(request web.FeedbackCreateRequest, userId uint, courseId uint) error {
-	err := feedbackService.Validator.Struct(request)
+	
+	exist, err := feedbackService.FeedbackRepository.Cek(userId, courseId)
+	if exist != nil {
+		return fmt.Errorf("feedback already exist")
+	}
+	err = feedbackService.Validator.Struct(request)
 	if err != nil {
 		return err
 	}
