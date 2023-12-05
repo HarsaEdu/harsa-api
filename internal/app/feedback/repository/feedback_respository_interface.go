@@ -13,6 +13,7 @@ type FeedbackRepository interface {
 	UpdateByUserAndCourseId(userId, courseId uint, feedback *domain.Feedback) error
 	DeleteByUserAndCourseId(userId, courseId uint) error
 	AutoUpdateRating(courseId uint) error
+	Cek(userId uint, courseID uint) (*domain.Feedback, error)
 }
 
 type FeedbackRepositoryImpl struct {
