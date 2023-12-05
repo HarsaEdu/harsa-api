@@ -37,3 +37,16 @@ type HistoryQuizTrackingResponse struct {
 	HistoryQuiz QuizResponseForTracking `json:"history_quizz"`
 	Quizz       QuizResponse            `json:"quizz"`
 }
+
+type HistoryQuizResponseWeb struct {
+	HistoryQuizID uint                    `json:"history_quizz_id"`
+	UserID        uint                    `json:"user_id"`
+	Name          string                  `json:"name"`
+	Score         float32                 `json:"score"`
+	HistoryAnswer []HistoryQuizAnswer     `json:"history_answer"`
+}
+
+type HistoryQuizAnswer struct{
+	QuestionID uint `json:"question_id"`
+	IsRight    bool `json:"is_right"`
+}

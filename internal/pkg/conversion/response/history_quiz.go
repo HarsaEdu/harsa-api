@@ -34,6 +34,46 @@ func ConvertHistoryQuizTrackingResponse(module *web.ModuleResponseForTracking, h
 
 }
 
+func ConvertHistoryAnswerResponseWeb(response *domain.HistoryQuizAnswer)*web.HistoryQuizAnswer{
+	return &web.HistoryQuizAnswer{
+		QuestionID: response.QuestionID,
+		IsRight: response.Options.IsRight,
+	}
+}
+
+func ConvertAllAnswerResponseWeb(respose []domain.HistoryQuizAnswer)[]web.HistoryQuizAnswer{
+	var historyQuizAnswer []web.HistoryQuizAnswer
+	for i := range respose {
+		historyQuizAnswer = append(historyQuizAnswer, *ConvertHistoryAnswerResponseWeb(&respose[i]))
+	}
+
+	return historyQuizAnswer
+}
+
+func ConvertHistoryQuizResponseWeb(response *domain.HistoryQuiz)*web.HistoryQuizResponseWeb{
+	name := response.User.UserProfile.FirstName + " " + response.User.UserProfile.LastName
+	answers := ConvertAllAnswerResponseWeb(response.HistoryQuizAnswer)
+
+	return &web.HistoryQuizResponseWeb{
+		HistoryQuizID: response.ID,
+		UserID: response.UserID,
+		Name: name,
+		HistoryAnswer: answers,
+		Score: response.Score,
+	}
+}
+
+func ConvertAllHistoryQuizResponseWeb(response []domain.HistoryQuiz)[]web.HistoryQuizResponseWeb {
+	var historyQuiz []web.HistoryQuizResponseWeb
+
+	for i := range response {
+		historyQuiz = append(historyQuiz, *ConvertHistoryQuizResponseWeb(&response[i]))
+	}
+
+	return historyQuiz
+
+}
+
 // func ConvertHistoryQuizResponseMobile(response *domain.HistoryQuiz) *web.HistoryQuizResponseMobile {
 
 // 	quiz:= ConvertQuizResponseTrackingMobile(&response.Quiz)
