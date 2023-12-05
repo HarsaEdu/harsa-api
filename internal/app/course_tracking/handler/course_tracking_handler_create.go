@@ -31,6 +31,9 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) Create(ctx echo.Context)
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
+		if strings.Contains(err.Error(), "already exist") {
+			return res.StatusBadRequest(ctx, "You are already enrolled in this course", err)
+		}
 		return res.StatusInternalServerError(ctx, "failed to create course tracking, something happen", err)
 
 	}

@@ -8,7 +8,13 @@ import (
 )
 
 func (courseTrackingService *CourseTrackingServiceImpl) Create(request web.CourseTrackingRequest) error {
-	err := courseTrackingService.Validator.Struct(request)
+	
+	exist, err := courseTrackingService.CourseTrackingRepository.Cek(request.UserID, request.CourseID)
+	if exist != nil {
+		return fmt.Errorf("course tracking already exist")
+	}
+	
+	err = courseTrackingService.Validator.Struct(request)
 	if err != nil {
 		return err
 	}
