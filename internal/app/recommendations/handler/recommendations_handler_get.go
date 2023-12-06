@@ -19,8 +19,8 @@ func (recommendationsHandler *RecommendationsHandlerImpl) GetRecommendations(ctx
 	}
 
 	request.UserId = userId
-	if request.MaxResults == 0 {
-		request.MaxResults = 5
+	if request.Max == 0 {
+		request.Max = 5
 	}
 
 	response, err := recommendationsHandler.RecommendationsService.GetRecommendations(&request)

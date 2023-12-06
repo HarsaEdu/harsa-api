@@ -1,7 +1,7 @@
 package web
 
 type GetRecommendation struct {
-	CourseId               string  `json:"course_id"`
+	CourseId               uint    `json:"course_id"`
 	CourseTitle            string  `json:"course_title"`
 	CourseDescription      string  `json:"course_description"`
 	CourseImage            string  `json:"course_image"`
