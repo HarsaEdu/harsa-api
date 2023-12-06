@@ -1,8 +1,10 @@
 package web
 
 type CategoryCreateRequest struct {
-	Name        string `json:"name" validate:"required"`
-	Description string `json:"description"`
+	Name        string `json:"name" form:"name" validate:"required"`
+	Description string `json:"description" form:"description"`
+	Image_Url   string `json:"image" form:"image"`
+	Icon        string `json:"icon" form:"icon"`
 }
 
 type CategoryUpdateRequest struct {

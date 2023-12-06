@@ -10,7 +10,7 @@ import (
 )
 
 type CategoryService interface {
-	Create(category web.CategoryCreateRequest) error
+	Create(ctx echo.Context, category web.CategoryCreateRequest) error
 	Update(category web.CategoryUpdateRequest, id int) error
 	UploadImage(ctx echo.Context, category *web.CategoryUploadImageRequest, id int) error
 	FindById(id int) (*domain.Category, error)
