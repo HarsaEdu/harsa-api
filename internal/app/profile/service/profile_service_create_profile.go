@@ -18,7 +18,7 @@ func (profileService *ProfileServiceImpl) CreateProfile(ctx echo.Context, reques
 	if profileExists {
 		return fmt.Errorf("profile already exists")
 	}
-
+	fmt.Println(profileExists)
 	profile := conversion.ProfileCreateRequestToModel(userID, request)
 
 	profile.ImageUrl, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles", false)

@@ -19,10 +19,11 @@ func (profileRepository *ProfileRepositoryImpl) FindByUserID(userID uint) (*doma
 }
 
 func (profileRepository *ProfileRepositoryImpl) IsExists(userID uint) bool {
-	user := &domain.Profile{}
-	result := profileRepository.DB.Where("user_id = ?", userID).First(&user)
-	if user == nil || result.Error != nil {
-		return false
-	}
-	return true
+	var user = &domain.UserProfile{}
+	if err := profileRepository.DB.Model(&domain.UserProfile{}).Where("user_id = ? ", userID).
+    Find(&user ).
+    Error; err != nil || user.ID != 0 {
+    	return true
+    }
+	return false
 }

@@ -57,10 +57,8 @@ type SectionResponse struct {
 	Modules     []ModuleResponseWithTitle `json:"modules"`
 }
 
-
 type SectionResponseMobile struct {
 	ID          uint           `json:"id"`
-	CourseID    uint           `json:"course_id"`
 	Title       string         `json:"title"`
 	Order       int            `json:"order"`
 	Modules     []ModuleResponseForTracking `json:"modules"`

@@ -137,7 +137,6 @@ func ConvertSectionResponseMobile(section *domain.Section,modules []web.ModuleRe
 
 	sectionRes := web.SectionResponseMobile{
 		ID:            section.ID,
-		CourseID:      section.CourseID,
 		Title:         section.Title,
 		Order:         section.OrderBy,
 		Modules:       modules,
