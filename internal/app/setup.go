@@ -8,6 +8,7 @@ import (
 	courseTraking "github.com/HarsaEdu/harsa-api/internal/app/course_tracking"
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
 	feedback "github.com/HarsaEdu/harsa-api/internal/app/feedback"
+	historyQuiz "github.com/HarsaEdu/harsa-api/internal/app/history_quiz"
 	historySubModule "github.com/HarsaEdu/harsa-api/internal/app/history_sub_modules"
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
 	module "github.com/HarsaEdu/harsa-api/internal/app/module"
@@ -16,21 +17,22 @@ import (
 	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
 	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
+	"github.com/HarsaEdu/harsa-api/internal/app/recommendations"
 	submission "github.com/HarsaEdu/harsa-api/internal/app/submission"
 	submissionAnswer "github.com/HarsaEdu/harsa-api/internal/app/submission_answer"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
-	historyQuiz"github.com/HarsaEdu/harsa-api/internal/app/history_quiz"
 
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
+	recommendationsApi "github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi) {
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi) {
 
 	userRoutes, userRepo := user.UserSetup(db, validate)
 	authRoutes := auth.AuthSetup(db, validate, userRepo)
@@ -52,6 +54,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo)
 	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService)
 	historySubModuleRoutes := historySubModule.HistorySubModuleSetup(db, validate)
+	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, userRepo)
 	historyQuizRoutes := historyQuiz.HistoryQuizSetup(db, validate)
 
 
@@ -73,6 +76,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes.PaymentWeb(apiGroupWeb)
 	submissionAnswerRoutes.SubmissionAnswerWeb(coursesGroup)
 	courseTrakingRoutes.CourseTrackingWeb(apiGroupWeb)
+	recommendationsRoutes.RecommendationsWeb(apiGroupWeb)
 	historyQuizRoutes.HistoryQuizWeb(coursesGroup)
 
 	apiGroupMobile := e.Group("mobile")
@@ -97,4 +101,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes.PaymentSubscriptionsMobile(apiGroupMobile)
 	courseTrakingRoutes.CourseTrackingMobile(apiGroupMobile)
 	historySubModuleRoutes.MobileHistorySubModule(apiGroupMobile)
+	recommendationsRoutes.RecommendationsMobile(apiGroupMobile)
 }
