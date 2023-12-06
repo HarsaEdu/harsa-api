@@ -51,7 +51,7 @@ func ConvertCourseTrakingMobile(courseTracking *domain.CourseTracking, progress 
 
 	return &web.GetAllCourseForTraking {
 			TrakingID: courseTracking.ID,
-			CourseID: courseTracking.CourseID,
+			ID: courseTracking.CourseID,
 			UserIntructur: *userIntructur,
 			UserStudent: *userStudent,
 			ImageUrl: courseTracking.Course.ImageUrl,
