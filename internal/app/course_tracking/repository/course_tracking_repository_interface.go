@@ -28,6 +28,7 @@ type CourseTrackingRepository interface {
 	Delete(id uint) error
 	CekIdFromCourse(userId uint, courseId uint, role string) error
 	Cek(userId uint, courseId uint) (*domain.CourseTracking,error)
+	FindByUserIdAndCourseID(courseID uint, UserID uint) (*domain.CourseTracking ,error)
 }
 
 type CourseTrackingRepositoryImpl struct {
