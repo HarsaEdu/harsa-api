@@ -32,7 +32,8 @@ type CourseForTraking struct {
 }
 
 type GetAllCourseForTraking struct {
-	ID           uint          `json:"id"`
+	TrakingID    uint          `json:"traking_id"`
+	CourseID     uint          `json:"course_id"`
 	Title        string        `json:"title"`
 	Description  string        `json:"description"`
 	UserIntructur   UserForCourse `json:"user_intructur"`
