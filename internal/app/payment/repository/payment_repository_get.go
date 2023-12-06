@@ -24,7 +24,8 @@ func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistory(offset, lim
 	}
 
 	if search != "" {
-		query.Joins("JOIN subs_plans ON subs_plans.id = payment_histories.item_id").Where("subs_plans.title LIKE ?", "%"+search+"%")
+    query.Joins("JOIN user_profiles ON user_profiles.id = payment_histories.user_id").
+        Where("CONCAT(user_profiles.first_name, ' ', user_profiles.last_name) LIKE ?", "%"+search+"%")
 	}
 
 	query.Order("created_at DESC").Find(&paymentHistory).Count(&count)
