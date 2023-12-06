@@ -32,6 +32,9 @@ func (subsPlanHandler *SubsPlanHandlerImpl) UpdateImage(ctx echo.Context) error 
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "subs plan not found", err)
 		}
+		if strings.Contains(err.Error(), "file format") {
+			return res.StatusBadRequest(ctx, "please input jpg or png file", err)
+		}
 		return res.StatusInternalServerError(ctx, "failed update image subs plan, something happen", err)
 
 	}
