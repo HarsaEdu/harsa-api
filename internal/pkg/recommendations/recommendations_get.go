@@ -24,6 +24,11 @@ func (recommendationsApi *recommendationsApiImpl) GetRecommendations(request *we
   }
   defer response.Body.Close()
 
+  // Parse the response and extract recommendations
+  if response.StatusCode != http.StatusOK {
+    return nil, fmt.Errorf("unexpected status code: %d", response.StatusCode)
+  }
+
   // Read the response body
   responseBody, err := ioutil.ReadAll(response.Body)
   if err != nil {
@@ -33,11 +38,6 @@ func (recommendationsApi *recommendationsApiImpl) GetRecommendations(request *we
   // Check for invalid characters in the response
   if !json.Valid(responseBody) {
     return nil, fmt.Errorf("invalid character found in JSON response")
-  }
-
-  // Parse the response and extract recommendations
-  if response.StatusCode != http.StatusOK {
-    return nil, fmt.Errorf("unexpected status code: %d", response.StatusCode)
   }
 
   var recommendationsResponse web.GetRecommendationsResponse
