@@ -12,7 +12,7 @@ type SubmissionService interface {
 	Update(ctx echo.Context, request *web.SubmissionUpdateRequest, submissionId int) error
 	Delete(id int) error
 	GetAll(moduleId int) ([]web.SubmissionsResponseModule, error)
-	FindById(id int) (*web.SubmissionsResponseModuleMobile, error)
+	FindById(id int) (*web.SubmissionsResponseModule, error)
 	GetAllMobile(moduleId int) ([]web.SubmissionsResponseModuleMobile, error)
 }
 

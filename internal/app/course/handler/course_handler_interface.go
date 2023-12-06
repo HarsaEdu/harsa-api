@@ -16,6 +16,7 @@ type CourseHandler interface {
 	GetDetailCourseById(ctx echo.Context) error
 	GetAllCourseByUserId(ctx echo.Context) error
 	GetAllByCategory(ctx echo.Context) error
+	GetByIdMobile(ctx echo.Context) error
 }
 
 type CourseHandlerImpl struct {

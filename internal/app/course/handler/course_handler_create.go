@@ -23,10 +23,9 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 
 	if courseCreateRequest.UserId == 0 {
 		instructorId = ctx.Get("user_id").(uint)
-	}else{
+	} else {
 		instructorId = courseCreateRequest.UserId
 	}
-
 
 	err = courseHandler.CourseService.Create(ctx, &courseCreateRequest, instructorId)
 	if err != nil {
@@ -37,7 +36,6 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 			return res.StatusAlreadyExist(ctx, "course already exist", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to create course, something happen", err)
-
 	}
 
 	return res.StatusCreated(ctx, "success to create course", nil, nil)

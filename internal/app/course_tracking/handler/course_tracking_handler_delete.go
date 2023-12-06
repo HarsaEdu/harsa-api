@@ -11,7 +11,7 @@ import (
 
 func (courseTrackingHandler *CourseTrackingHandlerImpl) DeleteEnrolled(ctx echo.Context) error {
 
-	courseParam := ctx.Param("id")
+	courseParam := ctx.Param("course-id")
 	
 	courseId, err := strconv.Atoi(courseParam)
 	if err != nil {

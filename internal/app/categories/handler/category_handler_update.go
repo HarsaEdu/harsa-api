@@ -13,10 +13,12 @@ import (
 func (categoryHandler *CategoryHandlerImpl) Update(ctx echo.Context) error {
 
 	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
-
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid category id", err)
+	}
 	req := web.CategoryUpdateRequest{}
-	err := ctx.Bind(&req)
+	err = ctx.Bind(&req)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind category request", err)
 	}

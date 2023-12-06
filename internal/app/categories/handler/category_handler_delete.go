@@ -12,9 +12,11 @@ import (
 func (categoryHandler *CategoryHandlerImpl) Delete(ctx echo.Context) error {
 
 	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
-
-	err := categoryHandler.CategoryService.Delete(id)
+	id, err:= strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid category id", err)
+	}
+	err = categoryHandler.CategoryService.Delete(id)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

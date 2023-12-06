@@ -33,6 +33,7 @@ func ConvertSubmissionResponseModuleMobile(submission *domain.Submissions) *web.
 	return &submissionRes
 }
 
+// SubmissionsResponseModule
 func ConvertAllSubmissionModuleMobile(submission []domain.Submissions) []web.SubmissionsResponseModuleMobile {
 
 	var submissionRes []web.SubmissionsResponseModuleMobile

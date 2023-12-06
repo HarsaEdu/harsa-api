@@ -5,13 +5,13 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (courseService *CourseServiceImpl) GetById(id uint) (*web.CourseResponse, error) {
+func (courseService *CourseServiceImpl) GetById(id uint) (*web.GetCourseResponseByIdWeb, error) {
 	result,  err := courseService.CourseRepository.GetById(id)
 	if err != nil {
 		return nil, err
 	}
 
-	response := conversion.ConvertCourseResponse(result)
+	response := conversion.ConvertCourseGetByIdResponseWeb(result)
 
 	return response, nil
 }

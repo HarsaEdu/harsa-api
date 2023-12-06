@@ -21,4 +21,16 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) CekIdFromCourse(us
 	return  nil
 }
 
+func (courseTrackingrepository *CourseTrackingRepositoryImpl) Cek(userId uint, courseId uint) (*domain.CourseTracking,error) {
+
+	courseTraking := domain.CourseTracking{}
+
+	if err := courseTrackingrepository.DB.Model(&domain.CourseTracking{}).Where("user_id  = ? AND course_id = ?" ,userId,courseId).First(&courseTraking).
+		Error; err != nil {
+		return nil,  err
+	}
+
+	return &courseTraking,  nil
+}
+
 

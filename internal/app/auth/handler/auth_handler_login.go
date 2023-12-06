@@ -20,18 +20,22 @@ func (authHandler *AuthHandlerImpl) LoginUser(ctx echo.Context) error {
 
 	response, err := authHandler.AuthService.LoginUser(loginUserRequest)
 
-	if response.RoleName == "student" {
-		return res.StatusNotFound(ctx, "user not found", fmt.Errorf("invalid username or password"))
-	}
-
 	if err != nil {
 		if strings.Contains(err.Error(), "invalid") {
 			return res.StatusBadRequest(ctx, err.Error(), err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)
 	}
+	
+	if response.RoleName == "student" {
+		return res.StatusNotFound(ctx, "invalid username or password", fmt.Errorf("user not found"))
+	}
+
 
 	tokenAccess, err := jwt.GenerateAccessToken(response)
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)
+	}
 	tokenRefresh, err := jwt.GenerateRefreshToken(response)
 	if err != nil {
 		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)
@@ -53,10 +57,6 @@ func (authHandler *AuthHandlerImpl) LoginUserStudent(ctx echo.Context) error {
 
 	response, err := authHandler.AuthService.LoginUser(loginUserRequest)
 
-	if response.RoleName != "student" {
-		return res.StatusNotFound(ctx, "user not found", fmt.Errorf("invalid username or password"))
-	}
-
 	if err != nil {
 		if strings.Contains(err.Error(), "invalid") {
 			return res.StatusBadRequest(ctx, err.Error(), err)
@@ -64,7 +64,15 @@ func (authHandler *AuthHandlerImpl) LoginUserStudent(ctx echo.Context) error {
 		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)
 	}
 
+	if response.RoleName != "student" {
+		return res.StatusNotFound(ctx, "invalid username or password", fmt.Errorf("not fount"))
+	}
+
+
 	tokenAccess, err := jwt.GenerateAccessToken(response)
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)
+	}
 	tokenRefresh, err := jwt.GenerateRefreshToken(response)
 	if err != nil {
 		return res.StatusInternalServerError(ctx, "failed to login, something happen", err)

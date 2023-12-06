@@ -17,6 +17,7 @@ type CourseTrackingHandler interface {
 	GetAllTrackingWeb(ctx echo.Context) error
 	GetAllTrackingUserWeb(ctx echo.Context) error
 	DeleteEnrolled(ctx echo.Context) error
+	CreateWeb(ctx echo.Context) error
 }
 
 type CourseTrackingHandlerImpl struct {

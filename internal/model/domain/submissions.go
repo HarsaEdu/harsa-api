@@ -9,7 +9,6 @@ import (
 type Submissions struct {
 	ID        uint           `gorm:"type:int;primarykey" json:"id"`
 	ModuleID  uint           `gorm:"type:int" json:"module_id"`
-	UserId    uint           `json:"user_id"`
 	Title     string         `gorm:"type:varchar(225)" json:"title"`
 	Content   string         `gorm:"type:text" json:"content"`
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"created_at"`

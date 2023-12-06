@@ -9,10 +9,7 @@ import (
 )
 
 func (subsPlanService *SubsPlanServiceImpl) UpdateImage(ctx echo.Context, subsPlan *web.SubsPlanUpdateImage, id int) error {
-	err := subsPlanService.Validator.Struct(subsPlan)
-	if err != nil {
-		return err
-	}
+
 	ifExist, _ := subsPlanService.SubsPlanRepository.FindById(id)
 	if ifExist == nil {
 		return fmt.Errorf("subs plan not found")
@@ -26,6 +23,11 @@ func (subsPlanService *SubsPlanServiceImpl) UpdateImage(ctx echo.Context, subsPl
 
 	if Image_url != "" {
 		result.Image_url = Image_url
+	}
+
+	err = subsPlanService.Validator.Struct(result)
+	if err != nil {
+		return err
 	}
 
 	err = subsPlanService.SubsPlanRepository.Update(result, id)

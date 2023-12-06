@@ -27,6 +27,7 @@ type CourseTrackingRepository interface {
 	GetAllCourseTrackingUserWeb(offset, limit int, courseID uint, search string) ([]domain.CourseTracking, int64, error)
 	Delete(id uint) error
 	CekIdFromCourse(userId uint, courseId uint, role string) error
+	Cek(userId uint, courseId uint) (*domain.CourseTracking,error)
 }
 
 type CourseTrackingRepositoryImpl struct {

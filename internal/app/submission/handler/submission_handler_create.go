@@ -13,10 +13,12 @@ import (
 func (submissionHandler *SubmissionHandlerImpl) Create(ctx echo.Context) error {
 
 	paramId := ctx.Param("moduleId")
-	id, _ := strconv.Atoi(paramId)
-
+	id, err := strconv.Atoi(paramId)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid module id", err)
+	}
 	req := web.SubmissionRequest{}
-	err := ctx.Bind(&req)
+	err = ctx.Bind(&req)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind submission request", err)
 	}

@@ -52,6 +52,10 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) GetAllCourseTracki
 		return nil,0,  fmt.Errorf("get all course tracking eror : %s", err.Error())
 	}
 
+	if coursesTracking == nil {
+		return nil, 0, fmt.Errorf("course not found")
+	}
+
 	allCourseTracking := []web.GetAllCourseForTraking{}
 
 	for _, tracking := range coursesTracking {

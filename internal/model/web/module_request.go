@@ -37,5 +37,5 @@ type SectionRequest struct {
 }
 
 type SectionOrderRequest struct {
-	Order    int    `json:"order" `
+	Order    int    `json:"order"`
 }
