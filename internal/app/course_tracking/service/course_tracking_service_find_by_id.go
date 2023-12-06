@@ -29,3 +29,26 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindByIdMobile(crourseTr
 	return res, nil
 
 }
+
+func (courseTrackingService *CourseTrackingServiceImpl) FindByIdMobileByUserIdAndCourseId(userID uint, courseID uint) (*web.CourseTrackingResponseMobile, error) {
+	
+	courseTraking ,err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID,userID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
+	}
+
+	course, countModule ,countEnroled ,err := courseTrackingService.CourseRepository.GetByIdMobile(courseID)
+	if err != nil { 
+		return nil, fmt.Errorf(" :%s", err.Error())
+	}
+
+	listModule, progress ,err := courseTrackingService.CourseTrackingRepository.FindAllModuleTrackingWithProgress(course.Section ,userID, courseID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when find module tracking :%s", err.Error())
+	}
+
+	res := conversion.ConvertCourseTrackingRespose(courseTraking,course,listModule,countEnroled,countModule,progress)
+
+	return res, nil
+
+}
