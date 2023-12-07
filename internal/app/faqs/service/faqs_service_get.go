@@ -23,3 +23,16 @@ func (faqsService *FaqsServiceImpl) GetAll(offset, limit int, search string) ([]
 
 	return result, pagination, nil
 }
+
+func (faqsService *FaqsServiceImpl) GetById(id int) (*domain.Faqs, error) {
+	result, err := faqsService.FaqRepository.FindById(id)
+	if result == nil {
+		return nil, fmt.Errorf("faqs not found")
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("internal Server Error")
+	}
+
+	return result, nil
+}
