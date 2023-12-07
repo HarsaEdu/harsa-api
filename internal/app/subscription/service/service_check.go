@@ -7,7 +7,7 @@ import (
 )
 
 func (subscriptionService *SubscriptionServiceImpl) IsSubscription(ctx echo.Context, user_id uint) (bool, error) {
-	userCreateDate := ctx.Get("user_create").(int64)
+	userCreateDate := ctx.Get("created_at").(int64)
 	now := time.Now().Unix()
 	if userCreateDate > (now - (7 * 24 * 60 * 60)) {
 		return true, nil
