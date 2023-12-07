@@ -8,7 +8,14 @@ import (
 	"syscall"
 
 	"github.com/HarsaEdu/harsa-api/configs"
+	"github.com/HarsaEdu/harsa-api/internal/app"
 	"github.com/HarsaEdu/harsa-api/internal/infrastructure/database"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
+	"github.com/HarsaEdu/harsa-api/web"
+
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -23,16 +30,38 @@ func main() {
 	}
 
 	// Initialize database connection
-	_, err = database.NewMySQLConnection(&config.MySQL)
+	db, err := database.NewMySQLConnection(&config.MySQL)
 	if err != nil {
 		logrus.Fatal("Error connecting to MySQL:", err.Error())
 	}
 
+	cloudinaryUploader := cloudinary.NewClodinaryUploader(&config.Cloudinary)
+
 	// Create an validator instance
-	_ = validator.New()
+	validate := validator.New()
+
+	// Create an Openai instance
+	openAi := openai.NewOpenAi(&config.OpenAI)
+
+	// Create an Midtrans Core Api instance
+	midtransCoreApi := midtrans.NewMidtransCoreApi(&config.Midtrans)
+
+	// Create an Recommendations Api instance
+	recommendationsApi := recommendations.NewRecommendationsApi(&config.RecommendationsApi)
 
 	// Create an Echo instance
 	e := echo.New()
+
+	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi)
+
+	// Serve static HTML file for the root path
+	e.GET("/", func(c echo.Context) error {
+		file, err := web.Content.ReadFile("index.html")
+		if err != nil {
+			return c.String(http.StatusInternalServerError, "Error reading HTML file")
+		}
+		return c.HTMLBlob(http.StatusOK, file)
+	})
 
 	// Middleware and server configuration
 	e.Pre(middleware.RemoveTrailingSlash())

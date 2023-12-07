@@ -31,7 +31,7 @@ func getValidationErrorMessage(field, tag, param string) string {
 			return fmt.Sprintf("%s must be exactly %s characters long", field, param)
 		// Add more cases for other validation tags as needed
 		default:
-			return fmt.Sprintf("Validation error on field %s, tag %s", field, tag)
+			return fmt.Sprintf("validation error on field %s, tag %s", field, tag)
 	}
 }
 
@@ -55,7 +55,7 @@ func ValidationError(ctx echo.Context, err error) error {
 
 		response := web.ErrorResponse{
 			Code:    http.StatusBadRequest,
-			Message: "Validation failed",
+			Message: "validation failed",
 			Errors:  errors,
 		}
 
