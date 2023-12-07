@@ -10,6 +10,7 @@ func (faqsRoutes *FaqsRoutesImpl) FaqsWeb(apiGroup *echo.Group) {
 
 	categoriesGroup.POST("", faqsRoutes.FaqsHandler.Create, middleware.AdminMiddleware)
 	categoriesGroup.GET("", faqsRoutes.FaqsHandler.GetAll)
+	categoriesGroup.GET("/:id", faqsRoutes.FaqsHandler.GetById)
 	categoriesGroup.DELETE("/:id", faqsRoutes.FaqsHandler.Delete, middleware.AdminMiddleware)
 	categoriesGroup.PUT("/:id", faqsRoutes.FaqsHandler.Update, middleware.AdminMiddleware)
 
