@@ -1,24 +1,15 @@
 package repository
 
-import (
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
-)
+import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
 func (categoryRepository *CategoryRepositoryImpl) UpdateImage(imageUrl string, icon string, id int) error {
 
-	updateField := map[string]any{}
-
-	if imageUrl != "" {
-		updateField["image_url"] = imageUrl
-	}
-
-	if icon != "" {
-		updateField["icon"] = icon
-	}
-
-	result := categoryRepository.DB.Model(&domain.Category{}).
+	result := categoryRepository.DB.Table("categories").
 		Where("id=?", id).
-		Updates(updateField)
+		Updates(domain.Category{
+			Image_url: imageUrl,
+			Icon: icon,
+		})
 
 	if result.Error != nil {
 		return result.Error
