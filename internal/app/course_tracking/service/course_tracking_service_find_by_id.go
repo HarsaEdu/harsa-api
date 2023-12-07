@@ -37,7 +37,6 @@ import (
 // }
 
 func (courseTrackingService *CourseTrackingServiceImpl) FindByIdMobileByUserIdAndCourseId(ctx echo.Context, userID uint, courseID uint) (*web.CourseTrackingResponseMobile, error) {
-	
 	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
 	if err != nil {
 		return nil, fmt.Errorf("eror when cek subscription  :%s", err.Error())
