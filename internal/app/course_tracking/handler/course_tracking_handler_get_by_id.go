@@ -17,7 +17,7 @@ import (
 
 // 	response, err := courseTrackingHandler.CourseTrackingService.FindByIdMobile(uint(id))
 // 	if err != nil {
-		
+
 // 		if strings.Contains(err.Error(), "not found") {
 // 			return res.StatusNotFound(ctx, "course not found", err)
 // 		}

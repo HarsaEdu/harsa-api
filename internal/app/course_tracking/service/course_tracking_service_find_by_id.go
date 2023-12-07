@@ -47,18 +47,20 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindByIdMobileByUserIdAn
 		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
 	}
 
-	course, countModule ,countEnroled ,err := courseTrackingService.CourseRepository.GetByIdMobile(courseID)
+	course, countModule,countEnroled, err := courseTrackingService.CourseRepository.GetByIdMobile(courseID)
 	if err != nil { 
-		return nil, fmt.Errorf(" :%s", err.Error())
+		return nil, fmt.Errorf("eror counting find course tracking  :%s", err.Error())
+	}
+	if course.ID == 0{
+		return nil, fmt.Errorf("course not found")
 	}
 
-	listModule, progress ,err := courseTrackingService.CourseTrackingRepository.FindAllModuleTrackingWithProgress(course.Section ,userID, courseID)
+	listModule, progress, err := courseTrackingService.CourseTrackingRepository.FindAllModuleTrackingWithProgress(course.Section ,userID, courseID)
 	if err != nil { 
 		return nil, fmt.Errorf("eror when find module tracking :%s", err.Error())
 	}
 
 	res := conversion.ConvertCourseTrackingRespose(courseTraking,course,listModule,countEnroled,countModule,progress,isSubscription)
-
 	return res, nil
 
 }
