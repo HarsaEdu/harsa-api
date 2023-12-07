@@ -21,7 +21,7 @@ func (categoryService *CategoryServiceImpl) Create(ctx echo.Context, request web
 	category := conversionRequest.CategoryCreateRequestToCategoriesModel(request)
 	imageUrl, err := categoryService.cloudinaryUploader.Uploader(ctx, "image", "categories", false)
 
-	if !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(imageUrl) {
+	if imageUrl != "" && !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(imageUrl) {
 		return fmt.Errorf("invalid file format")
 	}
 
@@ -31,8 +31,8 @@ func (categoryService *CategoryServiceImpl) Create(ctx echo.Context, request web
 		return fmt.Errorf("error uploading image : %s", err.Error())
 	}
 
-	iconUrl, err := categoryService.cloudinaryUploader.Uploader(ctx, "icon", "categories", true)
-	if !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(iconUrl) {
+	iconUrl, err := categoryService.cloudinaryUploader.Uploader(ctx, "icon", "categories", false)
+	if iconUrl != "" && !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(iconUrl) {
 		return fmt.Errorf("invalid file format")
 	}
 
