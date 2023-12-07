@@ -12,3 +12,9 @@ func (profileRoutes *ProfileRoutesImpl) ProfileMobile(apiGroup *echo.Group) {
 	profilesGroup.PUT("/myprofile", profileRoutes.ProfileHandler.UpdateMyProfile, middleware.AllUserMiddleare)
 	profilesGroup.GET("/myprofile", profileRoutes.ProfileHandler.MyProfile, middleware.AllUserMiddleare)
 }
+
+func (profileRoutes *ProfileRoutesImpl) ProfileWeb(apiGroup *echo.Group) {
+	profilesGroup := apiGroup.Group("/users/profile")
+
+	profilesGroup.PUT("/:profile_id", profileRoutes.ProfileHandler.UpdateProfile, middleware.AdminMiddleware)
+}
