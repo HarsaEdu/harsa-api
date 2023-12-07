@@ -51,6 +51,7 @@ type CourseTrackingResponse struct {
 }
 
 type CourseTrackingResponseMobile struct {
+	IsSubscription bool `json:"is_subscription"`
 	CourseTracking CourseTrackingResponse `json:"course_tracking"`
 	Course         CourseForTraking `json:"course"`
 	Sections		   []SectionResponseMobile `json:"sections"`

@@ -9,7 +9,8 @@ func CategoryCreateRequestToCategoriesModel(request web.CategoryCreateRequest) *
 	return &domain.Category{
 		Name:        request.Name,
 		Description: request.Description,
-		Image_url:   "https://placewaifu.com/image/200/200",
+		Image_url:   request.Image_Url,
+		Icon:        request.Icon,
 	}
 }
 

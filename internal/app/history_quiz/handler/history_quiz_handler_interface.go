@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/HarsaEdu/harsa-api/internal/app/history_quiz/service"
 	"github.com/labstack/echo/v4"
+	subscriptionServicePkg "github.com/HarsaEdu/harsa-api/internal/app/subscription/service"
 )
 
 type HistoryQuizHandler interface {
@@ -12,11 +13,13 @@ type HistoryQuizHandler interface {
 }
 
 type HistoryQuizHandlereImpl struct {
+	SubcriptionService subscriptionServicePkg.SubscriptionService
 	HistoryQuizService service.HistoryQuizService
 }
 
-func NewHistoryQuizHandler(service service.HistoryQuizService) HistoryQuizHandler {
+func NewHistoryQuizHandler(service service.HistoryQuizService, subcriptionService subscriptionServicePkg.SubscriptionService) HistoryQuizHandler {
 	return &HistoryQuizHandlereImpl{
+		SubcriptionService: subcriptionService,
 		HistoryQuizService: service,
 	}
 }

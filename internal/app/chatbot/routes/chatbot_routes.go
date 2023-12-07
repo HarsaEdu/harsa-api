@@ -12,4 +12,6 @@ func (chatbotRoutes *ChatbotRoutesImpl) ChatbotMobile(apiGroup *echo.Group) {
 	chatBotGroup.GET("", chatbotRoutes.ChatbotHandler.GetAllThreadByUserId, middleware.StudentMiddleare)
 	chatBotGroup.GET("/:id", chatbotRoutes.ChatbotHandler.GetAllMessagesInThread, middleware.StudentMiddleare)
 	chatBotGroup.POST("/:id", chatbotRoutes.ChatbotHandler.ChatWithAssistant, middleware.StudentMiddleare)
+	chatBotGroup.PUT("/:id", chatbotRoutes.ChatbotHandler.Update, middleware.StudentMiddleare)
+	chatBotGroup.DELETE("/:id", chatbotRoutes.ChatbotHandler.Delete, middleware.StudentMiddleare)
 }

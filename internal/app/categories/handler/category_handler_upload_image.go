@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -11,8 +12,10 @@ import (
 )
 
 func (categoryHandler *CategoryHandlerImpl) UploadImage(ctx echo.Context) error {
+	var icon, image bool
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
+
 	if err != nil {
 		return res.StatusBadRequest(ctx, "invalid category id", err)
 	}
@@ -22,7 +25,19 @@ func (categoryHandler *CategoryHandlerImpl) UploadImage(ctx echo.Context) error 
 		return res.StatusBadRequest(ctx, "failed to bind category request", err)
 	}
 
-	err = categoryHandler.CategoryService.UploadImage(ctx, &req, id)
+	fileHeader, _ := ctx.FormFile("icon")
+	if fileHeader != nil {
+		icon = true
+	}
+
+	fileHeader, _ = ctx.FormFile("image")
+	if fileHeader != nil {
+		image = true
+	}
+
+	fmt.Println(fileHeader.Filename)
+
+	err = categoryHandler.CategoryService.UploadImage(ctx, &req, id, icon, image)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

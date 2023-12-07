@@ -4,13 +4,15 @@ import (
 	repositoryCourse "github.com/HarsaEdu/harsa-api/internal/app/course/repository"
 	repositoryCourseTracking "github.com/HarsaEdu/harsa-api/internal/app/course_tracking/repository"
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes/service"
+	subscriptionServicePkg "github.com/HarsaEdu/harsa-api/internal/app/subscription/service"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
+	"github.com/labstack/echo/v4"
 )
 
 type CourseTrackingService interface {
 	Create(request web.CourseTrackingRequest) error
-	FindByIdMobile(crourseTrackingId uint) (*web.CourseTrackingResponseMobile, error)
+	// FindByIdMobile(crourseTrackingId uint) (*web.CourseTrackingResponseMobile, error)
 	FindSubByIdMobile(courseID uint, userID uint) (*web.CourseTrackingSub, error)
 	FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error)
 	FindSubmissionByID(moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error)
@@ -20,18 +22,20 @@ type CourseTrackingService interface {
 	GetAllCourseByUserIdWeb(offset, limit int, userID uint) ([]web.CourseTrackingResponseWeb, *web.Pagination, error)
 	GetAllUserCourseWeb(offset, limit int, courseID uint, search string) ([]web.CourseTrackingUserWeb, *web.Pagination, error)
 	Delete(courseTrackingId uint, courseId uint,userId uint, role string) error
-	FindByIdMobileByUserIdAndCourseId(userID uint, courseID uint) (*web.CourseTrackingResponseMobile, error)
+	FindByIdMobileByUserIdAndCourseId(ctx echo.Context, userID uint, courseID uint) (*web.CourseTrackingResponseMobile, error)
 }
 
 type CourseTrackingServiceImpl struct {
+	Subscription             subscriptionServicePkg.SubscriptionService
 	CourseRepository         repositoryCourse.CourseRepository
 	CourseTrackingRepository repositoryCourseTracking.CourseTrackingRepository
 	QuizzService             quizzes.QuizzesService
 	Validator                *validator.Validate
 }
 
-func NewCourseTrackingService(repositoryTracking repositoryCourseTracking.CourseTrackingRepository, validator *validator.Validate, courseRepository repositoryCourse.CourseRepository, quizzService quizzes.QuizzesService) CourseTrackingService {
+func NewCourseTrackingService(repositoryTracking repositoryCourseTracking.CourseTrackingRepository, validator *validator.Validate, courseRepository repositoryCourse.CourseRepository, quizzService quizzes.QuizzesService, subscription subscriptionServicePkg.SubscriptionService) CourseTrackingService {
 	return &CourseTrackingServiceImpl{
+		Subscription:             subscription,
 		CourseRepository:         courseRepository,
 		CourseTrackingRepository: repositoryTracking,
 		QuizzService:             quizzService,

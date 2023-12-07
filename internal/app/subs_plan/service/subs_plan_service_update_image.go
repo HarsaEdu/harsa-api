@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
@@ -16,13 +17,15 @@ func (subsPlanService *SubsPlanServiceImpl) UpdateImage(ctx echo.Context, subsPl
 	}
 
 	result := conversion.SubsPlanUpdateImageToSubsPlanDomain(subsPlan)
-	Image_url, err := subsPlanService.CloudinaryUploader.Uploader(ctx, "image", "subs_plan", true)
-	if err != nil {
-		return fmt.Errorf("error when uploading image : %s", err.Error())
+	imageUrl, err := subsPlanService.CloudinaryUploader.Uploader(ctx, "image", "subs_plan", true)
+	if !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(imageUrl) {
+		return fmt.Errorf("invalid file format")
 	}
 
-	if Image_url != "" {
-		result.Image_url = Image_url
+	result.Image_url = imageUrl
+
+	if err != nil {
+		return fmt.Errorf("error when uploading image : %s", err.Error())
 	}
 
 	err = subsPlanService.Validator.Struct(result)
