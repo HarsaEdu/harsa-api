@@ -29,9 +29,9 @@ func (profileHandler *ProfileHandlerImpl) UpdateProfile(ctx echo.Context) error 
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "profile not found", err)
 		}
-		return res.StatusInternalServerError(ctx, "failed to get all profiles, something happen", err)
+		return res.StatusInternalServerError(ctx, "failed to update profile, something happen", err)
 	}
-	return res.StatusOK(ctx, "success", nil, nil)
+	return res.StatusOK(ctx, "success to update profile", nil, nil)
 }
 
 func (profileHandler *ProfileHandlerImpl) UpdateMyProfile(ctx echo.Context) error {
