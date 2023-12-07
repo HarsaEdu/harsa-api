@@ -8,7 +8,7 @@ func (userRepository *UserRepositoryImpl) UserGetAll(offset, limit int, search s
 	var users []domain.UserEntity
 	var total int64
 
-	query := userRepository.DB.Model(&domain.User{}).Select("users.id as id, email, username, phone_number, roles.name as role_name, first_name, last_name").
+	query := userRepository.DB.Model(&domain.User{}).Select("users.id as id, email, username, phone_number, roles.name as role_name, first_name, last_name, address").
 		Joins("left join user_profiles on user_profiles.user_id = users.id").
 		Joins("left join roles on roles.id = users.role_id")
 
