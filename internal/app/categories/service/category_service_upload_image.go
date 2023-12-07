@@ -22,8 +22,6 @@ func (categoryService *CategoryServiceImpl) UploadImage(ctx echo.Context, reques
 	response := conversionRequest.CategoryUploadImageRequestToCategoriesModel(*request)
 
 	if isImageExist {
-		testHeader, _:= ctx.FormFile("image")
-		fmt.Println(testHeader.Filename)
 		imageUrl, err = categoryService.cloudinaryUploader.Uploader(ctx, "image", "categories", true)
 		if imageUrl != "" && !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(imageUrl) {
 			return fmt.Errorf("invalid file format")
