@@ -5,7 +5,7 @@ import "fmt"
 func (faqsService *FaqsServiceImpl) Delete(id int) error {
 	IfExist, _ := faqsService.FaqRepository.FindById(id)
 	if IfExist == nil {
-		return fmt.Errorf("category not found")
+		return fmt.Errorf("faqs not found")
 	}
 	err := faqsService.FaqRepository.Delete(id)
 

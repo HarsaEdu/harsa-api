@@ -16,6 +16,7 @@ func GenerateAccessToken(userLoginResponse *web.AuthResponse) (string, error) {
 	claims["username"] = userLoginResponse.Username
 	claims["email"] = userLoginResponse.Email
 	claims["role_name"] = userLoginResponse.RoleName
+	claims["created_at"] = userLoginResponse.CreatedAt
 	claims["exp"] = expireTime
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -34,7 +35,7 @@ func GenerateRefreshToken(userLoginResponse *web.AuthResponse) (string, error) {
 	claims["username"] = userLoginResponse.Username
 	claims["email"] = userLoginResponse.Email
 	claims["role_name"] = userLoginResponse.RoleName
-	claims["user_create"] = userLoginResponse.CreatedAt
+	claims["created_at"] = userLoginResponse.CreatedAt
 	claims["exp"] = expireTime
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

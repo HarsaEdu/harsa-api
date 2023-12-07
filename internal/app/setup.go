@@ -16,6 +16,7 @@ import (
 	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
 	questions "github.com/HarsaEdu/harsa-api/internal/app/questions"
 	quizzes "github.com/HarsaEdu/harsa-api/internal/app/quizzes"
+	"github.com/HarsaEdu/harsa-api/internal/app/recommendations"
 	submission "github.com/HarsaEdu/harsa-api/internal/app/submission"
 	submissionAnswer "github.com/HarsaEdu/harsa-api/internal/app/submission_answer"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
@@ -26,12 +27,13 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
+	recommendationsApi "github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi) {
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi) {
 
 	userRoutes, userRepo := user.UserSetup(db, validate)
 	authRoutes := auth.AuthSetup(db, validate, userRepo)
@@ -54,6 +56,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo, subscriptionService)
 	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService, subscriptionService)
 	historySubModuleRoutes := historySubModule.HistorySubModuleSetup(db, validate, subscriptionService)
+	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, userRepo)
 	historyQuizRoutes := historyQuiz.HistoryQuizSetup(db, validate, subscriptionService)
 
 
@@ -75,6 +78,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes.PaymentWeb(apiGroupWeb)
 	submissionAnswerRoutes.SubmissionAnswerWeb(coursesGroup)
 	courseTrakingRoutes.CourseTrackingWeb(apiGroupWeb)
+	recommendationsRoutes.RecommendationsWeb(apiGroupWeb)
 	historyQuizRoutes.HistoryQuizWeb(coursesGroup)
 
 	apiGroupMobile := e.Group("mobile")
@@ -99,4 +103,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes.PaymentSubscriptionsMobile(apiGroupMobile)
 	courseTrakingRoutes.CourseTrackingMobile(apiGroupMobile)
 	historySubModuleRoutes.MobileHistorySubModule(apiGroupMobile)
+	recommendationsRoutes.RecommendationsMobile(apiGroupMobile)
 }
