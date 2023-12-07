@@ -8,7 +8,7 @@ import (
 func SubsPlanRequestToSubsPlanDomain(subsPlan *web.SubsPlanCreateRequest) *domain.SubsPlan {
 	return &domain.SubsPlan{
 		Title:         subsPlan.Title,
-		Image_url:     "https://placewaifu.com/image/200/200",
+		Image_url:     subsPlan.Image_url,
 		Duration_days: subsPlan.Duration_days,
 		Description:   subsPlan.Description,
 		Price:         subsPlan.Price,

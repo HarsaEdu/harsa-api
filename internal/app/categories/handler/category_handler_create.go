@@ -17,13 +17,16 @@ func (categoryHandler *CategoryHandlerImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind category request", err)
 	}
 
-	err = categoryHandler.CategoryService.Create(req)
+	err = categoryHandler.CategoryService.Create(ctx, req)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "already exist") {
 			return res.StatusAlreadyExist(ctx, "category already exist", err)
+		}
+		if strings.Contains(err.Error(), "file format") {
+			return res.StatusBadRequest(ctx, "please input jpg or png file", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to create category, something happen", err)
 
