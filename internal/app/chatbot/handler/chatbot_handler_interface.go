@@ -10,6 +10,8 @@ type ChatbotHandler interface {
 	GetAllThreadByUserId(ctx echo.Context) error
 	GetAllMessagesInThread(ctx echo.Context) error
 	ChatWithAssistant(ctx echo.Context) error
+	Delete(ctx echo.Context) error
+	Update(ctx echo.Context) error
 }
 
 type ChatbotHandlerImpl struct {

@@ -25,4 +25,5 @@ type CreateProfileRequest struct {
 	DateBirth   time.Time `gorm:"type:date" json:"date_birth" form:"date_birth" validate:"required"`
 	PhoneNumber string    `gorm:"type:varchar(20)" json:"phone_number" form:"phone_number" validate:"required"`
 	Gender      domain.Gender    `gorm:"type:enum('f','m')" json:"gender" form:"gender" validate:"required"`
+	ImageUrl    string    `gorm:"type:varchar(255)" json:"image" form:"image"`
 }

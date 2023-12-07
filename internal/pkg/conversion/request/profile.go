@@ -1,8 +1,11 @@
 package conversion
 
 import (
+	"fmt"
+
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	"github.com/google/uuid"
 )
 
 func ProfileRequestToProfileModel(userID uint, request *web.UpdateProfileRequest) *domain.UserProfile {
@@ -22,6 +25,10 @@ func ProfileRequestToProfileModel(userID uint, request *web.UpdateProfileRequest
 }
 
 func ProfileCreateRequestToModel(userID uint, request *web.CreateProfileRequest) *domain.UserProfile {
+	if request.ImageUrl == "" {
+		request.ImageUrl = fmt.Sprintf("https://robohash.org/%s.png?size=200x200", uuid.NewString())
+	}
+	
 	return &domain.UserProfile{
 		ID:          userID,
 		UserID:      userID,
@@ -30,6 +37,7 @@ func ProfileCreateRequestToModel(userID uint, request *web.CreateProfileRequest)
 		PhoneNumber: request.PhoneNumber,
 		DateBirth:   request.DateBirth,
 		Gender: request.Gender,
+		ImageUrl: request.ImageUrl,
 	}
 }
 
