@@ -16,7 +16,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) GetAllCourseTracki
 	courseTracking := []domain.CourseTracking{}
 	var total int64
 
-	query := courseTrackingRepository.DB.Model(&courseTracking).Where("user_id = ?", userID)
+	query := courseTrackingRepository.DB.Model(&courseTracking).Where("user_id = ?", userID).Order("created_at DESC")
 
 	if status != "" {
 		s := "%" + status + "%"
@@ -80,7 +80,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) GetAllCourseTracki
 	courseTracking := []domain.CourseTracking{}
 	var total int64
 
-	query := courseTrackingRepository.DB.Model(&courseTracking).Where("user_id = ?", userID)
+	query := courseTrackingRepository.DB.Model(&courseTracking).Where("user_id = ?", userID).Order("created_at DESC")
 
 	query = query.Preload("Course")
 
@@ -108,7 +108,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) GetAllCourseTracki
 	courseTracking := []domain.CourseTracking{}
 	var total int64
 
-	query := courseTrackingRepository.DB.Model(&courseTracking).Where("course_id = ?",courseID)
+	query := courseTrackingRepository.DB.Model(&courseTracking).Where("course_id = ?",courseID).Order("created_at DESC")
 
 
 	query = query.Preload("User.UserProfile")
