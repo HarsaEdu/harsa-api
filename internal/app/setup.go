@@ -73,7 +73,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	interestRoutes.WebInterest(apiGroupWeb)
 	questionsRoutes.QuestionsWeb(coursesGroup)
 	optionsRoutes.OptionsWeb(coursesGroup)
-	feedbackRoutes.FeedbackWeb(apiGroupWeb)
+	feedbackRoutes.FeedbackWeb(coursesGroup)
 	submissionRoutes.SubmissionWeb(coursesGroup)
 	paymentRoutes.PaymentWeb(apiGroupWeb)
 	submissionAnswerRoutes.SubmissionAnswerWeb(coursesGroup)
