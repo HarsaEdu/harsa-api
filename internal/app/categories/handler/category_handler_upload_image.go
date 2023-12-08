@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -29,10 +30,12 @@ func (categoryHandler *CategoryHandlerImpl) UploadImage(ctx echo.Context) error 
 		icon = true
 	}
 
-	fileHeader, _ = ctx.FormFile("file")
+	fileHeader, _ = ctx.FormFile("image")
 	if fileHeader != nil {
 		image = true
 	}
+
+	fmt.Println(fileHeader.Filename)
 
 	err = categoryHandler.CategoryService.UploadImage(ctx, &req, id, icon, image)
 	if err != nil {
