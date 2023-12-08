@@ -20,6 +20,7 @@ type CourseService interface {
 	GetAllCourseByUserId(offset, limit int, search string, userID uint) (*web.DashboardAllCourseIntructur, *web.Pagination, error)
 	GetDeatailCourse(id uint) (*web.CourseResponseForIntructur, error)
 	GetAllByCategory(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
+	GetAllMyCourse(offset, limit int, search string, category string, userID uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 }
 
 type CourseServiceImpl struct {
