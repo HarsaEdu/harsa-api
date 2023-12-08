@@ -6,9 +6,11 @@ import (
 )
 
 func (submissionAnswerRoutes *SubmissionAnswerRoutesImpl) SubmissionAnswerWeb(apiGroup *echo.Group) {
-	submissionAnswerGroup := apiGroup.Group("/submissions")
+	submissionAnswerGroup := apiGroup.Group("/submissions/:idSubmission/submission-answer")
 
-	submissionAnswerGroup.GET("/:submission-id", submissionAnswerRoutes.SubmissionAnswerHandler.Get, middleware.StudentMiddleare)
+	submissionAnswerGroup.GET("/:submission-id", submissionAnswerRoutes.SubmissionAnswerHandler.Get, middleware.InstructorMiddleware)
+	submissionAnswerGroup.PATCH("/:submission-id", submissionAnswerRoutes.SubmissionAnswerHandler.UpdateWeb, middleware.InstructorMiddleware)
+
 }
 
 func (submissionAnswerRoutes *SubmissionAnswerRoutesImpl) SubmissionAnswerMobile(apiGroup *echo.Group) {

@@ -12,3 +12,7 @@ func ConvertSubmissionAnswerRequestToSubmissionAnswerDomain(request *web.Submiss
 func ConvertSubmissionAnswerUpdateToSubmissionAnswerDomain(request *web.SubmissionAnswerUpdateRequest) *domain.SubmissionAnswer {
 	return &domain.SubmissionAnswer{SubmittedUrl: request.SubmittedUrl}
 }
+
+func ConvertSubmissionAnswerUpdateToSubmissionAnswerWebDomain(request *web.SubmissionAnswerUpdateWeb) *domain.SubmissionAnswer {
+	return &domain.SubmissionAnswer{Feedback: request.Feedback, Status: domain.StatusSubmissionAnswer(request.Status)}
+}
