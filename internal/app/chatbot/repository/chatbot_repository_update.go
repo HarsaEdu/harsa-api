@@ -5,9 +5,9 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func (chatbotRepository *ChatbotRepositoryImpl) UpdateTopic(id string, topic *web.CreateThreadRequest) error {
+func (chatbotRepository *ChatbotRepositoryImpl) UpdateTopic(topicId string, request *web.CreateThreadRequest) error {
 
-	result := chatbotRepository.DB.Where("id = ?",  "%" + id + "%").Updates(&domain.UserChatTopic{Topic: topic.Topic})
+	result := chatbotRepository.DB.Where("id = ?",  topicId).Updates(&domain.UserChatTopic{Topic: request.Topic})
 	if result.Error != nil {
 		return result.Error
 	}
