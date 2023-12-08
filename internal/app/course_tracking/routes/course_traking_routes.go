@@ -8,7 +8,7 @@ import (
 func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingMobile(apiGroup *echo.Group) {
 	courseTrackingsGroup := apiGroup.Group("/users/course/:course-id")
 	courseTrackingsGroupGet := apiGroup.Group("/users/course")
-	moduleTrackingGroup := apiGroup.Group("/users/course/:course-id/module/:module-id")
+	moduleTrackingGroup := apiGroup.Group("/users/course/module/:module-id")
 
 	courseTrackingsGroup.POST("/enrolled", courseTrackingRoutes.CourseTrackingHandler.Create, middleware.StudentMiddleare)
 	courseTrackingsGroupGet.GET("/trackings", courseTrackingRoutes.CourseTrackingHandler.GetAllTracking, middleware.StudentMiddleare)
