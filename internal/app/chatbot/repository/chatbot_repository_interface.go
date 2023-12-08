@@ -11,7 +11,7 @@ type ChatbotRepository interface {
 	GetTopicById(id string) (*domain.UserChatTopic, error)
 	GetAllTopicByUserId(userId uint) ([]domain.UserChatTopic, error)
 	Delete(topic *domain.UserChatTopic) error
-	UpdateTopic(id string, topic *web.CreateThreadRequest) error
+	UpdateTopic(topicId string, request *web.CreateThreadRequest) error
 }
 
 type ChatbotRepositoryImpl struct {
