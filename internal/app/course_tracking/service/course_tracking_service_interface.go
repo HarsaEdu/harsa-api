@@ -11,13 +11,13 @@ import (
 )
 
 type CourseTrackingService interface {
-	Create(request web.CourseTrackingRequest) error
+	Create(ctx echo.Context,request web.CourseTrackingRequest) error
 	// FindByIdMobile(crourseTrackingId uint) (*web.CourseTrackingResponseMobile, error)
-	FindSubByIdMobile(courseID uint, userID uint) (*web.CourseTrackingSub, error)
-	FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error)
-	FindSubmissionByID(moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error)
-	FindQuizzByID(moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error)
-	FindModuleHistory(moduleID uint, userID uint) (*web.ModuleTrackingByID, error)
+	FindSubByIdMobile(moduleID uint, userID uint) (*web.CourseTrackingSub, error)
+	FindSubModuleByID(ctx echo.Context, courseID uint, moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error)
+	FindSubmissionByID(ctx echo.Context, courseID uint,moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error)
+	FindQuizzByID(ctx echo.Context, courseID uint,moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error)
+	FindModuleHistory(ctx echo.Context, courseID uint,moduleID uint, userID uint) (*web.ModuleTrackingByID, error)
 	GetAllCourseByUserIdMobile(offset, limit int, search string, userID uint, status string) ([]web.GetAllCourseForTraking, *web.Pagination, error)
 	GetAllCourseByUserIdWeb(offset, limit int, userID uint) ([]web.CourseTrackingResponseWeb, *web.Pagination, error)
 	GetAllUserCourseWeb(offset, limit int, courseID uint, search string) ([]web.CourseTrackingUserWeb, *web.Pagination, error)

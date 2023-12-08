@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -11,13 +12,21 @@ import (
 )
 
 func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Update(ctx echo.Context) error {
+	idUser := ctx.Get("user_id").(uint)
+
+	isSubscrition, err := submissionAnswerHandler.SubcriptionService.IsSubscription(ctx , idUser)
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "cannot cek subscription", err)
+	}
+	if !isSubscrition {
+		return res.StatusUnauthorized(ctx, "subscribe to continue", fmt.Errorf("unauthorized"))
+	}
+	
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
 		return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)
 	}
-
-	idUser := ctx.Get("user_id").(uint)
 
 	req := web.SubmissionAnswerUpdateRequest{}
 	err = ctx.Bind(&req)
