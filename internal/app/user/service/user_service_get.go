@@ -35,3 +35,15 @@ func (userService *UserServiceImpl) GetUserDetail(userRequest web.UserGetByIDReq
 
 	return users, nil
 }
+
+
+func (userService *UserServiceImpl) GetUserAccount(userID uint) (*domain.User, error) {
+
+	users, err := userService.UserRepository.GetUserAccountByID(userID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}

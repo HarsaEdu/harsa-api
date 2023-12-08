@@ -18,6 +18,7 @@ type UserRepository interface {
 	HandleTrx(ctx echo.Context, fn func(repo UserRepository) error) error
 	UserGetAll(offset, limit int, search string) ([]domain.UserEntity, int64, error)
 	GetUserByID(userID uint) (*domain.UserDetail, error)
+	GetUserAccountByID(userID uint) (*domain.User, error)
 }
 
 type UserRepositoryImpl struct {

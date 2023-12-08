@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -16,7 +17,15 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind course request", err)
 	}
 
-	instructorId := ctx.Get("user_id").(uint)
+	var instructorId uint
+
+	fmt.Println(courseCreateRequest.UserId)
+
+	if courseCreateRequest.UserId == 0 {
+		instructorId = ctx.Get("user_id").(uint)
+	} else {
+		instructorId = courseCreateRequest.UserId
+	}
 
 	err = courseHandler.CourseService.Create(ctx, &courseCreateRequest, instructorId)
 	if err != nil {
@@ -27,7 +36,6 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 			return res.StatusAlreadyExist(ctx, "course already exist", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to create course, something happen", err)
-
 	}
 
 	return res.StatusCreated(ctx, "success to create course", nil, nil)

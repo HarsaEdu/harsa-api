@@ -6,21 +6,20 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionResponse "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
-	"github.com/labstack/echo/v4"
 )
 
-func (authService *AuthServiceImpl) LoginUser(ctx echo.Context, loginUser web.LoginUserRequest) (*web.AuthResponse, error) {
+func (authService *AuthServiceImpl) LoginUser(userRequest web.LoginUserRequest) (*web.AuthResponse, error) {
 	// check available username and email
-	existingUser, _ := authService.UserRepository.UserAvailable("", loginUser.Email)
+	existingUser, _ := authService.UserRepository.UserAvailable("", userRequest.Email)
 
 	if existingUser == nil {
-		return nil, fmt.Errorf("invalid username or password")
+		return nil, fmt.Errorf("invalid email or password")
 	}
 
-	err := password.ComparePassword(existingUser.Password, loginUser.Password)
+	err := password.ComparePassword(existingUser.Password, userRequest.Password)
 
 	if err != nil {
-		return nil, fmt.Errorf("invalid username or password")
+		return nil, fmt.Errorf("invalid email or password")
 	}
 
 	response, err := authService.AuthRepository.LoginUser(existingUser.ID)

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -12,15 +13,25 @@ import (
 
 func (courseHandler *CourseHandlerImpl) UpdateImage(ctx echo.Context) error {
 	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
+	
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid course id", err)
+	}
+
+	user_id := ctx.Get("user_id").(uint)
+
+	roleInterface := ctx.Get("role_name")
+
+	roleString := fmt.Sprintf("%s", roleInterface)
 
 	request := web.CourseUpdateImageRequest{}
-	err := ctx.Bind(&request)
+	err = ctx.Bind(&request)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind course request", err)
 	}
 
-	err = courseHandler.CourseService.UpdateImage(ctx, uint(id), &request)
+	err = courseHandler.CourseService.UpdateImage(ctx, uint(id),uint(user_id), roleString, &request)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
@@ -28,6 +39,10 @@ func (courseHandler *CourseHandlerImpl) UpdateImage(ctx echo.Context) error {
 
 		if strings.Contains(err.Error(), "file not found") {
 			return res.StatusBadRequest(ctx, "file not found", err)
+		}
+
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot update this course" ,err)
 		}
 
 		if strings.Contains(err.Error(), "not found") {

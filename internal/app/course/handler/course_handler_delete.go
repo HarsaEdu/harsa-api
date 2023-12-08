@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -11,14 +12,26 @@ import (
 func (courseHandler *CourseHandlerImpl) Delete(ctx echo.Context) error {
 
 	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
+	
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid course id", err)
+	}
 
-	err := courseHandler.CourseService.Delete(uint(id))
+	user_id := ctx.Get("user_id").(uint)
+
+	roleInterface := ctx.Get("role_name")
+
+	roleString := fmt.Sprintf("%s", roleInterface)
+
+	err = courseHandler.CourseService.Delete(uint(id), uint(user_id), roleString)
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "course not found", err)
 		}
-		
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot delete this course" ,err)
+		}
 		return res.StatusInternalServerError(ctx, "failed to delete course, something happen", err)
 	}
 

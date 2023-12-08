@@ -57,3 +57,26 @@ func (UserHandler *UserHandlerImpl) GetUserDetailByID(ctx echo.Context) error {
 
 	return res.StatusOK(ctx, "success to get user", response, nil)
 }
+
+func (UserHandler *UserHandlerImpl) GetUserAccountByID(ctx echo.Context) error {
+
+	idParam := ctx.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid user id", err)
+	}
+
+	response, err := UserHandler.UserService.GetUserAccount(uint(id))
+
+	if err != nil {
+		if strings.Contains(err.Error(), "validation") {
+			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "user not found", err)
+		}
+		return res.StatusInternalServerError(ctx, "failed to get user, something happen", fmt.Errorf("internal server error"))
+	}
+
+	return res.StatusOK(ctx, "success to get user", response, nil)
+}
