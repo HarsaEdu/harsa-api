@@ -45,3 +45,16 @@ func (userRepository *UserRepositoryImpl) GetUserByID(userID uint) (*domain.User
 
 	return user, nil
 }
+
+func (userRepository *UserRepositoryImpl) GetUserAccountByID(userID uint) (*domain.User, error) {
+	user := &domain.User{}
+
+	result := userRepository.DB.Model(&domain.User{}).Where("id = ?", userID).
+		First(&user)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return user, nil
+}

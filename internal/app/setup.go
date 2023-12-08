@@ -49,9 +49,9 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	optionsRoutes := options.OptionsSetup(db, validate)
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
 	chatbotRoutes := chatbot.ChatbotSetup(db, validate, userRepo, openai)
-	submissionRoutes, submissionRepo := submission.SubmissionSetup(db, validate)
-	submissionAnswerRoutes := submissionAnswer.SubmissionAnswerSetup(db, validate, cloudinary,submissionRepo)
 	subscriptionService := subscription.SubscriptionSetup(db)
+	submissionRoutes, submissionRepo := submission.SubmissionSetup(db, validate)
+	submissionAnswerRoutes := submissionAnswer.SubmissionAnswerSetup(db, validate, cloudinary,submissionRepo,subscriptionService)
 
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo, subscriptionService)
 	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService, subscriptionService)

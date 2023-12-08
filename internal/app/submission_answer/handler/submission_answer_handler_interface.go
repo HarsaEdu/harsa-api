@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/HarsaEdu/harsa-api/internal/app/submission_answer/service"
 	"github.com/labstack/echo/v4"
+	subscriptionServicePkg "github.com/HarsaEdu/harsa-api/internal/app/subscription/service"
 )
 
 type SubmissionAnswerHandler interface {
@@ -14,8 +15,9 @@ type SubmissionAnswerHandler interface {
 
 type SubmissionAnswerHandlerImpl struct {
 	SubmissionAnswerservice service.SubmissionAnswerService
+	SubcriptionService subscriptionServicePkg.SubscriptionService
 }
 
-func NewSubmissionAnswer(service service.SubmissionAnswerService) SubmissionAnswerHandler {
-	return &SubmissionAnswerHandlerImpl{SubmissionAnswerservice: service}
+func NewSubmissionAnswer(service service.SubmissionAnswerService, subcriptionService subscriptionServicePkg.SubscriptionService) SubmissionAnswerHandler {
+	return &SubmissionAnswerHandlerImpl{SubmissionAnswerservice: service, SubcriptionService: subcriptionService}
 }

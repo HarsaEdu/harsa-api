@@ -19,7 +19,7 @@ func (subscriptionService *SubscriptionServiceImpl) IsSubscription(ctx echo.Cont
 		return false, err
 	}
 
-	if subscription == nil {
+	if subscription.ID == 0 {
 		return false, nil
 	}
 
