@@ -17,7 +17,7 @@ func (courseRepository *CourseRepositoryImpl) GetAllByUserId(offset, limit int, 
 	courses := []domain.Course{}
 	var total int64
 
-	query := courseRepository.DB.Model(&courses)
+	query := courseRepository.DB.Model(&courses).Order("created_at DESC")
 
 	if search != "" {
 		s := "%" + search + "%"
@@ -49,7 +49,7 @@ func (courseRepository *CourseRepositoryImpl) GetAllCourseByUserId(offset, limit
 	courses := []domain.Course{}
 	var total int64
 
-	query := courseRepository.DB.Model(&courses)
+	query := courseRepository.DB.Model(&courses).Order("created_at DESC")
 
 	if search != "" {
 		s := "%" + search + "%"
@@ -170,7 +170,7 @@ func (courseRepository *CourseRepositoryImpl) GetAllByCategory(offset, limit int
 	course := []domain.Course{}
 	var total int64
 
-	query := courseRepository.DB.Model(&course)
+	query := courseRepository.DB.Model(&course).Order("created_at DESC")
 
 	if search != "" {
 		s := "%" + search + "%"
@@ -202,7 +202,42 @@ func (courseRepository *CourseRepositoryImpl) GetAll(offset, limit int, search s
     courses := []domain.Course{}
     var total int64
 
-    query := courseRepository.DB.Model(&courses).Preload("User.UserProfile")
+    query := courseRepository.DB.Model(&courses).Preload("User.UserProfile").Order("created_at DESC")
+
+    if search != "" {
+        s := "%" + search + "%"
+        query = query.Where("courses.title LIKE ? OR courses.description LIKE ?", s, s)
+    }
+
+    if category != "" {
+        query = query.Joins("JOIN categories ON categories.id = courses.category_id").Where("categories.name LIKE ?", "%"+category+"%")
+    }
+
+    query.Model(&courses).Count(&total)
+
+    result := query.Limit(limit).Offset(offset).Preload("Category").Find(&courses)
+
+    if result.Error != nil {
+        return nil, 0, result.Error
+    }
+
+    if offset >= int(total) {
+        return nil, 0, nil
+    }
+
+    return courses, total, nil
+}
+
+
+func (courseRepository *CourseRepositoryImpl) GetAllbyUserID(offset, limit int, search string, category string, userID uint) ([]domain.Course, int64, error) {
+    if offset < 0 || limit < 0 {
+        return nil, 0, fmt.Errorf("Offset and limit must be non-negative")
+    }
+
+    courses := []domain.Course{}
+    var total int64
+
+    query := courseRepository.DB.Model(&courses).Where("user_id = ? ", userID).Order("created_at DESC").Preload("User.UserProfile")
 
     if search != "" {
         s := "%" + search + "%"
