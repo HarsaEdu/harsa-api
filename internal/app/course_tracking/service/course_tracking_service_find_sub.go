@@ -19,7 +19,7 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubByIdMobile(module
 
 }
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindModuleHistory(ctx echo.Context, courseID uint,moduleID uint, userID uint) (*web.ModuleTrackingByID, error) {
+func (courseTrackingService *CourseTrackingServiceImpl) FindModuleHistory(ctx echo.Context, moduleID uint, userID uint) (*web.ModuleTrackingByID, error) {
 	
 	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
 	if err != nil {
@@ -29,7 +29,12 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindModuleHistory(ctx ec
 	if !isSubscription {
 		return nil, fmt.Errorf("unauthorized")
 	}
-	
+
+	courseID, err := courseTrackingService.CourseTrackingRepository.GetCourseIDbyModuleID(moduleID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when get course id   :%s", err.Error())
+	}
+
 	courseTraking, err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID, userID)
 	if err != nil { 
 		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
@@ -53,7 +58,7 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindModuleHistory(ctx ec
 	return res, nil
 }
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(ctx echo.Context, courseID uint, moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error) {
+func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(ctx echo.Context, moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error) {
 	
 	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
 	if err != nil {
@@ -62,6 +67,11 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(ctx ec
 
 	if !isSubscription {
 		return nil, fmt.Errorf("unauthorized")
+	}
+
+	courseID, err := courseTrackingService.CourseTrackingRepository.GetCourseIDbyModuleID(moduleID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when get course id   :%s", err.Error())
 	}
 	
 	courseTraking, err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID, userID)
@@ -92,7 +102,7 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(ctx ec
 	return res, nil
 }
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindSubmissionByID(ctx echo.Context, courseID uint,moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error) {
+func (courseTrackingService *CourseTrackingServiceImpl) FindSubmissionByID(ctx echo.Context, moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error) {
 	
 	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
 	if err != nil {
@@ -102,7 +112,10 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubmissionByID(ctx e
 	if !isSubscription {
 		return nil, fmt.Errorf("unauthorized")
 	}
-	
+	courseID, err := courseTrackingService.CourseTrackingRepository.GetCourseIDbyModuleID(moduleID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when get course id   :%s", err.Error())
+	}
 	courseTraking, err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID, userID)
 	if err != nil { 
 		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
@@ -129,7 +142,7 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubmissionByID(ctx e
 	return res, nil
 }
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindQuizzByID(ctx echo.Context, courseID uint,moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error) {
+func (courseTrackingService *CourseTrackingServiceImpl) FindQuizzByID(ctx echo.Context, moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error) {
 	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
 	if err != nil {
 		return nil, fmt.Errorf("eror when cek subscription  :%s", err.Error())
@@ -138,7 +151,10 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindQuizzByID(ctx echo.C
 	if !isSubscription {
 		return nil, fmt.Errorf("unauthorized")
 	}
-	
+	courseID, err := courseTrackingService.CourseTrackingRepository.GetCourseIDbyModuleID(moduleID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when get course id   :%s", err.Error())
+	}
 	courseTraking, err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID, userID)
 	if err != nil { 
 		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())

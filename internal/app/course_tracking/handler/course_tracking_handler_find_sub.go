@@ -17,13 +17,8 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) FindModuleHistory(ctx ec
 		return res.StatusBadRequest(ctx, "invalid module id", err)
 	}
 
-	idCourse := ctx.Param("course-id")
-	courseId, err := strconv.Atoi(idCourse)
-	if err != nil {
-		return res.StatusBadRequest(ctx, "invalid course id", err)
-	}
 
-	result, err := courseTrackingHandler.CourseTrackingService.FindModuleHistory(ctx, uint(courseId), uint(moduleId), id)
+	result, err := courseTrackingHandler.CourseTrackingService.FindModuleHistory(ctx, uint(moduleId), id)
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "module not found", err)
@@ -49,18 +44,13 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) FindSubModuleByID(ctx ec
 		return res.StatusBadRequest(ctx, "invalid module id", err)
 	}
 
-	idCourse := ctx.Param("course-id")
-	courseId, err := strconv.Atoi(idCourse)
-	if err != nil {
-		return res.StatusBadRequest(ctx, "invalid course id", err)
-	}
 
 	subModuleID, err := strconv.Atoi(ctx.Param("sub-module-id"))
 	if err != nil {
 		return res.StatusBadRequest(ctx, "invalid sub-module id", err)
 	}
 
-	result, err := courseTrackingHandler.CourseTrackingService.FindSubModuleByID(ctx, uint(courseId),uint(moduleId), uint(subModuleID), id)
+	result, err := courseTrackingHandler.CourseTrackingService.FindSubModuleByID(ctx, uint(moduleId), uint(subModuleID), id)
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "sub module not found", err)
@@ -86,18 +76,13 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) FindSubmissionByID(ctx e
 		return res.StatusBadRequest(ctx, "invalid module id", err)
 	}
 
-	idCourse := ctx.Param("course-id")
-	courseId, err := strconv.Atoi(idCourse)
-	if err != nil {
-		return res.StatusBadRequest(ctx, "invalid course id", err)
-	}
 
 	submissionID, err := strconv.Atoi(ctx.Param("submission-id"))
 	if err != nil {
 		return res.StatusBadRequest(ctx, "invalid submmison id", err)
 	}
 
-	result, err := courseTrackingHandler.CourseTrackingService.FindSubmissionByID(ctx, uint(courseId), uint(moduleID), id, uint(submissionID))
+	result, err := courseTrackingHandler.CourseTrackingService.FindSubmissionByID(ctx, uint(moduleID), id, uint(submissionID))
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "submission tracking not found", err)
@@ -123,18 +108,12 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) FindQuizzByID(ctx echo.C
 		return res.StatusBadRequest(ctx, "invalid module id", err)
 	}
 
-	idCourse := ctx.Param("course-id")
-	courseId, err := strconv.Atoi(idCourse)
-	if err != nil {
-		return res.StatusBadRequest(ctx, "invalid course id", err)
-	}
-
 	quizzID, err := strconv.Atoi(ctx.Param("quizz-id"))
 	if err != nil {
 		return res.StatusBadRequest(ctx, "invalid quiz id", err)
 	}
 
-	result, err := courseTrackingHandler.CourseTrackingService.FindQuizzByID(ctx, uint(courseId),uint(moduleID), id, uint(quizzID))
+	result, err := courseTrackingHandler.CourseTrackingService.FindQuizzByID(ctx, uint(moduleID), id, uint(quizzID))
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "quizz tracking not found", err)
