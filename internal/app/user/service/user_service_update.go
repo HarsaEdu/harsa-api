@@ -31,7 +31,6 @@ func (userService *UserServiceImpl) UserUpdate(userRequest web.UserUpdateRequest
 
 	// convert request to user model
 	userAccount := conversionRequest.UserUpdateRequestToUserModel(userRequest)
-
 	// hash password
 	if userAccount.Password != "" {
 		userAccount.Password = password.HashPassword(userAccount.Password)
