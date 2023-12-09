@@ -8,8 +8,8 @@ import (
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (userService *UserServiceImpl) UserGetAll(offset int, limit int, search string) ([]domain.UserEntity, *web.Pagination, error) {
-	users, total, err := userService.UserRepository.UserGetAll(offset, limit, search)
+func (userService *UserServiceImpl) UserGetAll(offset int, limit int, search string, roleId int) ([]domain.UserEntity, *web.Pagination, error) {
+	users, total, err := userService.UserRepository.UserGetAll(offset, limit, search, roleId)
 	if len(search) > 0 && total <= 0 {
 		return nil, nil, fmt.Errorf("users not found")
 	}
