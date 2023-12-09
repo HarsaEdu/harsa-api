@@ -15,6 +15,8 @@ type UserService interface {
 	UserDelete(userRequest web.UserDeleteRequest) error
 	UserGetAll(offset int, limit int, search string) ([]domain.UserEntity, *web.Pagination, error)
 	GetUserDetail(userRequest web.UserGetByIDRequest) (*domain.UserDetail, error)
+	GetUserAccount(userID uint) (*web.UserAccountResponse, error)
+	UserUpdateMobile(userRequest web.UserUpdateRequestMobile) error
 }
 
 type UserServiceImpl struct {

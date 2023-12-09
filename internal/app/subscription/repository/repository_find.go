@@ -6,7 +6,7 @@ import (
 
 func (subscriptionRepository *SubscriptionRepositoryImpl) FindSubscription(userID uint) (*domain.Subscription, error) {
 	subscription := &domain.Subscription{}
-	result := subscriptionRepository.DB.Where("user_id = ?", userID).First(&subscription)
+	result := subscriptionRepository.DB.Where("user_id = ?", userID).Find(&subscription)
 
 	if result.Error != nil {
 		return nil, result.Error

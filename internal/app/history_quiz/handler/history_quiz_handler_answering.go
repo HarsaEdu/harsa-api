@@ -12,7 +12,16 @@ import (
 )
 
 func (historyQuizHandler *HistoryQuizHandlereImpl) Create(ctx echo.Context) error {
-	
+	userid := ctx.Get("user_id").(uint)
+
+	isSubscrition, err := historyQuizHandler.SubcriptionService.IsSubscription(ctx , userid)
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "cannot cek subscription", err)
+	}
+	if !isSubscrition {
+		return res.StatusUnauthorized(ctx, "subscribe to continue", fmt.Errorf("unauthorized"))
+	}
+
 	idParam := ctx.Param("quiz-id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {

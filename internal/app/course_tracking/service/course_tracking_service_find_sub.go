@@ -5,10 +5,11 @@ import (
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
+	"github.com/labstack/echo/v4"
 )
 
 func (courseTrackingService *CourseTrackingServiceImpl) FindSubByIdMobile(moduleID uint, userID uint) (*web.CourseTrackingSub, error) {
-
+		
 	res, err := courseTrackingService.CourseTrackingRepository.FindAllSub(moduleID, userID)
 	if err != nil {
 		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
@@ -18,19 +19,70 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubByIdMobile(module
 
 }
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindModuleHistory(moduleID uint, userID uint) (*web.ModuleTrackingByID, error) {
+func (courseTrackingService *CourseTrackingServiceImpl) FindModuleHistory(ctx echo.Context, moduleID uint, userID uint) (*web.ModuleTrackingByID, error) {
+	
+	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
+	if err != nil {
+		return nil, fmt.Errorf("eror when cek subscription  :%s", err.Error())
+	}
+
+	if !isSubscription {
+		return nil, fmt.Errorf("unauthorized")
+	}
+
+	courseID, err := courseTrackingService.CourseTrackingRepository.GetCourseIDbyModuleID(moduleID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when get course id   :%s", err.Error())
+	}
+
+	courseTraking, err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID, userID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
+	}
+	if courseTraking.ID == 0{
+		return nil, fmt.Errorf("not enrolled")
+	
+	}
+
 	module, err := courseTrackingService.CourseTrackingRepository.FindModuleTracking(moduleID, userID)
+	if err != nil {
+		return nil, fmt.Errorf("module not found")
+	}
 
 	courseTracking, err := courseTrackingService.CourseTrackingRepository.FindAllSub(moduleID, userID)
 	if err != nil {
-		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
+		return nil, fmt.Errorf("eror when find all sub  :%s", err.Error())
 	}
 
 	res := conversion.ConvertToModuleTrackingByID(module, courseTracking)
 	return res, nil
 }
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error) {
+func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(ctx echo.Context, moduleID uint, subModuleID uint, userID uint) (*web.SubModuleTracking, error) {
+	
+	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
+	if err != nil {
+		return nil, fmt.Errorf("eror when cek subscription  :%s", err.Error())
+	}
+
+	if !isSubscription {
+		return nil, fmt.Errorf("unauthorized")
+	}
+
+	courseID, err := courseTrackingService.CourseTrackingRepository.GetCourseIDbyModuleID(moduleID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when get course id   :%s", err.Error())
+	}
+	
+	courseTraking, err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID, userID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
+	}
+	if courseTraking.ID == 0{
+		return nil, fmt.Errorf("not enrolled")
+	
+	}
+	
 	module, err := courseTrackingService.CourseTrackingRepository.FindModuleTracking(moduleID, userID)
 	if err != nil {
 		return nil, fmt.Errorf("module not found")
@@ -50,7 +102,29 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubModuleByID(module
 	return res, nil
 }
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindSubmissionByID(moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error) {
+func (courseTrackingService *CourseTrackingServiceImpl) FindSubmissionByID(ctx echo.Context, moduleID uint, userID uint, submissionID uint) (*web.SubmissionAnswerTrackingByIDResponse, error) {
+	
+	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
+	if err != nil {
+		return nil, fmt.Errorf("eror when cek subscription  :%s", err.Error())
+	}
+
+	if !isSubscription {
+		return nil, fmt.Errorf("unauthorized")
+	}
+	courseID, err := courseTrackingService.CourseTrackingRepository.GetCourseIDbyModuleID(moduleID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when get course id   :%s", err.Error())
+	}
+	courseTraking, err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID, userID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
+	}
+	if courseTraking.ID == 0{
+		return nil, fmt.Errorf("not enrolled")
+	
+	}
+	
 	module, err := courseTrackingService.CourseTrackingRepository.FindModuleTracking(moduleID, userID)
 	if err != nil {
 		return nil, fmt.Errorf("module not found")
@@ -68,7 +142,28 @@ func (courseTrackingService *CourseTrackingServiceImpl) FindSubmissionByID(modul
 	return res, nil
 }
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindQuizzByID(moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error) {
+func (courseTrackingService *CourseTrackingServiceImpl) FindQuizzByID(ctx echo.Context, moduleID uint, userID uint, quizzID uint) (*web.HistoryQuizIDTracking, error) {
+	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
+	if err != nil {
+		return nil, fmt.Errorf("eror when cek subscription  :%s", err.Error())
+	}
+
+	if !isSubscription {
+		return nil, fmt.Errorf("unauthorized")
+	}
+	courseID, err := courseTrackingService.CourseTrackingRepository.GetCourseIDbyModuleID(moduleID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when get course id   :%s", err.Error())
+	}
+	courseTraking, err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID, userID)
+	if err != nil { 
+		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
+	}
+	if courseTraking.ID == 0{
+		return nil, fmt.Errorf("not enrolled")
+	
+	}
+	
 	module, err := courseTrackingService.CourseTrackingRepository.FindModuleTracking(moduleID, userID)
 	if err != nil {
 		return nil, fmt.Errorf("module not found")

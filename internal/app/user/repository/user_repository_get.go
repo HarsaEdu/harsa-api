@@ -8,7 +8,7 @@ func (userRepository *UserRepositoryImpl) UserGetAll(offset, limit int, search s
 	var users []domain.UserEntity
 	var total int64
 
-	query := userRepository.DB.Model(&domain.User{}).Select("users.id as id, email, username, phone_number, roles.name as role_name, first_name, last_name").
+	query := userRepository.DB.Model(&domain.User{}).Select("users.id as id, email, username, phone_number, roles.name as role_name, first_name, last_name, address").
 		Joins("left join user_profiles on user_profiles.user_id = users.id").
 		Joins("left join roles on roles.id = users.role_id")
 
@@ -37,6 +37,19 @@ func (userRepository *UserRepositoryImpl) GetUserByID(userID uint) (*domain.User
 		Joins("left join user_profiles on user_profiles.user_id = users.id").
 		Joins("left join roles on roles.id = users.role_id").
 		Where("users.id = ?", userID).
+		First(&user)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return user, nil
+}
+
+func (userRepository *UserRepositoryImpl) GetUserAccountByID(userID uint) (*domain.User, error) {
+	user := &domain.User{}
+
+	result := userRepository.DB.Model(&domain.User{}).Where("id = ?", userID).Preload("Role").
 		First(&user)
 
 	if result.Error != nil {

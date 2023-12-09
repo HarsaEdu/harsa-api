@@ -37,7 +37,6 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) FindByUserIdAndCou
     }
 
 	courseTracking.User.UserProfile = UserProfile
-	courseTracking.User.UserProfile.ID = UserID
 	
 	return &courseTracking, nil
 }

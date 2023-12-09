@@ -15,7 +15,7 @@ func (faqsService *FaqsServiceImpl) Update(faqs web.FaqsUpdateRequest, id int) e
 
 	ifExist, _ := faqsService.FaqRepository.FindById(id)
 	if ifExist == nil {
-		return fmt.Errorf("course not found")
+		return fmt.Errorf("faqs not found")
 	}
 
 	result := conversion.FaqsUpdateRequestToFaqsDomain(&faqs)

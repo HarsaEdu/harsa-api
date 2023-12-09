@@ -41,6 +41,13 @@ type UserUpdateRequest struct {
 	RoleID   uint   `json:"role_id" validate:"required"`
 }
 
+type UserUpdateRequestMobile struct {
+	ID       uint   `json:"id" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"omitempty,min=8,max=255"`
+}
+
 type UserDeleteRequest struct {
 	ID uint `json:"id" param:"id" validate:"required"`
 }

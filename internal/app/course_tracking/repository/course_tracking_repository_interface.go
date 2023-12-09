@@ -29,6 +29,10 @@ type CourseTrackingRepository interface {
 	CekIdFromCourse(userId uint, courseId uint, role string) error
 	Cek(userId uint, courseId uint) (*domain.CourseTracking,error)
 	FindByUserIdAndCourseID(courseID uint, UserID uint) (*domain.CourseTracking ,error)
+	GetCourseIDbyModuleID(moduleId uint) (uint,error)
+	GetCourseIDbySubmssionID(id uint) (uint,error)
+	GetCourseIDbySubModuleID(id uint) (uint,error)
+	GetCourseIDbyQuizzesID(id uint) (uint,error)
 }
 
 type CourseTrackingRepositoryImpl struct {

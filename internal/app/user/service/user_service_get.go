@@ -35,3 +35,15 @@ func (userService *UserServiceImpl) GetUserDetail(userRequest web.UserGetByIDReq
 
 	return users, nil
 }
+
+
+func (userService *UserServiceImpl) GetUserAccount(userID uint) (*web.UserAccountResponse, error) {
+
+	users, err := userService.UserRepository.GetUserAccountByID(userID)
+
+	if err != nil {
+		return nil, err
+	}
+	result := conversion.ConvertUserAccountResponse(users)
+	return result, nil
+}

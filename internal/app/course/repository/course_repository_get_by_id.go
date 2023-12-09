@@ -31,9 +31,9 @@ if err := courseRepository.DB.Where("id = ?", id).
     }).Preload("Section.Modules", func(db *gorm.DB) *gorm.DB {
         return db.Order("modules.order_by ASC, modules.id ASC")
     }).
-	Preload("Feedback.User.UserProfile", func(db *gorm.DB) *gorm.DB {
+	Preload("Feedback", func(db *gorm.DB) *gorm.DB {
 		return db.Limit(5)
-	}).
+	}).Preload("Feedback.User.UserProfile").
 	Find(&course).Error; err != nil {
 	return nil, 0,0, err
     }

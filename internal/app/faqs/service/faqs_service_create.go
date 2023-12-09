@@ -17,7 +17,7 @@ func (faqsService *FaqsServiceImpl) Create(faqs web.FaqsRequest) error {
 
 	err = faqsService.FaqRepository.Create(result)
 	if err != nil {
-		return fmt.Errorf("error when creating category %s", err.Error())
+		return fmt.Errorf("error when creating faqs %s", err.Error())
 	}
 
 	return nil

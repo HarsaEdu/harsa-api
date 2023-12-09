@@ -13,6 +13,8 @@ type ChatbotService interface {
 	GetAllThreadByUserId(userId uint) ([]web.GetAllThreadByUserIdResponse, error)
 	GetAllMessagesInThread(threadId string, limit int, after string, before string) ([]web.GetMessageInThreadResponse, error)
 	ChatWithAssistant(threadId string, request *web.ChatWithAssistantRequest) (string, error)
+	Delete(threadId string, userID uint, role string)  error
+	Update(threadId string, userID uint, update *web.CreateThreadRequest , role string) error
 }
 
 type ChatbotServiceImpl struct {

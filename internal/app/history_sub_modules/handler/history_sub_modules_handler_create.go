@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -11,6 +12,17 @@ import (
 )
 
 func (handler *HistorySubModuleHandlerImpl) CreateHistoryModule(ctx echo.Context) error {
+	
+	id := ctx.Get("user_id").(uint)
+
+	isSubscrition, err := handler.SubcriptionService.IsSubscription(ctx , id)
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "cannot cek subscription", err)
+	}
+	if !isSubscrition {
+		return res.StatusUnauthorized(ctx, "subscribe to continue", fmt.Errorf("unauthorized"))
+	}
+	
 	subModuleId, err := strconv.Atoi(ctx.Param("sub-module-id"))
 	if err != nil {
 		return res.StatusInternalServerError(ctx, "cannot convert sub module id", err)

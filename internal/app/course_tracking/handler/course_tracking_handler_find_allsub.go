@@ -13,12 +13,12 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) FindSub(ctx echo.Context
 	id := ctx.Get("user_id").(uint)
 
 	idParam := ctx.Param("module-id")
-	courseId, err := strconv.Atoi(idParam)
+	moduleId, err := strconv.Atoi(idParam)
 	if err != nil {
-		return res.StatusBadRequest(ctx, "invalid course id", err)
+		return res.StatusBadRequest(ctx, "invalid module id", err)
 	}
 	
-	allSub,err := courseTrackingHandler.CourseTrackingService.FindSubByIdMobile(uint(courseId), id)
+	allSub,err := courseTrackingHandler.CourseTrackingService.FindSubByIdMobile(uint(moduleId), id)
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "sub in module not found", err)

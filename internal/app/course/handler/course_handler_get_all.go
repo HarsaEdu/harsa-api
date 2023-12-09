@@ -114,3 +114,29 @@ func (courseHandler *CourseHandlerImpl) GetAllByCategory(ctx echo.Context) error
 	return res.StatusOK(ctx, "success get courses", response, pagination)
 }
 
+func (courseHandler *CourseHandlerImpl) GetAllMyCourse(ctx echo.Context) error {
+	params := ctx.QueryParams()
+	offset, err := strconv.Atoi(params.Get("offset"))
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid offset", err)
+	}
+
+	limit, err := strconv.Atoi(params.Get("limit"))
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid limit", err)
+	}
+
+	user_id := ctx.Get("user_id").(uint)
+
+	response, pagination, err := courseHandler.CourseService.GetAllMyCourse(offset, limit, params.Get("search"), params.Get("category"), user_id)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "course not found", err)
+		}
+		
+		return res.StatusInternalServerError(ctx, "failed to get all course, something happen", err)
+	}
+
+	return res.StatusOK(ctx, "success get courses", response, pagination)
+}
+
