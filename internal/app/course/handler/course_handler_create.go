@@ -17,12 +17,14 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind course request", err)
 	}
 
+	roleInterface := ctx.Get("role_name")
+
+	roleString := fmt.Sprintf("%s", roleInterface)
 	var instructorId uint
 
-	fmt.Println(courseCreateRequest.UserId)
-
-	if courseCreateRequest.UserId == 0 {
+	if roleString == "instructor"{
 		instructorId = ctx.Get("user_id").(uint)
+		courseCreateRequest.UserId = instructorId
 	} else {
 		instructorId = courseCreateRequest.UserId
 	}
