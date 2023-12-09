@@ -8,6 +8,7 @@ import (
 type SubscriptionService interface {
 	SubscriptionAdd(user_id uint, days uint) error
 	IsSubscription(ctx echo.Context, user_id uint) (bool, error)
+	IsSubscriptionWeb(createdAt int64, user_id uint) (bool, error)
 }
 
 type SubscriptionServiceImpl struct {
