@@ -32,3 +32,28 @@ func (courseService *CourseServiceImpl) Create(ctx echo.Context, request *web.Co
 
 	return nil
 }
+
+func (courseService *CourseServiceImpl) CreateIntructure(ctx echo.Context, request *web.CourseCreateRequestIntructure, instructorId uint) error {
+	err := courseService.Validate.Struct(request)
+	if err != nil {
+		return err
+	}
+
+	course := conversion.CourseCreateRequestToCourseDomainIntructure(request, instructorId)
+	imageUrl, err := courseService.CloudinaryUploader.Uploader(ctx, "file", "courses", false)
+	if err != nil {
+		return fmt.Errorf("error when uploading image : %s", err.Error())
+	}
+
+	if imageUrl != "" {
+		course.ImageUrl = imageUrl
+	}
+
+
+	err = courseService.CourseRepository.Create(course)
+	if err != nil {
+		return fmt.Errorf("error when creating course %s", err.Error())
+	}
+
+	return nil
+}

@@ -21,6 +21,8 @@ type CourseService interface {
 	GetDeatailCourse(id uint) (*web.CourseResponseForIntructur, error)
 	GetAllByCategory(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 	GetAllMyCourse(offset, limit int, search string, category string, userID uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
+	UpdateIntructure(id uint, userId uint, role string, request *web.CourseUpdateRequestIntructure) error
+	CreateIntructure(ctx echo.Context, request *web.CourseCreateRequestIntructure, instructorId uint) error
 }
 
 type CourseServiceImpl struct {
