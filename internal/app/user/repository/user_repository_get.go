@@ -49,7 +49,7 @@ func (userRepository *UserRepositoryImpl) GetUserByID(userID uint) (*domain.User
 func (userRepository *UserRepositoryImpl) GetUserAccountByID(userID uint) (*domain.User, error) {
 	user := &domain.User{}
 
-	result := userRepository.DB.Model(&domain.User{}).Where("id = ?", userID).
+	result := userRepository.DB.Model(&domain.User{}).Where("id = ?", userID).Preload("Role").
 		First(&user)
 
 	if result.Error != nil {

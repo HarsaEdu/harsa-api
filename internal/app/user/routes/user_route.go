@@ -15,11 +15,13 @@ func (userRoutes *UserRoutesImpl) UserWeb(apiGroup *echo.Group) {
 	userGroup.GET("", userRoutes.UserHandler.GetAllUsers, middleware.AdminMiddleware)
 	userGroup.GET("/:id", userRoutes.UserHandler.GetUserDetailByID, middleware.AdminMiddleware)
 	userGroup.GET("/account/:id", userRoutes.UserHandler.GetUserAccountByID, middleware.AdminMiddleware)
+	userGroup.GET("/my-account", userRoutes.UserHandler.GetUserMyAccount, middleware.InstructorMiddleware)
 }
 
 func (userRoutes *UserRoutesImpl) UserMobile(apiGroup *echo.Group) {
 	userGroup := apiGroup.Group("/users")
 
+	userGroup.GET("/my-account", userRoutes.UserHandler.GetUserMyAccount, middleware.StudentMiddleare)
 	userGroup.PUT("/profile", userRoutes.UserHandler.UserProfileUpdate, middleware.StudentMiddleare)
 
 }

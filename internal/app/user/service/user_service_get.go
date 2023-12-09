@@ -37,13 +37,13 @@ func (userService *UserServiceImpl) GetUserDetail(userRequest web.UserGetByIDReq
 }
 
 
-func (userService *UserServiceImpl) GetUserAccount(userID uint) (*domain.User, error) {
+func (userService *UserServiceImpl) GetUserAccount(userID uint) (*web.UserAccountResponse, error) {
 
 	users, err := userService.UserRepository.GetUserAccountByID(userID)
 
 	if err != nil {
 		return nil, err
 	}
-
-	return users, nil
+	result := conversion.ConvertUserAccountResponse(users)
+	return result, nil
 }
