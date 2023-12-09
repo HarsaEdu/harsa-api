@@ -20,11 +20,15 @@ func (userHandler *UserHandlerImpl) GetAllUsers(ctx echo.Context) error {
 	}
 
 	offset, err := strconv.Atoi(params.Get("offset"))
-
 	if err != nil {
 		return res.StatusBadRequest(ctx, "params offset not valid", err)
 	}
-	response, pagination, err := userHandler.UserService.UserGetAll(offset, limit, params.Get("search"))
+
+	roleId, err := strconv.Atoi(params.Get("roleID"))
+	if err != nil {
+		roleId = 0
+	}
+	response, pagination, err := userHandler.UserService.UserGetAll(offset, limit, params.Get("search"), roleId)
 	if err != nil {
 		if strings.Contains(err.Error(), "users not found") {
 			return res.StatusNotFound(ctx, "users not found", err)

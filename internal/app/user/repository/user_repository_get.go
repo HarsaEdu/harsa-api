@@ -6,7 +6,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
-func (userRepository *UserRepositoryImpl) UserGetAll(offset, limit int, search string) ([]domain.UserEntity, int64, error) {
+func (userRepository *UserRepositoryImpl) UserGetAll(offset, limit int, search string, roleId int) ([]domain.UserEntity, int64, error) {
 	var users []domain.UserEntity
 	var total int64
 
@@ -14,6 +14,10 @@ func (userRepository *UserRepositoryImpl) UserGetAll(offset, limit int, search s
 		Joins("left join user_profiles on user_profiles.user_id = users.id").
 		Joins("left join roles on roles.id = users.role_id")
 
+	if roleId != 0 {
+		query = query.Where("roles.id = ?", roleId)
+	}
+	
 	if search != "" {
 		s := "%" + search + "%"
 		query = query.Where("users.username LIKE ? OR users.email LIKE ? OR user_profiles.first_name LIKE ? OR user_profiles.last_name LIKE ?", s, s, s, s)
