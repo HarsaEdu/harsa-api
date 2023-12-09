@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -13,10 +14,13 @@ import (
 func (UserHandler *UserHandlerImpl) UserDelete(ctx echo.Context) error {
 	userDeleteRequest := web.UserDeleteRequest{}
 
-	err := ctx.Bind(&userDeleteRequest)
+	idParam := ctx.Param("id")
+	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		return res.StatusBadRequest(ctx, "data request not valid", err)
+		return res.StatusBadRequest(ctx, "invalid user id", err)
 	}
+
+	userDeleteRequest.ID = uint(id)
 
 	err = UserHandler.UserService.UserDelete(userDeleteRequest)
 
