@@ -23,6 +23,7 @@ type CourseTrackingService interface {
 	GetAllUserCourseWeb(offset, limit int, courseID uint, search string) ([]web.CourseTrackingUserWeb, *web.Pagination, error)
 	Delete(courseTrackingId uint, courseId uint,userId uint, role string) error
 	FindByIdMobileByUserIdAndCourseId(ctx echo.Context, userID uint, courseID uint) (*web.CourseTrackingResponseMobile, error)
+	CreateWeb(request web.CourseTrackingRequest) error
 }
 
 type CourseTrackingServiceImpl struct {

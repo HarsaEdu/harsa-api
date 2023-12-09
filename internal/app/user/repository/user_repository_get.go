@@ -36,7 +36,7 @@ func (userRepository *UserRepositoryImpl) UserGetAll(offset, limit int, search s
 	return users, total, nil
 }
 
-func (userRepository *UserRepositoryImpl) UserGetAllStudentSubscribe(offset, limit int, search string) ([]domain.UserEntity, int64, error) {
+func (userRepository *UserRepositoryImpl) UserGetAllStudentSubscribe(offset, limit int, search string, courseId uint) ([]domain.UserEntity, int64, error) {
 	var users []domain.UserEntity
 	var total int64
 
@@ -48,6 +48,8 @@ func (userRepository *UserRepositoryImpl) UserGetAllStudentSubscribe(offset, lim
 		Joins("left join user_profiles on user_profiles.user_id = users.id").
 		Joins("left join roles on roles.id = users.role_id").
 		Joins("left join subscriptions on subscriptions.user_id = users.id").
+		Joins("left join course_trackings on course_trackings.user_id = users.id").
+		Where("course_trackings.created_at IS NULL").
 		Where("roles.id = ? ", 3).Where("users.created_at > ? OR subscriptions.end_date >= ?", oneWeekAgo, time.Now())
 
 	if search != "" {

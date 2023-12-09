@@ -29,7 +29,7 @@ func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingWeb(apiGroup
 	profileTrackingsGroup.GET("/:id", courseTrackingRoutes.CourseTrackingHandler.GetAllTrackingWeb, middleware.InstructorMiddleware)
 	userTrackingGroup.GET("", courseTrackingRoutes.CourseTrackingHandler.GetAllTrackingUserWeb, middleware.InstructorMiddleware)
 	userTrackingGroup.DELETE("/tracking/:tracking-id", courseTrackingRoutes.CourseTrackingHandler.DeleteEnrolled, middleware.InstructorMiddleware)
-	userTrackingGroup.POST("/:user-id", courseTrackingRoutes.CourseTrackingHandler.Create, middleware.InstructorMiddleware)
+	userTrackingGroup.POST("/:user-id", courseTrackingRoutes.CourseTrackingHandler.CreateWeb, middleware.InstructorMiddleware)
 	
 }
 
