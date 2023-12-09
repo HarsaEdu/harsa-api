@@ -132,7 +132,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindSubModuleByID(
 	historySubModule := domain.HistorySubModule{}
 	err := courseTrackingRepository.DB.
 		Where("sub_module_id = ? AND user_id = ?", subModuleID, userID).Preload("SubModule").
-		First(&historySubModule).Error
+		Find(&historySubModule).Error
 	if err != nil {
 		return nil, nil, err
 	}
@@ -149,7 +149,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindSubmissionByID
 	historySubmission := domain.SubmissionAnswer{}
 	err := courseTrackingRepository.DB.
 		Where("submission_id = ? AND user_id = ?", submissionID, userID).Preload("Submission").
-		First(&historySubmission).Error
+		Find(&historySubmission).Error
 	if err != nil {
 		return nil, nil, err
 	}
@@ -167,7 +167,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindQuizzByID(modu
 	err := courseTrackingRepository.DB.
 		Where("quiz_id = ? AND user_id = ?", quizID, userID).Preload("HistoryQuizAnswer").
 		Preload("Quiz").
-		First(&historyQuizz).Error
+		Find(&historyQuizz).Error
 	if err != nil {
 		return nil, err
 	}
