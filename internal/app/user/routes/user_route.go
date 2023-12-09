@@ -13,6 +13,7 @@ func (userRoutes *UserRoutesImpl) UserWeb(apiGroup *echo.Group) {
 	userGroup.DELETE("/:id", userRoutes.UserHandler.UserDelete, middleware.AdminMiddleware)
 	userGroup.PUT("/profile", userRoutes.UserHandler.UserProfileUpdate, middleware.InstructorMiddleware)
 	userGroup.GET("", userRoutes.UserHandler.GetAllUsers, middleware.AdminMiddleware)
+	userGroup.GET("/subscribe", userRoutes.UserHandler.GetAllStudentSubscribe, middleware.AdminMiddleware)
 	userGroup.GET("/:id", userRoutes.UserHandler.GetUserDetailByID, middleware.AdminMiddleware)
 	userGroup.GET("/account/:id", userRoutes.UserHandler.GetUserAccountByID, middleware.AdminMiddleware)
 	userGroup.GET("/my-account", userRoutes.UserHandler.GetUserMyAccount, middleware.InstructorMiddleware)

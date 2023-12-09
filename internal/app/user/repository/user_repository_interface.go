@@ -21,6 +21,7 @@ type UserRepository interface {
 	GetUserAccountByID(userID uint) (*domain.User, error)
 	UserAvailableUsername(username string) (*domain.User, error)
 	UserAvailableEmail(email string) (*domain.User, error)
+	UserGetAllStudentSubscribe(offset, limit int, search string) ([]domain.UserEntity, int64, error)
 }
 
 type UserRepositoryImpl struct {
