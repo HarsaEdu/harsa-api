@@ -20,6 +20,18 @@ func (userService *UserServiceImpl) UserGetAll(offset int, limit int, search str
 	return users, pagination, nil
 }
 
+func (userService *UserServiceImpl) UserGetAllStudentSubscribe(offset int, limit int, search string) ([]domain.UserEntity, *web.Pagination, error) {
+	users, total, err := userService.UserRepository.UserGetAllStudentSubscribe(offset, limit, search)
+	if len(search) > 0 && total <= 0 {
+		return nil, nil, fmt.Errorf("users not found")
+	}
+	if err != nil {
+		return nil, nil, fmt.Errorf("internal Server Error")
+	}
+	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
+	return users, pagination, nil
+}
+
 func (userService *UserServiceImpl) GetUserDetail(userRequest web.UserGetByIDRequest) (*domain.UserDetail, error) {
 	err := userService.Validate.Struct(userRequest)
 
