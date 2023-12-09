@@ -1,6 +1,6 @@
 // github.com/HarsaEdu/harsa-api/web/static/static.go
 
-package web
+package static
 
 import "embed"
 
