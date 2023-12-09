@@ -12,7 +12,7 @@ import (
 )
 
 func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) UpdateWeb(ctx echo.Context) error {
-	idParam := ctx.Param("submission-id")
+	idParam := ctx.Param("subsAnsId")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
 		return fmt.Errorf("error when convert id to int")

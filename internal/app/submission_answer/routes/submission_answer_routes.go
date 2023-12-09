@@ -9,8 +9,8 @@ func (submissionAnswerRoutes *SubmissionAnswerRoutesImpl) SubmissionAnswerWeb(ap
 	submissionAnswerGroup := apiGroup.Group("/submissions/:idSubmission/submission-answer")
 
 	submissionAnswerGroup.GET("", submissionAnswerRoutes.SubmissionAnswerHandler.Get, middleware.InstructorMiddleware)
-	submissionAnswerGroup.GET("/:submission-id", submissionAnswerRoutes.SubmissionAnswerHandler.FindById, middleware.InstructorMiddleware)
-	submissionAnswerGroup.PATCH("/:submission-id", submissionAnswerRoutes.SubmissionAnswerHandler.UpdateWeb, middleware.InstructorMiddleware)
+	submissionAnswerGroup.GET("/:subsAnsId", submissionAnswerRoutes.SubmissionAnswerHandler.FindById, middleware.InstructorMiddleware)
+	submissionAnswerGroup.PATCH("/:subsAnsId", submissionAnswerRoutes.SubmissionAnswerHandler.UpdateWeb, middleware.InstructorMiddleware)
 
 }
 
@@ -18,6 +18,6 @@ func (submissionAnswerRoutes *SubmissionAnswerRoutesImpl) SubmissionAnswerMobile
 	submissionAnswerGroup := apiGroup.Group("/submissions/:idSubmission/submission-answer")
 
 	submissionAnswerGroup.POST("", submissionAnswerRoutes.SubmissionAnswerHandler.Create, middleware.StudentMiddleare)
-	submissionAnswerGroup.PATCH("/:id", submissionAnswerRoutes.SubmissionAnswerHandler.Update, middleware.StudentMiddleare)
-	submissionAnswerGroup.GET("/:id", submissionAnswerRoutes.SubmissionAnswerHandler.FindById, middleware.StudentMiddleare)
+	submissionAnswerGroup.PATCH("/:subsAnsId", submissionAnswerRoutes.SubmissionAnswerHandler.Update, middleware.StudentMiddleare)
+	submissionAnswerGroup.GET("/:subsAnsId", submissionAnswerRoutes.SubmissionAnswerHandler.FindById, middleware.StudentMiddleare)
 }
