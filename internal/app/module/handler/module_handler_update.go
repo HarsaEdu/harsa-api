@@ -39,6 +39,9 @@ func (moduleHandler *ModuleHandlerImpl) UpdateModule(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "unauthorized") {
 			return res.StatusUnauthorized(ctx,"you cannot update this module" ,err)
 		}
+		if strings.Contains(err.Error(), "already exist") {
+			return res.StatusAlreadyExist(ctx, err.Error(), err)
+		}
 
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "module not found", err)
@@ -115,6 +118,9 @@ func (moduleHandler *ModuleHandlerImpl) UpdateSection(ctx echo.Context) error {
 		}
 		if strings.Contains(err.Error(), "unauthorized") {
 			return res.StatusUnauthorized(ctx,"you cannot update this section" ,err)
+		}
+		if strings.Contains(err.Error(), "already exist") {
+			return res.StatusAlreadyExist(ctx, err.Error(), err)
 		}
 
 		if strings.Contains(err.Error(), "not found") {

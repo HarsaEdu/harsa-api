@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -16,13 +17,22 @@ func (submissionHandler *SubmissionHandlerImpl) Delete(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "invalid submission id", err)
 	}
 
-	err = submissionHandler.SubmissionService.Delete(id)
+	userId := ctx.Get("user_id").(uint)
+
+	roleInterface := ctx.Get("role_name")
+
+	roleString := fmt.Sprintf("%s", roleInterface)
+
+	err = submissionHandler.SubmissionService.Delete(id, userId, roleString)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "submission not found", err)
+		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot delete this submission" ,err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to delete submission, something happen", err)
 	}
