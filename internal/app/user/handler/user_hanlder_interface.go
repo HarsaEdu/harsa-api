@@ -14,6 +14,7 @@ type UserHandler interface {
 	GetUserDetailByID(ctx echo.Context) error
 	GetUserAccountByID(ctx echo.Context) error
 	GetUserMyAccount(ctx echo.Context) error
+	UserUpdateMobile(ctx echo.Context) error
 }
 
 type UserHandlerImpl struct {
