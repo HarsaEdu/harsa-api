@@ -2,9 +2,11 @@ package handler
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
@@ -30,6 +32,35 @@ func (moduleHandler ModuleHandlerImpl) CreateSection(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "data request invalid", err)
 	}
 
+	var countVideo int = 1
+	var countPPT int = 1
+	youtubePattern := regexp.MustCompile(`(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be)/.+`)
+	googleSlidePattern := regexp.MustCompile(`(https?://)?(docs\.google\.com/presentation/d/[\w-]+)/?.*`)
+	
+	subModule := []domain.SubModule{}
+
+	for _, submodule := range sectionCreateRequest.Modules.SubModules {
+		matchYoutube := youtubePattern.MatchString(submodule.ContentUrl)
+		matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
+	
+		if matchYoutube && !matchGoogleSlide {
+			submodule.Type = "video"
+			submodule.Title = sectionCreateRequest.Modules.Title + " video - " + strconv.Itoa(countVideo)
+			fmt.Println(submodule.Title)
+			countVideo++
+		} else if matchGoogleSlide && !matchYoutube {
+			submodule.Type = "ppt"
+			submodule.Title = sectionCreateRequest.Modules.Title + " ppt - " + strconv.Itoa(countPPT)
+			fmt.Println(submodule.Title)
+			countPPT++
+		} else {
+			return res.StatusBadRequest(ctx, "link not valid", fmt.Errorf("link not youtube or google slide"))
+		}
+		subModule = append(subModule, submodule)
+	}
+
+	sectionCreateRequest.Modules.SubModules = subModule
+	
 	err = moduleHandler.ModuleService.CreateSection(&sectionCreateRequest, uint(courseId), uint(id), roleString)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
@@ -66,6 +97,35 @@ func (moduleHandler ModuleHandlerImpl) CreateModule(ctx echo.Context) error {
 	if err != nil {
 		return res.StatusBadRequest(ctx, "data request invalid", err)
 	}
+
+	var countVideo int = 1
+	var countPPT int = 1
+	youtubePattern := regexp.MustCompile(`(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be)/.+`)
+	googleSlidePattern := regexp.MustCompile(`(https?://)?(docs\.google\.com/presentation/d/[\w-]+)/?.*`)
+	
+	subModule := []domain.SubModule{}
+
+	for _, submodule := range moduleCreateRequest.SubModules {
+		matchYoutube := youtubePattern.MatchString(submodule.ContentUrl)
+		matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
+	
+		if matchYoutube && !matchGoogleSlide {
+			submodule.Type = "video"
+			submodule.Title = moduleCreateRequest.Title + " video - " + strconv.Itoa(countVideo)
+			fmt.Println(submodule.Title)
+			countVideo++
+		} else if matchGoogleSlide && !matchYoutube {
+			submodule.Type = "ppt"
+			submodule.Title = moduleCreateRequest.Title + " ppt - " + strconv.Itoa(countPPT)
+			fmt.Println(submodule.Title)
+			countPPT++
+		} else {
+			return res.StatusBadRequest(ctx, "link not valid", fmt.Errorf("link not youtube or google slide"))
+		}
+		subModule = append(subModule, submodule)
+	}
+	moduleCreateRequest.SubModules = subModule
+
 
 	err = moduleHandler.ModuleService.CreateModule(&moduleCreateRequest, uint(sectionId), uint(id), roleString)
 	if err != nil {

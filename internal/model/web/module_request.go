@@ -36,6 +36,10 @@ type SectionRequest struct {
 	Modules  domain.Module `json:"modules"`
 }
 
+type SectionUpdateRequest struct {
+	Title   string `json:"title" validate:"required"`
+}
+
 type SectionOrderRequest struct {
 	Order    int    `json:"order"`
 }

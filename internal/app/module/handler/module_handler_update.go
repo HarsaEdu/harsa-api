@@ -2,9 +2,11 @@ package handler
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
@@ -30,6 +32,34 @@ func (moduleHandler *ModuleHandlerImpl) UpdateModule(ctx echo.Context) error {
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind request: ", err)
 	}
+
+	var countVideo int = 1
+	var countPPT int = 1
+	youtubePattern := regexp.MustCompile(`(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be)/.+`)
+	googleSlidePattern := regexp.MustCompile(`(https?://)?(docs\.google\.com/presentation/d/[\w-]+)/?.*`)
+	
+	subModule := []domain.SubModule{}
+
+	for _, submodule := range request.SubModules {
+		matchYoutube := youtubePattern.MatchString(submodule.ContentUrl)
+		matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
+	
+		if matchYoutube && !matchGoogleSlide {
+			submodule.Type = "video"
+			submodule.Title = request.Title + " video - " + strconv.Itoa(countVideo)
+			fmt.Println(submodule.Title)
+			countVideo++
+		} else if matchGoogleSlide && !matchYoutube {
+			submodule.Type = "ppt"
+			submodule.Title = request.Title + " ppt - " + strconv.Itoa(countPPT)
+			fmt.Println(submodule.Title)
+			countPPT++
+		} else {
+			return res.StatusBadRequest(ctx, "link not valid", fmt.Errorf("link not youtube or google slide"))
+		}
+		subModule = append(subModule, submodule)
+	}
+	request.SubModules = subModule
 
 	err = moduleHandler.ModuleService.UpdateModule(&request, uint(id), uint(user_id), roleString)
 	if err != nil {
@@ -105,7 +135,7 @@ func (moduleHandler *ModuleHandlerImpl) UpdateSection(ctx echo.Context) error {
 
 	roleString := fmt.Sprintf("%s", roleInterface)
 
-	request := web.SectionRequest{}
+	request := web.SectionUpdateRequest{}
 	err = ctx.Bind(&request)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind request: ", err)
