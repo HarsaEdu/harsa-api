@@ -11,6 +11,8 @@ type SubmissionRepository interface {
 	GetAll(moduleId int) ([]domain.Submissions, int64, error)
 	FindById(id int) (*domain.Submissions, error)
 	Delete(id int) error
+	CekUserIDfromModuleID(id uint, userId uint, role string) error
+	CekUserIDfromSubmission(id uint, userId uint, role string)  error
 }
 
 type SubmissionRepositoryImpl struct {
