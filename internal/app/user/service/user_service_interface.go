@@ -17,7 +17,7 @@ type UserService interface {
 	GetUserDetail(userRequest web.UserGetByIDRequest) (*domain.UserDetail, error)
 	GetUserAccount(userID uint) (*web.UserAccountResponse, error)
 	UserUpdateMobile(userRequest web.UserUpdateRequestMobile) error
-	UserGetAllStudentSubscribe(offset int, limit int, search string) ([]domain.UserEntity, *web.Pagination, error)
+	UserGetAllStudentSubscribe(offset int, limit int, search string, courseId uint) ([]domain.UserEntity, *web.Pagination, error)
 }
 
 type UserServiceImpl struct {

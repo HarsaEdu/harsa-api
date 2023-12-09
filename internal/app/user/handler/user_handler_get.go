@@ -52,7 +52,14 @@ func (userHandler *UserHandlerImpl) GetAllStudentSubscribe(ctx echo.Context) err
 	if err != nil {
 		return res.StatusBadRequest(ctx, "params offset not valid", err)
 	}
-	response, pagination, err := userHandler.UserService.UserGetAllStudentSubscribe(offset, limit, params.Get("search"))
+
+	idParam := ctx.Param("course-id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid user id", err)
+	}
+
+	response, pagination, err := userHandler.UserService.UserGetAllStudentSubscribe(offset, limit, params.Get("search"), uint(id))
 	if err != nil {
 		if strings.Contains(err.Error(), "users not found") {
 			return res.StatusNotFound(ctx, "users not found", err)
