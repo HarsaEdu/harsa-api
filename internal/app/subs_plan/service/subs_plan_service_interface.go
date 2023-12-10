@@ -15,6 +15,7 @@ type SubsPlanService interface {
 	Update(subsPlan *web.SubsPlanUpdateRequest, id int) error
 	Delete(id int) error
 	UpdateImage(ctx echo.Context, subsPlan *web.SubsPlanUpdateImage, id int) error
+	FindById(id int) (*domain.SubsPlan, error)
 }
 
 type SubsPlanServiceImpl struct {

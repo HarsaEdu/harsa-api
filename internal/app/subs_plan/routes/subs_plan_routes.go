@@ -10,6 +10,7 @@ func (subsPlanRoutes *SubsPlanRoutesImpl) SubsPlanWeb(apiGroup *echo.Group) {
 
 	subsPlanGroup.POST("", subsPlanRoutes.subsPlanHandler.Create, middleware.AdminMiddleware)
 	subsPlanGroup.GET("", subsPlanRoutes.subsPlanHandler.GetAll, middleware.AllUserMiddleare)
+	subsPlanGroup.GET(":id", subsPlanRoutes.subsPlanHandler.FindById, middleware.AllUserMiddleare)
 	subsPlanGroup.PUT("/:id", subsPlanRoutes.subsPlanHandler.Update, middleware.AdminMiddleware)
 	subsPlanGroup.PATCH("/:id", subsPlanRoutes.subsPlanHandler.UpdateImage, middleware.AdminMiddleware)
 	subsPlanGroup.DELETE("/:id", subsPlanRoutes.subsPlanHandler.Delete, middleware.AdminMiddleware)
@@ -18,5 +19,7 @@ func (subsPlanRoutes *SubsPlanRoutesImpl) SubsPlanWeb(apiGroup *echo.Group) {
 func (subsPlanRoutes *SubsPlanRoutesImpl) SubsPlanMobile(apiGroup *echo.Group) {
 	subsPlanGroup := apiGroup.Group("/subs-plan")
 
-	subsPlanGroup.GET("", subsPlanRoutes.subsPlanHandler.GetAll)
+	subsPlanGroup.GET("", subsPlanRoutes.subsPlanHandler.GetAll, middleware.AllUserMiddleare)
+	subsPlanGroup.GET("/:id", subsPlanRoutes.subsPlanHandler.FindById, middleware.AllUserMiddleare)
+
 }

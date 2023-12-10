@@ -11,6 +11,7 @@ type SubsPlanHandler interface {
 	Update(ctx echo.Context) error
 	GetAll(ctx echo.Context) error
 	UpdateImage(ctx echo.Context) error
+	FindById(ctx echo.Context) error
 }
 
 type SubsPlanHandlerImpl struct {
