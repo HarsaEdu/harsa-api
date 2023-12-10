@@ -16,6 +16,7 @@ type UserHandler interface {
 	GetUserMyAccount(ctx echo.Context) error
 	UserUpdateMobile(ctx echo.Context) error
 	GetAllStudentSubscribe(ctx echo.Context) error
+	UserUpdatePasswordMobile(ctx echo.Context) error 
 }
 
 type UserHandlerImpl struct {

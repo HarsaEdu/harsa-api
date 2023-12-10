@@ -27,5 +27,6 @@ func (userRoutes *UserRoutesImpl) UserMobile(apiGroup *echo.Group) {
 	userGroup.GET("/my-account", userRoutes.UserHandler.GetUserMyAccount, middleware.StudentMiddleare)
 	userGroup.PUT("/profile", userRoutes.UserHandler.UserProfileUpdate, middleware.StudentMiddleare)
 	userGroup.PUT("/my-account", userRoutes.UserHandler.UserUpdateMobile, middleware.StudentMiddleare)
+	userGroup.PUT("/my-account/password", userRoutes.UserHandler.UserUpdatePasswordMobile, middleware.StudentMiddleare)
 
 }
