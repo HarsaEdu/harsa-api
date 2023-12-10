@@ -263,7 +263,6 @@ func (courseRepository *CourseRepositoryImpl) GetAllbyUserID(offset, limit int, 
     return courses, total, nil
 }
 
-
 func (courseRepository *CourseRepositoryImpl) GetAllCourseByRating(offset, limit int, search string, category string) ([]domain.Course, int64, error) {
     if offset < 0 || limit < 0 {
         return nil, 0, fmt.Errorf("Offset and limit must be non-negative")
@@ -272,7 +271,7 @@ func (courseRepository *CourseRepositoryImpl) GetAllCourseByRating(offset, limit
     courses := []domain.Course{}
     var total int64
 
-    query := courseRepository.DB.Model(&courses).Preload("User.UserProfile").Order("rating DESC")
+    query := courseRepository.DB.Model(&courses).Preload("User.UserProfile")
 
     if search != "" {
         s := "%" + search + "%"
@@ -280,10 +279,16 @@ func (courseRepository *CourseRepositoryImpl) GetAllCourseByRating(offset, limit
     }
 
     if category != "" {
-        query = query.Joins("JOIN categories ON categories.id = courses.category_id").Where("categories.name LIKE ? ", "%"+category+"%")
+        query = query.Joins("JOIN categories ON categories.id = courses.category_id").Where("categories.name LIKE ?", "%"+category+"%")
     }
 
+    query = query.Joins("LEFT JOIN feedbacks ON feedbacks.course_id = courses.id").
+        Select("courses.*, COUNT(feedbacks.id) as feedback_count").
+        Group("courses.id")
+
     query.Model(&courses).Count(&total)
+
+    query = query.Order("feedback_count DESC")
 
     result := query.Limit(limit).Offset(offset).Preload("Category").Find(&courses)
 
