@@ -14,6 +14,7 @@ require (
 )
 
 require (
+	github.com/SebastiaanKlippert/go-wkhtmltopdf v1.9.2
 	github.com/midtrans/midtrans-go v1.3.7
 	google.golang.org/api v0.152.0
 )
