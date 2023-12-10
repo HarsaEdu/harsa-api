@@ -44,7 +44,13 @@ func UserUpdateRequestToUserModelMobile(userRequest web.UserUpdateRequestMobile)
 		ID: userRequest.ID,
 		Username: userRequest.Username,
 		Email:    userRequest.Email,
-		Password: userRequest.Password,
+	}
+}
+
+func UserUpdatePasswordRequestToUserModelMobile(userRequest web.UserUpdatePasswordRequestMobile) *domain.User {
+	return &domain.User{
+		ID: userRequest.ID,
+		Password: userRequest.NewPassword,
 	}
 }
 func UserProfileUpdateRequestToUserModel(userRequest web.UserProfileUpdateRequest, birthDate time.Time) *domain.UserProfile {

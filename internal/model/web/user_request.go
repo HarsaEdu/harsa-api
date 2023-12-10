@@ -45,7 +45,12 @@ type UserUpdateRequestMobile struct {
 	ID       uint   `json:"id" validate:"required"`
 	Email    string `json:"email" validate:"required,email"`
 	Username string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"omitempty,min=8,max=255"`
+}
+
+type UserUpdatePasswordRequestMobile struct {
+	ID       uint   `json:"id" validate:"required"`
+	OldPassword string `json:"old_password" json:"password" validate:"required,min=8,max=255"`
+	NewPassword string `json:"new_password" json:"password" validate:"required,min=8,max=255"`
 }
 
 type UserDeleteRequest struct {
