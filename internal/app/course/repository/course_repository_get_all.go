@@ -262,3 +262,43 @@ func (courseRepository *CourseRepositoryImpl) GetAllbyUserID(offset, limit int, 
 
     return courses, total, nil
 }
+
+func (courseRepository *CourseRepositoryImpl) GetAllCourseByRating(offset, limit int, search string, category string) ([]domain.Course, int64, error) {
+    if offset < 0 || limit < 0 {
+        return nil, 0, fmt.Errorf("Offset and limit must be non-negative")
+    }
+
+    courses := []domain.Course{}
+    var total int64
+
+    query := courseRepository.DB.Model(&courses).Preload("User.UserProfile")
+
+    if search != "" {
+        s := "%" + search + "%"
+        query = query.Where("courses.title LIKE ? OR courses.description LIKE ?", s, s)
+    }
+
+    if category != "" {
+        query = query.Joins("JOIN categories ON categories.id = courses.category_id").Where("categories.name LIKE ?", "%"+category+"%")
+    }
+
+    query = query.Joins("LEFT JOIN feedbacks ON feedbacks.course_id = courses.id").
+        Select("courses.*, COUNT(feedbacks.id) as feedback_count").
+        Group("courses.id")
+
+    query.Model(&courses).Count(&total)
+
+    query = query.Order("feedback_count DESC")
+
+    result := query.Limit(limit).Offset(offset).Preload("Category").Find(&courses)
+
+    if result.Error != nil {
+        return nil, 0, result.Error
+    }
+
+    if offset >= int(total) {
+        return nil, 0, nil
+    }
+
+    return courses, total, nil
+}

@@ -3,11 +3,13 @@ package app
 import (
 	auth "github.com/HarsaEdu/harsa-api/internal/app/auth"
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
+	"github.com/HarsaEdu/harsa-api/internal/app/certificate"
 	"github.com/HarsaEdu/harsa-api/internal/app/chatbot"
 	course "github.com/HarsaEdu/harsa-api/internal/app/course"
 	courseTraking "github.com/HarsaEdu/harsa-api/internal/app/course_tracking"
 	faqs "github.com/HarsaEdu/harsa-api/internal/app/faqs"
 	feedback "github.com/HarsaEdu/harsa-api/internal/app/feedback"
+	historyQuiz "github.com/HarsaEdu/harsa-api/internal/app/history_quiz"
 	historySubModule "github.com/HarsaEdu/harsa-api/internal/app/history_sub_modules"
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
 	module "github.com/HarsaEdu/harsa-api/internal/app/module"
@@ -20,8 +22,7 @@ import (
 	submission "github.com/HarsaEdu/harsa-api/internal/app/submission"
 	submissionAnswer "github.com/HarsaEdu/harsa-api/internal/app/submission_answer"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
-	historyQuiz"github.com/HarsaEdu/harsa-api/internal/app/history_quiz"
-	subscription"github.com/HarsaEdu/harsa-api/internal/app/subscription"
+	subscription "github.com/HarsaEdu/harsa-api/internal/app/subscription"
 
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
@@ -54,10 +55,11 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	submissionAnswerRoutes := submissionAnswer.SubmissionAnswerSetup(db, validate, cloudinary,submissionRepo,subscriptionService)
 
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo, subscriptionService)
-	courseTrakingRoutes := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService, subscriptionService)
+	courseTrakingRoutes, courseTrackingRepository := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService, subscriptionService)
 	historySubModuleRoutes := historySubModule.HistorySubModuleSetup(db, validate, subscriptionService)
 	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, userRepo)
 	historyQuizRoutes := historyQuiz.HistoryQuizSetup(db, validate, subscriptionService)
+	certificateRoutes := certificate.CertificateSetup(db, validate, cloudinary, courseTrackingRepository)
 
 
 	apiGroupWeb := e.Group("web")
@@ -106,4 +108,5 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	courseTrakingRoutes.CourseTrackingMobile(apiGroupMobile)
 	historySubModuleRoutes.MobileHistorySubModule(apiGroupMobile)
 	recommendationsRoutes.RecommendationsMobile(apiGroupMobile)
+	certificateRoutes.CertificateMobile(apiGroupMobile)
 }
