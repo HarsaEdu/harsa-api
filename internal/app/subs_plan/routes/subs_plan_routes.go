@@ -19,7 +19,7 @@ func (subsPlanRoutes *SubsPlanRoutesImpl) SubsPlanWeb(apiGroup *echo.Group) {
 func (subsPlanRoutes *SubsPlanRoutesImpl) SubsPlanMobile(apiGroup *echo.Group) {
 	subsPlanGroup := apiGroup.Group("/subs-plan")
 
-	subsPlanGroup.GET("", subsPlanRoutes.subsPlanHandler.GetAll, middleware.AllUserMiddleare)
-	subsPlanGroup.GET("/:id", subsPlanRoutes.subsPlanHandler.FindById, middleware.AllUserMiddleare)
+	subsPlanGroup.GET("", subsPlanRoutes.subsPlanHandler.GetAll)
+	subsPlanGroup.GET("/:id", subsPlanRoutes.subsPlanHandler.FindById)
 
 }
