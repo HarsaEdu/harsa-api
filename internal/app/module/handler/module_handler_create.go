@@ -40,21 +40,22 @@ func (moduleHandler ModuleHandlerImpl) CreateSection(ctx echo.Context) error {
 	subModule := []domain.SubModule{}
 
 	for _, submodule := range sectionCreateRequest.Modules.SubModules {
-		matchYoutube := youtubePattern.MatchString(submodule.ContentUrl)
-		matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
-	
-		if matchYoutube && !matchGoogleSlide {
-			submodule.Type = "video"
+		if submodule.Type == "video"{
+			matchYoutube := youtubePattern.MatchString(submodule.ContentUrl)
+			if !matchYoutube {
+				return res.StatusBadRequest(ctx, "invalid youtube link", fmt.Errorf("invalid youtube link"))
+			}
 			submodule.Title = sectionCreateRequest.Modules.Title + " video - " + strconv.Itoa(countVideo)
-			fmt.Println(submodule.Title)
 			countVideo++
-		} else if matchGoogleSlide && !matchYoutube {
-			submodule.Type = "ppt"
-			submodule.Title = sectionCreateRequest.Modules.Title + " ppt - " + strconv.Itoa(countPPT)
-			fmt.Println(submodule.Title)
+		}
+		if submodule.Type == "slice"{
+			matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
+			if !matchGoogleSlide {
+				return res.StatusBadRequest(ctx, "invalid google slide link", fmt.Errorf("invalid google slide link"))
+			}
+			submodule.Title = sectionCreateRequest.Modules.Title + " slice - " + strconv.Itoa(countPPT)
 			countPPT++
-		} else {
-			return res.StatusBadRequest(ctx, "link not valid", fmt.Errorf("link not youtube or google slide"))
+		
 		}
 		subModule = append(subModule, submodule)
 	}
@@ -106,21 +107,22 @@ func (moduleHandler ModuleHandlerImpl) CreateModule(ctx echo.Context) error {
 	subModule := []domain.SubModule{}
 
 	for _, submodule := range moduleCreateRequest.SubModules {
-		matchYoutube := youtubePattern.MatchString(submodule.ContentUrl)
-		matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
-	
-		if matchYoutube && !matchGoogleSlide {
-			submodule.Type = "video"
+		if submodule.Type == "video"{
+			matchYoutube := youtubePattern.MatchString(submodule.ContentUrl)
+			if !matchYoutube {
+				return res.StatusBadRequest(ctx, "invalid youtube link", fmt.Errorf("invalid youtube link"))
+			}
 			submodule.Title = moduleCreateRequest.Title + " video - " + strconv.Itoa(countVideo)
-			fmt.Println(submodule.Title)
 			countVideo++
-		} else if matchGoogleSlide && !matchYoutube {
-			submodule.Type = "ppt"
-			submodule.Title = moduleCreateRequest.Title + " ppt - " + strconv.Itoa(countPPT)
-			fmt.Println(submodule.Title)
+		}
+		if submodule.Type == "slice"{
+			matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
+			if !matchGoogleSlide {
+				return res.StatusBadRequest(ctx, "invalid google slide link", fmt.Errorf("invalid google slide link"))
+			}
+			submodule.Title = moduleCreateRequest.Title + " slice - " + strconv.Itoa(countPPT)
 			countPPT++
-		} else {
-			return res.StatusBadRequest(ctx, "link not valid", fmt.Errorf("link not youtube or google slide"))
+		
 		}
 		subModule = append(subModule, submodule)
 	}
