@@ -63,7 +63,7 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) CreateWeb(ctx echo.Conte
 	req.CourseID = uint(courseId)
 	req.UserID = uint(userId)
 	req.Status = "in progress"
-	err = courseTrackingHandler.CourseTrackingService.Create(ctx, req)
+	err = courseTrackingHandler.CourseTrackingService.CreateWeb(req)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

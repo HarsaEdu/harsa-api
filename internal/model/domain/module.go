@@ -10,10 +10,7 @@ type SubModuleType string
 
 const (
 	SubModuleTypeVideo       SubModuleType = "video"
-	SubModuleTypePPT         SubModuleType = "ppt"
-	SubModuleTypePDF         SubModuleType = "pdf"
-	SubModuleTypeText        SubModuleType = "text"
-	SubModuleTypeHtmlElement SubModuleType = "html_element"
+	SubModuleTypePPT         SubModuleType = "slice"
 )
 
 type Module struct {
@@ -35,7 +32,6 @@ type SubModule struct {
 	ModuleID    uint           `gorm:"type:int" json:"module_id"`
 	Title       string         `gorm:"type:varchar(255)" json:"title"`
 	ContentUrl  string         `gorm:"type:varchar(255)" json:"content_url"`
-	ContentBody string         `gorm:"type:text" json:"content_body"`
 	Type        SubModuleType  `gorm:"type:varchar(255)" json:"type"`
 	CreatedAt   time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updated_at"`

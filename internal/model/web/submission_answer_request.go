@@ -10,3 +10,8 @@ type SubmissionAnswerRequest struct {
 type SubmissionAnswerUpdateRequest struct {
 	SubmittedUrl string `form:"file" validate:"required"`
 }
+
+type SubmissionAnswerUpdateWeb struct {
+	Feedback string `form:"feedback"`
+	Status   string `form:"status" json:"status"`
+}

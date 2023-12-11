@@ -13,9 +13,12 @@ type UserService interface {
 	UserUpdate(userRequest web.UserUpdateRequest) error
 	UserProfileUpdate(userRequest web.UserProfileUpdateRequest) error
 	UserDelete(userRequest web.UserDeleteRequest) error
-	UserGetAll(offset int, limit int, search string) ([]domain.UserEntity, *web.Pagination, error)
+	UserGetAll(offset int, limit int, search string, roleId int) ([]domain.UserEntity, *web.Pagination, error)
 	GetUserDetail(userRequest web.UserGetByIDRequest) (*domain.UserDetail, error)
-	GetUserAccount(userID uint) (*domain.User, error)
+	GetUserAccount(userID uint) (*web.UserAccountResponse, error)
+	UserUpdateMobile(userRequest web.UserUpdateRequestMobile) error
+	UserGetAllStudentSubscribe(offset int, limit int, search string, courseId uint) ([]domain.UserEntity, *web.Pagination, error)
+	UserUpdatePasswordMobile(userRequest web.UserUpdatePasswordRequestMobile) error
 }
 
 type UserServiceImpl struct {

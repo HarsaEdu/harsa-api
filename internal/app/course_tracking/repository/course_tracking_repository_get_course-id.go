@@ -9,7 +9,7 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) GetCourseIDbyModul
 
 	var courseID uint
 
-	if err := courseTrackingrepository.DB.Model(&domain.Module{}).Where("modules.id = ?", moduleId).Select("courses.user_id").
+	if err := courseTrackingrepository.DB.Model(&domain.Module{}).Where("modules.id = ?", moduleId).Select("courses.id").
 	Joins("JOIN sections ON sections.id = modules.section_id").
 	Joins("JOIN courses ON courses.id = sections.course_id").
 	Scan(&courseID).Error; err != nil {
@@ -23,7 +23,7 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) GetCourseIDbySubms
 
 	var courseID uint
 
-	if err := courseTrackingrepository.DB.Model(&domain.Submissions{}).Where("id = ?", id).Select("courses.user_id").
+	if err := courseTrackingrepository.DB.Model(&domain.Submissions{}).Where("id = ?", id).Select("courses.id").
 	Joins("JOIN modules ON modules.id = submissions.module_id").
 	Joins("JOIN sections ON sections.id = modules.section_id").
 	Joins("JOIN courses ON courses.id = sections.course_id").
@@ -38,7 +38,7 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) GetCourseIDbySubMo
 
 	var courseID uint
 
-	if err := courseTrackingrepository.DB.Model(&domain.SubModule{}).Where("id = ?", id).Select("courses.user_id").
+	if err := courseTrackingrepository.DB.Model(&domain.SubModule{}).Where("id = ?", id).Select("courses.id").
 	Joins("JOIN modules ON modules.id = sub_modules.module_id").
 	Joins("JOIN sections ON sections.id = modules.section_id").
 	Joins("JOIN courses ON courses.id = sections.course_id").
@@ -53,7 +53,7 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) GetCourseIDbyQuizz
 
 	var courseID uint
 
-	if err := courseTrackingrepository.DB.Model(&domain.Quizzes{}).Where("id = ?", id).Select("courses.user_id").
+	if err := courseTrackingrepository.DB.Model(&domain.Quizzes{}).Where("id = ?", id).Select("courses.id").
 	Joins("JOIN modules ON modules.id = quizzes.module_id").
 	Joins("JOIN sections ON sections.id = modules.section_id").
 	Joins("JOIN courses ON courses.id = sections.course_id").

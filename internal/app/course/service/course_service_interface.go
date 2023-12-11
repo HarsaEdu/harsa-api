@@ -21,6 +21,7 @@ type CourseService interface {
 	GetDeatailCourse(id uint) (*web.CourseResponseForIntructur, error)
 	GetAllByCategory(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 	GetAllMyCourse(offset, limit int, search string, category string, userID uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
+	GetAllByRating(offset, limit int, search string, category string) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 }
 
 type CourseServiceImpl struct {
