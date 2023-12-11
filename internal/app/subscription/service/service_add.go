@@ -15,12 +15,18 @@ func (subscriptionService *SubscriptionServiceImpl) SubscriptionAdd(user_id uint
 
 	if subscriptionResponse != nil {
 		subscription = *subscriptionResponse
+	}else{
+		subscription.UserID = user_id
+		subscription.StartDate = time.Now()	
 	}
-
-	subscription.UserID = user_id
-
+ 
+	startDate := subscription.StartDate.Unix()
 	endDate := subscription.EndDate.Unix()
 	now := time.Now().Unix()
+
+	if startDate < now && endDate < now{
+		subscription.StartDate = time.Now()
+	}
 
 	if endDate >= now {
 		endDate = endDate + (24 * 60 * 60 * int64(days))
