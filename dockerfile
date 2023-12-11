@@ -5,7 +5,7 @@ FROM golang:1.20-bookworm
 WORKDIR /app
 
 # Install wkhtmltox binary
-RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_amd64.deb
 RUN apt install ./wkhtmltox_0.12.6.1-3.bookworm_amd64.deb
 ENV WKHTMLTOPDF_PATH /usr/bin/wkhtmltopdf
 
