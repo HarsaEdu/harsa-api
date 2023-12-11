@@ -22,7 +22,7 @@ func (categoryHandler *CategoryHandlerImpl) FindById(ctx echo.Context) error {
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "category not found", err)
+			return res.StatusNoContent(ctx, "category not found", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to get category, something happen", err)
 	}
