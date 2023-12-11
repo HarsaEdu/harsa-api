@@ -30,7 +30,7 @@ func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Get(ctx echo.Context
 	answer, pagination, err := submissionAnswerHandler.SubmissionAnswerservice.Get(offset, limit, idSubmission, params.Get("search"))
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "submission answer not found", err)
+			return res.StatusNoContent(ctx, "submission answer not found", err)
 		}
 
 		return res.StatusInternalServerError(ctx, "failed to get all submission answer , something happen", err)

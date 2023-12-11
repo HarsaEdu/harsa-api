@@ -22,7 +22,7 @@ func (submissionAnswerHanlder *SubmissionAnswerHandlerImpl) FindById(ctx echo.Co
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "submission answer not found", err)
+			return res.StatusNoContent(ctx, "submission answer not found", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to get submission answer, something happen", err)
 	}
