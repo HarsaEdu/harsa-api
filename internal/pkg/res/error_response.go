@@ -20,6 +20,10 @@ func StatusNotFound(ctx echo.Context, message string, err error) error {
 	return errorResponse(ctx, http.StatusNotFound, message, err.Error())
 }
 
+func StatusNoContent(ctx echo.Context, message string, err error) error {
+	return errorResponse(ctx, http.StatusNoContent, message, err.Error())
+}
+
 func StatusInternalServerError(ctx echo.Context, message string, err error) error {
 	logrus.Error(err.Error())
 	return errorResponse(ctx, http.StatusInternalServerError, message, err.Error())
