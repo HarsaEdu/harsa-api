@@ -2,7 +2,6 @@ package repository
 
 import (
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
-	
 )
 
 func (courseTrackingrepository *CourseTrackingRepositoryImpl) FindById(courseTrackingId uint) (*domain.CourseTracking ,error) {
@@ -11,6 +10,7 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) FindById(courseTra
 
 	if err := courseTrackingrepository.DB.
 	Preload("User.UserProfile").
+    Preload("Course").
     First(&courseTracking, courseTrackingId).
     Error; err != nil {
     return nil, err
