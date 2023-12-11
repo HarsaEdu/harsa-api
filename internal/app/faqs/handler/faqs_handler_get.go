@@ -29,7 +29,7 @@ func (faqsHandler *FaqsHandlerImpl) GetAll(ctx echo.Context) error {
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "faqs not found", err)
+			return res.StatusNoContent(ctx, "faqs not found", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to get all faqs, something happen", err)
 	}
@@ -47,7 +47,7 @@ func (faqsHandler *FaqsHandlerImpl) GetById(ctx echo.Context) error {
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "faqs not found", err)
+			return res.StatusNoContent(ctx, "faqs not found", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to get faqs, something happen", err)
 	}

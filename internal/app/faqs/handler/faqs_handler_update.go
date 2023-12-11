@@ -13,6 +13,9 @@ import (
 func (faqsHandler *FaqsHandlerImpl) Update(ctx echo.Context) error {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)
+	}
 
 	req := web.FaqsUpdateRequest{}
 	err = ctx.Bind(&req)
