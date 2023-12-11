@@ -77,6 +77,13 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTrack
 			return nil, 0,result.Error
 		}
 	}
+	if status == "completed" && progress != 100{
+		newStatus := "in progress"
+		result := courseTrackingRepository.DB.Model(&domain.CourseTracking{}).Where("course_id = ? and user_id = ?", courseID, userID).Update("status", newStatus)
+		if result.Error != nil {
+			return nil, 0,result.Error
+		}
+	}
     return allSection, progress, nil
 }
 
