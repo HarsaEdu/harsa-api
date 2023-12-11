@@ -64,7 +64,12 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTrack
 		allSection = append(allSection, *sectionRes)
 	}
 
-	progress := totalProgress / totalModule
+	var progress float32
+	if totalModule == 0{
+		progress = 0
+	}else{
+		progress = totalProgress / totalModule
+	}
 	if status == "in progress" && progress == 100{
 		newStatus := "completed"
 		result := courseTrackingRepository.DB.Model(&domain.CourseTracking{}).Where("course_id = ? and user_id = ?", courseID, userID).Update("status", newStatus)
