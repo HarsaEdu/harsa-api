@@ -21,6 +21,8 @@ func PaymentHistoryDomainToPaymentHistoryResponse(paymentHistory *domain.Payment
 		Customer: web.PaymentCustomerResponse{
 			ID:   paymentHistory.User.ID,
 			Name: paymentHistory.User.UserProfile.FirstName + " " + paymentHistory.User.UserProfile.LastName,
+			Email:  paymentHistory.User.Email,
+			Username: paymentHistory.User.Username,
 		},
 		Item: web.PaymentItemResponse{
 			ID:   paymentHistory.Item.ID,

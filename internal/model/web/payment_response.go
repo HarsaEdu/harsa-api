@@ -5,6 +5,9 @@ import "time"
 type PaymentCustomerResponse struct {
 	ID   uint   `json:"id"`
 	Name string `json:"name"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+
 }
 
 type PaymentItemResponse struct {
