@@ -23,7 +23,7 @@ func (subsPlanHandler *SubsPlanHandlerImpl) FindById(ctx echo.Context) error {
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "subs plan not found", err)
+			return res.StatusNoContent(ctx, "subs plan not found", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to get subs plan, something happen", err)
 	}
