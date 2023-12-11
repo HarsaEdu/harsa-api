@@ -4,10 +4,12 @@ FROM golang:1.20-bookworm
 # Set the working directory inside the container
 WORKDIR /app
 
+RUN apt update
+
 # Install wkhtmltox depedencies
+RUN apt install fontconfig libjpeg62-turbo libx11-6 libxcb1 libxext6 libxrender1 xfonts-75dpi xfonts-base
 RUN wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
 RUN dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
-RUN apt install fontconfig libjpeg62-turbo libx11-6 libxcb1 libxext6 libxrender1 xfonts-75dpi xfonts-base
 
 # Install wkhtmltox
 RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_amd64.deb
