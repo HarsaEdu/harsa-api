@@ -22,7 +22,7 @@ func (submissionHandler *SubmissionHandlerImpl) GetAllWeb(ctx echo.Context) erro
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "submissions not found", err)
+			return res.StatusNoContent(ctx, "submissions not found", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to get submissions, something happen", err)
 	}

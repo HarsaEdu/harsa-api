@@ -21,7 +21,7 @@ func (submissionHandler *SubmissionHandlerImpl) FindById(ctx echo.Context) error
 			return validation.ValidationError(ctx, err)
 		}
 		if strings.Contains(err.Error(), "not found") {
-			return res.StatusNotFound(ctx, "submission not found", err)
+			return res.StatusNoContent(ctx, "submission not found", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to get submission, something happen", err)
 	}
