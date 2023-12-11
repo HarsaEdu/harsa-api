@@ -36,7 +36,7 @@ type UserProfileUpdateRequest struct {
 type UserUpdateRequest struct {
 	ID       uint   `json:"id" validate:"required"`
 	Email    string `json:"email" validate:"required,email"`
-	Username string `json:"username" validate:"required"`
+	Username string `json:"username"`
 	Password string `json:"password" validate:"omitempty,min=8,max=255"`
 	RoleID   uint   `json:"role_id" validate:"required"`
 }
@@ -44,7 +44,7 @@ type UserUpdateRequest struct {
 type UserUpdateRequestMobile struct {
 	ID       uint   `json:"id" validate:"required"`
 	Email    string `json:"email" validate:"required,email"`
-	Username string `json:"username" validate:"required"`
+	Username string `json:"username" `
 }
 
 type UserUpdatePasswordRequestMobile struct {
