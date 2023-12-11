@@ -6,6 +6,12 @@ func (moduleRepository *ModuleRepositoryImpl) UpdateModule(updateModul *domain.M
 
 	tx := moduleRepository.DB.Begin()
 
+	defer func() {
+        if r := recover(); r != nil {
+            tx.Rollback()
+        }
+    }()
+
 	moduleExist.Title = updateModul.Title
 	moduleExist.Description = updateModul.Description
 	moduleExist.SubModules = updateModul.SubModules
