@@ -19,7 +19,7 @@ func (coreApi *MidtransCoreApiImpl) ChargeTransaction(request *coreapi.ChargeReq
 func (coreApi *MidtransCoreApiImpl) CheckTransactionStatus(orderId string) (string, *domain.PaymentTransactionStatus, error) {
 	response, err := coreApi.Client.CheckTransaction(orderId)
 
-	parseSettlementTime, _ := time.Parse("2006-01-02 15:04:05", response.SettlementTime)
+	parseSettlementTime, _ := time.ParseInLocation("2006-01-02 15:04:05", response.SettlementTime, time.Local)
 	
 	if err != nil {
 		return "", nil, err
