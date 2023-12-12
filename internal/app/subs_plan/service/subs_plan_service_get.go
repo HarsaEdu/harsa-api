@@ -3,12 +3,11 @@ package service
 import (
 	"fmt"
 
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (subsPlanService *SubsPlanServiceImpl) GetAll(search string) ([]domain.SubsPlan, *web.Pagination, error) {
+func (subsPlanService *SubsPlanServiceImpl) GetAll(search string) ([]web.SubsPlanResposne, *web.Pagination, error) {
 	result, total, err := subsPlanService.SubsPlanRepository.GetAllActive(search)
 
 	if total == 0 {
@@ -19,7 +18,9 @@ func (subsPlanService *SubsPlanServiceImpl) GetAll(search string) ([]domain.Subs
 		return nil, nil, fmt.Errorf("internal Server Error")
 	}
 
+	response := conversion.ConvertAllSubPlanResponse(result)
+
 	pagination := conversion.RecordToPaginationResponse(0, 0, total)
 
-	return result, pagination, nil
+	return response, pagination, nil
 }
