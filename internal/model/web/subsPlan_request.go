@@ -18,3 +18,7 @@ type SubsPlanUpdateRequest struct {
 type SubsPlanUpdateImage struct {
 	Image_url string `form:"image" validate:"required"`
 }
+
+type SubsPlanUpdateStatus struct {
+	IsActive bool `json:"is_active" form:"is_active"`
+}
