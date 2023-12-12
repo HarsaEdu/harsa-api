@@ -45,7 +45,7 @@ func (subsPlanHandler *SubsPlanHandlerImpl) CreateFromExisting(ctx echo.Context)
 		return res.StatusBadRequest(ctx, "failed to bind subs plan request", err)
 	}
 
-	err = subsPlanHandler.SubsPlanService.CreateFromExisting(&req, uint(id))
+	err = subsPlanHandler.SubsPlanService.CreateFromExisting(ctx, &req, uint(id))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

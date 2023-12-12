@@ -39,7 +39,7 @@ func (subsPlanService *SubsPlanServiceImpl) Create(ctx echo.Context, subsPlan *w
 	return nil
 }
 
-func (subsPlanService *SubsPlanServiceImpl) CreateFromExisting(request *web.SubsPlanUpdateRequest, id uint) error {
+func (subsPlanService *SubsPlanServiceImpl) CreateFromExisting(ctx echo.Context, request *web.SubsPlanUpdateRequest, id uint) error {
 	err := subsPlanService.Validator.Struct(request)
 	if err != nil {
 		return err
@@ -51,6 +51,20 @@ func (subsPlanService *SubsPlanServiceImpl) CreateFromExisting(request *web.Subs
 	}
 
 	newSubsPlan := conversion.ExistingSubsPlanToSubsPlanDomain(request, existingPlan)
+
+	file, _ := ctx.FormFile("image")
+
+	
+	if file != nil {
+		imageUrl, err := subsPlanService.CloudinaryUploader.Uploader(ctx, "image", "subs-plan", false)
+		if err != nil {
+			return fmt.Errorf("error when uploading image : %s", err.Error())
+		}
+		if !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(imageUrl) {
+			return fmt.Errorf("invalid file format")
+		}
+		newSubsPlan.Image_url = imageUrl
+	}
 
 	err = subsPlanService.SubsPlanRepository.Create(newSubsPlan)
 	if err != nil {
