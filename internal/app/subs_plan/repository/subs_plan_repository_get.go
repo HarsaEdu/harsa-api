@@ -15,7 +15,7 @@ func (SubsPlanRepository *SubsPlanRepositoryImpl) GetAllActive(search string) ([
 
 	query = query.Find(&subsPlan).Count(&total)
 
-	result := query.Find(&subsPlan)
+	result := query.Order("duration_days ASC").Find(&subsPlan)
 	if result.Error != nil {
 		return nil, 0, result.Error
 	}
