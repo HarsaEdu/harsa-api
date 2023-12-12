@@ -17,16 +17,20 @@ func (subsPlanService *SubsPlanServiceImpl) Create(ctx echo.Context, subsPlan *w
 
 	result := conversion.SubsPlanRequestToSubsPlanDomain(subsPlan)
 
-	imageUrl, err := subsPlanService.CloudinaryUploader.Uploader(ctx, "image", "subs-plan", false)
-	if !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(imageUrl) {
-		return fmt.Errorf("invalid file format")
+	file, _ := ctx.FormFile("image")
+
+	
+	if file != nil {
+		imageUrl, err := subsPlanService.CloudinaryUploader.Uploader(ctx, "image", "subs-plan", false)
+		if err != nil {
+			return fmt.Errorf("error when uploading image : %s", err.Error())
+		}
+		if !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(imageUrl) {
+			return fmt.Errorf("invalid file format")
+		}
+		result.Image_url = imageUrl
 	}
 
-	result.Image_url = imageUrl
-
-	if err != nil {
-		return fmt.Errorf("error when uploading image : %s", err.Error())
-	}
 
 	err = subsPlanService.SubsPlanRepository.Create(result)
 	if err != nil {
