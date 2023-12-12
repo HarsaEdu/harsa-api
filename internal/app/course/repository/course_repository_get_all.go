@@ -75,7 +75,7 @@ func (courseRepository *CourseRepositoryImpl) GetNameUser(userId uint) (string, 
 	
 	var userProfile = domain.UserProfile{}
 
-	if err := courseRepository.DB.First(&userProfile).Where("user_id = ?", userId).Error; err != nil {
+	if err := courseRepository.DB.Where("id = ?", userId).First(&userProfile).Error; err != nil {
 		return "", err
 	}
 
@@ -88,7 +88,7 @@ func (courseRepository *CourseRepositoryImpl) GetDashBoardIntructur(offset, limi
 	if err != nil {
 		return nil,0, fmt.Errorf("get all eror : %s", err)
 	}
-	name ,err:= courseRepository.GetNameUser(userID)
+	name, err:= courseRepository.GetNameUser(userID)
 	if err != nil {
 		return nil,0, fmt.Errorf("get get name eror : %s", err)
 	}
@@ -140,7 +140,7 @@ func (courseRepository *CourseRepositoryImpl) GetDetailDashBoardIntructur(course
 	course := domain.Course{}
 
 	result := courseRepository.DB.Preload("Feedback", func(db *gorm.DB) *gorm.DB {
-		return db.Limit(3)
+		return db.Limit(5)
 	}).Preload("Feedback.User.UserProfile").
 	First(&course, courseID)
 
