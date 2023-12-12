@@ -7,11 +7,11 @@ import (
 
 type SubsPlanHandler interface {
 	Create(ctx echo.Context) error
-	Delete(ctx echo.Context) error
-	Update(ctx echo.Context) error
 	GetAll(ctx echo.Context) error
 	UpdateImage(ctx echo.Context) error
 	FindById(ctx echo.Context) error
+	SetStatusDelete(ctx echo.Context) error
+	SetStatusActive(ctx echo.Context) error
 }
 
 type SubsPlanHandlerImpl struct {

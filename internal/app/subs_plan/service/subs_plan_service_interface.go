@@ -12,9 +12,8 @@ import (
 type SubsPlanService interface {
 	GetAll(search string) ([]domain.SubsPlan, *web.Pagination, error)
 	Create(ctx echo.Context, subsPlan *web.SubsPlanCreateRequest) error
-	Update(subsPlan *web.SubsPlanUpdateRequest, id int) error
-	Delete(id int) error
 	UpdateImage(ctx echo.Context, subsPlan *web.SubsPlanUpdateImage, id int) error
+	SetStatus(request *web.SubsPlanUpdateStatus, id uint) error
 	FindById(id int) (*domain.SubsPlan, error)
 }
 

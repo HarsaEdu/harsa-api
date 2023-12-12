@@ -8,6 +8,8 @@ import (
 type SubsPlanRepository interface {
 	Create(subsPlan *domain.SubsPlan) error
 	GetAllActive(search string) ([]domain.SubsPlan, int64, error)
+	UpdateStatus(isActive bool, id uint) error
+	UpdateImage(imagUrl string, id int) error
 	FindById(id int) (*domain.SubsPlan, error)
 }
 
