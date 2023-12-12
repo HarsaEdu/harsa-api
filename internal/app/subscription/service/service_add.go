@@ -16,10 +16,11 @@ func (subscriptionService *SubscriptionServiceImpl) SubscriptionAdd(user_id uint
 	if subscriptionResponse != nil {
 		subscription = *subscriptionResponse
 	}else{
-		subscription.UserID = user_id
 		subscription.StartDate = time.Now()	
 	}
- 
+
+	subscription.UserID = user_id
+	
 	startDate := subscription.StartDate.Unix()
 	endDate := subscription.EndDate.Unix()
 	now := time.Now().Unix()

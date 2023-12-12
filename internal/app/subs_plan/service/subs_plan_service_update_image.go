@@ -33,7 +33,7 @@ func (subsPlanService *SubsPlanServiceImpl) UpdateImage(ctx echo.Context, subsPl
 		return err
 	}
 
-	err = subsPlanService.SubsPlanRepository.Update(result, id)
+	err = subsPlanService.SubsPlanRepository.UpdateImage(result.Image_url, id)
 	if err != nil {
 		return fmt.Errorf("error when updating image subs plan %s", err.Error())
 	}
