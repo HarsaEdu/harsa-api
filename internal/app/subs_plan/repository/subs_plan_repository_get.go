@@ -6,7 +6,7 @@ func (SubsPlanRepository *SubsPlanRepositoryImpl) GetAllActive(search string) ([
 	subsPlan := []domain.SubsPlan{}
 	var total int64
 
-	query := SubsPlanRepository.DB.Where("isActive = ?", true)
+	query := SubsPlanRepository.DB.Where("is_active = ?", true)
 
 	if search != "" {
 		s := "%" + search + "%"
