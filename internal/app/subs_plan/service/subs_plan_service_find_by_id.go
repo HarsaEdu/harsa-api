@@ -3,10 +3,11 @@ package service
 import (
 	"fmt"
 
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
+	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (subsPlanService *SubsPlanServiceImpl) FindById(id int) (*domain.SubsPlan, error) {
+func (subsPlanService *SubsPlanServiceImpl) FindById(id int) (*web.SubsPlanResposne, error) {
 	result, err := subsPlanService.SubsPlanRepository.FindById(id)
 
 	if result == nil {
@@ -17,5 +18,7 @@ func (subsPlanService *SubsPlanServiceImpl) FindById(id int) (*domain.SubsPlan, 
 		return nil, fmt.Errorf("internal Server Error")
 	}
 
-	return result, nil
+	response := conversion.ConvertSubPlanResponse(result)
+
+	return response , nil
 }
