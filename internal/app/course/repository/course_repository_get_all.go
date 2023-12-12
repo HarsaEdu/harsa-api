@@ -140,7 +140,7 @@ func (courseRepository *CourseRepositoryImpl) GetDetailDashBoardIntructur(course
 	course := domain.Course{}
 
 	result := courseRepository.DB.Preload("Feedback", func(db *gorm.DB) *gorm.DB {
-		return db.Limit(3)
+		return db.Limit(5)
 	}).Preload("Feedback.User.UserProfile").
 	First(&course, courseID)
 
