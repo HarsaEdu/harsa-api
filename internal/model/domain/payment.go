@@ -11,7 +11,7 @@ type PaymentHistory struct {
 	GrossAmount     string    `gorm:"type:string" json:"gross_amount"`
 	BankName        string    `gorm:"type:varchar(255)" json:"bank_name"`
 	VaNumber        string    `gorm:"type:varchar(255)" json:"va_number"`
-	SettlementTime  time.Time `gorm:"type:datetime" json:"settlement_time"`
+	SettlementTime  time.Time `gorm:"type:datetime;null;default:null" json:"settlement_time"`
 	TransactionTime time.Time `gorm:"type:datetime" json:"transaction_time"`
 	ExpiryTime      time.Time `gorm:"type:datetime" json:"expiry_time"`
 	User            User      `gorm:"foreignKey:UserId;references:ID" json:"user"`
