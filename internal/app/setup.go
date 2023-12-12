@@ -23,6 +23,7 @@ import (
 	submissionAnswer "github.com/HarsaEdu/harsa-api/internal/app/submission_answer"
 	subsPlan "github.com/HarsaEdu/harsa-api/internal/app/subs_plan"
 	subscription "github.com/HarsaEdu/harsa-api/internal/app/subscription"
+	dashboard "github.com/HarsaEdu/harsa-api/internal/app/dashboard"
 
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
@@ -60,6 +61,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, userRepo)
 	historyQuizRoutes := historyQuiz.HistoryQuizSetup(db, validate, subscriptionService)
 	certificateRoutes := certificate.CertificateSetup(db, validate, cloudinary, courseTrackingRepository)
+	dashboardRoutes := dashboard.DashboardSetup(db)
 
 
 	apiGroupWeb := e.Group("web")
@@ -83,6 +85,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	recommendationsRoutes.RecommendationsWeb(apiGroupWeb)
 	profileRoutes.ProfileWeb(apiGroupWeb)
 	historyQuizRoutes.HistoryQuizWeb(coursesGroup)
+	dashboardRoutes.DashboardWeb(apiGroupWeb)
 
 
 	apiGroupMobile := e.Group("mobile")
