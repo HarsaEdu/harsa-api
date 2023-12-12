@@ -2,11 +2,11 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (SubsPlanRepository *SubsPlanRepositoryImpl) GetAll(search string) ([]domain.SubsPlan, int64, error) {
+func (SubsPlanRepository *SubsPlanRepositoryImpl) GetAllActive(search string) ([]domain.SubsPlan, int64, error) {
 	subsPlan := []domain.SubsPlan{}
 	var total int64
 
-	query := SubsPlanRepository.DB.Model(&subsPlan)
+	query := SubsPlanRepository.DB.Where("isActive = ?", true)
 
 	if search != "" {
 		s := "%" + search + "%"

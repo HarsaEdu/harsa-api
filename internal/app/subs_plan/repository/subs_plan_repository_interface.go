@@ -7,9 +7,7 @@ import (
 
 type SubsPlanRepository interface {
 	Create(subsPlan *domain.SubsPlan) error
-	GetAll(search string) ([]domain.SubsPlan, int64, error)
-	Update(subsPlan *domain.SubsPlan, id int) error
-	Delete(id int) error
+	GetAllActive(search string) ([]domain.SubsPlan, int64, error)
 	FindById(id int) (*domain.SubsPlan, error)
 }
 
