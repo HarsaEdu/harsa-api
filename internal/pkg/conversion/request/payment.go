@@ -46,20 +46,18 @@ func CreatePaymentSubscriptionRequestToMidtransChargeRequest(subscription *domai
 }
 
 func ChargeResponseToPaymentHistoryDomain(response *coreapi.ChargeResponse, customer *domain.UserDetail, itemId uint) *domain.PaymentHistory {
-	parseTransactionTime, _ := time.Parse("2006-01-02 15:04:05", response.TransactionTime)
-	parseExpireTime, _ := time.Parse("2006-01-02 15:04:05", response.ExpiryTime)
+	parseTransactionTime, _ := time.ParseInLocation("2006-01-02 15:04:05", response.TransactionTime, time.Local)
+	parseExpireTime, _ := time.ParseInLocation("2006-01-02 15:04:05", response.ExpiryTime, time.Local)
 	return &domain.PaymentHistory{
-		ID:             response.OrderID,
-		UserId:         customer.UserID,
-		ItemId:         itemId,
-		Status:         response.TransactionStatus,
-		Method:         response.PaymentType,
-		GrossAmount:    response.GrossAmount,
-		BankName:       response.VaNumbers[0].Bank,
-		VaNumber:       response.VaNumbers[0].VANumber,
-		CreatedAt:      parseTransactionTime,
-		UpdatedAt:      parseTransactionTime,
-		ExpiredAt:      parseExpireTime,
-		SettlementTime: parseTransactionTime,
+		ID:              response.OrderID,
+		UserId:          customer.UserID,
+		ItemId:          itemId,
+		Status:          response.TransactionStatus,
+		Method:          response.PaymentType,
+		GrossAmount:     response.GrossAmount,
+		BankName:        response.VaNumbers[0].Bank,
+		VaNumber:        response.VaNumbers[0].VANumber,
+		TransactionTime: parseTransactionTime,
+		ExpiryTime:      parseExpireTime,
 	}
 }
