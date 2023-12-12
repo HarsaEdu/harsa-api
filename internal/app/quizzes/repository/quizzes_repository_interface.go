@@ -12,7 +12,7 @@ type QuizzesRepository interface {
 	CekIdFromModule(userId uint, moduleId uint, role string) error
 	FindById(quizId uint) (*domain.Quizzes, error)
 	Delete(quiz *domain.Quizzes) error
-	GetAll(moduleId uint, offset, limit int, search string) ([]domain.Quizzes, int64, error)
+	GetAll(moduleId uint, offset, limit int, search string) ([]domain.Quizzes, int64, string,error)
 }
 
 type QuizzesRepositoryImpl struct {
