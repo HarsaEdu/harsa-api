@@ -6,7 +6,7 @@ import (
 
 func (paymentRepository *PaymentRepositoryImpl) GetPaymentHistoryById(paymentHistoryId string) (*domain.PaymentHistory, error) {
 	paymentHistory := domain.PaymentHistory{}
-	result := paymentRepository.DB.Preload("User.UserProfile").Preload("Item").Where("id = ?", paymentHistoryId).Order("created_at DESC").First(&paymentHistory)
+	result := paymentRepository.DB.Preload("User.UserProfile").Preload("Item").Where("id = ?", paymentHistoryId).Order("transaction_time DESC").First(&paymentHistory)
 	if result.Error != nil {
 		return nil, result.Error
 	}
