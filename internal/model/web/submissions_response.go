@@ -8,6 +8,13 @@ type SubmissionsResponseModule struct {
 	Content string `json:"content"`
 }
 
+type SubmissionsResponseWeb struct {
+	Id      uint   `json:"id"`
+	SubmissionTitle   string `json:"submission_title"`
+	Content string `json:"content"`
+	CourseTitle string `json:"course_title"`
+}
+
 type SubmissionsResponseModuleMobile struct {
 	Id               uint                `json:"id"`
 	Title            string              `json:"title"`
