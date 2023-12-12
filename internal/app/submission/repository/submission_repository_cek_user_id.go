@@ -28,8 +28,8 @@ func (SubmissionRepository *SubmissionRepositoryImpl) CekUserIDfromSubmission(id
 
 	var userID uint
 
-	if err := SubmissionRepository.DB.Model(&domain.SubModule{}).Where("id = ?", id).Select("courses.user_id").
-		Joins("JOIN modules ON modules.id = sub_modules.module_id").
+	if err := SubmissionRepository.DB.Model(&domain.Submissions{}).Where("submissions.id = ?", id).Select("courses.user_id").
+		Joins("JOIN modules ON modules.id = submissions.module_id").
 		Joins("JOIN sections ON sections.id = modules.section_id").
 		Joins("JOIN courses ON courses.id = sections.course_id").
 		Scan(&userID).Error; err != nil {
