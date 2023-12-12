@@ -139,9 +139,10 @@ func (courseRepository *CourseRepositoryImpl) GetDetailDashBoardIntructur(course
 
 	course := domain.Course{}
 
-	result := courseRepository.DB.Preload("Feedback.User.UserProfile", func(db *gorm.DB) *gorm.DB {
+	result := courseRepository.DB.Preload("Feedback", func(db *gorm.DB) *gorm.DB {
 		return db.Limit(3)
-	}).First(&course, courseID)
+	}).Preload("Feedback.User.UserProfile").
+	First(&course, courseID)
 
 	if result.Error != nil {
 		return nil,   result.Error
