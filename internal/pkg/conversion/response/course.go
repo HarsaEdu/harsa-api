@@ -153,12 +153,18 @@ func CourseDomainToCourseGetAllResponseMobile(courseDomain []domain.Course) []we
 func ConvertCourseGetByIdResponseWeb(course *domain.Course) *web.GetCourseResponseByIdWeb {
 	
 	section := ConvertAllSectionGetByIdResponseWeb(course.Section)
+
+	name := course.User.UserProfile.FirstName + " " + course.User.UserProfile.LastName
 	
 	courseGetResponse := &web.GetCourseResponseByIdWeb{
 		ID:          course.ID,
 		Title:       course.Title,
 		Description: course.Description,
 		ImageUrl:    course.ImageUrl,
+		User: &web.UserForCourseResponseMobile{
+			ID: course.User.ID,
+			Name: name,	
+		},
 		Section:     section,
 	}
 

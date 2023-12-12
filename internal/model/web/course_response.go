@@ -110,6 +110,7 @@ type GetCourseResponseByIdWeb struct{
 	Title string `json:"title"`
 	Description string `json:"description"`
 	ImageUrl string `json:"image_url"`
+	User        *UserForCourseResponseMobile      `json:"user"`
 	Section []SectionResponseGetByIdWeb `json:"section"`
 }
 
