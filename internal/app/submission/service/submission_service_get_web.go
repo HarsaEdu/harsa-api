@@ -4,11 +4,10 @@ import (
 	"fmt"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
-	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
 
-func (submissionService *SubmissionServiceImpl) GetAll(moduleId int) ([]web.SubmissionsResponseModule, error) {
-	data, total, err := submissionService.SubmissionRepository.GetAll(moduleId)
+func (submissionService *SubmissionServiceImpl) GetAll(moduleId int) ([]web.SubmissionsResponseWeb, error) {
+	data, total, err := submissionService.SubmissionRepository.GetAllWeb(moduleId)
 	if err != nil {
 		return nil, fmt.Errorf("internal Server Error")
 	}
@@ -17,6 +16,5 @@ func (submissionService *SubmissionServiceImpl) GetAll(moduleId int) ([]web.Subm
 		return nil, fmt.Errorf("submission not found")
 	}
 
-	result := conversion.ConvertAllSubmissionModule(data)
-	return result, nil
+	return data, nil
 }
