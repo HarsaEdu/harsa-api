@@ -38,3 +38,29 @@ func (subsPlanService *SubsPlanServiceImpl) Create(ctx echo.Context, subsPlan *w
 	}
 	return nil
 }
+
+func (subsPlanService *SubsPlanServiceImpl) CreateFromExisting(request *web.SubsPlanUpdateRequest, id uint) error {
+	err := subsPlanService.Validator.Struct(request)
+	if err != nil {
+		return err
+	}
+
+	existingPlan, _ := subsPlanService.SubsPlanRepository.FindById(int(id))
+	if existingPlan == nil {
+		return fmt.Errorf("subs plan not found")
+	}
+
+	newSubsPlan := conversion.ExistingSubsPlanToSubsPlanDomain(request, existingPlan)
+
+	err = subsPlanService.SubsPlanRepository.Create(newSubsPlan)
+	if err != nil {
+		return fmt.Errorf("error when creating subs plan %s", err.Error())
+	}
+
+	err = subsPlanService.SubsPlanRepository.UpdateStatus(false, id)
+	if err != nil {
+		return fmt.Errorf("error when updating subs plan status %s", err.Error())
+	}
+
+	return nil
+}

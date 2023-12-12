@@ -7,6 +7,7 @@ import (
 
 type SubsPlanHandler interface {
 	Create(ctx echo.Context) error
+	CreateFromExisting(ctx echo.Context) error
 	GetAll(ctx echo.Context) error
 	UpdateImage(ctx echo.Context) error
 	FindById(ctx echo.Context) error
