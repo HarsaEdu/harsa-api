@@ -9,7 +9,7 @@ import (
 )
 
 func (subsPlanService *SubsPlanServiceImpl) GetAll(search string) ([]domain.SubsPlan, *web.Pagination, error) {
-	result, total, err := subsPlanService.SubsPlanRepository.GetAll(search)
+	result, total, err := subsPlanService.SubsPlanRepository.GetAllActive(search)
 
 	if total == 0 {
 		return nil, nil, fmt.Errorf("subs plan not found")
