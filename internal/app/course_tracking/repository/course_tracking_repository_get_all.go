@@ -16,11 +16,11 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) GetAllCourseTracki
 	courseTracking := []domain.CourseTracking{}
 	var total int64
 
-	query := courseTrackingRepository.DB.Model(&courseTracking).Where("user_id = ?", userID).Order("created_at DESC")
+	query := courseTrackingRepository.DB.Model(&courseTracking).Where("course_trackings.user_id = ?", userID).Order("created_at DESC")
 
 	if status != "" {
 		s := "%" + status + "%"
-		query = query.Where("status LIKE ?", s)
+		query = query.Where("course_trackings.status LIKE ?", s)
 	}
 
 	query = query.Preload("Course.User.UserProfile")
