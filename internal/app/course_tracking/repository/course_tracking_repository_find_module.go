@@ -1,6 +1,7 @@
 package repository
 
 import (
+
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
@@ -200,11 +201,11 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllSubmission(
 
 	for _, submission := range submissions {
 
-		var countSubmissisonAnswer int64
-
 		submissionAnswer := &domain.SubmissionAnswer{}
 
-		if err := courseTrackingRepository.DB.Find(&submissionAnswer).Where("submission_id = ? AND user_id  = ?", submission.ID, userID).Count(&countSubmissisonAnswer).Error; err != nil {
+		var countSubmissisonAnswer int64
+
+		if err := courseTrackingRepository.DB.Where("submission_id = ? AND user_id  = ?", submission.ID, userID).Find(&submissionAnswer).Count(&countSubmissisonAnswer).Error; err != nil {
 			return nil, err
 		}
 
@@ -239,7 +240,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllQuiz(module
 
 		historyQuiz := &domain.HistoryQuiz{}
 
-		if err := courseTrackingRepository.DB.Find(&historyQuiz).Where("quiz_id = ? AND user_id  = ?", quiz.ID, userID).Count(&countHistoryQuiz).Error; err != nil {
+		if err := courseTrackingRepository.DB.Where("quiz_id = ? AND user_id  = ?", quiz.ID, userID).Find(&historyQuiz).Count(&countHistoryQuiz).Error; err != nil {
 			return nil, err
 		}
 
