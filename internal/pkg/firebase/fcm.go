@@ -7,16 +7,15 @@ import (
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/messaging"
-	"github.com/HarsaEdu/harsa-api/configs"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"google.golang.org/api/option"
 )
 
-func SendNotificationPersonal(notif web.NotificationPersonal, config configs.AppConfig) {
+func (firebaseImpl *FirebaseImpl) SendNotificationPersonal(notif *web.NotificationPersonal) {
 
-	credential, err := GetDecodedFireBaseKey(config)
+	credential, err := GetDecodedFireBaseKey(*firebaseImpl.Config)
 	if err != nil {
-		fmt.Errorf("Failed to get credential: %v", err)
+		log.Fatalf("Failed to get credential: %v", err)
 	}
 
 	// Konfigurasi Firebase Admin SDK
@@ -50,11 +49,11 @@ func SendNotificationPersonal(notif web.NotificationPersonal, config configs.App
 	fmt.Println("Successfully sent notification:", response)
 }
 
-func SendNotificationMulticast(notif web.NotificationMultiCast, config configs.AppConfig) {
+func (firebaseImpl *FirebaseImpl) SendNotificationMulticast(notif *web.NotificationMultiCast) {
 
-	credential, err := GetDecodedFireBaseKey(config)
+	credential, err := GetDecodedFireBaseKey(*firebaseImpl.Config)
 	if err != nil {
-		fmt.Errorf("Failed to get credential: %v", err)
+		log.Fatalf("Failed to get credential: %v", err)
 	}
 
 	// Konfigurasi Firebase Admin SDK
