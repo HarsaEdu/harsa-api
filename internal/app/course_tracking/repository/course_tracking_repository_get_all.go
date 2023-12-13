@@ -23,7 +23,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) GetAllCourseTracki
 		query = query.Where("status LIKE ?", s)
 	}
 
-	query = query.Preload("Course.User.UserProfile").Preload("User.UserProfile")
+	query = query.Preload("Course.User.UserProfile")
 
 	if search != "" {
 		query = query.Joins("JOIN courses ON courses.id = course_trackings.course_id").
