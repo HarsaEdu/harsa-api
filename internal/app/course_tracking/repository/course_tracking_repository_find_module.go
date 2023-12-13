@@ -209,7 +209,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllSubmission(
 		}
 
 		var convertSubmissisonAnswer *web.SubmissionsResponseModuleMobile
-		if countSubmissisonAnswer > 0 {
+		if countSubmissisonAnswer > 0 && submissionAnswer.Status == "accepted"{
 			convertSubmissisonAnswer = conversion.ConvertSubmissionAnswerResponseTrackingMobile(&submission, submissionAnswer, true)
 		} else {
 			convertSubmissisonAnswer = conversion.ConvertSubmissionAnswerResponseTrackingMobile(&submission, submissionAnswer, false)
