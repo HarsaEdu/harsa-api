@@ -34,6 +34,7 @@ type CourseTrackingRepository interface {
 	GetCourseIDbySubModuleID(id uint) (uint,error)
 	GetCourseIDbyQuizzesID(id uint) (uint,error)
 	GetCreatedAt(id uint) (int64, error)
+	FindAllModuleTrackingNoLogin(sections []domain.Section) ([]web.SectionResponseMobile, error)
 }
 
 type CourseTrackingRepositoryImpl struct {

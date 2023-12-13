@@ -31,6 +31,25 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTrack
     return allSection, nil
 }
 
+func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTrackingNoLogin(sections []domain.Section) ([]web.SectionResponseMobile, error) {
+
+	allSection:= []web.SectionResponseMobile{}
+
+	for _,section := range sections {
+
+		var allModule []web.ModuleResponseForTracking
+		for _, module := range section.Modules {
+
+			convertModul := conversion.ConvertModuleResponseTrackingMobile(&module, 0)		
+			allModule = append(allModule, *convertModul)
+		}
+		sectionRes:= conversion.ConvertSectionResponseMobile(&section, allModule)
+		allSection = append(allSection, *sectionRes)
+	}
+
+    return allSection, nil
+}
+
 func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTrackingWithProgress(sections []domain.Section, userID uint, courseID uint) ([]web.SectionResponseMobile, float32 ,error) {
 
 	var status string

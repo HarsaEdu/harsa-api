@@ -7,6 +7,7 @@ func (authRoutes *AuthRoutesImpl) AuthWeb(apiGroup *echo.Group) {
 
 	authGroup.POST("/register", authRoutes.AuthHandler.RegisterUser)
 	authGroup.POST("/login", authRoutes.AuthHandler.LoginUser)
+	authGroup.POST("/access-token", authRoutes.AuthHandler.GetAccessToken)
 }
 
 func (authRoutes *AuthRoutesImpl) AuthMobile(apiGroup *echo.Group) {
