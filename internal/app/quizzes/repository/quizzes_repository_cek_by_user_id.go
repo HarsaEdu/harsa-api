@@ -14,19 +14,25 @@ func (repository *QuizzesRepositoryImpl) CekIdFromQuiz(userId uint, quizId uint,
 		return nil, err
 	}
 
-	var module = domain.Module{}
+	var sectionID uint
 
-	if err := repository.DB.First(&module, quiz.ModuleID).Error; err != nil {
+	if err := repository.DB.Model(&domain.Module{}).Where("id = ?", quiz.ModuleID).Select("section_id").Scan(&sectionID).Error; err != nil {
 		return nil, err
 	}
 
-	var course = domain.Course{}
+	var courseID uint
 
-	if err := repository.DB.First(&course, module.CourseID).Error; err != nil {
+	if err := repository.DB.Model(&domain.Section{}).Where("id = ?", sectionID).Select("course_id").Scan(&courseID).Error; err != nil {
+		return nil, err
+	}
+	
+	var userID uint
+
+	if err := repository.DB.Model(&domain.Course{}).Where("id = ?", courseID).Select("user_id").Scan(&userID).Error; err != nil {
 		return nil, err
 	}
 
-	if course.UserID != userId && role != "admin" {
+	if userID != userId && role != "admin" {
 		return nil, fmt.Errorf("unauthorized")
 	}
 	
@@ -36,23 +42,28 @@ func (repository *QuizzesRepositoryImpl) CekIdFromQuiz(userId uint, quizId uint,
 
 func (repository *QuizzesRepositoryImpl) CekIdFromModule(userId uint, moduleId uint, role string) error {
 
+	var sectionID uint
 
-	var module = domain.Module{}
-
-	if err := repository.DB.First(&module, moduleId).Error; err != nil {
+	if err := repository.DB.Model(&domain.Module{}).Where("id = ?", moduleId).Select("section_id").Scan(&sectionID).Error; err != nil {
 		return err
 	}
 
-	var course = domain.Course{}
+	var courseID uint
 
-	if err := repository.DB.First(&course, module.CourseID).Error; err != nil {
+	if err := repository.DB.Model(&domain.Section{}).Where("id = ?", sectionID).Select("course_id").Scan(&courseID).Error; err != nil {
+		return err
+	}
+	
+	var userID uint
+
+	if err := repository.DB.Model(&domain.Course{}).Where("id = ?", courseID).Select("user_id").Scan(&userID).Error; err != nil {
 		return err
 	}
 
-	if course.UserID != userId && role != "admin" {
+	if userID != userId && role != "admin" {
 		return fmt.Errorf("unauthorized")
 	}
 	
 
 	return nil
-}
+} 

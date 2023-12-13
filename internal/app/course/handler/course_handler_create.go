@@ -17,16 +17,17 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind course request", err)
 	}
 
+	roleInterface := ctx.Get("role_name")
+
+	roleString := fmt.Sprintf("%s", roleInterface)
 	var instructorId uint
 
-	fmt.Println(courseCreateRequest.UserId)
-
-	if courseCreateRequest.UserId == 0 {
+	if roleString == "instructor"{
 		instructorId = ctx.Get("user_id").(uint)
-	}else{
+		courseCreateRequest.UserId = instructorId
+	} else {
 		instructorId = courseCreateRequest.UserId
 	}
-
 
 	err = courseHandler.CourseService.Create(ctx, &courseCreateRequest, instructorId)
 	if err != nil {
@@ -37,7 +38,6 @@ func (courseHandler *CourseHandlerImpl) Create(ctx echo.Context) error {
 			return res.StatusAlreadyExist(ctx, "course already exist", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to create course, something happen", err)
-
 	}
 
 	return res.StatusCreated(ctx, "success to create course", nil, nil)

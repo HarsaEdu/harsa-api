@@ -5,11 +5,11 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
-func ConvertSubmissionResponseModule(submission *domain.Submissions) *web.SubmissionsResponseModule{
+func ConvertSubmissionResponseModule(submission *domain.Submissions) *web.SubmissionsResponseModule {
 	submissionRes := web.SubmissionsResponseModule{
-		Id:            submission.ID,
-		Title:         submission.Title,
-		Description:   submission.Description,
+		Id:      submission.ID,
+		Title:   submission.Title,
+		Content: submission.Content,
 	}
 	return &submissionRes
 }
@@ -25,14 +25,15 @@ func ConvertAllSubmissionModule(submission []domain.Submissions) []web.Submissio
 	return submissionRes
 }
 
-func ConvertSubmissionResponseModuleMobile(submission *domain.Submissions) *web.SubmissionsResponseModuleMobile{
+func ConvertSubmissionResponseModuleMobile(submission *domain.Submissions) *web.SubmissionsResponseModuleMobile {
 	submissionRes := web.SubmissionsResponseModuleMobile{
-		Id:            submission.ID,
-		Title:         submission.Title,
+		Id:    submission.ID,
+		Title: submission.Title,
 	}
 	return &submissionRes
 }
 
+// SubmissionsResponseModule
 func ConvertAllSubmissionModuleMobile(submission []domain.Submissions) []web.SubmissionsResponseModuleMobile {
 
 	var submissionRes []web.SubmissionsResponseModuleMobile

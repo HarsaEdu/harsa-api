@@ -4,16 +4,21 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/app/module/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
-	"github.com/labstack/echo/v4"
 )
 
 type ModuleService interface {
-	Create(ctx echo.Context, request *web.ModuleRequest, courseId uint, userId uint, role string) error
-	GetAllByCourseId(offset, limit int, search string, courseId uint) ([]web.ModuleResponse, *web.Pagination, error)
-	// GetById(id uint) (*web.GetModuleResponse, error)
-	// Update(id uint, request *web.ModuleUpdateRequest) error
-	// UpdateImage(ctx echo.Context, id uint, request *web.ModuleUpdateImageRequest) error
-	// Delete(id uint) error
+	CreateSection(request *web.SectionRequest, courseId uint, userId uint, role string) error
+	CreateModule(equest *web.ModuleRequest, courseId uint, userId uint, role string) error
+	GetAllSectionByCourseId(offset, limit int, search string, courseId uint) ([]web.SectionResponse, *web.Pagination, error)
+	GetAllModuleBySectionId(sectionId uint) (*web.SectionResponse, error)
+	UpdateModule(request *web.ModuleRequest, moduleId uint, userId uint, role string) error
+	UpdateModuleOrder(request *web.ModuleOrderRequest, moduleId uint, userId uint, role string) error
+	UpdateSectionOrder(request *web.SectionOrderRequest, sectionId uint, userId uint, role string) error
+	UpdateSection(request *web.SectionUpdateRequest, sectionId uint, userId uint, role string) error
+	DeleteModule(moduleId uint, userId uint, role string) error
+	DeleteSection(sectionId uint, userId uint, role string) error
+	GetModuleById(moduleId uint) (*web.ModuleResponse, error)
+	DeleteSubModule(subModuleId uint, userId uint, role string) error
 }
 
 type ModuleServiceImpl struct {

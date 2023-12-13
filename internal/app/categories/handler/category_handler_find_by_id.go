@@ -11,7 +11,10 @@ import (
 
 func (categoryHandler *CategoryHandlerImpl) FindById(ctx echo.Context) error {
 	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid category id", err)
+	}
 
 	result, err := categoryHandler.CategoryService.FindById(id)
 	if err != nil {

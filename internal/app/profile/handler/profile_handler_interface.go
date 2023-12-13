@@ -10,6 +10,7 @@ type ProfileHandler interface {
 	GetProfileByID(ctx echo.Context) error
 	UpdateProfile(ctx echo.Context) error
 	MyProfile(ctx echo.Context) error
+	UpdateMyProfile(ctx echo.Context) error
 }
 
 type ProfileHandlerImpl struct {

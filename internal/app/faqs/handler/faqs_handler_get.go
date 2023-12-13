@@ -36,3 +36,21 @@ func (faqsHandler *FaqsHandlerImpl) GetAll(ctx echo.Context) error {
 
 	return res.StatusOK(ctx, "success to get faqs", response, pagiantion)
 }
+
+func (faqsHandler *FaqsHandlerImpl) GetById(ctx echo.Context) error {
+	idParam := ctx.Param("id")
+	id, _ := strconv.Atoi(idParam)
+
+	response, err := faqsHandler.FaqsService.GetById(id)
+	if err != nil {
+		if strings.Contains(err.Error(), "validation") {
+			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "faqs not found", err)
+		}
+		return res.StatusInternalServerError(ctx, "failed to get faqs, something happen", err)
+	}
+
+	return res.StatusOK(ctx, "success to get faqs", response, err)
+}

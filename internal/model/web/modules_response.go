@@ -11,7 +11,6 @@ type SubModuleResponseModule struct {
 	ID          uint                  `json:"id"`
 	Title       string                `json:"title"`
 	ContentUrl  string                `json:"content_url"`
-	ContentBody string                `json:"content_body"`
 	Type        domain.SubModuleType  `json:"type"`
 }
 
@@ -23,12 +22,10 @@ type SubModuleResponseModuleMobile struct {
 
 type ModuleResponse struct {
 	ID          uint           `json:"id"`
-	CourseID    uint           `json:"course_id"`
-	Section     string         `json:"section"`
+	SectionID    uint           `json:"section_id"`
 	Title       string         `json:"title"`
 	Description string         `json:"description"`
 	Order       int            `json:"order"`
-	Type        string         `json:"type"`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 	SubModules  []SubModuleResponseModule `json:"sub_modules"`
@@ -38,7 +35,7 @@ type ModuleResponse struct {
 
 type ModuleResponseMobile struct {
 	ID          uint           `json:"id"`
-	CourseID    uint           `json:"course_id"`
+	SectionID    uint           `json:"section_id"`
 	Section     string         `json:"section"`
 	Title       string         `json:"title"`
 	Description string         `json:"description"`
@@ -49,4 +46,25 @@ type ModuleResponseMobile struct {
 	SubModules  []SubModuleResponseModuleMobile `json:"sub_modules"`
 	Submissions []SubmissionsResponseModuleMobile  `json:"submissions"`
 	Quizzes 	[]QuizResponseModuleMobile 	   `json:"quizzes"`
+}
+
+type SectionResponse struct {
+	ID          uint           `json:"id"`
+	CourseID    uint           `json:"course_id"`
+	Title       string         `json:"title"`
+	Order       int            `json:"order"`
+	Modules     []ModuleResponseWithTitle `json:"modules"`
+}
+
+type SectionResponseMobile struct {
+	ID          uint           `json:"id"`
+	Title       string         `json:"title"`
+	Order       int            `json:"order"`
+	Modules     []ModuleResponseForTracking `json:"modules"`
+}
+type ModuleResponseWithTitle struct {
+	ID          uint           `json:"id"`
+	Title       string         `json:"title"`
+	Description string         `json:"description"`
+	Order       int            `json:"order"`
 }

@@ -19,7 +19,7 @@ func (courseHandler *CourseHandlerImpl) Update(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "invalid course id", err)
 	}
 
-	user_id := ctx.Get("user_id").(uint)
+	userID := ctx.Get("user_id").(uint)
 
 	roleInterface := ctx.Get("role_name")
 
@@ -31,10 +31,18 @@ func (courseHandler *CourseHandlerImpl) Update(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind request: ", err)
 	}
 
-	err = courseHandler.CourseService.Update(uint(id), uint(user_id), roleString, &request)
+	if roleString == "instructor"{
+		request.UserId = ctx.Get("user_id").(uint)
+	}
+
+	err = courseHandler.CourseService.Update(uint(id), uint(userID), roleString, &request)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
+		}
+
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot update this course" ,err)
 		}
 
 		if strings.Contains(err.Error(), "not found") {

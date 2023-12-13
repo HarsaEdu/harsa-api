@@ -14,31 +14,37 @@ func (repositoryOptions *OptionsRepositoryImpl) CekIdFromOption(userId uint, opt
 		return nil, err
 	}
 	
-	var question = domain.Questions{}
+	var quizID uint
 
-	if err := repositoryOptions.DB.First(&question, option.QuestionID).Error; err != nil {
+	if err := repositoryOptions.DB.Model(&domain.Questions{}).Where("id = ?", option.QuestionID).Select("section_id").Scan(&quizID).Error; err != nil {
 		return nil, err
 	}
 	
-	var quiz = domain.Quizzes{}
+	var moduleID uint
 
-	if err := repositoryOptions.DB.First(&quiz, question.QuizID).Error; err != nil {
+	if err := repositoryOptions.DB.Model(&domain.Quizzes{}).Where("id = ?", quizID).Select("section_id").Scan(&moduleID).Error; err != nil {
 		return nil, err
 	}
 
-	var module = domain.Module{}
+	var sectionID uint
 
-	if err := repositoryOptions.DB.First(&module, quiz.ModuleID).Error; err != nil {
+	if err := repositoryOptions.DB.Model(&domain.Module{}).Where("id = ?", moduleID).Select("section_id").Scan(&sectionID).Error; err != nil {
 		return nil, err
 	}
 
-	var course = domain.Course{}
+	var courseID uint
 
-	if err := repositoryOptions.DB.First(&course, module.CourseID).Error; err != nil {
+	if err := repositoryOptions.DB.Model(&domain.Section{}).Where("id = ?", sectionID).Select("course_id").Scan(&courseID).Error; err != nil {
+		return nil, err
+	}
+	
+	var userID uint
+
+	if err := repositoryOptions.DB.Model(&domain.Course{}).Where("id = ?", courseID).Select("user_id").Scan(&userID).Error; err != nil {
 		return nil, err
 	}
 
-	if course.UserID != userId && role != "admin" {
+	if userID != userId && role != "admin" {
 		return nil, fmt.Errorf("unauthorized")
 	}
 	

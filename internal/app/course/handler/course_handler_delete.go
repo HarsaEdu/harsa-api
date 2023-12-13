@@ -29,7 +29,9 @@ func (courseHandler *CourseHandlerImpl) Delete(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return res.StatusNotFound(ctx, "course not found", err)
 		}
-		
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"you cannot delete this course" ,err)
+		}
 		return res.StatusInternalServerError(ctx, "failed to delete course, something happen", err)
 	}
 

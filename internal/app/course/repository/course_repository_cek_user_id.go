@@ -22,17 +22,4 @@ func (courseRepository *CourseRepositoryImpl) CekIdFromCourse(userId uint, cours
 	return &course, nil
 }
 
-func (courseRepository *CourseRepositoryImpl) CekIdFromUser(userId uint) (error) {
 
-	var user = domain.User{}
-
-	if err := courseRepository.DB.First(&user, userId).Error; err != nil {
-		return err
-	}
-		if user.ID != userId && user.RoleID == 3 {
-		return fmt.Errorf("unauthorized")
-	}
-	
-
-	return nil
-}

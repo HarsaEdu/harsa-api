@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
@@ -9,26 +10,30 @@ import (
 )
 
 func (subsPlanService *SubsPlanServiceImpl) UpdateImage(ctx echo.Context, subsPlan *web.SubsPlanUpdateImage, id int) error {
-	err := subsPlanService.Validator.Struct(subsPlan)
-	if err != nil {
-		return err
-	}
+
 	ifExist, _ := subsPlanService.SubsPlanRepository.FindById(id)
 	if ifExist == nil {
 		return fmt.Errorf("subs plan not found")
 	}
 
 	result := conversion.SubsPlanUpdateImageToSubsPlanDomain(subsPlan)
-	Image_url, err := subsPlanService.CloudinaryUploader.Uploader(ctx, "image", "subs_plan", true)
+	imageUrl, err := subsPlanService.CloudinaryUploader.Uploader(ctx, "image", "subs_plan", true)
+	if !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(imageUrl) {
+		return fmt.Errorf("invalid file format")
+	}
+
+	result.Image_url = imageUrl
+
 	if err != nil {
 		return fmt.Errorf("error when uploading image : %s", err.Error())
 	}
 
-	if Image_url != "" {
-		result.Image_url = Image_url
+	err = subsPlanService.Validator.Struct(result)
+	if err != nil {
+		return err
 	}
 
-	err = subsPlanService.SubsPlanRepository.Update(result, id)
+	err = subsPlanService.SubsPlanRepository.UpdateImage(result.Image_url, id)
 	if err != nil {
 		return fmt.Errorf("error when updating image subs plan %s", err.Error())
 	}

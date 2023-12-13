@@ -10,10 +10,11 @@ func ConvertModuleResponseTrackingMobile(response *domain.Module, progress float
 		ID:          response.ID,
 		Title:       response.Title,
 		Description: response.Description,
-		Order: response.Order,
+		Order: response.OrderBy,
 		Progress: progress,
 	}
 }
+
 
 func ConvertAllSubInModule(subModules []web.SubModuleResponseForTracking, submissions []web.SubmissionsResponseModuleMobile, quizzes []web.QuizResponseForTracking) *web.CourseTrackingSub{
 	return &web.CourseTrackingSub{

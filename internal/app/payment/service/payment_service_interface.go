@@ -2,9 +2,9 @@ package service
 
 import (
 	"github.com/HarsaEdu/harsa-api/internal/app/payment/repository"
-	SubsPlanRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/subs_plan/repository"
+	subsPlanRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/subs_plan/repository"
 	subscriptionServicePkg "github.com/HarsaEdu/harsa-api/internal/app/subscription/service"
-	UserRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
+	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/go-playground/validator"
@@ -21,14 +21,14 @@ type PaymentService interface {
 
 type PaymentServiceImpl struct {
 	PaymentRepository  repository.PaymentRepository
-	SubsPlanRepository SubsPlanRepositoryPkg.SubsPlanRepository
-	UserRepository     UserRepositoryPkg.UserRepository
+	SubsPlanRepository subsPlanRepositoryPkg.SubsPlanRepository
+	UserRepository     userRepositoryPkg.UserRepository
 	SubscriptionService subscriptionServicePkg.SubscriptionService
 	MidtransCoreApi    midtrans.MidtransCoreApi
 	Validate           *validator.Validate
 }
 
-func NewPaymentService(paymentRepository repository.PaymentRepository, subsPlanRepository SubsPlanRepositoryPkg.SubsPlanRepository, userRepository UserRepositoryPkg.UserRepository, subscriptionService subscriptionServicePkg.SubscriptionService, midtransCoreApi midtrans.MidtransCoreApi, validate *validator.Validate) PaymentService {
+func NewPaymentService(paymentRepository repository.PaymentRepository, subsPlanRepository subsPlanRepositoryPkg.SubsPlanRepository, userRepository userRepositoryPkg.UserRepository, subscriptionService subscriptionServicePkg.SubscriptionService, midtransCoreApi midtrans.MidtransCoreApi, validate *validator.Validate) PaymentService {
 	return &PaymentServiceImpl{
 		PaymentRepository: paymentRepository,
 		SubsPlanRepository: subsPlanRepository,

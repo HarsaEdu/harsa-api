@@ -6,7 +6,7 @@ import (
 
 func (paymentRepository *PaymentRepositoryImpl) GetPaymentHistoryById(paymentHistoryId string) (*domain.PaymentHistory, error) {
 	paymentHistory := domain.PaymentHistory{}
-	result := paymentRepository.DB.Preload("User.UserProfile").Preload("Item").Where("id = ?", paymentHistoryId).Order("created_at DESC").First(&paymentHistory)
+	result := paymentRepository.DB.Preload("User.UserProfile").Preload("Item").Where("id = ?", paymentHistoryId).Order("transaction_time DESC").First(&paymentHistory)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -24,7 +24,8 @@ func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistory(offset, lim
 	}
 
 	if search != "" {
-		query.Where("item.name LIKE ?", "%"+search+"%")
+    query.Joins("JOIN user_profiles ON user_profiles.id = payment_histories.user_id").
+        Where("CONCAT(user_profiles.first_name, ' ', user_profiles.last_name) LIKE ?", "%"+search+"%")
 	}
 
 	query.Order("created_at DESC").Find(&paymentHistory).Count(&count)
@@ -54,7 +55,7 @@ func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistoryByUserId(use
 	}
 
 	if search != "" {
-		query.Where("Item.name LIKE ?", "%"+search+"%")
+		query.Joins("JOIN subs_plans ON subs_plans.id = payment_histories.item_id").Where("subs_plans.title LIKE ?", "%"+search+"%")
 	}
 
 	query.Order("created_at DESC").Find(&paymentHistory).Count(&count)

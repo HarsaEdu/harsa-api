@@ -3,19 +3,32 @@ package web
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
 type SubmissionsResponseModule struct {
-	Id          uint   `json:"id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
+	Id      uint   `json:"id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
+
+type SubmissionsResponseWeb struct {
+	Id      uint   `json:"id"`
+	SubmissionTitle   string `json:"submission_title"`
+	Content string `json:"content"`
+	CourseTitle string `json:"course_title"`
 }
 
 type SubmissionsResponseModuleMobile struct {
-	Id          uint          `json:"id"`
-	Title       string        `json:"title"`
-	SubmissionAnswer SubmissionAnswerRes `json:"submission_answer"`     
-	Is_complete bool          `json:"is_complete"`
+	Id               uint                `json:"id"`
+	Title            string              `json:"title"`
+	SubmissionAnswer SubmissionAnswerRes `json:"submission_answer"`
+	Is_complete      bool                `json:"is_complete"`
 }
 
-type SubmissionAnswerRes struct{
-	Id          uint          `json:"id"`
-	Status      domain.StatusSubmissionAnswer `json:"status"`
+type SubmissionAnswerTracking struct {
+	Id         uint                          `json:"submission_answer_id"`
+	Status     domain.StatusSubmissionAnswer `json:"status"`
+	IsComplete bool                          `json:"is_complete"`
+}
+
+type SubmissionAnswerRes struct {
+	Id     uint                          `json:"id"`
+	Status domain.StatusSubmissionAnswer `json:"status"`
 }

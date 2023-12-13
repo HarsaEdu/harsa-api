@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -9,7 +10,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (feedbackHandler *FeedbackHandlerImpl) Create(ctx echo.Context) error {
+func (feedbackHandler *FeedbackHandlerImpl) CreateByUserAndCourseId(ctx echo.Context) error {
+	courseIdParam := ctx.Param("courseId")
+	courseId, _ := strconv.Atoi(courseIdParam)
 
 	req := web.FeedbackCreateRequest{}
 	err := ctx.Bind(&req)
@@ -17,11 +20,9 @@ func (feedbackHandler *FeedbackHandlerImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind feedback request", err)
 	}
 
-	id := ctx.Get("user_id").(uint)
-	
-	req.UserID = id
+	userId := ctx.Get("user_id").(uint)
 
-	err = feedbackHandler.FeedbackService.Create(req)
+	err = feedbackHandler.FeedbackService.CreateByUserAndCourseId(req, userId, uint(courseId))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

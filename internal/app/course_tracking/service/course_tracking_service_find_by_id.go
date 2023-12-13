@@ -5,32 +5,62 @@ import (
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
+	"github.com/labstack/echo/v4"
 )
 
-func (courseTrackingService *CourseTrackingServiceImpl) FindByIdMobile(crourseTrackingId uint) (*web.CourseTrackingResponseMobile, error) {
+// func (courseTrackingService *CourseTrackingServiceImpl) FindByIdMobile(crourseTrackingId uint) (*web.CourseTrackingResponseMobile, error) {
 	
-	courseTraking ,err := courseTrackingService.CourseTrackingRepository.FindById(crourseTrackingId)
+// 	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("eror when cek subscription  :%s", err.Error())
+// 	}
+	
+// 	courseTraking ,err := courseTrackingService.CourseTrackingRepository.FindById(crourseTrackingId)
+// 	if err != nil { 
+// 		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
+// 	}
+
+// 	course, countModule ,countEnroled ,err := courseTrackingService.CourseRepository.GetByIdMobile(courseTraking.CourseID)
+// 	if err != nil { 
+// 		return nil, fmt.Errorf(" :%s", err.Error())
+// 	}
+
+// 	listModule, progress ,err := courseTrackingService.CourseTrackingRepository.FindAllModuleTrackingWithProgress(course.Section ,courseTraking.UserID,courseTraking.CourseID)
+// 	if err != nil { 
+// 		return nil, fmt.Errorf("eror when find module tracking :%s", err.Error())
+// 	}
+
+// 	res := conversion.ConvertCourseTrackingRespose(courseTraking,course,listModule,countEnroled,countModule,progress)
+
+// 	return res, nil
+
+// }
+
+func (courseTrackingService *CourseTrackingServiceImpl) FindByIdMobileByUserIdAndCourseId(ctx echo.Context, userID uint, courseID uint) (*web.CourseTrackingResponseMobile, error) {
+	isSubscription, err:= courseTrackingService.Subscription.IsSubscription(ctx, userID)
+	if err != nil {
+		return nil, fmt.Errorf("eror when cek subscription  :%s", err.Error())
+	}
+	
+	courseTraking, err := courseTrackingService.CourseTrackingRepository.FindByUserIdAndCourseID(courseID,userID)
 	if err != nil { 
 		return nil, fmt.Errorf("eror when find course tracking by id  :%s", err.Error())
 	}
 
-	course, countModule ,countEnroled ,err := courseTrackingService.CourseRepository.GetByIdMobile(courseTraking.CourseID)
+	course, countModule,countEnroled, err := courseTrackingService.CourseRepository.GetByIdMobile(courseID)
 	if err != nil { 
-		return nil, fmt.Errorf(" :%s", err.Error())
+		return nil, fmt.Errorf("eror counting find course tracking  :%s", err.Error())
+	}
+	if course.ID == 0{
+		return nil, fmt.Errorf("course not found")
 	}
 
-	progress ,err := courseTrackingService.CourseTrackingRepository.CountProgressCourse(courseTraking.CourseID,courseTraking.UserID)
-	if err != nil { 
-		return nil, fmt.Errorf(" :%s", err.Error())
-	}
-
-	listModule ,err := courseTrackingService.CourseTrackingRepository.FindAllModuleTracking(course.Modules ,courseTraking.UserID)
+	listModule, progress, err := courseTrackingService.CourseTrackingRepository.FindAllModuleTrackingWithProgress(course.Section ,userID, courseID)
 	if err != nil { 
 		return nil, fmt.Errorf("eror when find module tracking :%s", err.Error())
 	}
 
-	res := conversion.ConvertCourseTrackingRespose(courseTraking,course,listModule,countEnroled,countModule,progress)
-
+	res := conversion.ConvertCourseTrackingRespose(courseTraking,course,listModule,countEnroled,countModule,progress,isSubscription)
 	return res, nil
 
 }

@@ -6,12 +6,18 @@ import (
 )
 
 type ModuleHandler interface {
-	Create(ctx echo.Context) error
-	GetAll(ctx echo.Context) error
-	// GetById(ctx echo.Context) error
-	// Update(ctx echo.Context) error
-	// UpdateImage(ctx echo.Context) error
-	// Delete(ctx echo.Context) error
+	CreateSection(ctx echo.Context) error
+	CreateModule(ctx echo.Context) error
+	GetAllSection(ctx echo.Context) error
+	GetAllModule(ctx echo.Context) error
+	GetModuleById(ctx echo.Context) error
+	UpdateModule(ctx echo.Context) error
+	UpdateModuleOrder(ctx echo.Context) error
+	UpdateSection(ctx echo.Context) error
+	UpdateSectionOrder(ctx echo.Context) error
+	DeleteModule(ctx echo.Context) error
+	DeleteSection(ctx echo.Context) error
+	DeleteSubModule(ctx echo.Context) error
 }
 
 type ModuleHandlerImpl struct {

@@ -13,7 +13,8 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
-	"github.com/HarsaEdu/harsa-api/web"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
+	"github.com/HarsaEdu/harsa-api/web/static"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -45,14 +46,17 @@ func main() {
 	// Create an Midtrans Core Api instance
 	midtransCoreApi := midtrans.NewMidtransCoreApi(&config.Midtrans)
 
+	// Create an Recommendations Api instance
+	recommendationsApi := recommendations.NewRecommendationsApi(&config.RecommendationsApi)
+
 	// Create an Echo instance
 	e := echo.New()
 
-	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi)
+	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
-		file, err := web.Content.ReadFile("index.html")
+		file, err := static.Content.ReadFile("index.html")
 		if err != nil {
 			return c.String(http.StatusInternalServerError, "Error reading HTML file")
 		}

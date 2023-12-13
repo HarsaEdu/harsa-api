@@ -11,7 +11,6 @@ func SubModuleCreateRequestToSubModuleDomain(request *web.SubModuleCreateRequest
 		Title:       request.Title,
 		Type:        domain.SubModuleType(request.Type),
 		ContentUrl:  request.ContentUrl,
-		ContentBody: request.ContentBody,
 	}
 }
 
@@ -37,12 +36,30 @@ func SubModuleCreateRequestToSubModuleDomain(request *web.SubModuleCreateRequest
 
 func ModuleRequestToModuleDomain(request *web.ModuleRequest) *domain.Module {
 	module := &domain.Module{
-		CourseID:    request.CourseID,
+		SectionID:    request.SectionID,
 		Title:       request.Title,
 		Description: request.Description,
-		Type:        request.Type,
-		Order:       request.Order,
+		OrderBy:       request.Order,
 		SubModules:  request.SubModules,
+	}
+
+	return module
+}
+
+func SectionRequestToSectionDomain(request *web.SectionRequest) *domain.Section {
+	module := &domain.Section{
+		CourseID:    request.CourseID,
+		Title:       request.Title,
+		OrderBy:       request.Order,
+		Modules:     []domain.Module{request.Modules},
+	}
+
+	return module
+}
+
+func SectionUpdateRequestToSectionDomain(request *web.SectionUpdateRequest) *domain.Section {
+	module := &domain.Section{
+		Title:       request.Title,
 	}
 
 	return module

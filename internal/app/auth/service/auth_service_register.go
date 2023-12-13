@@ -31,7 +31,7 @@ func (authService *AuthServiceImpl) RegisterUser(userRequest web.RegisterUserReq
 	user.Password = password.HashPassword(user.Password)
 
 	// insert data and get back user data with id and role name
-	res, err := authService.AuthRepository.RegisterUser(user)
+	res, err := authService.AuthRepository.RegisterWithFreeSubscibe(user)
 
 	// check if error when insert data
 	if err != nil {
