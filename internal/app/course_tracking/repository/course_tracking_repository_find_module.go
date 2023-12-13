@@ -187,18 +187,18 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindQuizzByID(modu
 }
 
 func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllSubmission(moduleId uint, userID uint) ([]web.SubmissionsResponseModuleMobile, error) {
-	var submission []domain.Submissions
+	var submissions []domain.Submissions
 
 	if err := courseTrackingRepository.DB.
 		Where("module_id = ?", moduleId).
-		Find(&submission).
+		Find(&submissions).
 		Error; err != nil {
 		return nil, err
 	}
 
 	var allSubmissisonAnswer []web.SubmissionsResponseModuleMobile
 
-	for _, submission := range submission {
+	for _, submission := range submissions {
 
 		var countSubmissisonAnswer int64
 
