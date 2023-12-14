@@ -1,12 +1,12 @@
 package service
 
 import (
-	"github.com/HarsaEdu/harsa-api/configs"
 	"github.com/HarsaEdu/harsa-api/internal/app/auth/repository"
 	notifRepo "github.com/HarsaEdu/harsa-api/internal/app/notification/repository"
 	userRepo "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 )
 
 type AuthService interface {
@@ -20,15 +20,15 @@ type AuthServiceImpl struct {
 	UserRepository         userRepo.UserRepository
 	NotificationRepository notifRepo.NotificationRepository
 	Validate               *validator.Validate
-	Config                 configs.AppConfig
+	Firebase               firebase.Firebase
 }
 
-func NewAuthService(ar repository.AuthRepository, ur userRepo.UserRepository, validate *validator.Validate, notifRepository notifRepo.NotificationRepository, c configs.AppConfig) AuthService {
+func NewAuthService(ar repository.AuthRepository, ur userRepo.UserRepository, validate *validator.Validate, notifRepository notifRepo.NotificationRepository, firebaseImpl firebase.Firebase) AuthService {
 	return &AuthServiceImpl{
 		AuthRepository:         ar,
 		UserRepository:         ur,
 		Validate:               validate,
-		Config:                 c,
 		NotificationRepository: notifRepository,
+		Firebase: firebaseImpl,
 	}
 }
