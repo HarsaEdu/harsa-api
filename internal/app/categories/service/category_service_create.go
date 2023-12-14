@@ -10,8 +10,13 @@ import (
 )
 
 func (categoryService *CategoryServiceImpl) Create(ctx echo.Context, request web.CategoryCreateRequest) error {
-
+	
 	var err error
+
+	err = categoryService.Validator.Struct(request)
+	if err != nil {
+		return err
+	}
 
 	existingName, _ := categoryService.CategoryRepository.FindByName(request.Name)
 	if existingName != nil {
@@ -42,10 +47,6 @@ func (categoryService *CategoryServiceImpl) Create(ctx echo.Context, request web
 		return fmt.Errorf("error uploading icon : %s", err.Error())
 	}
 
-	err = categoryService.Validator.Struct(category)
-	if err != nil {
-		return err
-	}
 
 	err = categoryService.CategoryRepository.Create(category)
 	if err != nil {

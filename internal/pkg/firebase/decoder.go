@@ -6,9 +6,9 @@ import (
 	"github.com/HarsaEdu/harsa-api/configs"
 )
 
-func GetDecodedFireBaseKey(c configs.AppConfig) ([]byte, error) {
+func GetDecodedFireBaseKey(c configs.FirebaseConfig) ([]byte, error) {
 
-	fireBaseAuthKey := c.Firebase.FirebaseAuthKey
+	fireBaseAuthKey := c.FirebaseAuthKey
 
 	decodedKey, err := base64.StdEncoding.DecodeString(fireBaseAuthKey)
 	if err != nil {

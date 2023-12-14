@@ -32,14 +32,14 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 	recommendationsApi "github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi, config configs.AppConfig) {
-	notifRepository := repository.NewNotificationRepository(db)
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi, firebaseImpl firebase.Firebase, config configs.AppConfig) {
 
 	userRoutes, userRepo := user.UserSetup(db, validate)
 	authRoutes := auth.AuthSetup(db, validate, userRepo, notifRepository, config)
@@ -61,7 +61,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	notificationRoutes := notification.NotificationSetup(db, validate)
 
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo, subscriptionService)
-	courseTrakingRoutes, courseTrackingRepository := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService, subscriptionService)
+	courseTrakingRoutes, courseTrackingRepository := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService, subscriptionService, firebaseImpl)
 	historySubModuleRoutes := historySubModule.HistorySubModuleSetup(db, validate, subscriptionService)
 	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, userRepo)
 	historyQuizRoutes := historyQuiz.HistoryQuizSetup(db, validate, subscriptionService)
