@@ -17,6 +17,7 @@ type PaymentService interface {
 	GetAllPaymentHistory(offset, limit int, search string, status string) ([]web.GetPaymentResponse, *web.Pagination, error)
 	GetAllPaymentHistoryByUserId(userId uint, offset, limit int, search string, status string) ([]web.GetPaymentResponse, *web.Pagination, error)
 	GetPaymentHistoryByUserIdAndPaymentId(userId uint, paymentId string) (*web.GetPaymentResponse, error)
+	GetLastYearPaymentHistory() (*web.PaymentLastYearHistoryResponse, error)
 }
 
 type PaymentServiceImpl struct {

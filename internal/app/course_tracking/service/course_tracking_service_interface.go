@@ -8,6 +8,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 )
 
 type CourseTrackingService interface {
@@ -32,14 +33,16 @@ type CourseTrackingServiceImpl struct {
 	CourseTrackingRepository repositoryCourseTracking.CourseTrackingRepository
 	QuizzService             quizzes.QuizzesService
 	Validator                *validator.Validate
+	Firebase                 firebase.Firebase
 }
 
-func NewCourseTrackingService(repositoryTracking repositoryCourseTracking.CourseTrackingRepository, validator *validator.Validate, courseRepository repositoryCourse.CourseRepository, quizzService quizzes.QuizzesService, subscription subscriptionServicePkg.SubscriptionService) CourseTrackingService {
+func NewCourseTrackingService(repositoryTracking repositoryCourseTracking.CourseTrackingRepository, validator *validator.Validate, courseRepository repositoryCourse.CourseRepository, quizzService quizzes.QuizzesService, subscription subscriptionServicePkg.SubscriptionService, firebaseImpl firebase.Firebase) CourseTrackingService {
 	return &CourseTrackingServiceImpl{
 		Subscription:             subscription,
 		CourseRepository:         courseRepository,
 		CourseTrackingRepository: repositoryTracking,
 		QuizzService:             quizzService,
 		Validator:                validator,
+		Firebase:                 firebaseImpl,
 	}
 }
