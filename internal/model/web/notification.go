@@ -25,6 +25,6 @@ type ReadNotification struct {
 	ID uint `json:"id"`
 }
 type ArsipNotification struct {
-	ID      uint `json:"id"`
+	ID      uint `json:"id" params:"id"`
 	IsArsip bool `json:"is_arsip"`
 }
