@@ -21,6 +21,10 @@ func (CertificateHandler *CertificateHandlerImpl) GenerateCertificate(ctx echo.C
 			return res.StatusBadRequest(ctx, "course tracking not found", err)
 		}
 
+		if strings.Contains(err.Error(), "not completed") {
+			return res.StatusBadRequest(ctx, "course not completed", err)
+		}
+
 		if strings.Contains(err.Error(), "unauthorized") {
 			return res.StatusUnauthorized(ctx, "user unauthorized", err)
 		}
