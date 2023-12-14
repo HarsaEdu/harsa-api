@@ -28,9 +28,9 @@ import (
 
 	user "github.com/HarsaEdu/harsa-api/internal/app/user"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 	recommendationsApi "github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -49,7 +49,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	subsPlanRoutes, subsPlanRepo := subsPlan.SubsPlanSetup(db, validate, cloudinary)
 	quizzesRoutes, quizzService := quizzes.QuizzesSetup(db, validate)
 	profileRoutes, profileRepo := profile.ProfileSetup(db, validate, e, cloudinary)
-	interestRoutes := interest.InterestSetup(db, validate, profileRepo)
+	interestRoutes, interestRepo := interest.InterestSetup(db, validate, profileRepo)
 	questionsRoutes := questions.QuestionsSetup(db, validate)
 	optionsRoutes := options.OptionsSetup(db, validate)
 	feedbackRoutes := feedback.FeedbackSetup(db, validate)
@@ -61,7 +61,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo, subscriptionService)
 	courseTrakingRoutes, courseTrackingRepository := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService, subscriptionService, firebaseImpl)
 	historySubModuleRoutes := historySubModule.HistorySubModuleSetup(db, validate, subscriptionService)
-	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, userRepo)
+	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, openai, firebaseImpl, userRepo, interestRepo)
 	historyQuizRoutes := historyQuiz.HistoryQuizSetup(db, validate, subscriptionService)
 	certificateRoutes := certificate.CertificateSetup(db, validate, cloudinary, courseTrackingRepository)
 	dashboardRoutes := dashboard.DashboardSetup(db)

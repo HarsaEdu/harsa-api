@@ -10,11 +10,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func InterestSetup(db *gorm.DB, validate *validator.Validate, profileRepository profileRepoPkg.ProfileRepository) interestRoutesPkg.InterestRoutes {
+func InterestSetup(db *gorm.DB, validate *validator.Validate, profileRepository profileRepoPkg.ProfileRepository) (interestRoutesPkg.InterestRoutes, interestRepositoryPkg.InterestRepository) {
 	interestRepository := interestRepositoryPkg.NewInterestRepository(db)
 	interestService := interestServicePkg.NewInterestService(interestRepository, validate, profileRepository)
 	interestHandler := interestHandlerPkg.NewInterestHandler(interestService)
 	interestRoute := interestRoutesPkg.NewInterestRoutes(interestHandler)
 
-	return interestRoute
+	return interestRoute, interestRepository
 }
