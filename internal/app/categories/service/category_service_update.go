@@ -31,7 +31,6 @@ func (categoryService *CategoryServiceImpl) Update(ctx echo.Context, request web
 	}
 
 	if isImageExist {
-		fmt.Println("exist")
 		imageUrl, err = categoryService.cloudinaryUploader.Uploader(ctx, "image", "categories", true)
 		if imageUrl != "" && !regexp.MustCompile(`\.png$|\.jpg$`).MatchString(imageUrl) {
 			return fmt.Errorf("invalid file format")
@@ -40,9 +39,7 @@ func (categoryService *CategoryServiceImpl) Update(ctx echo.Context, request web
 			return fmt.Errorf("error uploading image : %s", err.Error())
 		}
 	}
-	fmt.Println("imageUrl: ", imageUrl)
 
-	// request.CategoryImage = imageUrl
 	category := conversionRequest.CategoryUpdateRequestToCategoriesModel(request)
 	category.Image_url = imageUrl
 

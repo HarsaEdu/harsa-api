@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -17,7 +16,6 @@ func (categoryHandler *CategoryHandlerImpl) Update(ctx echo.Context) error {
 	fileHeader, _ := ctx.FormFile("image")
 
 	if fileHeader != nil {
-		fmt.Println("file header ada")
 		image = true
 	}
 
