@@ -8,8 +8,9 @@ type CategoryCreateRequest struct {
 }
 
 type CategoryUpdateRequest struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name          string `json:"name" form:"name"`
+	Description   string `json:"description" form:"description" `
+	CategoryImage string `json:"image" form:"image"`
 }
 
 type CategoryUploadImageRequest struct {
