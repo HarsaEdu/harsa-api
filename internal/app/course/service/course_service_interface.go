@@ -12,7 +12,7 @@ type CourseService interface {
 	Create(ctx echo.Context, request *web.CourseCreateRequest, instructorId uint) error
 	GetAllByUserId(offset, limit int, search string, userID uint) (*web.DashboardIntructur, *web.Pagination, error)
 	GetById(id uint) (*web.GetCourseResponseByIdWeb, error)
-	Update(id uint, userId uint, role string, request *web.CourseUpdateRequest) error
+	Update(ctx echo.Context, id uint, userId uint, role string, request *web.CourseUpdateRequest) error
 	UpdateImage(ctx echo.Context, id uint, userId uint, role string, request *web.CourseUpdateImageRequest) error
 	Delete(id uint, userId uint, role string) error
 	GetAll(offset, limit int, search string, category string) ([]web.GetCourseResponseMobile, *web.Pagination, error)
@@ -21,6 +21,7 @@ type CourseService interface {
 	GetDeatailCourse(id uint) (*web.CourseResponseForIntructur, error)
 	GetAllByCategory(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 	GetAllMyCourse(offset, limit int, search string, category string, userID uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)
+	GetAllByRating(offset, limit int, search string, category string) ([]web.GetCourseResponseMobile, *web.Pagination, error)
 }
 
 type CourseServiceImpl struct {

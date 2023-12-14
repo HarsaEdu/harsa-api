@@ -6,6 +6,12 @@ func (repository *QuizzesRepositoryImpl) Update(UpdateQuiz *domain.Quizzes, quiz
 
 	tx := repository.DB.Begin()
 
+    defer func() {
+        if r := recover(); r != nil {
+            tx.Rollback()
+        }
+    }()
+
 	quizExist.Title = UpdateQuiz.Title
 	quizExist.Description = UpdateQuiz.Description
 	quizExist.Durations = UpdateQuiz.Durations

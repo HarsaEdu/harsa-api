@@ -11,7 +11,6 @@ type SubModuleResponseModule struct {
 	ID          uint                  `json:"id"`
 	Title       string                `json:"title"`
 	ContentUrl  string                `json:"content_url"`
-	ContentBody string                `json:"content_body"`
 	Type        domain.SubModuleType  `json:"type"`
 }
 

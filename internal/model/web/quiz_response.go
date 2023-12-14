@@ -17,6 +17,7 @@ type GetAllQuizResponse struct {
 	Id              uint      `json:"id"`
 	ModuleID        uint      `json:"module_id"`
 	Title           string    `json:"title"`
+	CourseTitle          string    `json:"course_title"`
 	Description     string    `json:"description"`
 	Durations       int       `json:"duration"`
 	NumberQuestions int       `json:"number_questions"`

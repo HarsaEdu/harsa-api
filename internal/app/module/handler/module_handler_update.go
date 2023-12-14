@@ -2,9 +2,11 @@ package handler
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 
+	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/validation"
@@ -30,6 +32,34 @@ func (moduleHandler *ModuleHandlerImpl) UpdateModule(ctx echo.Context) error {
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind request: ", err)
 	}
+
+	var countVideo int = 1
+	var countPPT int = 1
+	youtubePattern := regexp.MustCompile(`(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be)/.+`)
+	googleSlidePattern := regexp.MustCompile(`(https?://)?(docs\.google\.com/presentation/d/[\w-]+)/?.*`)
+	
+	subModule := []domain.SubModule{}
+
+	for _, submodule := range request.SubModules {
+		if submodule.Type == "video"{
+			matchYoutube := youtubePattern.MatchString(submodule.ContentUrl)
+			if !matchYoutube {
+				return res.StatusBadRequest(ctx, "invalid youtube link", fmt.Errorf("invalid youtube link"))
+			}
+			submodule.Title = request.Title + " video - " + strconv.Itoa(countVideo)
+			countVideo++
+		}
+		if submodule.Type == "slice"{
+			matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
+			if !matchGoogleSlide {
+				return res.StatusBadRequest(ctx, "invalid google slide link", fmt.Errorf("invalid google slide link"))
+			}
+			submodule.Title = request.Title + " slice - " + strconv.Itoa(countPPT)
+			countPPT++
+		}
+		subModule = append(subModule, submodule)
+	}
+	request.SubModules = subModule
 
 	err = moduleHandler.ModuleService.UpdateModule(&request, uint(id), uint(user_id), roleString)
 	if err != nil {
@@ -105,7 +135,7 @@ func (moduleHandler *ModuleHandlerImpl) UpdateSection(ctx echo.Context) error {
 
 	roleString := fmt.Sprintf("%s", roleInterface)
 
-	request := web.SectionRequest{}
+	request := web.SectionUpdateRequest{}
 	err = ctx.Bind(&request)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind request: ", err)

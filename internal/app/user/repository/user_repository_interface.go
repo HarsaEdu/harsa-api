@@ -16,11 +16,12 @@ type UserRepository interface {
 	UserProfileAvailableByID(id uint) (*domain.UserProfile, error)
 	UserDelete(id uint) error
 	HandleTrx(ctx echo.Context, fn func(repo UserRepository) error) error
-	UserGetAll(offset, limit int, search string) ([]domain.UserEntity, int64, error)
+	UserGetAll(offset, limit int, search string, roleId int) ([]domain.UserEntity, int64, error)
 	GetUserByID(userID uint) (*domain.UserDetail, error)
 	GetUserAccountByID(userID uint) (*domain.User, error)
 	UserAvailableUsername(username string) (*domain.User, error)
 	UserAvailableEmail(email string) (*domain.User, error)
+	UserGetAllStudentSubscribe(offset, limit int, search string, courseId uint) ([]domain.UserEntity, int64, error)
 }
 
 type UserRepositoryImpl struct {

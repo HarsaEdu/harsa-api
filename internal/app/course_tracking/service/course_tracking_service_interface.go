@@ -8,6 +8,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 )
 
 type CourseTrackingService interface {
@@ -23,6 +24,7 @@ type CourseTrackingService interface {
 	GetAllUserCourseWeb(offset, limit int, courseID uint, search string) ([]web.CourseTrackingUserWeb, *web.Pagination, error)
 	Delete(courseTrackingId uint, courseId uint,userId uint, role string) error
 	FindByIdMobileByUserIdAndCourseId(ctx echo.Context, userID uint, courseID uint) (*web.CourseTrackingResponseMobile, error)
+	CreateWeb(request web.CourseTrackingRequest) error
 }
 
 type CourseTrackingServiceImpl struct {
@@ -31,14 +33,16 @@ type CourseTrackingServiceImpl struct {
 	CourseTrackingRepository repositoryCourseTracking.CourseTrackingRepository
 	QuizzService             quizzes.QuizzesService
 	Validator                *validator.Validate
+	Firebase                 firebase.Firebase
 }
 
-func NewCourseTrackingService(repositoryTracking repositoryCourseTracking.CourseTrackingRepository, validator *validator.Validate, courseRepository repositoryCourse.CourseRepository, quizzService quizzes.QuizzesService, subscription subscriptionServicePkg.SubscriptionService) CourseTrackingService {
+func NewCourseTrackingService(repositoryTracking repositoryCourseTracking.CourseTrackingRepository, validator *validator.Validate, courseRepository repositoryCourse.CourseRepository, quizzService quizzes.QuizzesService, subscription subscriptionServicePkg.SubscriptionService, firebaseImpl firebase.Firebase) CourseTrackingService {
 	return &CourseTrackingServiceImpl{
 		Subscription:             subscription,
 		CourseRepository:         courseRepository,
 		CourseTrackingRepository: repositoryTracking,
 		QuizzService:             quizzService,
 		Validator:                validator,
+		Firebase:                 firebaseImpl,
 	}
 }

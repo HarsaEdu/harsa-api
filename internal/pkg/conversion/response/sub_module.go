@@ -10,7 +10,6 @@ func ConvertSubModuleResponseModule(subModule domain.SubModule) *web.SubModuleRe
 		ID:            subModule.ID,
 		Title:         subModule.Title,
 		ContentUrl:    subModule.ContentUrl,
-		ContentBody:   subModule.ContentBody,
 		Type:          subModule.Type,
 	}
 	return &subModuleRes

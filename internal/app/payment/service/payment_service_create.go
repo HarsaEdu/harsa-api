@@ -31,7 +31,10 @@ func (paymentService *PaymentServiceImpl) CreatePaymentSubscription(request *web
 		return nil, fmt.Errorf("error when create payment : %s", err.Error())
 	}
 
-	paymentHistory := conversionRequest.ChargeResponseToPaymentHistoryDomain(chargeRequestResponse, existingUser, existingSubsPlan.ID)
+	paymentHistory, err := conversionRequest.ChargeResponseToPaymentHistoryDomain(chargeRequestResponse, existingUser, existingSubsPlan.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error when convert payment history : %s", err.Error())
+	}
 
 	err = paymentService.PaymentRepository.CreatePaymentHistory(paymentHistory)
 	if err != nil {

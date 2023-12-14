@@ -21,9 +21,11 @@ func (moduleService *ModuleServiceImpl) UpdateModule(request *web.ModuleRequest,
 		return err
 	}
 
-	existingModuleTitle, _ := moduleService.ModuleRepository.GetByTitleAndSectionId(request.Title, existingModule.SectionID)
-	if existingModuleTitle != nil {
-		return fmt.Errorf("module name already exists")
+	if existingModule.Title != request.Title {
+		existingModuleTitle, _ := moduleService.ModuleRepository.GetByTitleAndSectionId(request.Title, existingModule.SectionID)
+		if existingModuleTitle != nil {
+			return fmt.Errorf("module name already exists")
+		}
 	}
 
 	module := conversion.ModuleRequestToModuleDomain(request)
@@ -76,26 +78,26 @@ func (moduleService *ModuleServiceImpl) UpdateSectionOrder(request *web.SectionO
 	return nil
 }
 
-func (moduleService *ModuleServiceImpl) UpdateSection(request *web.SectionRequest, sectionId uint, userId uint, role string) error {
+func (moduleService *ModuleServiceImpl) UpdateSection(request *web.SectionUpdateRequest, sectionId uint, userId uint, role string) error {
 	
 	existingSection, err := moduleService.ModuleRepository.CekIdFromSection(userId, sectionId, role)
 	if err != nil {
 		return fmt.Errorf("error when cek id user from course :%s", err.Error())
 	}
 
-	request.CourseID = existingSection.CourseID
-
 	err = moduleService.Validate.Struct(request)
 	if err != nil {
 		return err
 	}
 
-	existingSectionTitle, _ := moduleService.ModuleRepository.GetByTitleSectionAndCourseId(request.Title, existingSection.CourseID)
-	if existingSectionTitle != nil {
-		return fmt.Errorf("section name already exists")
+	if existingSection.Title != request.Title {
+		existingSectionTitle, _ := moduleService.ModuleRepository.GetByTitleSectionAndCourseId(request.Title, existingSection.CourseID)
+		if existingSectionTitle != nil {
+			return fmt.Errorf("section name already exists")
+		}
 	}
 
-	module := conversion.SectionRequestToSectionDomain(request)
+	module := conversion.SectionUpdateRequestToSectionDomain(request)
 
 	err = moduleService.ModuleRepository.UpdateSection(module, existingSection)
 	if err != nil {
