@@ -98,3 +98,15 @@ func (userRepository *UserRepositoryImpl) GetUserAccountByID(userID uint) (*doma
 
 	return user, nil
 }
+
+func (userRepository *UserRepositoryImpl) GetUsersRegistrationToken(roleId int) ([]domain.UserRegistrationToken, error) {
+	var users []domain.UserRegistrationToken
+
+	result := userRepository.DB.Model(&domain.User{}).Select("registration_token").Where("role_id = ?", roleId).Find(&users)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return users, nil
+}

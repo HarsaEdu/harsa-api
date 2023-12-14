@@ -8,8 +8,7 @@ import (
 func (recommendationsRoutes *RecommendationsRoutesImpl) RecommendationsWeb(apiGroup *echo.Group) *echo.Group {
 	recommendationsGroup := apiGroup.Group("/recommendations")
 
-	recommendationsGroup.POST("", recommendationsRoutes.RecommendationsHandler.GetRecommendations)
-
+	recommendationsGroup.GET("", recommendationsRoutes.RecommendationsHandler.SendRecommendationsForInstructor, middleware.AdminMiddleware)
 	return recommendationsGroup
 }
 

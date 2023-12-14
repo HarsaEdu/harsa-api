@@ -19,6 +19,7 @@ type UserRepository interface {
 	UserGetAll(offset, limit int, search string, roleId int) ([]domain.UserEntity, int64, error)
 	GetUserByID(userID uint) (*domain.UserDetail, error)
 	GetUserAccountByID(userID uint) (*domain.User, error)
+	GetUsersRegistrationToken(roleId int) ([]domain.UserRegistrationToken, error)
 	UserAvailableUsername(username string) (*domain.User, error)
 	UserAvailableEmail(email string) (*domain.User, error)
 	UserGetAllStudentSubscribe(offset, limit int, search string, courseId uint) ([]domain.UserEntity, int64, error)

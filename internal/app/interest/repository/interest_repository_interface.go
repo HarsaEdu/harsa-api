@@ -9,6 +9,7 @@ type InterestRepository interface {
 	CreateInterest(interest *domain.UserInterest) error
 	FindByProfileID(profileID uint) (*domain.UserInterest, error)
 	GetInterestRecommendation(profileID uint) ([]domain.CourseEntity, int64, error)
+	GetTopInterests(limit int) ([]domain.UserInterest, error)
 }
 
 type InterestRepositoryImpl struct {

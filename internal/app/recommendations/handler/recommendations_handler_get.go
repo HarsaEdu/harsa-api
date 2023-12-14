@@ -37,3 +37,12 @@ func (recommendationsHandler *RecommendationsHandlerImpl) GetRecommendations(ctx
 
 	return res.StatusOK(ctx, "success to get recommendations", response, nil)
 }
+
+func (recommendationsHandler *RecommendationsHandlerImpl) SendRecommendationsForInstructor(ctx echo.Context) error {
+	err := recommendationsHandler.RecommendationsService.GetRecommendationsForInstructor()
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "failed to get recommendations, something happen", err)
+	}
+
+	return res.StatusOK(ctx, "success to send recommendations", nil, nil)
+}
