@@ -6,7 +6,6 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	conversionResponse "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 )
 
@@ -55,7 +54,7 @@ func (authService *AuthServiceImpl) RegisterUser(userRequest web.RegisterUserReq
 			Message:           content,
 			RegistrationToken: res.RegistrationToken,
 		}
-		firebase.SendNotificationPersonal(*notification, authService.Config)
+		authService.Firebase.SendNotificationPersonal(notification)
 	}
 
 	// convert user data to auth response

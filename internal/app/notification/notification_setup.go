@@ -9,11 +9,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func NotificationSetup(db *gorm.DB, validate *validator.Validate) notificationRoutesPkg.NotificationRoutes {
+func NotificationSetup(db *gorm.DB, validate *validator.Validate) (notificationRoutesPkg.NotificationRoutes, notificationRepositoryPkg.NotificationRepository) {
 	notificationRepository := notificationRepositoryPkg.NewNotificationRepository(db)
 	notificationService := notificationServicePkg.NewNotificationService(notificationRepository, validate)
 	notificationHandler := notificationHandlerPkg.NewNotificationHandler(notificationService)
 	notificationRoute := notificationRoutesPkg.NewNotificationRoutes(notificationHandler)
 
-	return notificationRoute
+	return notificationRoute, notificationRepository
 }

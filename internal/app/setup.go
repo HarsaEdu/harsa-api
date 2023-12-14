@@ -1,7 +1,6 @@
 package app
 
 import (
-	"github.com/HarsaEdu/harsa-api/configs"
 	auth "github.com/HarsaEdu/harsa-api/internal/app/auth"
 	category "github.com/HarsaEdu/harsa-api/internal/app/categories"
 	"github.com/HarsaEdu/harsa-api/internal/app/certificate"
@@ -16,7 +15,6 @@ import (
 	interest "github.com/HarsaEdu/harsa-api/internal/app/interest"
 	module "github.com/HarsaEdu/harsa-api/internal/app/module"
 	"github.com/HarsaEdu/harsa-api/internal/app/notification"
-	"github.com/HarsaEdu/harsa-api/internal/app/notification/repository"
 	options "github.com/HarsaEdu/harsa-api/internal/app/options"
 	"github.com/HarsaEdu/harsa-api/internal/app/payment"
 	profile "github.com/HarsaEdu/harsa-api/internal/app/profile"
@@ -39,10 +37,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi, firebaseImpl firebase.Firebase, config configs.AppConfig) {
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi, firebaseImpl firebase.Firebase) {
 
 	userRoutes, userRepo := user.UserSetup(db, validate)
-	authRoutes := auth.AuthSetup(db, validate, userRepo, notifRepository, config)
+	notificationRoutes, notificationRepository := notification.NotificationSetup(db, validate)
+	authRoutes := auth.AuthSetup(db, validate, userRepo, notificationRepository, firebaseImpl)
 	moduleRoutes := module.ModuleSetup(db, validate)
 	categoryRoutes := category.CategorySetup(db, validate, cloudinary)
 	faqsRoutes := faqs.FaqsSetup(db, validate)
@@ -58,7 +57,6 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	subscriptionService := subscription.SubscriptionSetup(db)
 	submissionRoutes, submissionRepo := submission.SubmissionSetup(db, validate)
 	submissionAnswerRoutes := submissionAnswer.SubmissionAnswerSetup(db, validate, cloudinary, submissionRepo, subscriptionService)
-	notificationRoutes := notification.NotificationSetup(db, validate)
 
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo, subscriptionService)
 	courseTrakingRoutes, courseTrackingRepository := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService, subscriptionService, firebaseImpl)
