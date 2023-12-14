@@ -21,9 +21,11 @@ func (moduleService *ModuleServiceImpl) UpdateModule(request *web.ModuleRequest,
 		return err
 	}
 
-	existingModuleTitle, _ := moduleService.ModuleRepository.GetByTitleAndSectionId(request.Title, existingModule.SectionID)
-	if existingModuleTitle != nil {
-		return fmt.Errorf("module name already exists")
+	if existingModule.Title != request.Title {
+		existingModuleTitle, _ := moduleService.ModuleRepository.GetByTitleAndSectionId(request.Title, existingModule.SectionID)
+		if existingModuleTitle != nil {
+			return fmt.Errorf("module name already exists")
+		}
 	}
 
 	module := conversion.ModuleRequestToModuleDomain(request)
@@ -88,9 +90,11 @@ func (moduleService *ModuleServiceImpl) UpdateSection(request *web.SectionUpdate
 		return err
 	}
 
-	existingSectionTitle, _ := moduleService.ModuleRepository.GetByTitleSectionAndCourseId(request.Title, existingSection.CourseID)
-	if existingSectionTitle != nil {
-		return fmt.Errorf("section name already exists")
+	if existingSection.Title != request.Title {
+		existingSectionTitle, _ := moduleService.ModuleRepository.GetByTitleSectionAndCourseId(request.Title, existingSection.CourseID)
+		if existingSectionTitle != nil {
+			return fmt.Errorf("section name already exists")
+		}
 	}
 
 	module := conversion.SectionUpdateRequestToSectionDomain(request)

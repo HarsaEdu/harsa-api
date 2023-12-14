@@ -29,7 +29,7 @@ func ConvertCourse(course *domain.Course, enrolled int64, totalModul int64) *web
 		Rating: course.Rating,
 		Enrolled: enrolled,
 		TotalModules: totalModul,
-		User: *user,
+		Intructur: *user,
 		Feedback: feedback,
 		
 	}
@@ -47,13 +47,12 @@ func ConvertUserCourseTraking(userCourse *domain.UserProfile) *web.UserForTracki
 func ConvertCourseTrakingMobile(courseTracking *domain.CourseTracking, progress float32) *web.GetAllCourseForTraking {
 	
 	userIntructur := ConvertUserCourse(&courseTracking.Course.User.UserProfile)
-	userStudent   := ConvertUserCourseTraking(&courseTracking.User.UserProfile)
 
 	return &web.GetAllCourseForTraking {
 			CourseTrackingID: courseTracking.ID,
 			CourseID: courseTracking.CourseID,
-			UserIntructur: *userIntructur,
-			UserStudent: *userStudent,
+			Intructur: *userIntructur,
+			StudentID: courseTracking.UserID,
 			ImageUrl: courseTracking.Course.ImageUrl,
 			Title: courseTracking.Course.Title,
 			Description: courseTracking.Course.Description,
@@ -63,15 +62,22 @@ func ConvertCourseTrakingMobile(courseTracking *domain.CourseTracking, progress 
 	}
 }
 
+func ConvertCourseTrackingResposeNoLogin( course *domain.Course,sections []web.SectionResponseMobile, enrolled int64, totalModul int64) *web.CourseTrackingResponseMobileNologin {
+
+	courseRes := ConvertCourse(course, enrolled, totalModul)
+	return &web.CourseTrackingResponseMobileNologin{
+			Course: *courseRes,
+			Sections : sections,
+	}
+}
+
 func ConvertCourseTrackingRespose(courseTracking *domain.CourseTracking, course *domain.Course,sections []web.SectionResponseMobile, enrolled int64, totalModul int64, progress float32, sub bool) *web.CourseTrackingResponseMobile {
-	
-	user := ConvertUserCourseTraking(&courseTracking.User.UserProfile)
 
 	courseRes := ConvertCourse(course, enrolled, totalModul)
 	
 	courseTrackingRes := &web.CourseTrackingResponse{
 		ID: courseTracking.ID,
-		User: *user,
+		StudentID: courseTracking.UserID,
 		Progress: progress,
 		Status: courseTracking.Status,
 	}

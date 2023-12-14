@@ -1,6 +1,7 @@
 package repository
 
 import (
+
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
@@ -21,6 +22,25 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTrack
 			}
 
 			convertModul := conversion.ConvertModuleResponseTrackingMobile(&module, progrees)		
+			allModule = append(allModule, *convertModul)
+		}
+		sectionRes:= conversion.ConvertSectionResponseMobile(&section, allModule)
+		allSection = append(allSection, *sectionRes)
+	}
+
+    return allSection, nil
+}
+
+func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTrackingNoLogin(sections []domain.Section) ([]web.SectionResponseMobile, error) {
+
+	allSection:= []web.SectionResponseMobile{}
+
+	for _,section := range sections {
+
+		var allModule []web.ModuleResponseForTracking
+		for _, module := range section.Modules {
+
+			convertModul := conversion.ConvertModuleResponseTrackingMobile(&module, 0)		
 			allModule = append(allModule, *convertModul)
 		}
 		sectionRes:= conversion.ConvertSectionResponseMobile(&section, allModule)
@@ -72,6 +92,13 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllModuleTrack
 	}
 	if status == "in progress" && progress == 100{
 		newStatus := "completed"
+		result := courseTrackingRepository.DB.Model(&domain.CourseTracking{}).Where("course_id = ? and user_id = ?", courseID, userID).Update("status", newStatus)
+		if result.Error != nil {
+			return nil, 0,result.Error
+		}
+	}
+	if status == "completed" && progress != 100{
+		newStatus := "in progress"
 		result := courseTrackingRepository.DB.Model(&domain.CourseTracking{}).Where("course_id = ? and user_id = ?", courseID, userID).Update("status", newStatus)
 		if result.Error != nil {
 			return nil, 0,result.Error
@@ -180,29 +207,29 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindQuizzByID(modu
 }
 
 func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllSubmission(moduleId uint, userID uint) ([]web.SubmissionsResponseModuleMobile, error) {
-	var submission []domain.Submissions
+	var submissions []domain.Submissions
 
 	if err := courseTrackingRepository.DB.
 		Where("module_id = ?", moduleId).
-		Find(&submission).
+		Find(&submissions).
 		Error; err != nil {
 		return nil, err
 	}
 
 	var allSubmissisonAnswer []web.SubmissionsResponseModuleMobile
 
-	for _, submission := range submission {
-
-		var countSubmissisonAnswer int64
+	for _, submission := range submissions {
 
 		submissionAnswer := &domain.SubmissionAnswer{}
 
-		if err := courseTrackingRepository.DB.Find(&submissionAnswer).Where("submission_id = ? AND user_id  = ?", submission.ID, userID).Count(&countSubmissisonAnswer).Error; err != nil {
+		var countSubmissisonAnswer int64
+
+		if err := courseTrackingRepository.DB.Where("submission_id = ? AND user_id  = ?", submission.ID, userID).Find(&submissionAnswer).Count(&countSubmissisonAnswer).Error; err != nil {
 			return nil, err
 		}
 
 		var convertSubmissisonAnswer *web.SubmissionsResponseModuleMobile
-		if countSubmissisonAnswer > 0 {
+		if countSubmissisonAnswer > 0 && submissionAnswer.Status == "accepted"{
 			convertSubmissisonAnswer = conversion.ConvertSubmissionAnswerResponseTrackingMobile(&submission, submissionAnswer, true)
 		} else {
 			convertSubmissisonAnswer = conversion.ConvertSubmissionAnswerResponseTrackingMobile(&submission, submissionAnswer, false)
@@ -232,7 +259,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) FindAllQuiz(module
 
 		historyQuiz := &domain.HistoryQuiz{}
 
-		if err := courseTrackingRepository.DB.Find(&historyQuiz).Where("quiz_id = ? AND user_id  = ?", quiz.ID, userID).Count(&countHistoryQuiz).Error; err != nil {
+		if err := courseTrackingRepository.DB.Where("quiz_id = ? AND user_id  = ?", quiz.ID, userID).Find(&historyQuiz).Count(&countHistoryQuiz).Error; err != nil {
 			return nil, err
 		}
 

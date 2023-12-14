@@ -36,6 +36,13 @@ func (courseTrackingService *CourseTrackingServiceImpl) Create(ctx echo.Context,
 		return fmt.Errorf("error when creating Course Traking %s", err.Error())
 	}
 
+	notif, err := courseTrackingService.CourseTrackingRepository.NotifEnrolled(request.UserID, request.CourseID)
+	if err != nil {
+		return err
+	}
+
+	courseTrackingService.Firebase.SendNotificationPersonal(notif)
+
 	return nil
 
 }

@@ -36,9 +36,9 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) GetByUserIdAndCourseID(c
 		return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)
 	}
 
-	userId := ctx.Get("user_id").(uint)
+	userID := ctx.Get("user_id").(uint)
 
-	response, err := courseTrackingHandler.CourseTrackingService.FindByIdMobileByUserIdAndCourseId(ctx,userId,uint(id))
+	response, err := courseTrackingHandler.CourseTrackingService.FindByIdMobileByUserIdAndCourseId(ctx,userID,uint(id))
 	if err != nil {
 		
 		if strings.Contains(err.Error(), "not found") {
