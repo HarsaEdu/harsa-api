@@ -14,6 +14,7 @@ type OpenAi interface {
 	RunMessageInThread(ctx context.Context, assistant openai.Assistant, threadId string) (openai.Run, error)
 	GetResponseMessageInThread(ctx context.Context, threadId string) (openai.Message, error)
 	ChatWithAssistant(threadId string, message string) (string, error)
+	GetChatCompletion(message, systemInstruction string) (string, error)
 }
 
 type OpenAiImpl struct {
