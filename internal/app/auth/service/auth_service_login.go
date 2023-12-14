@@ -5,7 +5,6 @@ import (
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionResponse "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 )
 
 func (authService *AuthServiceImpl) LoginUser(userRequest web.LoginUserRequest) (*web.AuthResponse, error) {
@@ -16,7 +15,7 @@ func (authService *AuthServiceImpl) LoginUser(userRequest web.LoginUserRequest) 
 		return nil, fmt.Errorf("invalid email or password")
 	}
 
-	err := password.ComparePassword(existingUser.Password, userRequest.Password)
+	err :=  authService.Password.ComparePassword(existingUser.Password, userRequest.Password)
 
 	if err != nil {
 		return nil, fmt.Errorf("invalid email or password")

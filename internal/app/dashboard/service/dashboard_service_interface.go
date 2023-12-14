@@ -13,7 +13,7 @@ type DashboardServiceImpl struct {
 	DashboardRepository repository.DashboardRepository
 }
 
-func NewDashboardService(faqRepository repository.DashboardRepository) DashboardService {
-	return &DashboardServiceImpl{DashboardRepository: faqRepository}
+func NewDashboardService(dashboardRepository repository.DashboardRepository) DashboardService {
+	return &DashboardServiceImpl{DashboardRepository: dashboardRepository}
 
 }

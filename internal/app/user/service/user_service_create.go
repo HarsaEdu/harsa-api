@@ -7,7 +7,6 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 	"github.com/labstack/echo/v4"
 )
 
@@ -30,7 +29,10 @@ func (userService *UserServiceImpl) UserCreate(ctx echo.Context, userRequest web
 	userAccount := conversionRequest.UserCreateRequestToUserModel(userRequest)
 
 	// hash password
-	userAccount.Password = password.HashPassword(userAccount.Password)
+	userAccount.Password, err = userService.Password.HashPassword(userAccount.Password)
+	if err != nil {
+		return err
+	}
 
 	userService.UserRepository.HandleTrx(ctx, func(repo repository.UserRepository) error {
 		// insert data and get back user data with id and role name

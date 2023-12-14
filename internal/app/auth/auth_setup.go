@@ -8,11 +8,12 @@ import (
 	userRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/go-playground/validator"
 	"gorm.io/gorm"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 )
 
-func AuthSetup(db *gorm.DB,validate *validator.Validate ,userRepo userRepositoryPkg.UserRepository) authRoutesPkg.AuthRoutes {
+func AuthSetup(db *gorm.DB,validate *validator.Validate ,userRepo userRepositoryPkg.UserRepository, passwordImpl password.PasswordComparer ) authRoutesPkg.AuthRoutes {
 	authRepository := authRepositoryPkg.NewAuthRepository(db)
-	authService := authServicePkg.NewAuthService(authRepository,userRepo ,validate)
+	authService := authServicePkg.NewAuthService(authRepository,userRepo ,validate, passwordImpl)
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
 	authRoute := authRoutesPkg.NewAuthRoutes(authHandler)
 

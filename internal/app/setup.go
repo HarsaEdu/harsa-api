@@ -30,16 +30,17 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 	recommendationsApi "github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi, firebaseImpl firebase.Firebase) {
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi, firebaseImpl firebase.Firebase, passwordImpl password.PasswordComparer) {
 
-	userRoutes, userRepo := user.UserSetup(db, validate)
-	authRoutes := auth.AuthSetup(db, validate, userRepo)
+	userRoutes, userRepo := user.UserSetup(db, validate, passwordImpl)
+	authRoutes := auth.AuthSetup(db, validate, userRepo, passwordImpl)
 	moduleRoutes := module.ModuleSetup(db, validate)
 	categoryRoutes := category.CategorySetup(db, validate, cloudinary)
 	faqsRoutes := faqs.FaqsSetup(db, validate)

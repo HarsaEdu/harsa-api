@@ -5,7 +5,6 @@ import (
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 )
 
 func (userService *UserServiceImpl) UserUpdate(userRequest web.UserUpdateRequest) error {
@@ -43,7 +42,10 @@ func (userService *UserServiceImpl) UserUpdate(userRequest web.UserUpdateRequest
 	userAccount := conversionRequest.UserUpdateRequestToUserModel(userRequest)
 	// hash password
 	if userAccount.Password != "" {
-		userAccount.Password = password.HashPassword(userAccount.Password)
+		userAccount.Password, err = userService.Password.HashPassword(userAccount.Password)
+		if err != nil {
+			return err
+		}
 	}
 
 	// update data
@@ -90,7 +92,10 @@ func (userService *UserServiceImpl) UserUpdateMobile(userRequest web.UserUpdateR
 	userAccount := conversionRequest.UserUpdateRequestToUserModelMobile(userRequest)
 	// hash password
 	if userAccount.Password != "" {
-		userAccount.Password = password.HashPassword(userAccount.Password)
+		userAccount.Password, err = userService.Password.HashPassword(userAccount.Password)
+		if err != nil {
+			return err
+		}
 	}
 
 	// update data
@@ -120,7 +125,7 @@ func (userService *UserServiceImpl) UserUpdatePasswordMobile(userRequest web.Use
 		return fmt.Errorf("user not found")
 	}
 
-	err = password.ComparePassword(findUser.Password, userRequest.OldPassword)
+	err = userService.Password.ComparePassword(findUser.Password, userRequest.OldPassword)
 
 	if err != nil {
 		return fmt.Errorf("invalid password")
@@ -130,7 +135,10 @@ func (userService *UserServiceImpl) UserUpdatePasswordMobile(userRequest web.Use
 	userAccount := conversionRequest.UserUpdatePasswordRequestToUserModelMobile(userRequest)
 	// hash password
 	if userAccount.Password != "" {
-		userAccount.Password = password.HashPassword(userAccount.Password)
+		userAccount.Password, err = userService.Password.HashPassword(userAccount.Password)
+		if err != nil {
+			return err
+		}
 	}
 
 	// update data

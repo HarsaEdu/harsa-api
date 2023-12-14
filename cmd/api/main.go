@@ -15,6 +15,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 	"github.com/HarsaEdu/harsa-api/web/static"
 
 	"github.com/go-playground/validator"
@@ -50,13 +51,16 @@ func main() {
 	// Create an Recommendations Api instance
 	recommendationsApi := recommendations.NewRecommendationsApi(&config.RecommendationsApi)
 
-	// Create an Midtrans Core Api instance
+	// Create an firebase instance
 	firebaseImpl := firebase.NewFirebase(&config.Firebase)
+
+	// Create an password instance
+	passwordImpl := password.NewPasswordComparer()
 
 	// Create an Echo instance
 	e := echo.New()
 
-	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi, firebaseImpl)
+	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi, firebaseImpl, passwordImpl)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {

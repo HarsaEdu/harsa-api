@@ -6,7 +6,6 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	conversionResponse "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 )
 
 func (authService *AuthServiceImpl) RegisterUser(userRequest web.RegisterUserRequest) (*web.AuthResponse, error) {
@@ -28,8 +27,10 @@ func (authService *AuthServiceImpl) RegisterUser(userRequest web.RegisterUserReq
 	user := conversionRequest.RegisterUserRequestToUserModel(userRequest)
 
 	// hash password
-	user.Password = password.HashPassword(user.Password)
-
+	user.Password, err = authService.Password.HashPassword(user.Password)
+	if err != nil {
+		return nil, err
+	}
 	// insert data and get back user data with id and role name
 	res, err := authService.AuthRepository.RegisterWithFreeSubscibe(user)
 

@@ -5,6 +5,7 @@ import (
 	userRepo "github.com/HarsaEdu/harsa-api/internal/app/user/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/go-playground/validator"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 )
 
 type AuthService interface {
@@ -17,12 +18,14 @@ type AuthServiceImpl struct {
 	AuthRepository repository.AuthRepository
 	UserRepository userRepo.UserRepository
 	Validate       *validator.Validate
+	Password       password.PasswordComparer
 }
 
-func NewAuthService(ar repository.AuthRepository, ur userRepo.UserRepository, validate *validator.Validate) AuthService {
+func NewAuthService(ar repository.AuthRepository, ur userRepo.UserRepository, validate *validator.Validate, passwordImpl password.PasswordComparer) AuthService {
 	return &AuthServiceImpl{
 		AuthRepository: ar,
 		UserRepository: ur,
 		Validate:       validate,
+		Password: passwordImpl,
 	}
 }
