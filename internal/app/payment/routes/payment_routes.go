@@ -8,6 +8,7 @@ import (
 func (paymentRoutes *PaymentRoutesImpl) PaymentWeb(apiGroup *echo.Group) *echo.Group {
 	paymentsGroup := apiGroup.Group("/payments")
 
+	paymentsGroup.GET("/last-year", paymentRoutes.PaymentHandler.GetLastYearPaymentHistory, middleware.AdminMiddleware)
 	paymentsGroup.POST("/notifications", paymentRoutes.PaymentHandler.NotificationPayment)
 	paymentsGroup.GET("/:id", paymentRoutes.PaymentHandler.GetPaymentHistoryById, middleware.AdminMiddleware)
 	paymentsGroup.GET("", paymentRoutes.PaymentHandler.GetAllPaymentHistory, middleware.AdminMiddleware)
