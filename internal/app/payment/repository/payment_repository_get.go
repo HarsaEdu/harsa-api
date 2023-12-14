@@ -30,7 +30,7 @@ func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistory(offset, lim
         Where("CONCAT(user_profiles.first_name, ' ', user_profiles.last_name) LIKE ?", "%"+search+"%")
 	}
 
-	query.Order("created_at DESC").Find(&paymentHistory).Count(&count)
+	query.Order("transaction_time DESC").Find(&paymentHistory).Count(&count)
 
 	query = query.Offset(offset).Limit(limit)
 
@@ -60,7 +60,7 @@ func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistoryByUserId(use
 		query.Joins("JOIN subs_plans ON subs_plans.id = payment_histories.item_id").Where("subs_plans.title LIKE ?", "%"+search+"%")
 	}
 
-	query.Order("created_at DESC").Find(&paymentHistory).Count(&count)
+	query.Order("transaction_time DESC").Find(&paymentHistory).Count(&count)
 	query = query.Offset(offset).Limit(limit)
 
 	result := query.Find(&paymentHistory)
@@ -77,7 +77,7 @@ func (paymentRepository *PaymentRepositoryImpl) GetAllPaymentHistoryByUserId(use
 
 func (paymentRepository *PaymentRepositoryImpl) GetPaymentHistoryByUserIdAndPaymentId(userId uint, paymentId string) (*domain.PaymentHistory, error) {
 	paymentHistory := domain.PaymentHistory{}
-	result := paymentRepository.DB.Preload("User.UserProfile").Preload("Item").Where("user_id = ? AND id = ?", userId, paymentId).Order("created_at DESC").First(&paymentHistory)
+	result := paymentRepository.DB.Preload("User.UserProfile").Preload("Item").Where("user_id = ? AND id = ?", userId, paymentId).Order("transaction_time DESC").First(&paymentHistory)
 	if result.Error != nil {
 		return nil, result.Error
 	}
