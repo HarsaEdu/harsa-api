@@ -1,6 +1,9 @@
 package conversion
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 )
@@ -37,4 +40,27 @@ func PaymentHistoryDomainToPaymentHistoryResponses(paymentHistories []domain.Pay
 		paymentResponses = append(paymentResponses, *PaymentHistoryDomainToPaymentHistoryResponse(&paymentHistory))
 	}
 	return paymentResponses
+}
+
+func PaymentLastYearHistoryDomainToPaymentLastYearHistoryResponse(paymentHistories []domain.PaymentHistory) *web.PaymentLastYearHistoryResponse {
+	paymentLastYearHistoryResponse := web.PaymentLastYearHistoryResponse{}
+	monthlyTotals := make(map[time.Month]float64)
+
+	for _, history := range paymentHistories {
+		tempTotal, _ := strconv.ParseFloat(history.GrossAmount, 64)
+		month := history.SettlementTime.Month()
+		monthlyTotals[month] += tempTotal
+	}
+
+	paymentLastYearHistoryResponse.Total = 0
+	for month, total := range monthlyTotals {
+		paymentLastYearHistoryResponse.Months = append(paymentLastYearHistoryResponse.Months, web.PaymentMonthlyHistoryResponse{
+			Month: month.String(),
+			Total: total,
+		})
+		paymentLastYearHistoryResponse.Total += total
+	}
+
+	return &paymentLastYearHistoryResponse
+
 }
