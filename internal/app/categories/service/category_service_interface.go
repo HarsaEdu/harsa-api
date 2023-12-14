@@ -11,7 +11,7 @@ import (
 
 type CategoryService interface {
 	Create(ctx echo.Context, category web.CategoryCreateRequest) error
-	Update(category web.CategoryUpdateRequest, id int) error
+	Update(ctx echo.Context, request web.CategoryUpdateRequest, id int, isImageExist bool) error
 	UploadImage(ctx echo.Context, request *web.CategoryUploadImageRequest, id int, isIconExist, isImageExist bool) error
 	FindById(id int) (*domain.Category, error)
 	GetAll(offset, limit int, search string) ([]domain.Category, *web.Pagination, error)
