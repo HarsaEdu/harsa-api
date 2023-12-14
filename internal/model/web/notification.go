@@ -22,9 +22,9 @@ type NotificationResponse struct {
 	IsArsip   bool      `json:"is_arsip"`
 }
 type ReadNotification struct {
-	ID uint `json:"id"`
+	ID uint `json:"id" param:"id"`
 }
 type ArsipNotification struct {
-	ID      uint `json:"id"`
+	ID      uint `json:"id" param:"id"`
 	IsArsip bool `json:"is_arsip"`
 }
