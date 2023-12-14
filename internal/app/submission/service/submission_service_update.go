@@ -8,9 +8,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (submissionService *SubmissionServiceImpl) Update(ctx echo.Context, request *web.SubmissionUpdateRequest, submissionId int) error {
+func (submissionService *SubmissionServiceImpl) Update(ctx echo.Context, request *web.SubmissionUpdateRequest, submissionId int, userID uint, role string) error {
 
-	err := submissionService.Validator.Struct(request)
+	err := submissionService.SubmissionRepository.CekUserIDfromSubmission(uint(submissionId), userID, role)
+	if err != nil {
+		return fmt.Errorf("error when cek user id %s", err.Error())
+	}
+
+	err = submissionService.Validator.Struct(request)
 	if err != nil {
 		return err
 	}

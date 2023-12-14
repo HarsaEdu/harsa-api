@@ -10,6 +10,7 @@ type SubmissionAnswerRepository interface {
 	Update(request domain.SubmissionAnswer, id, userId int) error
 	FindById(id int) (*domain.SubmissionAnswer, error)
 	Get(offset, limit int, search string, submissionID uint) ([]domain.SubmissionsAnswerDetail, int64, error)
+	UpdateWeb(request domain.SubmissionAnswer, id int) error
 }
 
 type SubmissionAnswerRepositoryImpl struct {

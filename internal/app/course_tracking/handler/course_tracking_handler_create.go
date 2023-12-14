@@ -21,15 +21,17 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) Create(ctx echo.Context)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "invalid course id", err)
 	}
-	
 
 	req.CourseID = uint(courseId)
 	req.UserID = id
 	req.Status = "in progress"
-	err = courseTrackingHandler.CourseTrackingService.Create(req)
+	err = courseTrackingHandler.CourseTrackingService.Create(ctx, req)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"subscribe to enrolled this course" ,err)
 		}
 		if strings.Contains(err.Error(), "already exist") {
 			return res.StatusBadRequest(ctx, "You are already enrolled in this course", err)
@@ -61,10 +63,16 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) CreateWeb(ctx echo.Conte
 	req.CourseID = uint(courseId)
 	req.UserID = uint(userId)
 	req.Status = "in progress"
-	err = courseTrackingHandler.CourseTrackingService.Create(req)
+	err = courseTrackingHandler.CourseTrackingService.CreateWeb(req)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"subscribe to enrolled this course" ,err)
+		}
+		if strings.Contains(err.Error(), "already exist") {
+			return res.StatusBadRequest(ctx, " already enrolled in this course", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to create course tracking, something happen", err)
 

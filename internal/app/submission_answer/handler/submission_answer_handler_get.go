@@ -10,7 +10,7 @@ import (
 
 func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Get(ctx echo.Context) error {
 
-	idSubmissionParam := ctx.Param("submission-id")
+	idSubmissionParam := ctx.Param("idSubmission")
 	idSubmission, err := strconv.Atoi(idSubmissionParam)
 	if err != nil {
 		return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)

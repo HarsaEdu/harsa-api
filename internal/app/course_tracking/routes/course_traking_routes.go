@@ -12,7 +12,7 @@ func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingMobile(apiGr
 
 	courseTrackingsGroup.POST("/enrolled", courseTrackingRoutes.CourseTrackingHandler.Create, middleware.StudentMiddleare)
 	courseTrackingsGroupGet.GET("/trackings", courseTrackingRoutes.CourseTrackingHandler.GetAllTracking, middleware.StudentMiddleare)
-	courseTrackingsGroupGet.GET("/tracking/:id", courseTrackingRoutes.CourseTrackingHandler.GetById, middleware.StudentMiddleare)
+	courseTrackingsGroup.GET("", courseTrackingRoutes.CourseTrackingHandler.GetByUserIdAndCourseID, middleware.StudentMiddleare)
 	courseTrackingsGroupGet.GET("/module/:module-id", courseTrackingRoutes.CourseTrackingHandler.FindSub, middleware.StudentMiddleare)
 
 	moduleTrackingGroup.GET("/tracking", courseTrackingRoutes.CourseTrackingHandler.FindModuleHistory, middleware.StudentMiddleare)
@@ -29,7 +29,7 @@ func (courseTrackingRoutes *CourseTrackingRoutesImpl) CourseTrackingWeb(apiGroup
 	profileTrackingsGroup.GET("/:id", courseTrackingRoutes.CourseTrackingHandler.GetAllTrackingWeb, middleware.InstructorMiddleware)
 	userTrackingGroup.GET("", courseTrackingRoutes.CourseTrackingHandler.GetAllTrackingUserWeb, middleware.InstructorMiddleware)
 	userTrackingGroup.DELETE("/tracking/:tracking-id", courseTrackingRoutes.CourseTrackingHandler.DeleteEnrolled, middleware.InstructorMiddleware)
-	userTrackingGroup.POST("/:user-id", courseTrackingRoutes.CourseTrackingHandler.Create, middleware.InstructorMiddleware)
+	userTrackingGroup.POST("/:user-id", courseTrackingRoutes.CourseTrackingHandler.CreateWeb, middleware.InstructorMiddleware)
 	
 }
 

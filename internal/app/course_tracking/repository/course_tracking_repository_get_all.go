@@ -16,14 +16,14 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) GetAllCourseTracki
 	courseTracking := []domain.CourseTracking{}
 	var total int64
 
-	query := courseTrackingRepository.DB.Model(&courseTracking).Where("user_id = ?", userID)
+	query := courseTrackingRepository.DB.Model(&courseTracking).Where("course_trackings.user_id = ?", userID).Order("created_at DESC")
 
 	if status != "" {
 		s := "%" + status + "%"
-		query = query.Where("status LIKE ?", s)
+		query = query.Where("course_trackings.status LIKE ?", s)
 	}
 
-	query = query.Preload("Course.User.UserProfile").Preload("User.UserProfile")
+	query = query.Preload("Course.User.UserProfile")
 
 	if search != "" {
 		query = query.Joins("JOIN courses ON courses.id = course_trackings.course_id").
@@ -80,7 +80,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) GetAllCourseTracki
 	courseTracking := []domain.CourseTracking{}
 	var total int64
 
-	query := courseTrackingRepository.DB.Model(&courseTracking).Where("user_id = ?", userID)
+	query := courseTrackingRepository.DB.Model(&courseTracking).Where("user_id = ?", userID).Order("created_at DESC")
 
 	query = query.Preload("Course")
 
@@ -108,7 +108,7 @@ func (courseTrackingRepository *CourseTrackingRepositoryImpl) GetAllCourseTracki
 	courseTracking := []domain.CourseTracking{}
 	var total int64
 
-	query := courseTrackingRepository.DB.Model(&courseTracking).Where("course_id = ?",courseID)
+	query := courseTrackingRepository.DB.Model(&courseTracking).Where("course_id = ?",courseID).Order("created_at DESC")
 
 
 	query = query.Preload("User.UserProfile")

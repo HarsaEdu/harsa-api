@@ -2,8 +2,8 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (courseTrackingrepository *CourseTrackingRepositoryImpl) Delete(id uint) error {
-	result := courseTrackingrepository.DB.Where("id = ?", id).Delete(&domain.CourseTracking{})
+func (courseTrackingrepository *CourseTrackingRepositoryImpl) Delete(tracking *domain.CourseTracking) error {
+	result := courseTrackingrepository.DB.Delete(&tracking)
 	if result.Error != nil {
 		return result.Error
 	}

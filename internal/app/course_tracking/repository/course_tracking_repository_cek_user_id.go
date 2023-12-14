@@ -6,19 +6,25 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
-func (courseTrackingrepository *CourseTrackingRepositoryImpl) CekIdFromCourse(userId uint, courseId uint, role string) error {
+func (courseTrackingrepository *CourseTrackingRepositoryImpl) CekIdFromCourse(userId uint, trackingID uint, role string) (*domain.CourseTracking, error) {
 
+	courseTracking := domain.CourseTracking{}
+
+	if err := courseTrackingrepository.DB.First(&courseTracking, trackingID).Error; err != nil {
+		return nil, err
+	}
+	
 	var userIDCourse uint
 
-	if err := courseTrackingrepository.DB.Model(&domain.Course{}).Where("id = ?", courseId).Select("user_id").Scan(&userIDCourse).Error; err != nil {
-		return err
+	if err := courseTrackingrepository.DB.Model(&domain.Course{}).Where("id = ?", courseTracking.CourseID).Select("user_id").Scan(&userIDCourse).Error; err != nil {
+		return nil, err
 	}
 
 	if userIDCourse != userId && role != "admin" {
-		return fmt.Errorf("unauthorized")
+		return nil, fmt.Errorf("unauthorized")
 	}
 
-	return  nil
+	return  &courseTracking,nil
 }
 
 func (courseTrackingrepository *CourseTrackingRepositoryImpl) Cek(userId uint, courseId uint) (*domain.CourseTracking,error) {

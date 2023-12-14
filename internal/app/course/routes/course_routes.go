@@ -14,6 +14,7 @@ func (courseRoutes *CourseRoutesImpl) CourseWeb(apiGroup *echo.Group) *echo.Grou
 	dashboardsGroup.GET("/instructur/course", courseRoutes.CourseHandler.GetAllCourseByUserId, middleware.InstructorMiddleware)
 	dashboardsGroup.GET("/instructur/course/:id", courseRoutes.CourseHandler.GetDetailCourseById, middleware.InstructorMiddleware)
 	coursesGroup.GET("", courseRoutes.CourseHandler.GetAll, middleware.AdminMiddleware)
+	coursesGroup.GET("/my-course", courseRoutes.CourseHandler.GetAllMyCourse, middleware.InstructorMiddleware)
 	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetById, middleware.InstructorMiddleware)
 	coursesGroup.PUT("/:id", courseRoutes.CourseHandler.Update, middleware.InstructorMiddleware)
 	coursesGroup.PATCH("/:id", courseRoutes.CourseHandler.UpdateImage, middleware.InstructorMiddleware)
@@ -26,9 +27,9 @@ func (courseRoutes *CourseRoutesImpl) CourseMobile(apiGroup *echo.Group) *echo.G
 	coursesGroup := apiGroup.Group("/courses")
 
 	coursesGroup.GET("", courseRoutes.CourseHandler.GetAll)
-	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetById)
-	coursesGroup.GET("/:id/enrolled", courseRoutes.CourseHandler.GetByIdMobile,middleware.StudentMiddleare)
+	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetByIdMobile)
 	coursesGroup.GET("/category/:id", courseRoutes.CourseHandler.GetAllByCategory)
+	coursesGroup.GET("/rating", courseRoutes.CourseHandler.GetAllByRating)
 
 	return coursesGroup
 }

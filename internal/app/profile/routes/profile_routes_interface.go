@@ -7,6 +7,7 @@ import (
 
 type ProfileRoutes interface {
 	ProfileMobile(apiGroup *echo.Group)
+	ProfileWeb(apiGroup *echo.Group)
 }
 
 type ProfileRoutesImpl struct {

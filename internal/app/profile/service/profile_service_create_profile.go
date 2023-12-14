@@ -19,12 +19,12 @@ func (profileService *ProfileServiceImpl) CreateProfile(ctx echo.Context, reques
 		return fmt.Errorf("profile already exists")
 	}
 
-	profile := conversion.ProfileCreateRequestToModel(userID, request)
-
-	profile.ImageUrl, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles", false)
+	request.ImageUrl, err = profileService.cloudinaryUploader.Uploader(ctx, "image", "profiles", false)
 	if err != nil {
 		return fmt.Errorf("error uploading image : %s", err.Error())
 	}
+
+	profile := conversion.ProfileCreateRequestToModel(userID, request)
 
 	err = profileService.ProfileRepository.CreateProfile(profile)
 	if err != nil {

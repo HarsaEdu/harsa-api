@@ -22,6 +22,8 @@ type CourseRepository interface {
 	GetAllCourseDashBoardIntructur(offset, limit int, search string, userID uint) (*web.DashboardAllCourseIntructur, int64,error)
 	GetDetailDashBoardIntructur(courseID uint) (*web.CourseResponseForIntructur, error)
 	GetAllByCategory(offset, limit int, search string, categoryId uint) ([]domain.Course, int64, error)
+	GetAllbyUserID(offset, limit int, search string, category string, userID uint) ([]domain.Course, int64, error)
+	GetAllCourseByRating(offset, limit int, search string, category string) ([]domain.Course, int64, error)
 }
 
 type CourseRepositoryImpl struct {

@@ -28,7 +28,7 @@ func (authHandler *AuthHandlerImpl) LoginUser(ctx echo.Context) error {
 	}
 	
 	if response.RoleName == "student" {
-		return res.StatusNotFound(ctx, "invalid username or password", fmt.Errorf("user not found"))
+		return res.StatusNotFound(ctx, "invalid email or password", fmt.Errorf("user not found"))
 	}
 
 
@@ -65,7 +65,7 @@ func (authHandler *AuthHandlerImpl) LoginUserStudent(ctx echo.Context) error {
 	}
 
 	if response.RoleName != "student" {
-		return res.StatusNotFound(ctx, "invalid username or password", fmt.Errorf("not fount"))
+		return res.StatusNotFound(ctx, "invalid email or password", fmt.Errorf("not fount"))
 	}
 
 

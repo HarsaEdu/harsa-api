@@ -8,7 +8,7 @@ import (
 type CategoryRepository interface {
 	Create(category *domain.Category) error
 	Update(category *domain.Category, id int) error
-	UpdateImage(imageUrl *domain.Category, id int) error
+	UpdateImage(imageUrl string, icon string, id int) error
 	FindById(id int) (*domain.Category, error)
 	FindByName(name string) (*domain.Category, error)
 	GetAll(offset, limit int, search string) ([]domain.Category, int64, error)

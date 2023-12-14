@@ -11,7 +11,6 @@ type SubModuleResponseModule struct {
 	ID          uint                  `json:"id"`
 	Title       string                `json:"title"`
 	ContentUrl  string                `json:"content_url"`
-	ContentBody string                `json:"content_body"`
 	Type        domain.SubModuleType  `json:"type"`
 }
 
@@ -57,10 +56,8 @@ type SectionResponse struct {
 	Modules     []ModuleResponseWithTitle `json:"modules"`
 }
 
-
 type SectionResponseMobile struct {
 	ID          uint           `json:"id"`
-	CourseID    uint           `json:"course_id"`
 	Title       string         `json:"title"`
 	Order       int            `json:"order"`
 	Modules     []ModuleResponseForTracking `json:"modules"`

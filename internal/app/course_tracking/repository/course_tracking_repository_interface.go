@@ -25,9 +25,17 @@ type CourseTrackingRepository interface {
 	FindAllModuleTrackingWithProgress(sections []domain.Section, userID uint, courseID uint) ([]web.SectionResponseMobile, float32 ,error)
 	GetAllCourseTrackingWeb(offset, limit int, userID uint) ([]domain.CourseTracking, int64, error)
 	GetAllCourseTrackingUserWeb(offset, limit int, courseID uint, search string) ([]domain.CourseTracking, int64, error)
-	Delete(id uint) error
-	CekIdFromCourse(userId uint, courseId uint, role string) error
+	Delete(tracking *domain.CourseTracking) error
+	CekIdFromCourse(userId uint, trackingID uint, role string) (*domain.CourseTracking, error)
 	Cek(userId uint, courseId uint) (*domain.CourseTracking,error)
+	FindByUserIdAndCourseID(courseID uint, UserID uint) (*domain.CourseTracking ,error)
+	GetCourseIDbyModuleID(moduleId uint) (uint,error)
+	GetCourseIDbySubmssionID(id uint) (uint,error)
+	GetCourseIDbySubModuleID(id uint) (uint,error)
+	GetCourseIDbyQuizzesID(id uint) (uint,error)
+	GetCreatedAt(id uint) (int64, error)
+	FindAllModuleTrackingNoLogin(sections []domain.Section) ([]web.SectionResponseMobile, error)
+	NotifEnrolled(userId uint, courseId uint) (*web.NotificationPersonal, error)
 }
 
 type CourseTrackingRepositoryImpl struct {

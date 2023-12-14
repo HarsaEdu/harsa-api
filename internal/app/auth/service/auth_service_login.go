@@ -13,13 +13,13 @@ func (authService *AuthServiceImpl) LoginUser(userRequest web.LoginUserRequest) 
 	existingUser, _ := authService.UserRepository.UserAvailable("", userRequest.Email)
 
 	if existingUser == nil {
-		return nil, fmt.Errorf("invalid username or password")
+		return nil, fmt.Errorf("invalid email or password")
 	}
 
 	err := password.ComparePassword(existingUser.Password, userRequest.Password)
 
 	if err != nil {
-		return nil, fmt.Errorf("invalid username or password")
+		return nil, fmt.Errorf("invalid email or password")
 	}
 
 	response, err := authService.AuthRepository.LoginUser(existingUser.ID)

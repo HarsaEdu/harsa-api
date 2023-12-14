@@ -14,7 +14,7 @@ const (
 type UserProfile struct {
 	ID          uint      `gorm:"type:int;primarykey" json:"id"`
 	UserID      uint      `gorm:"type:int;not null" json:"user_id" form:"user_id"`
-	ImageUrl    string    `gorm:"type:varchar(255);default:'https://placewaifu.com/image/200/200'" json:"image_url" form:"image"`
+	ImageUrl    string    `gorm:"type:varchar(255);default:'https://robohash.org/74.png?size=200x200'" json:"image_url" form:"image"`
 	FirstName   string    `gorm:"type:varchar(255);not null" json:"first_name" form:"first_name"`
 	LastName    string    `gorm:"type:varchar(255)" json:"last_name" form:"last_name"`
 	DateBirth   time.Time `gorm:"type:date" json:"date_birth" form:"date_birth"`
@@ -45,4 +45,27 @@ type ProfileDetail struct {
 	City          string    `json:"city"`
 	Address       string    `json:"address"`
 	Job           string    `json:"job"`
+}
+
+
+type ProfileDetailMobile struct {
+	UserID        uint      `json:"user_id"`
+	UserProfileID uint      `json:"user_profile_id"`
+	ImageUrl      string    `json:"image_url" form:"image"`
+	RoleID        uint      `json:"role_id"`
+	RoleName      string    `json:"role_name"`
+	Email         string    `json:"email"`
+	Username      string    `json:"username"`
+	FirstName     string    `json:"first_name"`
+	LastName      string    `json:"last_name"`
+	PhoneNumber   string    `json:"phone_number"`
+	DateBirth     time.Time `json:"date_birth"`
+	Bio           string    `json:"bio"`
+	Gender        Gender    `json:"gender"`
+	City          string    `json:"city"`
+	Address       string    `json:"address"`
+	Job           string    `json:"job"`
+	SubscriptionID uint `json:"subscription_id"`
+	StartDate      time.Time `json:"start_date"`
+	EndDate        time.Time `json:"end_date"`
 }

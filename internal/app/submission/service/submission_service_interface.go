@@ -8,10 +8,10 @@ import (
 )
 
 type SubmissionService interface {
-	Create(ctx echo.Context, request web.SubmissionRequest) error
-	Update(ctx echo.Context, request *web.SubmissionUpdateRequest, submissionId int) error
-	Delete(id int) error
-	GetAll(moduleId int) ([]web.SubmissionsResponseModule, error)
+	Create(ctx echo.Context, request web.SubmissionRequest, userId uint, role string) error
+	Update(ctx echo.Context, request *web.SubmissionUpdateRequest, submissionId int, userID uint, role string) error
+	Delete(id int, userId uint, role string) error 
+	GetAll(moduleId int) ([]web.SubmissionsResponseWeb, error) 
 	FindById(id int) (*web.SubmissionsResponseModule, error)
 	GetAllMobile(moduleId int) ([]web.SubmissionsResponseModuleMobile, error)
 }

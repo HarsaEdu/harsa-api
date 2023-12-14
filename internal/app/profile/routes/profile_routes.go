@@ -8,8 +8,13 @@ import (
 func (profileRoutes *ProfileRoutesImpl) ProfileMobile(apiGroup *echo.Group) {
 	profilesGroup := apiGroup.Group("/users/profile")
 
-	profilesGroup.POST("", profileRoutes.ProfileHandler.CreateProfile, middleware.AllUserMiddleare)
-	profilesGroup.GET("/:profile_id", profileRoutes.ProfileHandler.GetProfileByID, middleware.AdminMiddleware)
-	profilesGroup.PUT("/:profile_id", profileRoutes.ProfileHandler.UpdateProfile, middleware.AllUserMiddleare)
+	profilesGroup.POST("/myprofile", profileRoutes.ProfileHandler.CreateProfile, middleware.AllUserMiddleare)
+	profilesGroup.PUT("/myprofile", profileRoutes.ProfileHandler.UpdateMyProfile, middleware.AllUserMiddleare)
 	profilesGroup.GET("/myprofile", profileRoutes.ProfileHandler.MyProfile, middleware.AllUserMiddleare)
+}
+
+func (profileRoutes *ProfileRoutesImpl) ProfileWeb(apiGroup *echo.Group) {
+	profilesGroup := apiGroup.Group("/users/profile")
+
+	profilesGroup.PUT("/:profile_id", profileRoutes.ProfileHandler.UpdateProfile, middleware.AdminMiddleware)
 }
