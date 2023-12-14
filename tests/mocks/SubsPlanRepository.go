@@ -26,20 +26,6 @@ func (_m *SubsPlanRepository) Create(subsPlan *domain.SubsPlan) error {
 	return r0
 }
 
-// Delete provides a mock function with given fields: id
-func (_m *SubsPlanRepository) Delete(id int) error {
-	ret := _m.Called(id)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(int) error); ok {
-		r0 = rf(id)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
 // FindById provides a mock function with given fields: id
 func (_m *SubsPlanRepository) FindById(id int) (*domain.SubsPlan, error) {
 	ret := _m.Called(id)
@@ -66,8 +52,8 @@ func (_m *SubsPlanRepository) FindById(id int) (*domain.SubsPlan, error) {
 	return r0, r1
 }
 
-// GetAll provides a mock function with given fields: search
-func (_m *SubsPlanRepository) GetAll(search string) ([]domain.SubsPlan, int64, error) {
+// GetAllActive provides a mock function with given fields: search
+func (_m *SubsPlanRepository) GetAllActive(search string) ([]domain.SubsPlan, int64, error) {
 	ret := _m.Called(search)
 
 	var r0 []domain.SubsPlan
@@ -99,13 +85,27 @@ func (_m *SubsPlanRepository) GetAll(search string) ([]domain.SubsPlan, int64, e
 	return r0, r1, r2
 }
 
-// Update provides a mock function with given fields: subsPlan, id
-func (_m *SubsPlanRepository) Update(subsPlan *domain.SubsPlan, id int) error {
-	ret := _m.Called(subsPlan, id)
+// UpdateImage provides a mock function with given fields: imageUrl, id
+func (_m *SubsPlanRepository) UpdateImage(imageUrl string, id int) error {
+	ret := _m.Called(imageUrl, id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(*domain.SubsPlan, int) error); ok {
-		r0 = rf(subsPlan, id)
+	if rf, ok := ret.Get(0).(func(string, int) error); ok {
+		r0 = rf(imageUrl, id)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// UpdateStatus provides a mock function with given fields: isActive, id
+func (_m *SubsPlanRepository) UpdateStatus(isActive bool, id uint) error {
+	ret := _m.Called(isActive, id)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(bool, uint) error); ok {
+		r0 = rf(isActive, id)
 	} else {
 		r0 = ret.Error(0)
 	}

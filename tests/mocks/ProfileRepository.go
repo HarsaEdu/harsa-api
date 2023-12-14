@@ -27,19 +27,19 @@ func (_m *ProfileRepository) CreateProfile(profile *domain.UserProfile) error {
 }
 
 // FindByUserID provides a mock function with given fields: userID
-func (_m *ProfileRepository) FindByUserID(userID uint) (*domain.ProfileDetail, error) {
+func (_m *ProfileRepository) FindByUserID(userID uint) (*domain.ProfileDetailMobile, error) {
 	ret := _m.Called(userID)
 
-	var r0 *domain.ProfileDetail
+	var r0 *domain.ProfileDetailMobile
 	var r1 error
-	if rf, ok := ret.Get(0).(func(uint) (*domain.ProfileDetail, error)); ok {
+	if rf, ok := ret.Get(0).(func(uint) (*domain.ProfileDetailMobile, error)); ok {
 		return rf(userID)
 	}
-	if rf, ok := ret.Get(0).(func(uint) *domain.ProfileDetail); ok {
+	if rf, ok := ret.Get(0).(func(uint) *domain.ProfileDetailMobile); ok {
 		r0 = rf(userID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*domain.ProfileDetail)
+			r0 = ret.Get(0).(*domain.ProfileDetailMobile)
 		}
 	}
 

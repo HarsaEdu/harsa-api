@@ -168,6 +168,32 @@ func (_m *CourseTrackingRepository) FindAllModuleTracking(sections []domain.Sect
 	return r0, r1
 }
 
+// FindAllModuleTrackingNoLogin provides a mock function with given fields: sections
+func (_m *CourseTrackingRepository) FindAllModuleTrackingNoLogin(sections []domain.Section) ([]web.SectionResponseMobile, error) {
+	ret := _m.Called(sections)
+
+	var r0 []web.SectionResponseMobile
+	var r1 error
+	if rf, ok := ret.Get(0).(func([]domain.Section) ([]web.SectionResponseMobile, error)); ok {
+		return rf(sections)
+	}
+	if rf, ok := ret.Get(0).(func([]domain.Section) []web.SectionResponseMobile); ok {
+		r0 = rf(sections)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]web.SectionResponseMobile)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func([]domain.Section) error); ok {
+		r1 = rf(sections)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // FindAllModuleTrackingWithProgress provides a mock function with given fields: sections, userID, courseID
 func (_m *CourseTrackingRepository) FindAllModuleTrackingWithProgress(sections []domain.Section, userID uint, courseID uint) ([]web.SectionResponseMobile, float32, error) {
 	ret := _m.Called(sections, userID, courseID)
@@ -724,6 +750,32 @@ func (_m *CourseTrackingRepository) GetCreatedAt(id uint) (int64, error) {
 
 	if rf, ok := ret.Get(1).(func(uint) error); ok {
 		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// NotifEnrolled provides a mock function with given fields: userId, courseId
+func (_m *CourseTrackingRepository) NotifEnrolled(userId uint, courseId uint) (*web.NotificationPersonal, error) {
+	ret := _m.Called(userId, courseId)
+
+	var r0 *web.NotificationPersonal
+	var r1 error
+	if rf, ok := ret.Get(0).(func(uint, uint) (*web.NotificationPersonal, error)); ok {
+		return rf(userId, courseId)
+	}
+	if rf, ok := ret.Get(0).(func(uint, uint) *web.NotificationPersonal); ok {
+		r0 = rf(userId, courseId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*web.NotificationPersonal)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(uint, uint) error); ok {
+		r1 = rf(userId, courseId)
 	} else {
 		r1 = ret.Error(1)
 	}

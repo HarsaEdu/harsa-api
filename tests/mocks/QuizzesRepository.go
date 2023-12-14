@@ -107,13 +107,14 @@ func (_m *QuizzesRepository) FindById(quizId uint) (*domain.Quizzes, error) {
 }
 
 // GetAll provides a mock function with given fields: moduleId, offset, limit, search
-func (_m *QuizzesRepository) GetAll(moduleId uint, offset int, limit int, search string) ([]domain.Quizzes, int64, error) {
+func (_m *QuizzesRepository) GetAll(moduleId uint, offset int, limit int, search string) ([]domain.Quizzes, int64, string, error) {
 	ret := _m.Called(moduleId, offset, limit, search)
 
 	var r0 []domain.Quizzes
 	var r1 int64
-	var r2 error
-	if rf, ok := ret.Get(0).(func(uint, int, int, string) ([]domain.Quizzes, int64, error)); ok {
+	var r2 string
+	var r3 error
+	if rf, ok := ret.Get(0).(func(uint, int, int, string) ([]domain.Quizzes, int64, string, error)); ok {
 		return rf(moduleId, offset, limit, search)
 	}
 	if rf, ok := ret.Get(0).(func(uint, int, int, string) []domain.Quizzes); ok {
@@ -130,13 +131,19 @@ func (_m *QuizzesRepository) GetAll(moduleId uint, offset int, limit int, search
 		r1 = ret.Get(1).(int64)
 	}
 
-	if rf, ok := ret.Get(2).(func(uint, int, int, string) error); ok {
+	if rf, ok := ret.Get(2).(func(uint, int, int, string) string); ok {
 		r2 = rf(moduleId, offset, limit, search)
 	} else {
-		r2 = ret.Error(2)
+		r2 = ret.Get(2).(string)
 	}
 
-	return r0, r1, r2
+	if rf, ok := ret.Get(3).(func(uint, int, int, string) error); ok {
+		r3 = rf(moduleId, offset, limit, search)
+	} else {
+		r3 = ret.Error(3)
+	}
+
+	return r0, r1, r2, r3
 }
 
 // Update provides a mock function with given fields: UpdateQuiz, quizExist

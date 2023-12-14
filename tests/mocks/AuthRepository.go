@@ -64,6 +64,32 @@ func (_m *AuthRepository) RegisterUser(user *domain.User) (*domain.Auth, error) 
 	return r0, r1
 }
 
+// RegisterWithFreeSubscibe provides a mock function with given fields: user
+func (_m *AuthRepository) RegisterWithFreeSubscibe(user *domain.User) (*domain.Auth, error) {
+	ret := _m.Called(user)
+
+	var r0 *domain.Auth
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*domain.User) (*domain.Auth, error)); ok {
+		return rf(user)
+	}
+	if rf, ok := ret.Get(0).(func(*domain.User) *domain.Auth); ok {
+		r0 = rf(user)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.Auth)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*domain.User) error); ok {
+		r1 = rf(user)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // NewAuthRepository creates a new instance of AuthRepository. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewAuthRepository(t interface {

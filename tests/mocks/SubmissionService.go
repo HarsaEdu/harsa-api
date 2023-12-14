@@ -69,19 +69,19 @@ func (_m *SubmissionService) FindById(id int) (*web.SubmissionsResponseModule, e
 }
 
 // GetAll provides a mock function with given fields: moduleId
-func (_m *SubmissionService) GetAll(moduleId int) ([]web.SubmissionsResponseModule, error) {
+func (_m *SubmissionService) GetAll(moduleId int) ([]web.SubmissionsResponseWeb, error) {
 	ret := _m.Called(moduleId)
 
-	var r0 []web.SubmissionsResponseModule
+	var r0 []web.SubmissionsResponseWeb
 	var r1 error
-	if rf, ok := ret.Get(0).(func(int) ([]web.SubmissionsResponseModule, error)); ok {
+	if rf, ok := ret.Get(0).(func(int) ([]web.SubmissionsResponseWeb, error)); ok {
 		return rf(moduleId)
 	}
-	if rf, ok := ret.Get(0).(func(int) []web.SubmissionsResponseModule); ok {
+	if rf, ok := ret.Get(0).(func(int) []web.SubmissionsResponseWeb); ok {
 		r0 = rf(moduleId)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]web.SubmissionsResponseModule)
+			r0 = ret.Get(0).([]web.SubmissionsResponseWeb)
 		}
 	}
 

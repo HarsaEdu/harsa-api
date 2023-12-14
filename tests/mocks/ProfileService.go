@@ -57,19 +57,19 @@ func (_m *ProfileService) GetProfileByID(request *web.UserGetByIDRequest) (*doma
 }
 
 // MyProfile provides a mock function with given fields: request
-func (_m *ProfileService) MyProfile(request *web.UserGetByIDRequest) (*domain.ProfileDetail, error) {
+func (_m *ProfileService) MyProfile(request *web.UserGetByIDRequest) (*domain.ProfileDetailMobile, error) {
 	ret := _m.Called(request)
 
-	var r0 *domain.ProfileDetail
+	var r0 *domain.ProfileDetailMobile
 	var r1 error
-	if rf, ok := ret.Get(0).(func(*web.UserGetByIDRequest) (*domain.ProfileDetail, error)); ok {
+	if rf, ok := ret.Get(0).(func(*web.UserGetByIDRequest) (*domain.ProfileDetailMobile, error)); ok {
 		return rf(request)
 	}
-	if rf, ok := ret.Get(0).(func(*web.UserGetByIDRequest) *domain.ProfileDetail); ok {
+	if rf, ok := ret.Get(0).(func(*web.UserGetByIDRequest) *domain.ProfileDetailMobile); ok {
 		r0 = rf(request)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*domain.ProfileDetail)
+			r0 = ret.Get(0).(*domain.ProfileDetailMobile)
 		}
 	}
 

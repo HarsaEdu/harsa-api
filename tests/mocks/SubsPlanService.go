@@ -3,9 +3,7 @@
 package mocks
 
 import (
-	domain "github.com/HarsaEdu/harsa-api/internal/model/domain"
 	echo "github.com/labstack/echo/v4"
-
 	mock "github.com/stretchr/testify/mock"
 
 	web "github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -30,13 +28,13 @@ func (_m *SubsPlanService) Create(ctx echo.Context, subsPlan *web.SubsPlanCreate
 	return r0
 }
 
-// Delete provides a mock function with given fields: id
-func (_m *SubsPlanService) Delete(id int) error {
-	ret := _m.Called(id)
+// CreateFromExisting provides a mock function with given fields: ctx, request, id
+func (_m *SubsPlanService) CreateFromExisting(ctx echo.Context, request *web.SubsPlanUpdateRequest, id uint) error {
+	ret := _m.Called(ctx, request, id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(int) error); ok {
-		r0 = rf(id)
+	if rf, ok := ret.Get(0).(func(echo.Context, *web.SubsPlanUpdateRequest, uint) error); ok {
+		r0 = rf(ctx, request, id)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -45,19 +43,19 @@ func (_m *SubsPlanService) Delete(id int) error {
 }
 
 // FindById provides a mock function with given fields: id
-func (_m *SubsPlanService) FindById(id int) (*domain.SubsPlan, error) {
+func (_m *SubsPlanService) FindById(id int) (*web.SubsPlanResposne, error) {
 	ret := _m.Called(id)
 
-	var r0 *domain.SubsPlan
+	var r0 *web.SubsPlanResposne
 	var r1 error
-	if rf, ok := ret.Get(0).(func(int) (*domain.SubsPlan, error)); ok {
+	if rf, ok := ret.Get(0).(func(int) (*web.SubsPlanResposne, error)); ok {
 		return rf(id)
 	}
-	if rf, ok := ret.Get(0).(func(int) *domain.SubsPlan); ok {
+	if rf, ok := ret.Get(0).(func(int) *web.SubsPlanResposne); ok {
 		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*domain.SubsPlan)
+			r0 = ret.Get(0).(*web.SubsPlanResposne)
 		}
 	}
 
@@ -71,20 +69,20 @@ func (_m *SubsPlanService) FindById(id int) (*domain.SubsPlan, error) {
 }
 
 // GetAll provides a mock function with given fields: search
-func (_m *SubsPlanService) GetAll(search string) ([]domain.SubsPlan, *web.Pagination, error) {
+func (_m *SubsPlanService) GetAll(search string) ([]web.SubsPlanResposne, *web.Pagination, error) {
 	ret := _m.Called(search)
 
-	var r0 []domain.SubsPlan
+	var r0 []web.SubsPlanResposne
 	var r1 *web.Pagination
 	var r2 error
-	if rf, ok := ret.Get(0).(func(string) ([]domain.SubsPlan, *web.Pagination, error)); ok {
+	if rf, ok := ret.Get(0).(func(string) ([]web.SubsPlanResposne, *web.Pagination, error)); ok {
 		return rf(search)
 	}
-	if rf, ok := ret.Get(0).(func(string) []domain.SubsPlan); ok {
+	if rf, ok := ret.Get(0).(func(string) []web.SubsPlanResposne); ok {
 		r0 = rf(search)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]domain.SubsPlan)
+			r0 = ret.Get(0).([]web.SubsPlanResposne)
 		}
 	}
 
@@ -105,13 +103,13 @@ func (_m *SubsPlanService) GetAll(search string) ([]domain.SubsPlan, *web.Pagina
 	return r0, r1, r2
 }
 
-// Update provides a mock function with given fields: subsPlan, id
-func (_m *SubsPlanService) Update(subsPlan *web.SubsPlanUpdateRequest, id int) error {
-	ret := _m.Called(subsPlan, id)
+// SetStatus provides a mock function with given fields: request, id
+func (_m *SubsPlanService) SetStatus(request *web.SubsPlanUpdateStatus, id uint) error {
+	ret := _m.Called(request, id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(*web.SubsPlanUpdateRequest, int) error); ok {
-		r0 = rf(subsPlan, id)
+	if rf, ok := ret.Get(0).(func(*web.SubsPlanUpdateStatus, uint) error); ok {
+		r0 = rf(request, id)
 	} else {
 		r0 = ret.Error(0)
 	}
