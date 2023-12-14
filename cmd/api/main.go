@@ -52,7 +52,7 @@ func main() {
 	// Create an Echo instance
 	e := echo.New()
 
-	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi)
+	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi, *config)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {
