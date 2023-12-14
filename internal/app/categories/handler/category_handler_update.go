@@ -14,7 +14,6 @@ func (categoryHandler *CategoryHandlerImpl) Update(ctx echo.Context) error {
 	image := false
 
 	fileHeader, _ := ctx.FormFile("image")
-
 	if fileHeader != nil {
 		image = true
 	}
