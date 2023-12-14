@@ -6,6 +6,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversionRequest "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 	conversionResponse "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 )
 
@@ -36,6 +37,25 @@ func (authService *AuthServiceImpl) RegisterUser(userRequest web.RegisterUserReq
 	// check if error when insert data
 	if err != nil {
 		return nil, fmt.Errorf("error when creating user %s:", err.Error())
+	}
+	title := "Pendaftaran berhasil!"
+	content := "Terima kasih telah mendaftar. Sekarang kamu mendapatkan free subscribe selama 7 hari!"
+
+	notif := conversionRequest.NotificationCreateRequestToNotificationDomain(res.ID, title, content)
+
+	err = authService.NotificationRepository.Create(notif)
+
+	if err != nil {
+		return nil, fmt.Errorf("error when creating notif register %s:", err.Error())
+	}
+
+	if res.RegistrationToken != "" {
+		notification := &web.NotificationPersonal{
+			Title:             title,
+			Message:           content,
+			RegistrationToken: res.RegistrationToken,
+		}
+		firebase.SendNotificationPersonal(*notification, authService.Config)
 	}
 
 	// convert user data to auth response
