@@ -29,3 +29,13 @@ type GetPaymentResponse struct {
 	Customer        PaymentCustomerResponse `json:"customer"`
 	Item            PaymentItemResponse     `json:"item"`
 }
+
+type PaymentMonthlyHistoryResponse struct {
+	Month string  `json:"month"`
+	Total float64 `json:"total"`
+}
+
+type PaymentLastYearHistoryResponse struct {
+	Total  float64                         `json:"total"`
+	Months []PaymentMonthlyHistoryResponse `json:"months"`
+}
