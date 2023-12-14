@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
@@ -81,4 +83,14 @@ func (paymentRepository *PaymentRepositoryImpl) GetPaymentHistoryByUserIdAndPaym
 	}
 
 	return &paymentHistory, nil
+}
+
+func (paymentRepository *PaymentRepositoryImpl) GetLastYearPaymentHistory(now time.Time) ([]domain.PaymentHistory, error) {
+	paymentHistory := []domain.PaymentHistory{}
+	result := paymentRepository.DB.Where("status = ?", "success").Where("settlement_time > ?", now.AddDate(-1, 0, 0)).Order("settlement_time DESC").Find(&paymentHistory)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return paymentHistory, nil
 }
