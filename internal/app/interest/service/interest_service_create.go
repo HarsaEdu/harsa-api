@@ -18,8 +18,8 @@ func (service *InterestServiceImpl) CreateInterest(userID uint, request *web.Int
 		return fmt.Errorf("profile not found")
 	}
 
-	_, err = service.InterestRepository.FindByProfileID(profileExists.UserProfileID)
-	if err == nil {
+	interestExist, _ := service.InterestRepository.FindByProfileID(profileExists.UserProfileID)
+	if interestExist != nil {
 		return fmt.Errorf("interest exists")
 	}
 
