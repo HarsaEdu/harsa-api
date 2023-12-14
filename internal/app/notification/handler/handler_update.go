@@ -29,8 +29,11 @@ func (notificationHandler *NotificationHandlerImpl) ReadNotification(ctx echo.Co
 
 }
 func (notificationHandler *NotificationHandlerImpl) ArsipNotification(ctx echo.Context) error {
+	idParam := ctx.Param("id")
+	id, err := strconv.Atoi(idParam)
 	req := web.ArsipNotification{}
-	err := ctx.Bind(&req)
+	req.ID = uint(id)
+	err = ctx.Bind(&req)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "failed to bind notification update read request", err)
 	}

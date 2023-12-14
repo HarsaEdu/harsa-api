@@ -13,7 +13,7 @@ func (notificationRepository *NotificationRepositoryImpl) ReadNotification(id in
 	return nil
 }
 func (notificationRepository *NotificationRepositoryImpl) ArsipNotification(arsip web.ArsipNotification) error {
-	result := notificationRepository.DB.Model(domain.Notification{}).Updates(arsip)
+	result := notificationRepository.DB.Model(domain.Notification{}).Where("id = ? ", arsip.ID).Updates(arsip)
 	if result.Error != nil {
 		return result.Error
 	}
