@@ -96,3 +96,16 @@ func (paymentHandler *PaymentHandlerImpl) GetPaymentHistoryByUserIdAndPaymentId(
 
 	return res.StatusOK(ctx, "success to get payment history", response, nil)
 }
+
+func (paymentHandler *PaymentHandlerImpl) GetLastYearPaymentHistory(ctx echo.Context) error {
+	response, err := paymentHandler.PaymentService.GetLastYearPaymentHistory()
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "payment history not found", err)
+		}
+
+		return res.StatusInternalServerError(ctx, "failed to get last year, something happen", err)
+	}
+
+	return res.StatusOK(ctx, "success to get last year payment history", response, nil)
+}
