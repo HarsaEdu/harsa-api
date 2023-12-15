@@ -68,6 +68,32 @@ func (_m *UserRepository) GetUserByID(userID uint) (*domain.UserDetail, error) {
 	return r0, r1
 }
 
+// GetUsersRegistrationToken provides a mock function with given fields: roleId
+func (_m *UserRepository) GetUsersRegistrationToken(roleId int) ([]domain.UserRegistrationToken, error) {
+	ret := _m.Called(roleId)
+
+	var r0 []domain.UserRegistrationToken
+	var r1 error
+	if rf, ok := ret.Get(0).(func(int) ([]domain.UserRegistrationToken, error)); ok {
+		return rf(roleId)
+	}
+	if rf, ok := ret.Get(0).(func(int) []domain.UserRegistrationToken); ok {
+		r0 = rf(roleId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.UserRegistrationToken)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(roleId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // HandleTrx provides a mock function with given fields: ctx, fn
 func (_m *UserRepository) HandleTrx(ctx echo.Context, fn func(repository.UserRepository) error) error {
 	ret := _m.Called(ctx, fn)

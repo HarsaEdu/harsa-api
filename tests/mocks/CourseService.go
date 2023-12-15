@@ -330,13 +330,13 @@ func (_m *CourseService) GetDeatailCourse(id uint) (*web.CourseResponseForIntruc
 	return r0, r1
 }
 
-// Update provides a mock function with given fields: id, userId, role, request
-func (_m *CourseService) Update(id uint, userId uint, role string, request *web.CourseUpdateRequest) error {
-	ret := _m.Called(id, userId, role, request)
+// Update provides a mock function with given fields: ctx, id, userId, role, request
+func (_m *CourseService) Update(ctx echo.Context, id uint, userId uint, role string, request *web.CourseUpdateRequest) error {
+	ret := _m.Called(ctx, id, userId, role, request)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(uint, uint, string, *web.CourseUpdateRequest) error); ok {
-		r0 = rf(id, userId, role, request)
+	if rf, ok := ret.Get(0).(func(echo.Context, uint, uint, string, *web.CourseUpdateRequest) error); ok {
+		r0 = rf(ctx, id, userId, role, request)
 	} else {
 		r0 = ret.Error(0)
 	}

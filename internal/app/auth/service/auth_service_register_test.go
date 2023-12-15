@@ -18,10 +18,12 @@ func TestRegisterUser(t *testing.T) {
 	mockAuthRepo := new(mocks.AuthRepository)
 	mockUserRepo := new(mocks.UserRepository)
 	mockPasswordComparer := new(mocks.PasswordComparer)
-	mockValidator := validator.New()
+	mockFirebase := new(mocks.Firebase)
+	mockNotification := new(mocks.NotificationRepository)
+	validate := validator.New()
 
-	// Create an AuthServiceImpl with the mock repositories and dependencies
-	authService := NewAuthService(mockAuthRepo, mockUserRepo, mockValidator, mockPasswordComparer)
+	// Create an AuthServiceImpl with the mock repositories
+	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer, mockNotification, mockFirebase)
 
 	// Define test data
 	userRequest := web.RegisterUserRequest{
@@ -30,13 +32,25 @@ func TestRegisterUser(t *testing.T) {
 		Password: "password123",
 	}
 
+	// Mock expectations for successful user availability check
 	mockUserRepo.On("UserAvailable", userRequest.Username, userRequest.Email).Return(nil, nil)
 
 	// Mock expectations for successful password hashing
 	mockPasswordComparer.On("HashPassword", userRequest.Password).Return("hashedPassword", nil)
 
 	// Mock expectations for successful registration
-	mockAuthRepo.On("RegisterWithFreeSubscibe", mock.AnythingOfType("*domain.User")).Return(&domain.Auth{}, nil)
+	mockAuthRepo.On("RegisterWithFreeSubscibe", mock.AnythingOfType("*domain.User")).Return(&domain.Auth{
+		// Populate with relevant data for AuthResponse
+		ID:   uint(1),
+		RoleName: "user",
+		RegistrationToken: "sadas",
+	}, nil)
+
+	// Mock expectations for successful notification creation
+	mockNotification.On("Create", mock.AnythingOfType("*domain.Notification")).Return(nil)
+
+	// Mock expectations for Firebase notification
+	mockFirebase.On("SendNotificationPersonal", mock.AnythingOfType("*web.NotificationPersonal")).Return(nil)
 
 	// Call the function you want to test
 	result, err := authService.RegisterUser(userRequest)
@@ -44,23 +58,33 @@ func TestRegisterUser(t *testing.T) {
 	// Assert the result
 	assert.NoError(t, err)
 	assert.NotNil(t, result)
+
 	// Add assertions for AuthResponse values
+	assert.Equal(t, uint(1), result.ID)
+	assert.Equal(t, web.Role("user"), result.RoleName)
+	// ... assert other AuthResponse fields
 
 	// Assert that the expected calls were made
 	mockUserRepo.AssertExpectations(t)
 	mockPasswordComparer.AssertExpectations(t)
 	mockAuthRepo.AssertExpectations(t)
+	mockNotification.AssertExpectations(t)
+	mockFirebase.AssertExpectations(t)
 }
+
 
 func TestRegisterUserValidationError(t *testing.T) {
 	// Create mock repositories and dependencies
+	// Create mock repositories
 	mockAuthRepo := new(mocks.AuthRepository)
 	mockUserRepo := new(mocks.UserRepository)
 	mockPasswordComparer := new(mocks.PasswordComparer)
-	mockValidator := validator.New()
+	mockFirebase := new(mocks.Firebase)
+	mockNotification := new(mocks.NotificationRepository)
+	validate := validator.New()
 
-	// Create an AuthServiceImpl with the mock repositories and dependencies
-	authService := NewAuthService(mockAuthRepo, mockUserRepo, mockValidator, mockPasswordComparer)
+	// Create an AuthServiceImpl with the mock repositories
+	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer,mockNotification, mockFirebase )
 
 	// Define test data with invalid input (simulate validation error)
 	userRequest := web.RegisterUserRequest{
@@ -82,13 +106,16 @@ func TestRegisterUserValidationError(t *testing.T) {
 
 func TestRegisterUserExistingUser(t *testing.T) {
 	// Create mock repositories and dependencies
+	// Create mock repositories
 	mockAuthRepo := new(mocks.AuthRepository)
 	mockUserRepo := new(mocks.UserRepository)
 	mockPasswordComparer := new(mocks.PasswordComparer)
-	mockValidator := validator.New()
+	mockFirebase := new(mocks.Firebase)
+	mockNotification := new(mocks.NotificationRepository)
+	validate := validator.New()
 
-	// Create an AuthServiceImpl with the mock repositories and dependencies
-	authService := NewAuthService(mockAuthRepo, mockUserRepo, mockValidator, mockPasswordComparer)
+	// Create an AuthServiceImpl with the mock repositories
+	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer,mockNotification, mockFirebase )
 
 	// Define test data with an existing user
 	userRequest := web.RegisterUserRequest{
@@ -116,13 +143,16 @@ func TestRegisterUserExistingUser(t *testing.T) {
 
 func TestComparRegisterWithError(t *testing.T) {
 	// Create mock repositories
+	// Create mock repositories
 	mockAuthRepo := new(mocks.AuthRepository)
 	mockUserRepo := new(mocks.UserRepository)
 	mockPasswordComparer := new(mocks.PasswordComparer)
+	mockFirebase := new(mocks.Firebase)
+	mockNotification := new(mocks.NotificationRepository)
 	validate := validator.New()
 
 	// Create an AuthServiceImpl with the mock repositories
-	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer)
+	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer,mockNotification, mockFirebase )
 
 	// Define test data
 
@@ -151,4 +181,53 @@ func TestComparRegisterWithError(t *testing.T) {
 	mockUserRepo.AssertExpectations(t)
 	mockAuthRepo.AssertExpectations(t)
 	mockPasswordComparer.AssertExpectations(t)
+}
+
+func TestRegisterUserNotificationError(t *testing.T) {
+	// Create mock repositories and dependencies
+	mockAuthRepo := new(mocks.AuthRepository)
+	mockUserRepo := new(mocks.UserRepository)
+	mockPasswordComparer := new(mocks.PasswordComparer)
+	mockFirebase := new(mocks.Firebase)
+	mockNotification := new(mocks.NotificationRepository)
+	validate := validator.New()
+
+	// Create an AuthServiceImpl with the mock repositories
+	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer, mockNotification, mockFirebase)
+
+	// Define test data
+	userRequest := web.RegisterUserRequest{
+		Username: "testuser",
+		Email:    "test@example.com",
+		Password: "password123",
+	}
+
+	// Mock expectations for successful user availability check
+	mockUserRepo.On("UserAvailable", userRequest.Username, userRequest.Email).Return(nil, nil)
+
+	// Mock expectations for successful password hashing
+	mockPasswordComparer.On("HashPassword", userRequest.Password).Return("hashedPassword", nil)
+
+	// Mock expectations for successful registration
+	mockAuthRepo.On("RegisterWithFreeSubscibe", mock.AnythingOfType("*domain.User")).Return(&domain.Auth{
+		ID:                1,
+		RegistrationToken: "registrationToken123",
+	}, nil)
+
+	// Mock expectations for notification creation error
+	mockNotification.On("Create", mock.AnythingOfType("*domain.Notification")).Return(fmt.Errorf("error creating notification"))
+
+	// Call the function you want to test
+	result, err := authService.RegisterUser(userRequest)
+
+	// Assert that the result is nil (as there's an error in creating a notification)
+	require.Error(t, err)
+	assert.Nil(t, result)
+
+	// Assert that the expected calls were made
+	mockUserRepo.AssertExpectations(t)
+	mockPasswordComparer.AssertExpectations(t)
+	mockAuthRepo.AssertExpectations(t)
+	mockNotification.AssertExpectations(t)
+	mockFirebase.AssertExpectations(t)
 }

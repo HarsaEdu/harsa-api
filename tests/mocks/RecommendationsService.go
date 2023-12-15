@@ -39,6 +39,20 @@ func (_m *RecommendationsService) GetRecommendations(request *web.GetRecommendat
 	return r0, r1
 }
 
+// GetRecommendationsForInstructor provides a mock function with given fields:
+func (_m *RecommendationsService) GetRecommendationsForInstructor() error {
+	ret := _m.Called()
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func() error); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // NewRecommendationsService creates a new instance of RecommendationsService. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewRecommendationsService(t interface {

@@ -105,13 +105,13 @@ func (_m *CategoryService) GetAll(offset int, limit int, search string) ([]domai
 	return r0, r1, r2
 }
 
-// Update provides a mock function with given fields: category, id
-func (_m *CategoryService) Update(category web.CategoryUpdateRequest, id int) error {
-	ret := _m.Called(category, id)
+// Update provides a mock function with given fields: ctx, request, id, isImageExist
+func (_m *CategoryService) Update(ctx echo.Context, request web.CategoryUpdateRequest, id int, isImageExist bool) error {
+	ret := _m.Called(ctx, request, id, isImageExist)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(web.CategoryUpdateRequest, int) error); ok {
-		r0 = rf(category, id)
+	if rf, ok := ret.Get(0).(func(echo.Context, web.CategoryUpdateRequest, int, bool) error); ok {
+		r0 = rf(ctx, request, id, isImageExist)
 	} else {
 		r0 = ret.Error(0)
 	}

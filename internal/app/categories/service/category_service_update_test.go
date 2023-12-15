@@ -33,7 +33,7 @@ func TestUpdateCategory_Success(t *testing.T) {
 	mockCategoryRepo.On("Update", mock.AnythingOfType("*domain.Category"), categoryID).Return(nil)
 
 	// Call the function you want to test
-	err := categoryService.Update(request, categoryID)
+	err := categoryService.Update(nil, request, categoryID, false)
 
 	// Assert the result
 	assert.NoError(t, err)
@@ -61,7 +61,7 @@ func TestUpdateCategory_CategoryNotFound(t *testing.T) {
 	mockCategoryRepo.On("FindById", categoryID).Return(nil, fmt.Errorf("simulated error"))
 
 	// Call the function you want to test
-	err := categoryService.Update(request, categoryID)
+	err := categoryService.Update(nil, request, categoryID, true)
 
 	// Assert the result
 	assert.Error(t, err)
@@ -91,7 +91,7 @@ func TestUpdateCategory_DuplicateCategoryName(t *testing.T) {
 	mockCategoryRepo.On("FindByName", request.Name).Return(&domain.Category{ID: 2, Name: "UpdatedCategory"}, nil)
 
 	// Call the function you want to test
-	err := categoryService.Update(request, categoryID)
+	err := categoryService.Update(nil, request, categoryID, true)
 
 	// Assert the result
 	assert.Error(t, err)
@@ -105,9 +105,10 @@ func TestUpdateCategory_ErrorUpdatingCategory(t *testing.T) {
 	// Create a mock CategoryRepository
 	mockCategoryRepo := new(mocks.CategoryRepository)
 	validate := validator.New()
+	mockCloudinaryUploader := new(mocks.CloudinaryUploader)
 
 	// Create a CategoryServiceImpl with the mock repository
-	categoryService := NewCategoryService(mockCategoryRepo, validate, nil)
+	categoryService := NewCategoryService(mockCategoryRepo, validate, mockCloudinaryUploader)
 
 	// Define test data
 	request := web.CategoryUpdateRequest{
@@ -118,11 +119,12 @@ func TestUpdateCategory_ErrorUpdatingCategory(t *testing.T) {
 
 	// Set up mock expectations for an error during category update
 	mockCategoryRepo.On("FindById", categoryID).Return(&domain.Category{ID: 1, Name: "ExistingCategory"}, nil)
+	mockCloudinaryUploader.On("Uploader", mock.Anything, "image", "categories", true).Return("image.png", nil)
 	mockCategoryRepo.On("FindByName", request.Name).Return(nil, nil)
 	mockCategoryRepo.On("Update", mock.AnythingOfType("*domain.Category"), categoryID).Return(fmt.Errorf("simulated error"))
 
 	// Call the function you want to test
-	err := categoryService.Update(request, categoryID)
+	err := categoryService.Update(nil, request, categoryID, true)
 
 	// Assert the result
 	assert.Error(t, err)

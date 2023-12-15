@@ -85,6 +85,32 @@ func (_m *InterestRepository) GetInterestRecommendation(profileID uint) ([]domai
 	return r0, r1, r2
 }
 
+// GetTopInterests provides a mock function with given fields: limit
+func (_m *InterestRepository) GetTopInterests(limit int) ([]domain.UserInterest, error) {
+	ret := _m.Called(limit)
+
+	var r0 []domain.UserInterest
+	var r1 error
+	if rf, ok := ret.Get(0).(func(int) ([]domain.UserInterest, error)); ok {
+		return rf(limit)
+	}
+	if rf, ok := ret.Get(0).(func(int) []domain.UserInterest); ok {
+		r0 = rf(limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.UserInterest)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(limit)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // NewInterestRepository creates a new instance of InterestRepository. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewInterestRepository(t interface {

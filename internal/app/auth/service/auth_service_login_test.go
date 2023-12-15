@@ -16,11 +16,13 @@ func TestLoginUser(t *testing.T) {
 	mockAuthRepo := new(mocks.AuthRepository)
 	mockUserRepo := new(mocks.UserRepository)
 	mockPasswordComparer := new(mocks.PasswordComparer)
+	mockFirebase := new(mocks.Firebase)
+	mockNotification := new(mocks.NotificationRepository)
 	validate := validator.New()
 
 
 	// Create an AuthServiceImpl with the mock repositories
-	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer)
+	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer,mockNotification, mockFirebase )
 
 	// Define test data
 	userRequest := web.LoginUserRequest{
@@ -52,10 +54,12 @@ func TestComparWithError(t *testing.T) {
 	mockAuthRepo := new(mocks.AuthRepository)
 	mockUserRepo := new(mocks.UserRepository)
 	mockPasswordComparer := new(mocks.PasswordComparer)
+	mockFirebase := new(mocks.Firebase)
+	mockNotification := new(mocks.NotificationRepository)
 	validate := validator.New()
 
 	// Create an AuthServiceImpl with the mock repositories
-	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer)
+	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer,mockNotification, mockFirebase )
 
 	// Define test data
 	userRequest := web.LoginUserRequest{
@@ -93,10 +97,12 @@ func TestLoginUserWithError(t *testing.T) {
 	mockAuthRepo := new(mocks.AuthRepository)
 	mockUserRepo := new(mocks.UserRepository)
 	mockPasswordComparer := new(mocks.PasswordComparer)
+	mockFirebase := new(mocks.Firebase)
+	mockNotification := new(mocks.NotificationRepository)
 	validate := validator.New()
 
 	// Create an AuthServiceImpl with the mock repositories
-	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer)
+	authService := NewAuthService(mockAuthRepo, mockUserRepo, validate, mockPasswordComparer,mockNotification, mockFirebase )
 
 	// Define test data
 	userRequest := web.LoginUserRequest{

@@ -10,7 +10,7 @@ import (
 
 func TestGetAccessToken(t *testing.T) {
 	// Create an AuthServiceImpl with a real validator
-	authService := NewAuthService(nil, nil, validator.New(), nil)
+	authService := NewAuthService(nil, nil, validator.New(), nil,nil,nil)
 
 	// Define test data
 	tokenRequest := web.AccessTokenRequest{

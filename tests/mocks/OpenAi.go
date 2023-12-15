@@ -110,6 +110,30 @@ func (_m *OpenAi) GetAllMessagesInThread(threadId string, limit int, after strin
 	return r0, r1
 }
 
+// GetChatCompletion provides a mock function with given fields: message, systemInstruction
+func (_m *OpenAi) GetChatCompletion(message string, systemInstruction string) (string, error) {
+	ret := _m.Called(message, systemInstruction)
+
+	var r0 string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(string, string) (string, error)); ok {
+		return rf(message, systemInstruction)
+	}
+	if rf, ok := ret.Get(0).(func(string, string) string); ok {
+		r0 = rf(message, systemInstruction)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	if rf, ok := ret.Get(1).(func(string, string) error); ok {
+		r1 = rf(message, systemInstruction)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetResponseMessageInThread provides a mock function with given fields: ctx, threadId
 func (_m *OpenAi) GetResponseMessageInThread(ctx context.Context, threadId string) (go_openai.Message, error) {
 	ret := _m.Called(ctx, threadId)
