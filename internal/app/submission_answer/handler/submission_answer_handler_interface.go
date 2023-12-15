@@ -12,6 +12,7 @@ type SubmissionAnswerHandler interface {
 	UpdateWeb(ctx echo.Context) error
 	FindById(ctx echo.Context) error
 	Get(ctx echo.Context) error
+	FindByIdWeb(ctx echo.Context) error
 }
 
 type SubmissionAnswerHandlerImpl struct {
