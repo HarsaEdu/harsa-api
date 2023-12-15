@@ -29,3 +29,25 @@ func (submissionAnswerHanlder *SubmissionAnswerHandlerImpl) FindById(ctx echo.Co
 
 	return res.StatusOK(ctx, "success to get submission answer", result, nil)
 }
+
+func (submissionAnswerHanlder *SubmissionAnswerHandlerImpl) FindByIdWeb(ctx echo.Context) error {
+	idParam := ctx.Param("subsAnsId")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		return res.StatusInternalServerError(ctx, "failed to convert param id to int: ", err)
+	}
+
+	result, err := submissionAnswerHanlder.SubmissionAnswerservice.FindByIdWeb(id)
+	if err != nil {
+		if strings.Contains(err.Error(), "validation") {
+			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "submission answer not found", err)
+		}
+		return res.StatusInternalServerError(ctx, "failed to get submission answer, something happen", err)
+	}
+
+	return res.StatusOK(ctx, "success to get submission answer", result, nil)
+}
+

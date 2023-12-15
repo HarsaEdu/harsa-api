@@ -16,6 +16,7 @@ type SubmissionAnswerService interface {
 	FindById(id int) (*web.SubmissionAnswerResponseMobile, error)
 	Get(offset, limit, submissionID int, search string) ([]web.SubmissionAnswerList, *web.Pagination, error)
 	UpdateWeb(ctx echo.Context, request *web.SubmissionAnswerUpdateWeb, id int) error
+	FindByIdWeb(id int) (*web.SubmissionAnswerResponseWebById, error)
 }
 
 type SubmissionAnswerServiceImpl struct {

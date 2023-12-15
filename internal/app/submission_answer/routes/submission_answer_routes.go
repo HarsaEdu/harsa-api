@@ -9,7 +9,7 @@ func (submissionAnswerRoutes *SubmissionAnswerRoutesImpl) SubmissionAnswerWeb(ap
 	submissionAnswerGroup := apiGroup.Group("/submissions/:idSubmission/submission-answer")
 
 	submissionAnswerGroup.GET("", submissionAnswerRoutes.SubmissionAnswerHandler.Get, middleware.InstructorMiddleware)
-	submissionAnswerGroup.GET("/:subsAnsId", submissionAnswerRoutes.SubmissionAnswerHandler.FindById, middleware.InstructorMiddleware)
+	submissionAnswerGroup.GET("/:subsAnsId", submissionAnswerRoutes.SubmissionAnswerHandler.FindByIdWeb, middleware.InstructorMiddleware)
 	submissionAnswerGroup.PATCH("/:subsAnsId", submissionAnswerRoutes.SubmissionAnswerHandler.UpdateWeb, middleware.InstructorMiddleware)
 
 }
