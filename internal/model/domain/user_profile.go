@@ -1,8 +1,6 @@
 package domain
 
-import (
-	"time"
-)
+import "time"
 
 type Gender string
 
@@ -66,6 +64,7 @@ type ProfileDetailMobile struct {
 	Address       string    `json:"address"`
 	Job           string    `json:"job"`
 	SubscriptionID uint `json:"subscription_id"`
+	Subscription Subscription `json:"subscription"`
 	StartDate      time.Time `json:"start_date"`
 	EndDate        time.Time `json:"end_date"`
 }
