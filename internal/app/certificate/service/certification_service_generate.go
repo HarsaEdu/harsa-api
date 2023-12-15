@@ -14,6 +14,10 @@ func (certificateService *CertificateServiceImpl) GenerateCertificate(courseTrac
 		return nil, nil, fmt.Errorf("error when get course tracking : course tracking not found")
 	}
 
+	if existingCourseTracking.Status != "completed" {
+		return nil, nil, fmt.Errorf("error when generating certificate : course not completed")
+	}
+
 	if existingCourseTracking.UserID != userId {
 		return nil, nil, fmt.Errorf("unauthorized")
 	}

@@ -35,7 +35,7 @@ func (courseHandler *CourseHandlerImpl) Update(ctx echo.Context) error {
 		request.UserId = ctx.Get("user_id").(uint)
 	}
 
-	err = courseHandler.CourseService.Update(uint(id), uint(userID), roleString, &request)
+	err = courseHandler.CourseService.Update(ctx, uint(id), uint(userID), roleString, &request)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

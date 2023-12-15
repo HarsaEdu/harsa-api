@@ -38,6 +38,25 @@ func (authService *AuthServiceImpl) RegisterUser(userRequest web.RegisterUserReq
 	if err != nil {
 		return nil, fmt.Errorf("error when creating user %s:", err.Error())
 	}
+	title := "Pendaftaran berhasil!"
+	content := "Terima kasih telah mendaftar. Sekarang kamu mendapatkan free subscribe selama 7 hari!"
+
+	notif := conversionRequest.NotificationCreateRequestToNotificationDomain(res.ID, title, content)
+
+	err = authService.NotificationRepository.Create(notif)
+
+	if err != nil {
+		return nil, fmt.Errorf("error when creating notif register %s:", err.Error())
+	}
+
+	if res.RegistrationToken != "" {
+		notification := &web.NotificationPersonal{
+			Title:             title,
+			Message:           content,
+			RegistrationToken: res.RegistrationToken,
+		}
+		authService.Firebase.SendNotificationPersonal(notification)
+	}
 
 	// convert user data to auth response
 	userResponse := conversionResponse.AuthDomainToAuthResponse(res)

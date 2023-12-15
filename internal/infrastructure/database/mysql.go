@@ -54,5 +54,6 @@ func migration(db *gorm.DB) {
 		&domain.Subscription{},
 		&domain.PaymentHistory{},
 		&domain.Certificate{},
+		&domain.Notification{},
 	)
 }
