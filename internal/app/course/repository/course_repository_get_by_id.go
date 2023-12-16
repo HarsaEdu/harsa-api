@@ -12,7 +12,7 @@ func (courseRepository *CourseRepositoryImpl) GetById(id uint) (*domain.Course, 
         return db.Order("order_by ASC, id ASC")
     }).Preload("Section.Modules", func(db *gorm.DB) *gorm.DB {
         return db.Order("modules.order_by ASC, modules.id ASC")
-    }).Preload("User.UserProfile").
+    }).Preload("User.UserProfile").Preload("Category").
 	First(&course, id).Error; err != nil {
         return nil, err
     }

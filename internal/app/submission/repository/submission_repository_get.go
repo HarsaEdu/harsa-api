@@ -21,7 +21,7 @@ func (submissionRepository *SubmissionRepositoryImpl) GetAll(moduleId int) ([]do
 
 }
 
-func (submissionRepository *SubmissionRepositoryImpl) GetAllWeb(moduleId int) ([]web.SubmissionsResponseWeb, int64, error) {
+func (submissionRepository *SubmissionRepositoryImpl) GetAllWeb(moduleId int, search string) ([]web.SubmissionsResponseWeb, int64, error) {
 
 	submission := []web.SubmissionsResponseWeb{}
 	var total int64
@@ -30,8 +30,13 @@ func (submissionRepository *SubmissionRepositoryImpl) GetAllWeb(moduleId int) ([
 	Select("submissions.id as id, submissions.title as submission_title, submissions.content as content, courses.title as course_title ").
 	Joins("JOIN modules ON modules.id = submissions.module_id").
 	Joins("JOIN sections ON sections.id = modules.section_id").
-	Joins("JOIN courses ON courses.id = sections.course_id").
-	Find(&submission)
+	Joins("JOIN courses ON courses.id = sections.course_id")
+
+	if search != "" {
+		query = query.Where("submissions.title LIKE ?", "%"+search+"%")
+	}
+
+	query = query.Find(&submission)
 	if query.Error != nil {
 		return nil, 0, query.Error
 	}
