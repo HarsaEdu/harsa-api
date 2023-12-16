@@ -14,7 +14,7 @@ type SubmissionRepository interface {
 	Delete(id int) error
 	CekUserIDfromModuleID(id uint, userId uint, role string) error
 	CekUserIDfromSubmission(id uint, userId uint, role string)  error
-	GetAllWeb(moduleId int) ([]web.SubmissionsResponseWeb, int64, error)
+	GetAllWeb(moduleId int, search string) ([]web.SubmissionsResponseWeb, int64, error)
 }
 
 type SubmissionRepositoryImpl struct {
