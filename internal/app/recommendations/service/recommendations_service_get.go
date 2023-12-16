@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 )
 
 func (recommendationsService *RecommendationsServiceImpl) GetRecommendations(request *web.GetRecommendationsRequest) (*web.GetRecommendationsResponse, error) {
@@ -61,9 +62,16 @@ func (recommendationsService *RecommendationsServiceImpl) GetRecommendationsForI
 		Message: chatResponse,
 	}
 
+	var userIDs []uint
+
 	for _, instrutor := range instructors {
 		notification.RegistrationToken = append(notification.RegistrationToken, instrutor.RegistrationToken)
+		userIDs = append(userIDs, instrutor.UserID)
 	}
+
+	notificationDomain := conversion.NotificationMultiCastRequestToNotificationDomain(notification, userIDs)
+
+	err = recommendationsService.NotificationRepository.CreateMany(notificationDomain)
 
 	if notification.RegistrationToken == nil {
 		return fmt.Errorf("error when get instructor registration token : no instructor registration token found")

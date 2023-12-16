@@ -2,6 +2,7 @@ package recommendations
 
 import (
 	interestRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/interest/repository"
+	notificationRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/notification/repository"
 	recommendationsHandlerPkg "github.com/HarsaEdu/harsa-api/internal/app/recommendations/handler"
 	recommendationsRoutesPkg "github.com/HarsaEdu/harsa-api/internal/app/recommendations/routes"
 	recommendationsServicePkg "github.com/HarsaEdu/harsa-api/internal/app/recommendations/service"
@@ -12,8 +13,8 @@ import (
 	"github.com/go-playground/validator"
 )
 
-func RecommendationsSetup(validate *validator.Validate, recommendationsApi recommendations.RecommendationsApi, openAi openai.OpenAi, firebase firebase.Firebase, userRepositoryPkg userRepositoryPkg.UserRepository, interestRepositoryPkg interestRepositoryPkg.InterestRepository) recommendationsRoutesPkg.RecommendationsRoutes {
-	recommendationsService := recommendationsServicePkg.NewRecommendationsService(validate, recommendationsApi, openAi, firebase, userRepositoryPkg, interestRepositoryPkg)
+func RecommendationsSetup(validate *validator.Validate, recommendationsApi recommendations.RecommendationsApi, openAi openai.OpenAi, firebase firebase.Firebase, userRepositoryPkg userRepositoryPkg.UserRepository, interestRepositoryPkg interestRepositoryPkg.InterestRepository, notificationRepository notificationRepositoryPkg.NotificationRepository) recommendationsRoutesPkg.RecommendationsRoutes {
+	recommendationsService := recommendationsServicePkg.NewRecommendationsService(validate, recommendationsApi, openAi, firebase, userRepositoryPkg, interestRepositoryPkg, notificationRepository)
 	recommendationsHandler := recommendationsHandlerPkg.NewRecommendationsHandler(recommendationsService)
 	recommendationsRoutes := recommendationsRoutesPkg.NewRecommendationsRoutes(recommendationsHandler)
 
