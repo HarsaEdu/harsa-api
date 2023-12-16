@@ -8,6 +8,7 @@ import (
 
 type NotificationRepository interface {
 	Create(Notification *domain.Notification) error
+	CreateMany(Notification []domain.Notification) error
 	GetAll(offset, limit int, userID uint) ([]domain.Notification, int64, error)
 	ReadNotification(id int) error
 	ArsipNotification(arsip web.ArsipNotification) error
