@@ -9,7 +9,7 @@ import (
 )
 
 type SubsPlanService interface {
-	GetAll(search string) ([]web.SubsPlanResposne, *web.Pagination, error)
+	GetAll(offset, limit int, search string) ([]web.SubsPlanResposne, *web.Pagination, error)
 	Create(ctx echo.Context, subsPlan *web.SubsPlanCreateRequest) error
 	CreateFromExisting(ctx echo.Context, request *web.SubsPlanUpdateRequest, id uint) error
 	UpdateImage(ctx echo.Context, subsPlan *web.SubsPlanUpdateImage, id int) error
