@@ -11,6 +11,7 @@ type Notification struct {
 	UserID    uint           `json:"user_id"`
 	Title     string         `gorm:"type:varchar(255)" json:"title"`
 	Content   string         `json:"content"`
+	Sender    string         `gorm:"default:system" json:"sender"`
 	IsRead    bool           `gorm:"default:false" json:"is_read"`
 	IsArsip   bool           `gorm:"default:false" json:"is_arsip"`
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"created_at"`
