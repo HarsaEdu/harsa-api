@@ -11,6 +11,16 @@ type SubmissionAnswerResponseMobile struct {
 	Feedback   string                        `json:"feedback"`
 }
 
+type SubmissionAnswerResponseWebById struct {
+	ID         uint                          `json:"id"`
+	StudentID  uint                          `json:"student_id"`
+	StudentName string                       `json:"student_name"`
+	Description string                       `json:"description"`
+	Status     domain.StatusSubmissionAnswer `json:"status"`
+	SubmittedUrl  string                        `json:"submitted_url"`
+	Feedback   string                        `json:"feedback"`
+}
+
 type SubmissionAnswerList struct {
 	ID   uint `json:"id"`
 	Name string `json:"name"`
