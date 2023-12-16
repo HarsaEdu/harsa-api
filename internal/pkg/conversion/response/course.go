@@ -165,6 +165,10 @@ func ConvertCourseGetByIdResponseWeb(course *domain.Course) *web.GetCourseRespon
 			ID: course.User.ID,
 			Name: name,	
 		},
+		Category: &web.CategoryForCourseResponse{
+			ID: course.Category.ID,
+			Name: course.Category.Name,
+		},
 		Section:     section,
 	}
 
