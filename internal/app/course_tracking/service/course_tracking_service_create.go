@@ -41,10 +41,11 @@ func (courseTrackingService *CourseTrackingServiceImpl) Create(ctx echo.Context,
 		return err
 	}
 
-	courseTrackingService.Firebase.SendNotificationPersonal(notif)
+	if notif.RegistrationToken != ""{
+		courseTrackingService.Firebase.SendNotificationPersonal(notif)
+	}
 
 	return nil
-
 }
 
 
@@ -80,6 +81,15 @@ func (courseTrackingService *CourseTrackingServiceImpl) CreateWeb(request web.Co
 	err = courseTrackingService.CourseTrackingRepository.Create(courseTraking)
 	if err != nil {
 		return fmt.Errorf("error when creating Course Traking %s", err.Error())
+	}
+
+	notif, err := courseTrackingService.CourseTrackingRepository.NotifEnrolled(request.UserID, request.CourseID)
+	if err != nil {
+		return err
+	}
+
+	if notif.RegistrationToken != ""{
+		courseTrackingService.Firebase.SendNotificationPersonal(notif)
 	}
 
 	return nil
