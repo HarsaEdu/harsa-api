@@ -102,7 +102,7 @@ func (userRepository *UserRepositoryImpl) GetUserAccountByID(userID uint) (*doma
 func (userRepository *UserRepositoryImpl) GetUsersRegistrationToken(roleId int) ([]domain.UserRegistrationToken, error) {
 	var users []domain.UserRegistrationToken
 
-	result := userRepository.DB.Model(&domain.User{}).Select("users.id, registration_token").Where("role_id = ?", roleId).Find(&users)
+	result := userRepository.DB.Model(&domain.User{}).Select("users.id as user_id, registration_token").Where("role_id = ?", roleId).Find(&users)
 
 	if result.Error != nil {
 		return nil, result.Error
