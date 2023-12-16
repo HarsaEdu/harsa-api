@@ -14,20 +14,20 @@ func (firebaseImpl *FirebaseImpl) SendNotificationPersonal(notif *web.Notificati
 
 	credential, err := GetDecodedFireBaseKey(*firebaseImpl.Config)
 	if err != nil {
-		logrus.Error("Failed to get credential: %v", err)
+		logrus.Errorf("Failed to get credential: %v", err)
 	}
 
 	// Konfigurasi Firebase Admin SDK
 	opt := option.WithCredentialsJSON(credential)
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
-		logrus.Error("Failed to create Firebase app: %v", err)
+		logrus.Errorf("Failed to create Firebase app: %v", err)
 	}
 
 	// Inisialisasi FCM client
 	client, err := app.Messaging(context.Background())
 	if err != nil {
-		logrus.Error("Failed to create FCM client: %v", err)
+		logrus.Errorf("Failed to create FCM client: %v", err)
 	}
 
 	// Data pesan yang akan dikirim
@@ -42,7 +42,7 @@ func (firebaseImpl *FirebaseImpl) SendNotificationPersonal(notif *web.Notificati
 	// Kirim notifikasi
 	_, err = client.Send(context.Background(), message)
 	if err != nil {
-		logrus.Error("Failed to send notification: %v", err)
+		logrus.Errorf("Failed to send notification: %v", err)
 	}
 
 }
@@ -51,20 +51,20 @@ func (firebaseImpl *FirebaseImpl) SendNotificationMulticast(notif *web.Notificat
 
 	credential, err := GetDecodedFireBaseKey(*firebaseImpl.Config)
 	if err != nil {
-		logrus.Error("Failed to get credential: %v", err)
+		logrus.Errorf("Failed to get credential: %v", err)
 	}
 
 	// Konfigurasi Firebase Admin SDK
 	opt := option.WithCredentialsJSON(credential)
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
-		logrus.Error("Failed to create Firebase app: %v", err)
+		logrus.Errorf("Failed to create Firebase app: %v", err)
 	}
 
 	// Inisialisasi FCM client
 	client, err := app.Messaging(context.Background())
 	if err != nil {
-		logrus.Error("Failed to create FCM client: %v", err)
+		logrus.Errorf("Failed to create FCM client: %v", err)
 	}
 
 	// Data pesan yang akan dikirim
@@ -79,7 +79,7 @@ func (firebaseImpl *FirebaseImpl) SendNotificationMulticast(notif *web.Notificat
 	// Kirim notifikasi
 	_, err = client.SendMulticast(context.Background(), message)
 	if err != nil {
-		logrus.Error("Failed to send notification: %v", err)
+		logrus.Errorf("Failed to send notification: %v", err)
 	}
 
 }
