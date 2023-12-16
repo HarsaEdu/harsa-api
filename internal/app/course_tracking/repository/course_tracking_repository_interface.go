@@ -36,6 +36,7 @@ type CourseTrackingRepository interface {
 	GetCreatedAt(id uint) (int64, error)
 	FindAllModuleTrackingNoLogin(sections []domain.Section) ([]web.SectionResponseMobile, error)
 	NotifEnrolled(userId uint, courseId uint) (*web.NotificationPersonal, error)
+	NotifEnrolledWeb(userId uint, courseId uint) (*web.NotificationPersonal, error)
 }
 
 type CourseTrackingRepositoryImpl struct {
