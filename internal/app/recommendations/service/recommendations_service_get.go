@@ -31,18 +31,14 @@ func (recommendationsService *RecommendationsServiceImpl) GetRecommendations(req
 }
 
 func (recommendationsService *RecommendationsServiceImpl) GetRecommendationsForInstructor() error {
-	topInterest, err := recommendationsService.InterestRepository.GetTopInterests(5)
+	topInterest, _ := recommendationsService.InterestRepository.GetTopInterests(5)
 	if topInterest == nil {
 		return fmt.Errorf("error when get top interests : no interests found")
 	}
 
-	instructors, err := recommendationsService.UserRepository.GetUsersRegistrationToken(2)
+	instructors, _ := recommendationsService.UserRepository.GetUsersRegistrationToken(2)
 	if instructors == nil {
 		return fmt.Errorf("error when get instructor : no instructor found")
-	}
-
-	if err != nil {
-		return fmt.Errorf("error when get top interests : %s", err.Error())
 	}
 
 	var interests string
@@ -60,10 +56,6 @@ func (recommendationsService *RecommendationsServiceImpl) GetRecommendationsForI
 		return fmt.Errorf("error when get chat completion : %s", err.Error())
 	}
 
-	if err != nil {
-		return fmt.Errorf("error when get instructor : %s", err.Error())
-	}
-
 	notification := web.NotificationMultiCast{
 		Title: "Recommendation This Week",
 		Message: chatResponse,
@@ -71,6 +63,10 @@ func (recommendationsService *RecommendationsServiceImpl) GetRecommendationsForI
 
 	for _, instrutor := range instructors {
 		notification.RegistrationToken = append(notification.RegistrationToken, instrutor.RegistrationToken)
+	}
+
+	if notification.RegistrationToken == nil {
+		return fmt.Errorf("error when get instructor registration token : no instructor registration token found")
 	}
 	
 	recommendationsService.Firebase.SendNotificationMulticast(&notification)
