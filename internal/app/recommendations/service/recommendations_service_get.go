@@ -50,7 +50,7 @@ func (recommendationsService *RecommendationsServiceImpl) GetRecommendationsForI
 
 	message := fmt.Sprintf("Top interests this week : %s", interests)
 
-	systemInstruction := fmt.Sprintf("You are the HarsaEdu system to providing a weekly notification to instructors.Recommend an instructor to create a course title based on the following data: %s. Encourage them to design a course that aligns with the interests and needs of our users", interests)
+	systemInstruction := fmt.Sprintf("You are the HarsaEdu system to providing a weekly notification to instructors.Recommend an instructor to create a course title based on the following data: %s. Encourage them to design a course that aligns with the interests and needs of our users, also only put HarsaEdu Team as a sender and dont put any Subject", interests)
 
 	chatResponse, err := recommendationsService.OpenAi.GetChatCompletion(message, systemInstruction)
 	if err != nil {
