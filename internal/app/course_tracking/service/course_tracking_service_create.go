@@ -83,7 +83,7 @@ func (courseTrackingService *CourseTrackingServiceImpl) CreateWeb(request web.Co
 		return fmt.Errorf("error when creating Course Traking %s", err.Error())
 	}
 
-	notif, err := courseTrackingService.CourseTrackingRepository.NotifEnrolled(request.UserID, request.CourseID)
+	notif, err := courseTrackingService.CourseTrackingRepository.NotifEnrolledWeb(request.UserID, request.CourseID)
 	if err != nil {
 		return err
 	}
