@@ -28,8 +28,17 @@ func (recommendationsHandler *RecommendationsHandlerImpl) GetRecommendations(ctx
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
-		if strings.Contains(err.Error(), "error when get user") {
-			return res.StatusAlreadyExist(ctx, "user not found", err)
+
+		if strings.Contains(err.Error(), "error when get top interests") {
+			return res.StatusNotFound(ctx, "no interests found", err)
+		}
+
+		if strings.Contains(err.Error(), "error when get instructor") {
+			return res.StatusNotFound(ctx, "user not found", err)
+		}
+
+		if strings.Contains(err.Error(), "error when get instructor registration token") {
+			return res.StatusNotFound(ctx, "no instructor registration token found", err)
 		}
 		
 		return res.StatusInternalServerError(ctx, "failed to get recommendations, something happen", err)

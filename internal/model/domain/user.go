@@ -48,5 +48,6 @@ type UserDetail struct {
 }
 
 type UserRegistrationToken struct {
+	UserID            uint   `json:"user_id"`
 	RegistrationToken string `json:"registration_token"`
 }

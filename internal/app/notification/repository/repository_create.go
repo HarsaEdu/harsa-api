@@ -10,3 +10,12 @@ func (NotificationRepository *NotificationRepositoryImpl) Create(notification *d
 
 	return nil
 }
+
+func (NotificationRepository *NotificationRepositoryImpl) CreateMany(Notification []domain.Notification) error {
+	result := NotificationRepository.DB.Create(&Notification)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}

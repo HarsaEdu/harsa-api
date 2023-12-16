@@ -61,7 +61,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	paymentRoutes := payment.PaymentSetup(db, validate, midtransCoreApi, userRepo, subsPlanRepo, subscriptionService)
 	courseTrakingRoutes, courseTrackingRepository := courseTraking.CourseTrackingSetup(db, validate, courseRepsoitory, quizzService, subscriptionService, firebaseImpl)
 	historySubModuleRoutes := historySubModule.HistorySubModuleSetup(db, validate, subscriptionService)
-	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, openai, firebaseImpl, userRepo, interestRepo)
+	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, openai, firebaseImpl, userRepo, interestRepo, notificationRepository)
 	historyQuizRoutes := historyQuiz.HistoryQuizSetup(db, validate, subscriptionService)
 	certificateRoutes := certificate.CertificateSetup(db, validate, cloudinary, courseTrackingRepository)
 	dashboardRoutes := dashboard.DashboardSetup(db)
