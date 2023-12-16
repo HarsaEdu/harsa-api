@@ -41,6 +41,20 @@ func (_m *SubmissionAnswerHandler) FindById(ctx echo.Context) error {
 	return r0
 }
 
+// FindByIdWeb provides a mock function with given fields: ctx
+func (_m *SubmissionAnswerHandler) FindByIdWeb(ctx echo.Context) error {
+	ret := _m.Called(ctx)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(echo.Context) error); ok {
+		r0 = rf(ctx)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // Get provides a mock function with given fields: ctx
 func (_m *SubmissionAnswerHandler) Get(ctx echo.Context) error {
 	ret := _m.Called(ctx)

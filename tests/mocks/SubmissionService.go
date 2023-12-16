@@ -68,25 +68,25 @@ func (_m *SubmissionService) FindById(id int) (*web.SubmissionsResponseModule, e
 	return r0, r1
 }
 
-// GetAll provides a mock function with given fields: moduleId
-func (_m *SubmissionService) GetAll(moduleId int) ([]web.SubmissionsResponseWeb, error) {
-	ret := _m.Called(moduleId)
+// GetAll provides a mock function with given fields: moduleId, search
+func (_m *SubmissionService) GetAll(moduleId int, search string) ([]web.SubmissionsResponseWeb, error) {
+	ret := _m.Called(moduleId, search)
 
 	var r0 []web.SubmissionsResponseWeb
 	var r1 error
-	if rf, ok := ret.Get(0).(func(int) ([]web.SubmissionsResponseWeb, error)); ok {
-		return rf(moduleId)
+	if rf, ok := ret.Get(0).(func(int, string) ([]web.SubmissionsResponseWeb, error)); ok {
+		return rf(moduleId, search)
 	}
-	if rf, ok := ret.Get(0).(func(int) []web.SubmissionsResponseWeb); ok {
-		r0 = rf(moduleId)
+	if rf, ok := ret.Get(0).(func(int, string) []web.SubmissionsResponseWeb); ok {
+		r0 = rf(moduleId, search)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]web.SubmissionsResponseWeb)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(int) error); ok {
-		r1 = rf(moduleId)
+	if rf, ok := ret.Get(1).(func(int, string) error); ok {
+		r1 = rf(moduleId, search)
 	} else {
 		r1 = ret.Error(1)
 	}

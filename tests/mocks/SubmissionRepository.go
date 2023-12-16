@@ -129,32 +129,32 @@ func (_m *SubmissionRepository) GetAll(moduleId int) ([]domain.Submissions, int6
 	return r0, r1, r2
 }
 
-// GetAllWeb provides a mock function with given fields: moduleId
-func (_m *SubmissionRepository) GetAllWeb(moduleId int) ([]web.SubmissionsResponseWeb, int64, error) {
-	ret := _m.Called(moduleId)
+// GetAllWeb provides a mock function with given fields: moduleId, search
+func (_m *SubmissionRepository) GetAllWeb(moduleId int, search string) ([]web.SubmissionsResponseWeb, int64, error) {
+	ret := _m.Called(moduleId, search)
 
 	var r0 []web.SubmissionsResponseWeb
 	var r1 int64
 	var r2 error
-	if rf, ok := ret.Get(0).(func(int) ([]web.SubmissionsResponseWeb, int64, error)); ok {
-		return rf(moduleId)
+	if rf, ok := ret.Get(0).(func(int, string) ([]web.SubmissionsResponseWeb, int64, error)); ok {
+		return rf(moduleId, search)
 	}
-	if rf, ok := ret.Get(0).(func(int) []web.SubmissionsResponseWeb); ok {
-		r0 = rf(moduleId)
+	if rf, ok := ret.Get(0).(func(int, string) []web.SubmissionsResponseWeb); ok {
+		r0 = rf(moduleId, search)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]web.SubmissionsResponseWeb)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(int) int64); ok {
-		r1 = rf(moduleId)
+	if rf, ok := ret.Get(1).(func(int, string) int64); ok {
+		r1 = rf(moduleId, search)
 	} else {
 		r1 = ret.Get(1).(int64)
 	}
 
-	if rf, ok := ret.Get(2).(func(int) error); ok {
-		r2 = rf(moduleId)
+	if rf, ok := ret.Get(2).(func(int, string) error); ok {
+		r2 = rf(moduleId, search)
 	} else {
 		r2 = ret.Error(2)
 	}

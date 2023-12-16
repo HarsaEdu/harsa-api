@@ -68,34 +68,34 @@ func (_m *SubsPlanService) FindById(id int) (*web.SubsPlanResposne, error) {
 	return r0, r1
 }
 
-// GetAll provides a mock function with given fields: search
-func (_m *SubsPlanService) GetAll(search string) ([]web.SubsPlanResposne, *web.Pagination, error) {
-	ret := _m.Called(search)
+// GetAll provides a mock function with given fields: offset, limit, search
+func (_m *SubsPlanService) GetAll(offset int, limit int, search string) ([]web.SubsPlanResposne, *web.Pagination, error) {
+	ret := _m.Called(offset, limit, search)
 
 	var r0 []web.SubsPlanResposne
 	var r1 *web.Pagination
 	var r2 error
-	if rf, ok := ret.Get(0).(func(string) ([]web.SubsPlanResposne, *web.Pagination, error)); ok {
-		return rf(search)
+	if rf, ok := ret.Get(0).(func(int, int, string) ([]web.SubsPlanResposne, *web.Pagination, error)); ok {
+		return rf(offset, limit, search)
 	}
-	if rf, ok := ret.Get(0).(func(string) []web.SubsPlanResposne); ok {
-		r0 = rf(search)
+	if rf, ok := ret.Get(0).(func(int, int, string) []web.SubsPlanResposne); ok {
+		r0 = rf(offset, limit, search)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]web.SubsPlanResposne)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(string) *web.Pagination); ok {
-		r1 = rf(search)
+	if rf, ok := ret.Get(1).(func(int, int, string) *web.Pagination); ok {
+		r1 = rf(offset, limit, search)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*web.Pagination)
 		}
 	}
 
-	if rf, ok := ret.Get(2).(func(string) error); ok {
-		r2 = rf(search)
+	if rf, ok := ret.Get(2).(func(int, int, string) error); ok {
+		r2 = rf(offset, limit, search)
 	} else {
 		r2 = ret.Error(2)
 	}

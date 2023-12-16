@@ -52,32 +52,32 @@ func (_m *SubsPlanRepository) FindById(id int) (*domain.SubsPlan, error) {
 	return r0, r1
 }
 
-// GetAllActive provides a mock function with given fields: search
-func (_m *SubsPlanRepository) GetAllActive(search string) ([]domain.SubsPlan, int64, error) {
-	ret := _m.Called(search)
+// GetAllActive provides a mock function with given fields: offset, limit, search
+func (_m *SubsPlanRepository) GetAllActive(offset int, limit int, search string) ([]domain.SubsPlan, int64, error) {
+	ret := _m.Called(offset, limit, search)
 
 	var r0 []domain.SubsPlan
 	var r1 int64
 	var r2 error
-	if rf, ok := ret.Get(0).(func(string) ([]domain.SubsPlan, int64, error)); ok {
-		return rf(search)
+	if rf, ok := ret.Get(0).(func(int, int, string) ([]domain.SubsPlan, int64, error)); ok {
+		return rf(offset, limit, search)
 	}
-	if rf, ok := ret.Get(0).(func(string) []domain.SubsPlan); ok {
-		r0 = rf(search)
+	if rf, ok := ret.Get(0).(func(int, int, string) []domain.SubsPlan); ok {
+		r0 = rf(offset, limit, search)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]domain.SubsPlan)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(string) int64); ok {
-		r1 = rf(search)
+	if rf, ok := ret.Get(1).(func(int, int, string) int64); ok {
+		r1 = rf(offset, limit, search)
 	} else {
 		r1 = ret.Get(1).(int64)
 	}
 
-	if rf, ok := ret.Get(2).(func(string) error); ok {
-		r2 = rf(search)
+	if rf, ok := ret.Get(2).(func(int, int, string) error); ok {
+		r2 = rf(offset, limit, search)
 	} else {
 		r2 = ret.Error(2)
 	}

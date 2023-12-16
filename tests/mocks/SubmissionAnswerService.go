@@ -54,6 +54,32 @@ func (_m *SubmissionAnswerService) FindById(id int) (*web.SubmissionAnswerRespon
 	return r0, r1
 }
 
+// FindByIdWeb provides a mock function with given fields: id
+func (_m *SubmissionAnswerService) FindByIdWeb(id int) (*web.SubmissionAnswerResponseWebById, error) {
+	ret := _m.Called(id)
+
+	var r0 *web.SubmissionAnswerResponseWebById
+	var r1 error
+	if rf, ok := ret.Get(0).(func(int) (*web.SubmissionAnswerResponseWebById, error)); ok {
+		return rf(id)
+	}
+	if rf, ok := ret.Get(0).(func(int) *web.SubmissionAnswerResponseWebById); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*web.SubmissionAnswerResponseWebById)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Get provides a mock function with given fields: offset, limit, submissionID, search
 func (_m *SubmissionAnswerService) Get(offset int, limit int, submissionID int, search string) ([]web.SubmissionAnswerList, *web.Pagination, error) {
 	ret := _m.Called(offset, limit, submissionID, search)
