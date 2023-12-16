@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/HarsaEdu/harsa-api/internal/pkg/res"
@@ -10,7 +11,17 @@ import (
 
 func (subsPlanHandler *SubsPlanHandlerImpl) GetAll(ctx echo.Context) error {
 	params := ctx.QueryParams()
-	response, pagination, err := subsPlanHandler.SubsPlanService.GetAll(params.Get("search"))
+	offset, err := strconv.Atoi(params.Get("offset"))
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid offset", err)
+	}
+
+	limit, err := strconv.Atoi(params.Get("limit"))
+	if err != nil {
+		return res.StatusBadRequest(ctx, "invalid limit", err)
+	}
+
+	response, pagination, err := subsPlanHandler.SubsPlanService.GetAll(offset, limit, params.Get("search"))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
