@@ -783,6 +783,32 @@ func (_m *CourseTrackingRepository) NotifEnrolled(userId uint, courseId uint) (*
 	return r0, r1
 }
 
+// NotifEnrolledWeb provides a mock function with given fields: userId, courseId
+func (_m *CourseTrackingRepository) NotifEnrolledWeb(userId uint, courseId uint) (*web.NotificationPersonal, error) {
+	ret := _m.Called(userId, courseId)
+
+	var r0 *web.NotificationPersonal
+	var r1 error
+	if rf, ok := ret.Get(0).(func(uint, uint) (*web.NotificationPersonal, error)); ok {
+		return rf(userId, courseId)
+	}
+	if rf, ok := ret.Get(0).(func(uint, uint) *web.NotificationPersonal); ok {
+		r0 = rf(userId, courseId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*web.NotificationPersonal)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(uint, uint) error); ok {
+		r1 = rf(userId, courseId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // NewCourseTrackingRepository creates a new instance of CourseTrackingRepository. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewCourseTrackingRepository(t interface {
