@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
 )
@@ -29,6 +31,10 @@ func (courseService *CourseServiceImpl) GetByIdMobile(id uint) (*web.CourseForTr
 	result, countModule, countEnroled , err := courseService.CourseRepository.GetByIdMobile(id)
 	if err != nil {
 		return nil, err
+	}
+
+	if result.ID == 0{
+		return nil, fmt.Errorf("not found")
 	}
 
 	response := conversion.ConvertCourse(result,countEnroled,countModule)
