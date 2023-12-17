@@ -13,6 +13,17 @@ func (feedbackRepository *FeedbackRepositoryImpl) GetByIdAndCourseId(courseId, i
 	return feedback, nil
 }
 
+func (feedbackRepository *FeedbackRepositoryImpl) GetById(id uint) (*domain.Feedback, error) {
+	feedback := &domain.Feedback{}
+
+	result := feedbackRepository.DB.First(&feedback, id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return feedback, nil
+}
+
 func (feedbackRepository *FeedbackRepositoryImpl) GetByIdUserAndCourseId(userId, courseId uint) (*domain.Feedback, error) {
 	feedback := &domain.Feedback{}
 
