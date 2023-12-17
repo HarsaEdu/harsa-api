@@ -150,6 +150,27 @@ func CourseDomainToCourseGetAllResponseMobile(courseDomain []domain.Course) []we
 	return courseGetAllResponse
 }
 
+func ConvertAllCourseMobileNew(courseDomain []domain.Course) []web.GetCourseResponseMobileNew {
+	var courseGetAllResponse []web.GetCourseResponseMobileNew
+
+	for _, course := range courseDomain {
+
+		if course.CategoryID != 0 {
+			name := course.User.UserProfile.FirstName + " " + course.User.UserProfile.LastName
+			courseGetAllResponse = append(courseGetAllResponse, web.GetCourseResponseMobileNew{
+				ID:          course.ID,
+				Title:       course.Title,
+				Description: course.Description,
+				ImageUrl:    course.ImageUrl,
+				Rating:      course.Rating,
+				InstructurName: name,
+			})
+		}
+	}
+
+	return courseGetAllResponse
+}
+
 func ConvertCourseGetByIdResponseWeb(course *domain.Course) *web.GetCourseResponseByIdWeb {
 	
 	section := ConvertAllSectionGetByIdResponseWeb(course.Section)

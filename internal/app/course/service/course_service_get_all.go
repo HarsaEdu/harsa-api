@@ -57,7 +57,25 @@ func (courseService *CourseServiceImpl) GetAll(offset, limit int, search string,
 	return course, pagination,nil
 }
 
-func (courseService *CourseServiceImpl) GetAllByCategory(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error) {
+func (courseService *CourseServiceImpl) GetAllMobile(offset, limit int, search string, category string) ([]web.GetCourseResponseMobileNew, *web.Pagination, error) {
+	
+	result, total, err := courseService.CourseRepository.GetAll(offset, limit, search, category)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	if result == nil {
+		return nil, nil, fmt.Errorf("course not found")
+	}
+
+	course := conversion.ConvertAllCourseMobileNew(result)
+
+	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
+	
+	return course, pagination,nil
+}
+
+func (courseService *CourseServiceImpl) GetAllByCategory(offset, limit int, search string, category uint) ([]web.GetCourseResponseMobileNew, *web.Pagination, error) {
 	
 	result, total, err := courseService.CourseRepository.GetAllByCategory(offset, limit, search, category)
 	if err != nil {
@@ -68,7 +86,7 @@ func (courseService *CourseServiceImpl) GetAllByCategory(offset, limit int, sear
 		return nil, nil, fmt.Errorf("course not found")
 	}
 
-	course := conversion.CourseDomainToCourseGetAllResponseMobile(result)
+	course := conversion.ConvertAllCourseMobileNew(result)
 
 	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
 	
@@ -95,7 +113,7 @@ func (courseService *CourseServiceImpl) GetAllMyCourse(offset, limit int, search
 }
 
 
-func (courseService *CourseServiceImpl) GetAllByRating(offset, limit int, search string, category string) ([]web.GetCourseResponseMobile, *web.Pagination, error) {
+func (courseService *CourseServiceImpl) GetAllByRating(offset, limit int, search string, category string) ([]web.GetCourseResponseMobileNew, *web.Pagination, error) {
 	
 	result, total, err := courseService.CourseRepository.GetAllCourseByRating(offset, limit, search, category)
 	if err != nil {
@@ -106,7 +124,7 @@ func (courseService *CourseServiceImpl) GetAllByRating(offset, limit int, search
 		return nil, nil, fmt.Errorf("course not found")
 	}
 
-	course := conversion.CourseDomainToCourseGetAllResponseMobile(result)
+	course := conversion.ConvertAllCourseMobileNew(result)
 
 	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
 	

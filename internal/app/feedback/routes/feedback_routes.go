@@ -10,6 +10,8 @@ func (feedbackRoutes *FeedbackRoutesImpl) FeedbackWeb(apiGroup *echo.Group) {
 
 	feedbacksGroup.GET("", feedbackRoutes.FeedbackHandler.GetAllByCourseId)
 	feedbacksGroup.GET("/:id", feedbackRoutes.FeedbackHandler.GetByIdAndCourseId)
+	feedbacksGroup.DELETE("/:id", feedbackRoutes.FeedbackHandler.DeleteById)
+	
 
 }
 

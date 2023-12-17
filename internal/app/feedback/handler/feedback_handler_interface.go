@@ -12,6 +12,7 @@ type FeedbackHandler interface {
 	GetAllByCourseId(ctx echo.Context) error
 	GetByIdUserAndCourseId(ctx echo.Context) error
 	DeleteByUserAndCourseId(ctx echo.Context) error
+	DeleteById(ctx echo.Context) error
 }
 
 type FeedbackHandlerImpl struct {
