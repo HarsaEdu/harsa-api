@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
 )
 
 func (recommendationsService *RecommendationsServiceImpl) GetRecommendations(request *web.GetRecommendationsRequest) (*web.GetRecommendationsResponse, error) {
@@ -31,18 +32,14 @@ func (recommendationsService *RecommendationsServiceImpl) GetRecommendations(req
 }
 
 func (recommendationsService *RecommendationsServiceImpl) GetRecommendationsForInstructor() error {
-	topInterest, err := recommendationsService.InterestRepository.GetTopInterests(5)
+	topInterest, _ := recommendationsService.InterestRepository.GetTopInterests(5)
 	if topInterest == nil {
 		return fmt.Errorf("error when get top interests : no interests found")
 	}
 
-	instructors, err := recommendationsService.UserRepository.GetUsersRegistrationToken(2)
+	instructors, _ := recommendationsService.UserRepository.GetUsersRegistrationToken(2)
 	if instructors == nil {
 		return fmt.Errorf("error when get instructor : no instructor found")
-	}
-
-	if err != nil {
-		return fmt.Errorf("error when get top interests : %s", err.Error())
 	}
 
 	var interests string
@@ -53,15 +50,11 @@ func (recommendationsService *RecommendationsServiceImpl) GetRecommendationsForI
 
 	message := fmt.Sprintf("Top interests this week : %s", interests)
 
-	systemInstruction := fmt.Sprintf("You are the HarsaEdu system to providing a weekly notification to instructors.Recommend an instructor to create a course title based on the following data: %s. Encourage them to design a course that aligns with the interests and needs of our users", interests)
+	systemInstruction := fmt.Sprintf("You are the HarsaEdu system to providing a weekly notification to instructors.Recommend an instructor to create a course title based on the following data: %s. Encourage them to design a course that aligns with the interests and needs of our users, also only put HarsaEdu Team as a sender and dont put any Subject", interests)
 
 	chatResponse, err := recommendationsService.OpenAi.GetChatCompletion(message, systemInstruction)
 	if err != nil {
 		return fmt.Errorf("error when get chat completion : %s", err.Error())
-	}
-
-	if err != nil {
-		return fmt.Errorf("error when get instructor : %s", err.Error())
 	}
 
 	notification := web.NotificationMultiCast{
@@ -69,8 +62,19 @@ func (recommendationsService *RecommendationsServiceImpl) GetRecommendationsForI
 		Message: chatResponse,
 	}
 
+	var userIDs []uint
+
 	for _, instrutor := range instructors {
 		notification.RegistrationToken = append(notification.RegistrationToken, instrutor.RegistrationToken)
+		userIDs = append(userIDs, instrutor.UserID)
+	}
+
+	notificationDomain := conversion.NotificationMultiCastRequestToNotificationDomain(notification, userIDs)
+
+	err = recommendationsService.NotificationRepository.CreateMany(notificationDomain)
+
+	if notification.RegistrationToken == nil {
+		return fmt.Errorf("error when get instructor registration token : no instructor registration token found")
 	}
 	
 	recommendationsService.Firebase.SendNotificationMulticast(&notification)
