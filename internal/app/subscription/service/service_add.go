@@ -37,7 +37,7 @@ func (subscriptionService *SubscriptionServiceImpl) SubscriptionAdd(user_id uint
 		subscription.EndDate = time.Unix(endDate, 0).UTC()
 	}
 
-	if &subscriptionResponse == nil {
+	if subscriptionResponse == nil {
 		err := subscriptionService.SubscriptionRepository.AddSubscription(&subscription)
 		if err != nil {
 			return fmt.Errorf("error when add subscription %s:", err.Error())
