@@ -5,6 +5,7 @@ type GetRecommendation struct {
 	CourseTitle            string  `json:"course_title"`
 	CourseDescription      string  `json:"course_description"`
 	CourseImage            string  `json:"course_image"`
+	CourseRating           float32 `json:"course_rating"`
 	InstructorName         string  `json:"instructor_name"`
 	IsInInterestCategories bool    `json:"is_in_interest_categories"`
 	PredictedRating        float32 `json:"predicted_rating"`

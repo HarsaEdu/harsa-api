@@ -26,7 +26,7 @@ func (courseRoutes *CourseRoutesImpl) CourseWeb(apiGroup *echo.Group) *echo.Grou
 func (courseRoutes *CourseRoutesImpl) CourseMobile(apiGroup *echo.Group) *echo.Group {
 	coursesGroup := apiGroup.Group("/courses")
 
-	coursesGroup.GET("", courseRoutes.CourseHandler.GetAll)
+	coursesGroup.GET("", courseRoutes.CourseHandler.GetAllMobile)
 	coursesGroup.GET("/:id", courseRoutes.CourseHandler.GetByIdMobile)
 	coursesGroup.GET("/category/:id", courseRoutes.CourseHandler.GetAllByCategory)
 	coursesGroup.GET("/rating", courseRoutes.CourseHandler.GetAllByRating)

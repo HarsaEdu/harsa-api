@@ -10,3 +10,12 @@ func (feedbackRepository *FeedbackRepositoryImpl) DeleteByUserAndCourseId(userId
 
 	return nil
 }
+
+func (feedbackRepository *FeedbackRepositoryImpl) DeleteById(id uint) error {
+	result := feedbackRepository.DB.Where("id = ? ", id).Delete(&domain.Feedback{})
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}

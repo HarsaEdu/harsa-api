@@ -13,6 +13,7 @@ type FeedbackService interface {
 	GetAllByCourseId(courseId uint, offset, limit int, search string) ([]web.FeedBackResponseForTracking, *web.Pagination, error)
 	GetByIdUserAndCourseId(userId, courseId uint) (*web.FeedBackResponseForTracking, error)
 	DeleteByUserAndCourseId(userId, courseId uint) error
+	DeleteById(id uint) error
 }
 
 type FeedbackServiceImpl struct {
