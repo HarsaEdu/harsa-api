@@ -42,6 +42,20 @@ func (_m *NotificationRepository) Create(Notification *domain.Notification) erro
 	return r0
 }
 
+// CreateMany provides a mock function with given fields: Notification
+func (_m *NotificationRepository) CreateMany(Notification []domain.Notification) error {
+	ret := _m.Called(Notification)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func([]domain.Notification) error); ok {
+		r0 = rf(Notification)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // Delete provides a mock function with given fields: id
 func (_m *NotificationRepository) Delete(id int) error {
 	ret := _m.Called(id)
