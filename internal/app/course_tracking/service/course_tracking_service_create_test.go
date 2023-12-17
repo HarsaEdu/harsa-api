@@ -44,9 +44,6 @@ func TestCreate_Success(t *testing.T) {
 	// Set up mock expectations for NotifEnrolled
 	mockTrackingRepo.On("NotifEnrolled", request.UserID, request.CourseID).Return(&web.NotificationPersonal{}, nil)
 
-	// Set up mock expectations for SendNotificationPersonal (Firebase)
-	mockFirebase.On("SendNotificationPersonal", mock.Anything).Return(nil)
-
 	// Call the function you want to test
 	err := courseTrackingService.Create(nil, request)
 
@@ -158,6 +155,8 @@ func TestCreateWeb_Success(t *testing.T) {
 
 	// Set up mock expectations for Create (CourseTrackingRepository)
 	mockTrackingRepo.On("Create", mock.Anything).Return(nil)
+
+	mockTrackingRepo.On("NotifEnrolledWeb", request.UserID, request.CourseID).Return(&web.NotificationPersonal{}, nil)
 
 	// Call the function you want to test
 	err := courseTrackingService.CreateWeb(request)
