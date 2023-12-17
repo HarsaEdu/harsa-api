@@ -12,7 +12,7 @@ type Course struct {
 	Title              string         `gorm:"type:varchar(255)" json:"title"`
 	Description        string         `gorm:"type:text" json:"description"`
 	Rating             float32        `json:"rating"`
-	ImageUrl           string         `gorm:"type:varchar(255)" json:"image_url"`
+	ImageUrl           string         `gorm:"type:varchar(255);default:https://res.cloudinary.com/dydgjkfgs/image/upload/v1702832191/harsa/courses/abd3is6os9joegg8imkj.jpg" json:"image_url"`
 	CreatedAt          time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt          time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt          gorm.DeletedAt `gorm:"index" json:"delete_at"`
