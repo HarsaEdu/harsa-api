@@ -32,6 +32,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
+	wkh "github.com/HarsaEdu/harsa-api/internal/pkg/wkhtmltopdf"
 
 	recommendationsApi "github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
 	"github.com/go-playground/validator"
@@ -39,7 +40,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi, firebaseImpl firebase.Firebase, passwordImpl password.PasswordComparer) {
+func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, e *echo.Echo, openai openai.OpenAi, midtransCoreApi midtrans.MidtransCoreApi, recommendationsApi recommendationsApi.RecommendationsApi, firebaseImpl firebase.Firebase, passwordImpl password.PasswordComparer, certifaicate wkh.PDFGenerator) {
 
 
 	userRoutes, userRepo := user.UserSetup(db, validate, passwordImpl)
@@ -66,7 +67,7 @@ func InitApp(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.Cl
 	historySubModuleRoutes := historySubModule.HistorySubModuleSetup(db, validate, subscriptionService)
 	recommendationsRoutes := recommendations.RecommendationsSetup(validate, recommendationsApi, openai, firebaseImpl, userRepo, interestRepo, notificationRepository)
 	historyQuizRoutes := historyQuiz.HistoryQuizSetup(db, validate, subscriptionService)
-	certificateRoutes := certificate.CertificateSetup(db, validate, cloudinary, courseTrackingRepository)
+	certificateRoutes := certificate.CertificateSetup(db, validate, cloudinary, courseTrackingRepository, certifaicate)
 	dashboardRoutes := dashboard.DashboardSetup(db)
 
 	apiGroupWeb := e.Group("web")

@@ -17,6 +17,8 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/password"
 	"github.com/HarsaEdu/harsa-api/web/static"
+	wkh "github.com/HarsaEdu/harsa-api/internal/pkg/wkhtmltopdf"
+	"github.com/HarsaEdu/harsa-api/web/template"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -57,10 +59,13 @@ func main() {
 	// Create an password instance
 	passwordImpl := password.NewPasswordComparer()
 
+	// Create an generate certificate instance
+	GenerateCertif := wkh.NewWKHTMLToPDFGenerator(template.CertificateBlankContent)
+
 	// Create an Echo instance
 	e := echo.New()
 
-	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi, firebaseImpl, passwordImpl)
+	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi, firebaseImpl, passwordImpl, GenerateCertif)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {

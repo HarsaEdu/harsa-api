@@ -6,6 +6,8 @@ import (
 	echo "github.com/labstack/echo/v4"
 	mock "github.com/stretchr/testify/mock"
 
+	multipart "mime/multipart"
+
 	web "github.com/HarsaEdu/harsa-api/internal/model/web"
 )
 
@@ -14,13 +16,13 @@ type SubsPlanService struct {
 	mock.Mock
 }
 
-// Create provides a mock function with given fields: ctx, subsPlan
-func (_m *SubsPlanService) Create(ctx echo.Context, subsPlan *web.SubsPlanCreateRequest) error {
-	ret := _m.Called(ctx, subsPlan)
+// Create provides a mock function with given fields: ctx, file, subsPlan
+func (_m *SubsPlanService) Create(ctx echo.Context, file *multipart.FileHeader, subsPlan *web.SubsPlanCreateRequest) error {
+	ret := _m.Called(ctx, file, subsPlan)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(echo.Context, *web.SubsPlanCreateRequest) error); ok {
-		r0 = rf(ctx, subsPlan)
+	if rf, ok := ret.Get(0).(func(echo.Context, *multipart.FileHeader, *web.SubsPlanCreateRequest) error); ok {
+		r0 = rf(ctx, file, subsPlan)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -28,13 +30,13 @@ func (_m *SubsPlanService) Create(ctx echo.Context, subsPlan *web.SubsPlanCreate
 	return r0
 }
 
-// CreateFromExisting provides a mock function with given fields: ctx, request, id
-func (_m *SubsPlanService) CreateFromExisting(ctx echo.Context, request *web.SubsPlanUpdateRequest, id uint) error {
-	ret := _m.Called(ctx, request, id)
+// CreateFromExisting provides a mock function with given fields: ctx, file, request, id
+func (_m *SubsPlanService) CreateFromExisting(ctx echo.Context, file *multipart.FileHeader, request *web.SubsPlanUpdateRequest, id uint) error {
+	ret := _m.Called(ctx, file, request, id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(echo.Context, *web.SubsPlanUpdateRequest, uint) error); ok {
-		r0 = rf(ctx, request, id)
+	if rf, ok := ret.Get(0).(func(echo.Context, *multipart.FileHeader, *web.SubsPlanUpdateRequest, uint) error); ok {
+		r0 = rf(ctx, file, request, id)
 	} else {
 		r0 = ret.Error(0)
 	}

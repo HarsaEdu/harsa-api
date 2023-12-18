@@ -1,4 +1,4 @@
-package wkhtmltopdf
+package pdf
 
 import (
 	"bytes"
@@ -9,13 +9,29 @@ import (
 	"github.com/SebastiaanKlippert/go-wkhtmltopdf"
 )
 
-func GenerateCertificateHtmlToPDF(htmlTemplate embed.FS, certificate *domain.Certificate) ([]byte, error) {
+// PDFGenerator represents a PDF generator.
+type PDFGenerator interface {
+	GenerateCertificate(certificate *domain.Certificate) ([]byte, error)
+}
+
+// wkhtmltopdfGenerator implements the PDFGenerator interface using wkhtmltopdf.
+type wkhtmltopdfGenerator struct {
+	htmlTemplate embed.FS
+}
+
+// NewWKHTMLToPDFGenerator creates a new instance of wkhtmltopdfGenerator.
+func NewWKHTMLToPDFGenerator(htmlTemplate embed.FS) PDFGenerator {
+	return &wkhtmltopdfGenerator{htmlTemplate: htmlTemplate}
+}
+
+// GenerateCertificate implements the PDFGenerator interface for wkhtmltopdf.
+func (g *wkhtmltopdfGenerator) GenerateCertificate(certificate *domain.Certificate) ([]byte, error) {
 	var htmlBuffer bytes.Buffer
-	certificateTemplate, err := template.ParseFS(htmlTemplate, "certificate.html")
+	certificateTemplate, err := template.ParseFS(g.htmlTemplate, "certificate.html")
 	if err != nil {
 		return nil, err
 	}
-	
+
 	err = certificateTemplate.Execute(&htmlBuffer, certificate)
 	if err != nil {
 		return nil, err
