@@ -9,6 +9,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/tests/mocks"
 	"github.com/go-playground/validator"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestCreate_Success(t *testing.T) {
@@ -19,6 +20,7 @@ func TestCreate_Success(t *testing.T) {
 
 	// Create a SubmissionAnswerServiceImpl with the mock repositories
 	submissionAnswerService := NewSubmissionAnswer(mockRepository, mockValidator, mockCloudinaryUploader,mockSubmission)
+	mockRepository.On("FindByuserIDAndSubmissionID", mock.Anything, mock.Anything).Return(nil, nil)
 
 	idSubmission := 1
 	idUser := 1
@@ -60,6 +62,7 @@ func TestCreate_InvalidFileFormat(t *testing.T) {
 	idUser := 1
 
 	request := &web.SubmissionAnswerRequest{}
+	mockRepository.On("FindByuserIDAndSubmissionID", mock.Anything, mock.Anything).Return(nil, nil)
 
 	// Mock the Uploader method to return an invalid file format
 	mockCloudinaryUploader.On("Uploader", nil, "file", "submission_answer", true).Return("file_url.jpg", nil)
@@ -89,6 +92,7 @@ func TestCreate_ErrorUploadingSubmissionAnswer(t *testing.T) {
 	idUser := 1
 
 	request := &web.SubmissionAnswerRequest{}
+	mockRepository.On("FindByuserIDAndSubmissionID", mock.Anything, mock.Anything).Return(nil, nil)
 
 	// Mock the Uploader method to return an error
 	mockCloudinaryUploader.On("Uploader", nil, "file", "submission_answer", true).Return("file_url.pdf", errors.New("upload error"))
@@ -125,6 +129,7 @@ func TestCreate_ErrorCreatingSubmissionAnswer(t *testing.T) {
 	}
 
 	request := &web.SubmissionAnswerRequest{}
+	mockRepository.On("FindByuserIDAndSubmissionID", mock.Anything, mock.Anything).Return(nil, nil)
 
 	// Mock the Uploader method
 	mockCloudinaryUploader.On("Uploader", nil, "file", "submission_answer", true).Return("file_url.pdf", nil)
