@@ -1,8 +1,6 @@
 package domain
 
-import (
-	"time"
-)
+import "time"
 
 type Gender string
 
@@ -45,4 +43,27 @@ type ProfileDetail struct {
 	City          string    `json:"city"`
 	Address       string    `json:"address"`
 	Job           string    `json:"job"`
+}
+
+
+type ProfileDetailMobile struct {
+	UserID        uint      `json:"user_id"`
+	UserProfileID uint      `json:"user_profile_id"`
+	ImageUrl      string    `json:"image_url" form:"image"`
+	RoleID        uint      `json:"role_id"`
+	RoleName      string    `json:"role_name"`
+	Email         string    `json:"email"`
+	Username      string    `json:"username"`
+	FirstName     string    `json:"first_name"`
+	LastName      string    `json:"last_name"`
+	PhoneNumber   string    `json:"phone_number"`
+	DateBirth     time.Time `json:"date_birth"`
+	Bio           string    `json:"bio"`
+	Gender        Gender    `json:"gender"`
+	City          string    `json:"city"`
+	Address       string    `json:"address"`
+	Job           string    `json:"job"`
+	SubscriptionID uint `json:"subscription_id"`
+	StartDate      time.Time `json:"start_date"`
+	EndDate        time.Time `json:"end_date"`
 }

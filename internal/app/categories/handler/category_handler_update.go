@@ -11,6 +11,12 @@ import (
 )
 
 func (categoryHandler *CategoryHandlerImpl) Update(ctx echo.Context) error {
+	image := false
+
+	fileHeader, _ := ctx.FormFile("image")
+	if fileHeader != nil {
+		image = true
+	}
 
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -23,7 +29,7 @@ func (categoryHandler *CategoryHandlerImpl) Update(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind category request", err)
 	}
 
-	err = categoryHandler.CategoryService.Update(req, id)
+	err = categoryHandler.CategoryService.Update(ctx, req, id, image)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

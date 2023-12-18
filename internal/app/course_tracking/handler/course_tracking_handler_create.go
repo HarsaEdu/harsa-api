@@ -68,6 +68,12 @@ func (courseTrackingHandler *CourseTrackingHandlerImpl) CreateWeb(ctx echo.Conte
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
 		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx,"subscribe to enrolled this course" ,err)
+		}
+		if strings.Contains(err.Error(), "already exist") {
+			return res.StatusBadRequest(ctx, " already enrolled in this course", err)
+		}
 		return res.StatusInternalServerError(ctx, "failed to create course tracking, something happen", err)
 
 	}

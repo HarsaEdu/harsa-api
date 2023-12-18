@@ -7,6 +7,7 @@ import (
 
 type RecommendationsHandler interface {
 	GetRecommendations(ctx echo.Context) error
+	SendRecommendationsForInstructor(ctx echo.Context) error
 }
 
 type RecommendationsHandlerImpl struct {

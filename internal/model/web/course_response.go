@@ -84,6 +84,15 @@ type GetCourseResponseMobile struct {
 	Category    *CategoryForCourseResponse  `json:"category"`
 }
 
+type GetCourseResponseMobileNew struct {
+	ID          uint                       `json:"course_id"`
+	Title       string                     `json:"course_title"`
+	Description string                     `json:"course_description"`
+	ImageUrl    string                     `json:"course_image"`
+	Rating      float32                        `json:"course_rating"`
+	InstructurName       string      `json:"instructor_name"`
+}
+
 type CourseResponse struct{
 	ID          uint                       `json:"id"`
 	Title       string                     `json:"title"`
@@ -110,6 +119,8 @@ type GetCourseResponseByIdWeb struct{
 	Title string `json:"title"`
 	Description string `json:"description"`
 	ImageUrl string `json:"image_url"`
+	User        *UserForCourseResponseMobile      `json:"user"`
+	Category *CategoryForCourseResponse `json:"category"`
 	Section []SectionResponseGetByIdWeb `json:"section"`
 }
 

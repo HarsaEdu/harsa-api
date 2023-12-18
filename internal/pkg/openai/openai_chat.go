@@ -1,6 +1,10 @@
 package openai
 
-import "context"
+import (
+	"context"
+
+	"github.com/sashabaranov/go-openai"
+)
 
 func (openai *OpenAiImpl) ChatWithAssistant(threadId string, message string) (string, error) {
 	ctx := context.Background()
@@ -26,4 +30,29 @@ func (openai *OpenAiImpl) ChatWithAssistant(threadId string, message string) (st
 	}
 
 	return responseMessage.Content[0].Text.Value, nil
+}
+
+func (openAi *OpenAiImpl) GetChatCompletion(message, systemInstruction string) (string, error) {
+	ctx := context.Background()
+
+	request := openai.ChatCompletionRequest{
+		Model: openai.GPT3Dot5Turbo,
+		Messages: []openai.ChatCompletionMessage{
+			openai.ChatCompletionMessage{
+				Role: openai.ChatMessageRoleSystem,
+				Content: systemInstruction,
+			},
+			openai.ChatCompletionMessage{
+				Role: openai.ChatMessageRoleUser,
+				Content: message,
+			},
+		},
+	}
+
+	response, err := openAi.Client.CreateChatCompletion(ctx, request)
+	if err != nil {
+		return "", err
+	}
+
+	return response.Choices[0].Message.Content, nil
 }

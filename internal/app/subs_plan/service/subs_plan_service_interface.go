@@ -2,7 +2,6 @@ package service
 
 import (
 	"github.com/HarsaEdu/harsa-api/internal/app/subs_plan/repository"
-	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
 	"github.com/go-playground/validator"
@@ -10,12 +9,12 @@ import (
 )
 
 type SubsPlanService interface {
-	GetAll(search string) ([]domain.SubsPlan, *web.Pagination, error)
+	GetAll(offset, limit int, search string) ([]web.SubsPlanResposne, *web.Pagination, error)
 	Create(ctx echo.Context, subsPlan *web.SubsPlanCreateRequest) error
-	Update(subsPlan *web.SubsPlanUpdateRequest, id int) error
-	Delete(id int) error
+	CreateFromExisting(ctx echo.Context, request *web.SubsPlanUpdateRequest, id uint) error
 	UpdateImage(ctx echo.Context, subsPlan *web.SubsPlanUpdateImage, id int) error
-	FindById(id int) (*domain.SubsPlan, error)
+	SetStatus(request *web.SubsPlanUpdateStatus, id uint) error
+	FindById(id int) (*web.SubsPlanResposne, error)
 }
 
 type SubsPlanServiceImpl struct {

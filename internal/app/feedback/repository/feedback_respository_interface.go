@@ -14,6 +14,8 @@ type FeedbackRepository interface {
 	DeleteByUserAndCourseId(userId, courseId uint) error
 	AutoUpdateRating(courseId uint) error
 	Cek(userId uint, courseID uint) (*domain.Feedback, error)
+	GetById(id uint) (*domain.Feedback, error)
+	DeleteById(id uint) error
 }
 
 type FeedbackRepositoryImpl struct {

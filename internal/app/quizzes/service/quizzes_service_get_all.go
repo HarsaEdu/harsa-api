@@ -9,7 +9,7 @@ import (
 
 func (quizzesService *QuizzesServiceImpl) GetAll(moduleId uint, offset int, limit int, search string) ([]web.GetAllQuizResponse, *web.Pagination, error) {
 	var quizzes []web.GetAllQuizResponse
-	result, total, err := quizzesService.QuizzesRepository.GetAll(moduleId, offset, limit, search)
+	result, total, titleCourse, err := quizzesService.QuizzesRepository.GetAll(moduleId, offset, limit, search)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -18,7 +18,7 @@ func (quizzesService *QuizzesServiceImpl) GetAll(moduleId uint, offset int, limi
 		return nil, nil, fmt.Errorf("quiz not found")
 	}
 
-	quizzes = conversion.ConvertAllQuiz(result)
+	quizzes = conversion.ConvertAllQuiz(result, titleCourse)
 
 	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
 	

@@ -14,6 +14,7 @@ import (
 	"github.com/HarsaEdu/harsa-api/internal/pkg/midtrans"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/openai"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/recommendations"
+	"github.com/HarsaEdu/harsa-api/internal/pkg/firebase"
 	"github.com/HarsaEdu/harsa-api/web/static"
 
 	"github.com/go-playground/validator"
@@ -49,10 +50,14 @@ func main() {
 	// Create an Recommendations Api instance
 	recommendationsApi := recommendations.NewRecommendationsApi(&config.RecommendationsApi)
 
+	// Create an Midtrans Core Api instance
+	firebaseImpl := firebase.NewFirebase(&config.Firebase)
+
 	// Create an Echo instance
 	e := echo.New()
 
-	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi)
+
+	app.InitApp(db, validate, cloudinaryUploader, e, openAi, midtransCoreApi, recommendationsApi, firebaseImpl)
 
 	// Serve static HTML file for the root path
 	e.GET("/", func(c echo.Context) error {

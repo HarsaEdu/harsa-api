@@ -46,3 +46,8 @@ type UserDetail struct {
 	Address       string    `json:"address"`
 	Job           string    `json:"job"`
 }
+
+type UserRegistrationToken struct {
+	UserID            uint   `json:"user_id"`
+	RegistrationToken string `json:"registration_token"`
+}

@@ -19,6 +19,7 @@ type CourseHandler interface {
 	GetByIdMobile(ctx echo.Context) error
 	GetAllMyCourse(ctx echo.Context) error
 	GetAllByRating(ctx echo.Context) error
+	GetAllMobile(ctx echo.Context) error 
 }
 
 type CourseHandlerImpl struct {

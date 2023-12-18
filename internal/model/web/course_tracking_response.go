@@ -23,7 +23,7 @@ type CourseForTraking struct {
 	ID           uint          `json:"id"`
 	Title        string        `json:"title"`
 	Description  string        `json:"description"`
-	User         UserForCourse `json:"user"`
+	Intructur    UserForCourse `json:"intructur"`
 	ImageUrl     string        `json:"image_url"`
 	Enrolled     int64         `json:"enrolled"`
 	Rating       float32       `json:"rating"`
@@ -34,19 +34,19 @@ type CourseForTraking struct {
 type GetAllCourseForTraking struct {
 	CourseTrackingID   uint          `json:"course_tracking_id"`
 	CourseID           uint          `json:"course_id"`
-	Title        string        `json:"title"`
-	Description  string        `json:"description"`
-	UserIntructur   UserForCourse `json:"user_intructur"`
-	UserStudent   UserForTracking `json:"user_student"`
-	ImageUrl     string        `json:"image_url"`
-	Status       domain.StatusCourseTraking `json:"status"`
-	Progress     float32       `json:"progress"`
-	CreatedAt    time.Time        `json:"created_at"`
+	Title              string        `json:"title"`
+	Description        string        `json:"description"`
+	Intructur          UserForCourse `json:"intructur"`
+	StudentID          uint           `json:"student_id"`
+	ImageUrl           string        `json:"image_url"`
+	Status             domain.StatusCourseTraking `json:"status"`
+	Progress           float32       `json:"progress"`
+	CreatedAt          time.Time        `json:"created_at"`
 }
 
 type CourseTrackingResponse struct {
 	ID       uint             `json:"id"`
-	User     UserForTracking  `json:"user"`
+	StudentID   uint             `json:"student_id"`
 	Progress float32          `json:"progress"`
 	Status   domain.StatusCourseTraking `json:"status"`
 }
@@ -54,6 +54,11 @@ type CourseTrackingResponse struct {
 type CourseTrackingResponseMobile struct {
 	IsSubscription bool `json:"is_subscription"`
 	CourseTracking CourseTrackingResponse `json:"course_tracking"`
+	Course         CourseForTraking `json:"course"`
+	Sections		   []SectionResponseMobile `json:"sections"`
+}
+
+type CourseTrackingResponseMobileNologin struct {
 	Course         CourseForTraking `json:"course"`
 	Sections		   []SectionResponseMobile `json:"sections"`
 }

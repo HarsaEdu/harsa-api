@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/response"
@@ -72,4 +73,19 @@ func (paymentService *PaymentServiceImpl) GetPaymentHistoryByUserIdAndPaymentId(
 
 	return response, nil
 
+}
+
+func (paymentService *PaymentServiceImpl) GetLastYearPaymentHistory() (*web.PaymentLastYearHistoryResponse, error) {
+	paymentHistories, err := paymentService.PaymentRepository.GetLastYearPaymentHistory(time.Now())
+	if paymentHistories == nil {
+		return nil, fmt.Errorf("error when get payment history : payment history not found")
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("error when get payment history : %s", err.Error())
+	}
+
+	getLastYearData := conversion.PaymentLastYearHistoryDomainToPaymentLastYearHistoryResponse(paymentHistories)
+
+	return getLastYearData, nil
 }

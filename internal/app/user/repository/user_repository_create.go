@@ -1,6 +1,7 @@
 package repository
 
 import (
+
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 )
 
@@ -15,3 +16,4 @@ func (userRepository *UserRepositoryImpl) UserCreate(user *domain.User) (*domain
 
 	return user, nil
 }
+

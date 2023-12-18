@@ -63,10 +63,6 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) CountProgressCours
 		return 0, err
 	}
 
-	if status == "completed" {
-		return 100, nil
-	}
-	
 	var sectionIDs []uint
 
 	if err := courseTrackingrepository.DB.Model(&domain.Section{}).Where("course_id = ?", courseID).Pluck("id", &sectionIDs).Error; err != nil {
@@ -96,8 +92,15 @@ func (courseTrackingrepository *CourseTrackingRepositoryImpl) CountProgressCours
 
 	if totalModules > 0 {
 		averageProgress := totalProgressModule / totalModules
-		if averageProgress == 100 {
+		if averageProgress == 100 && status ==  "in progress"{
 			newStatus := "completed"
+			result := courseTrackingrepository.DB.Model(&domain.CourseTracking{}).Where("course_id = ? and user_id = ?", courseID, userID).Update("status", newStatus)
+			if result.Error != nil {
+				return 0, result.Error
+			}
+		}
+		if averageProgress != 100 && status ==  "completed"{
+			newStatus := "in progress"
 			result := courseTrackingrepository.DB.Model(&domain.CourseTracking{}).Where("course_id = ? and user_id = ?", courseID, userID).Update("status", newStatus)
 			if result.Error != nil {
 				return 0, result.Error

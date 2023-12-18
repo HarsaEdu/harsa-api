@@ -2,11 +2,11 @@ package repository
 
 import "github.com/HarsaEdu/harsa-api/internal/model/domain"
 
-func (SubsPlanRepository *SubsPlanRepositoryImpl) GetAll(search string) ([]domain.SubsPlan, int64, error) {
+func (SubsPlanRepository *SubsPlanRepositoryImpl) GetAllActive(offset, limit int, search string) ([]domain.SubsPlan, int64, error) {
 	subsPlan := []domain.SubsPlan{}
 	var total int64
 
-	query := SubsPlanRepository.DB.Model(&subsPlan)
+	query := SubsPlanRepository.DB.Where("is_active = ?", true)
 
 	if search != "" {
 		s := "%" + search + "%"
@@ -15,13 +15,19 @@ func (SubsPlanRepository *SubsPlanRepositoryImpl) GetAll(search string) ([]domai
 
 	query = query.Find(&subsPlan).Count(&total)
 
-	result := query.Find(&subsPlan)
+	query = query.Offset(offset).Limit(limit)
+
+	result := query.Order("duration_days ASC").Find(&subsPlan)
 	if result.Error != nil {
 		return nil, 0, result.Error
 	}
 
 	if total == 0 {
 		return nil, 0, nil
+	}
+
+	if offset >= int(total) {
+		return subsPlan, 0, nil
 	}
 
 	return subsPlan, total, nil

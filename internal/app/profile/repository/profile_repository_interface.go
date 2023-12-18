@@ -7,7 +7,7 @@ import (
 
 type ProfileRepository interface {
 	CreateProfile(profile *domain.UserProfile) error
-	FindByUserID(userID uint) (*domain.ProfileDetail, error)
+	FindByUserID(userID uint) (*domain.ProfileDetailMobile, error)
 	UpdateProfile(profile *domain.UserProfile) error
 	GetProfileByID(profileID uint) (*domain.ProfileDetail, error)
 	IsExists(userID uint) bool

@@ -2,34 +2,32 @@ package firebase
 
 import (
 	"context"
-	"fmt"
-	"log"
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/messaging"
-	"github.com/HarsaEdu/harsa-api/configs"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/api/option"
 )
 
-func SendNotificationPersonal(notif web.NotificationPersonal, config configs.AppConfig) {
+func (firebaseImpl *FirebaseImpl) SendNotificationPersonal(notif *web.NotificationPersonal) {
 
-	credential, err := GetDecodedFireBaseKey(config)
+	credential, err := GetDecodedFireBaseKey(*firebaseImpl.Config)
 	if err != nil {
-		fmt.Errorf("Failed to get credential: %v", err)
+		logrus.Errorf("Failed to get credential: %v", err)
 	}
 
 	// Konfigurasi Firebase Admin SDK
 	opt := option.WithCredentialsJSON(credential)
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
-		log.Fatalf("Failed to create Firebase app: %v", err)
+		logrus.Errorf("Failed to create Firebase app: %v", err)
 	}
 
 	// Inisialisasi FCM client
 	client, err := app.Messaging(context.Background())
 	if err != nil {
-		log.Fatalf("Failed to create FCM client: %v", err)
+		logrus.Errorf("Failed to create FCM client: %v", err)
 	}
 
 	// Data pesan yang akan dikirim
@@ -42,32 +40,31 @@ func SendNotificationPersonal(notif web.NotificationPersonal, config configs.App
 	}
 
 	// Kirim notifikasi
-	response, err := client.Send(context.Background(), message)
+	_, err = client.Send(context.Background(), message)
 	if err != nil {
-		log.Fatalf("Failed to send notification: %v", err)
+		logrus.Errorf("Failed to send notification: %v", err)
 	}
 
-	fmt.Println("Successfully sent notification:", response)
 }
 
-func SendNotificationMulticast(notif web.NotificationMultiCast, config configs.AppConfig) {
+func (firebaseImpl *FirebaseImpl) SendNotificationMulticast(notif *web.NotificationMultiCast) {
 
-	credential, err := GetDecodedFireBaseKey(config)
+	credential, err := GetDecodedFireBaseKey(*firebaseImpl.Config)
 	if err != nil {
-		fmt.Errorf("Failed to get credential: %v", err)
+		logrus.Errorf("Failed to get credential: %v", err)
 	}
 
 	// Konfigurasi Firebase Admin SDK
 	opt := option.WithCredentialsJSON(credential)
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
-		log.Fatalf("Failed to create Firebase app: %v", err)
+		logrus.Errorf("Failed to create Firebase app: %v", err)
 	}
 
 	// Inisialisasi FCM client
 	client, err := app.Messaging(context.Background())
 	if err != nil {
-		log.Fatalf("Failed to create FCM client: %v", err)
+		logrus.Errorf("Failed to create FCM client: %v", err)
 	}
 
 	// Data pesan yang akan dikirim
@@ -80,10 +77,9 @@ func SendNotificationMulticast(notif web.NotificationMultiCast, config configs.A
 	}
 
 	// Kirim notifikasi
-	response, err := client.SendMulticast(context.Background(), message)
+	_, err = client.SendMulticast(context.Background(), message)
 	if err != nil {
-		log.Fatalf("Failed to send notification: %v", err)
+		logrus.Errorf("Failed to send notification: %v", err)
 	}
 
-	fmt.Println("Successfully sent notification:", response)
 }

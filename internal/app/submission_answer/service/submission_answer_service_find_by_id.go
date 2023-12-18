@@ -23,3 +23,18 @@ func (submissionAnswerService *SubmissionAnswerServiceImpl) FindById(id int) (*w
 
 	return response, nil
 }
+
+func (submissionAnswerService *SubmissionAnswerServiceImpl) FindByIdWeb(id int) (*web.SubmissionAnswerResponseWebById, error) {
+
+	result, err := submissionAnswerService.Repository.FindByIdWeb(id)
+
+	if result == nil {
+		return nil, fmt.Errorf(err.Error(), "submission answer not found")
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("internal Server Error")
+	}
+
+	return result, nil
+}

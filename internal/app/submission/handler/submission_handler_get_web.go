@@ -10,13 +10,14 @@ import (
 )
 
 func (submissionHandler *SubmissionHandlerImpl) GetAllWeb(ctx echo.Context) error {
-
 	idParam := ctx.Param("moduleId")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "invalid module id", err)
 	}
-	data, err := submissionHandler.SubmissionService.GetAll(id)
+	params := ctx.QueryParams()
+
+	data, err := submissionHandler.SubmissionService.GetAll(id, params.Get("search"))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
