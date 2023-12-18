@@ -66,6 +66,20 @@ func (_m *FeedbackRepository) Create(feedback *domain.Feedback) error {
 	return r0
 }
 
+// DeleteById provides a mock function with given fields: id
+func (_m *FeedbackRepository) DeleteById(id uint) error {
+	ret := _m.Called(id)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(uint) error); ok {
+		r0 = rf(id)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // DeleteByUserAndCourseId provides a mock function with given fields: userId, courseId
 func (_m *FeedbackRepository) DeleteByUserAndCourseId(userId uint, courseId uint) error {
 	ret := _m.Called(userId, courseId)
@@ -111,6 +125,32 @@ func (_m *FeedbackRepository) GetAllByCourseId(courseId uint, offset int, limit 
 	}
 
 	return r0, r1, r2
+}
+
+// GetById provides a mock function with given fields: id
+func (_m *FeedbackRepository) GetById(id uint) (*domain.Feedback, error) {
+	ret := _m.Called(id)
+
+	var r0 *domain.Feedback
+	var r1 error
+	if rf, ok := ret.Get(0).(func(uint) (*domain.Feedback, error)); ok {
+		return rf(id)
+	}
+	if rf, ok := ret.Get(0).(func(uint) *domain.Feedback); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.Feedback)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(uint) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // GetByIdAndCourseId provides a mock function with given fields: courseId, id

@@ -80,6 +80,32 @@ func (_m *SubmissionAnswerRepository) FindByIdWeb(id int) (*web.SubmissionAnswer
 	return r0, r1
 }
 
+// FindByuserIDAndSubmissionID provides a mock function with given fields: submissionId, userid
+func (_m *SubmissionAnswerRepository) FindByuserIDAndSubmissionID(submissionId int, userid int) (*domain.SubmissionAnswer, error) {
+	ret := _m.Called(submissionId, userid)
+
+	var r0 *domain.SubmissionAnswer
+	var r1 error
+	if rf, ok := ret.Get(0).(func(int, int) (*domain.SubmissionAnswer, error)); ok {
+		return rf(submissionId, userid)
+	}
+	if rf, ok := ret.Get(0).(func(int, int) *domain.SubmissionAnswer); ok {
+		r0 = rf(submissionId, userid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.SubmissionAnswer)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(int, int) error); ok {
+		r1 = rf(submissionId, userid)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Get provides a mock function with given fields: offset, limit, search, submissionID
 func (_m *SubmissionAnswerRepository) Get(offset int, limit int, search string, submissionID uint) ([]domain.SubmissionsAnswerDetail, int64, error) {
 	ret := _m.Called(offset, limit, search, submissionID)

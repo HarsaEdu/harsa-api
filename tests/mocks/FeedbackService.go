@@ -27,6 +27,20 @@ func (_m *FeedbackService) CreateByUserAndCourseId(feedback web.FeedbackCreateRe
 	return r0
 }
 
+// DeleteById provides a mock function with given fields: id
+func (_m *FeedbackService) DeleteById(id uint) error {
+	ret := _m.Called(id)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(uint) error); ok {
+		r0 = rf(id)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // DeleteByUserAndCourseId provides a mock function with given fields: userId, courseId
 func (_m *FeedbackService) DeleteByUserAndCourseId(userId uint, courseId uint) error {
 	ret := _m.Called(userId, courseId)

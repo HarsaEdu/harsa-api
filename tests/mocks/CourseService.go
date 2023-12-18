@@ -78,20 +78,20 @@ func (_m *CourseService) GetAll(offset int, limit int, search string, category s
 }
 
 // GetAllByCategory provides a mock function with given fields: offset, limit, search, category
-func (_m *CourseService) GetAllByCategory(offset int, limit int, search string, category uint) ([]web.GetCourseResponseMobile, *web.Pagination, error) {
+func (_m *CourseService) GetAllByCategory(offset int, limit int, search string, category uint) ([]web.GetCourseResponseMobileNew, *web.Pagination, error) {
 	ret := _m.Called(offset, limit, search, category)
 
-	var r0 []web.GetCourseResponseMobile
+	var r0 []web.GetCourseResponseMobileNew
 	var r1 *web.Pagination
 	var r2 error
-	if rf, ok := ret.Get(0).(func(int, int, string, uint) ([]web.GetCourseResponseMobile, *web.Pagination, error)); ok {
+	if rf, ok := ret.Get(0).(func(int, int, string, uint) ([]web.GetCourseResponseMobileNew, *web.Pagination, error)); ok {
 		return rf(offset, limit, search, category)
 	}
-	if rf, ok := ret.Get(0).(func(int, int, string, uint) []web.GetCourseResponseMobile); ok {
+	if rf, ok := ret.Get(0).(func(int, int, string, uint) []web.GetCourseResponseMobileNew); ok {
 		r0 = rf(offset, limit, search, category)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]web.GetCourseResponseMobile)
+			r0 = ret.Get(0).([]web.GetCourseResponseMobileNew)
 		}
 	}
 
@@ -113,20 +113,20 @@ func (_m *CourseService) GetAllByCategory(offset int, limit int, search string, 
 }
 
 // GetAllByRating provides a mock function with given fields: offset, limit, search, category
-func (_m *CourseService) GetAllByRating(offset int, limit int, search string, category string) ([]web.GetCourseResponseMobile, *web.Pagination, error) {
+func (_m *CourseService) GetAllByRating(offset int, limit int, search string, category string) ([]web.GetCourseResponseMobileNew, *web.Pagination, error) {
 	ret := _m.Called(offset, limit, search, category)
 
-	var r0 []web.GetCourseResponseMobile
+	var r0 []web.GetCourseResponseMobileNew
 	var r1 *web.Pagination
 	var r2 error
-	if rf, ok := ret.Get(0).(func(int, int, string, string) ([]web.GetCourseResponseMobile, *web.Pagination, error)); ok {
+	if rf, ok := ret.Get(0).(func(int, int, string, string) ([]web.GetCourseResponseMobileNew, *web.Pagination, error)); ok {
 		return rf(offset, limit, search, category)
 	}
-	if rf, ok := ret.Get(0).(func(int, int, string, string) []web.GetCourseResponseMobile); ok {
+	if rf, ok := ret.Get(0).(func(int, int, string, string) []web.GetCourseResponseMobileNew); ok {
 		r0 = rf(offset, limit, search, category)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]web.GetCourseResponseMobile)
+			r0 = ret.Get(0).([]web.GetCourseResponseMobileNew)
 		}
 	}
 
@@ -210,6 +210,41 @@ func (_m *CourseService) GetAllCourseByUserId(offset int, limit int, search stri
 
 	if rf, ok := ret.Get(2).(func(int, int, string, uint) error); ok {
 		r2 = rf(offset, limit, search, userID)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
+// GetAllMobile provides a mock function with given fields: offset, limit, search, category
+func (_m *CourseService) GetAllMobile(offset int, limit int, search string, category string) ([]web.GetCourseResponseMobileNew, *web.Pagination, error) {
+	ret := _m.Called(offset, limit, search, category)
+
+	var r0 []web.GetCourseResponseMobileNew
+	var r1 *web.Pagination
+	var r2 error
+	if rf, ok := ret.Get(0).(func(int, int, string, string) ([]web.GetCourseResponseMobileNew, *web.Pagination, error)); ok {
+		return rf(offset, limit, search, category)
+	}
+	if rf, ok := ret.Get(0).(func(int, int, string, string) []web.GetCourseResponseMobileNew); ok {
+		r0 = rf(offset, limit, search, category)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]web.GetCourseResponseMobileNew)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(int, int, string, string) *web.Pagination); ok {
+		r1 = rf(offset, limit, search, category)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*web.Pagination)
+		}
+	}
+
+	if rf, ok := ret.Get(2).(func(int, int, string, string) error); ok {
+		r2 = rf(offset, limit, search, category)
 	} else {
 		r2 = ret.Error(2)
 	}
