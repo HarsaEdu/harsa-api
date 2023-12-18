@@ -1,6 +1,8 @@
 package service
 
 import (
+	"mime/multipart"
+
 	"github.com/HarsaEdu/harsa-api/internal/app/subs_plan/repository"
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
@@ -10,8 +12,8 @@ import (
 
 type SubsPlanService interface {
 	GetAll(offset, limit int, search string) ([]web.SubsPlanResposne, *web.Pagination, error)
-	Create(ctx echo.Context, subsPlan *web.SubsPlanCreateRequest) error
-	CreateFromExisting(ctx echo.Context, request *web.SubsPlanUpdateRequest, id uint) error
+	Create(ctx echo.Context,file *multipart.FileHeader,subsPlan *web.SubsPlanCreateRequest) error
+	CreateFromExisting(ctx echo.Context,file *multipart.FileHeader, request *web.SubsPlanUpdateRequest, id uint) error
 	UpdateImage(ctx echo.Context, subsPlan *web.SubsPlanUpdateImage, id int) error
 	SetStatus(request *web.SubsPlanUpdateStatus, id uint) error
 	FindById(id int) (*web.SubsPlanResposne, error)

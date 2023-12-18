@@ -18,7 +18,9 @@ func (subsPlanHandler *SubsPlanHandlerImpl) Create(ctx echo.Context) error {
 		return res.StatusBadRequest(ctx, "failed to bind subs plan request", err)
 	}
 
-	err = subsPlanHandler.SubsPlanService.Create(ctx, &req)
+	file, _ := ctx.FormFile("image")
+
+	err = subsPlanHandler.SubsPlanService.Create(ctx, file ,&req)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
@@ -45,7 +47,9 @@ func (subsPlanHandler *SubsPlanHandlerImpl) CreateFromExisting(ctx echo.Context)
 		return res.StatusBadRequest(ctx, "failed to bind subs plan request", err)
 	}
 
-	err = subsPlanHandler.SubsPlanService.CreateFromExisting(ctx, &req, uint(id))
+	file, _ := ctx.FormFile("image")
+
+	err = subsPlanHandler.SubsPlanService.CreateFromExisting(ctx, file,&req, uint(id))
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)

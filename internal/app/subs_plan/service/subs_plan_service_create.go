@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"mime/multipart"
 	"regexp"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/web"
@@ -9,15 +10,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (subsPlanService *SubsPlanServiceImpl) Create(ctx echo.Context, subsPlan *web.SubsPlanCreateRequest) error {
+func (subsPlanService *SubsPlanServiceImpl) Create(ctx echo.Context,file *multipart.FileHeader,subsPlan *web.SubsPlanCreateRequest) error {
 	err := subsPlanService.Validator.Struct(subsPlan)
 	if err != nil {
 		return err
 	}
 
 	result := conversion.SubsPlanRequestToSubsPlanDomain(subsPlan)
-
-	file, _ := ctx.FormFile("image")
 
 	
 	if file != nil {
@@ -39,7 +38,7 @@ func (subsPlanService *SubsPlanServiceImpl) Create(ctx echo.Context, subsPlan *w
 	return nil
 }
 
-func (subsPlanService *SubsPlanServiceImpl) CreateFromExisting(ctx echo.Context, request *web.SubsPlanUpdateRequest, id uint) error {
+func (subsPlanService *SubsPlanServiceImpl) CreateFromExisting(ctx echo.Context,file *multipart.FileHeader, request *web.SubsPlanUpdateRequest, id uint) error {
 	err := subsPlanService.Validator.Struct(request)
 	if err != nil {
 		return err
@@ -51,8 +50,6 @@ func (subsPlanService *SubsPlanServiceImpl) CreateFromExisting(ctx echo.Context,
 	}
 
 	newSubsPlan := conversion.ExistingSubsPlanToSubsPlanDomain(request, existingPlan)
-
-	file, _ := ctx.FormFile("image")
 
 	
 	if file != nil {
