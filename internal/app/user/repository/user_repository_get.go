@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
@@ -43,14 +44,19 @@ func (userRepository *UserRepositoryImpl) UserGetAllStudentSubscribe(offset, lim
 
 	oneWeekAgo := time.Now().AddDate(0, 0, -7)
 
+	fmt.Println()
 
-	query := userRepository.DB.Model(&domain.User{}).Select("users.id as id, email, username, phone_number, roles.name as role_name, first_name, last_name, address").
-		Joins("left join user_profiles on user_profiles.user_id = users.id").
-		Joins("left join roles on roles.id = users.role_id").
-		Joins("left join subscriptions on subscriptions.user_id = users.id").
-		Joins("left join course_trackings on course_trackings.user_id = users.id").
-		Where("course_trackings.created_at IS NULL").
-		Where("roles.id = ? ", 3).Where("users.created_at > ? OR subscriptions.end_date >= ?", oneWeekAgo, time.Now())
+	query := userRepository.DB.Model(&domain.User{}).
+    Select("users.id as id, email, username, phone_number, roles.name as role_name, first_name, last_name, address").
+    Joins("LEFT JOIN user_profiles ON user_profiles.user_id = users.id").
+    Joins("LEFT JOIN roles ON roles.id = users.role_id").
+    Joins("LEFT JOIN subscriptions ON subscriptions.user_id = users.id").
+    Joins("LEFT JOIN course_trackings ON course_trackings.user_id = users.id").
+    Where("roles.id = ?", 3).
+    Where("users.created_at > ? OR subscriptions.end_date >= ?", oneWeekAgo, time.Now()).
+    Where("NOT EXISTS (SELECT 1 FROM course_trackings WHERE course_trackings.user_id = users.id AND course_trackings.deleted_at IS NULL AND course_trackings.course_id = ?)", courseId).
+    Group("users.id, email, username, phone_number, roles.name, first_name, last_name, address")
+
 
 	if search != "" {
 		s := "%" + search + "%"
