@@ -168,7 +168,7 @@ func TestGetByIdMobile_Success(t *testing.T) {
 
 	// Set up mock expectations for GetByIdMobile
 	mockCourseRepo.On("GetByIdMobile", courseID).Return(&domain.Course{
-		// Set course details
+		ID: uint(1),
 	}, int64(5), int64(10), nil)
 
 	// Call the function you want to test
