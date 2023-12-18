@@ -5,7 +5,7 @@ import (
 
 	"github.com/HarsaEdu/harsa-api/internal/model/domain"
 	conversion "github.com/HarsaEdu/harsa-api/internal/pkg/conversion/request"
-	"github.com/HarsaEdu/harsa-api/internal/pkg/wkhtmltopdf"
+	
 )
 
 func (certificateService *CertificateServiceImpl) GenerateCertificate(courseTrackingId uint, userId uint) ([]byte, *domain.Certificate, error) {
@@ -24,9 +24,7 @@ func (certificateService *CertificateServiceImpl) GenerateCertificate(courseTrac
 
 	certificate := conversion.CourseTrackingDomainToCertificateDomain(existingCourseTracking)
 
-	blankCertificateTemplate := certificateService.CertificateTemplate
-
-	certificatePdf, err := wkhtmltopdf.GenerateCertificateHtmlToPDF(blankCertificateTemplate, certificate)
+	certificatePdf, err := certificateService.GenerateCertif.GenerateCertificate(certificate)
 	if err != nil {
 		return nil, nil, fmt.Errorf("error generating certificate: %w", err)
 	}

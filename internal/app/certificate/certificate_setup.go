@@ -7,14 +7,14 @@ import (
 	certificateServicePkg "github.com/HarsaEdu/harsa-api/internal/app/certificate/service"
 	courseTrackingRepositoryPkg "github.com/HarsaEdu/harsa-api/internal/app/course_tracking/repository"
 	"github.com/HarsaEdu/harsa-api/internal/pkg/cloudinary"
-	"github.com/HarsaEdu/harsa-api/web/template"
+	wkh "github.com/HarsaEdu/harsa-api/internal/pkg/wkhtmltopdf"
 	"github.com/go-playground/validator"
 	"gorm.io/gorm"
 )
 
-func CertificateSetup(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, courseTrackingRepository courseTrackingRepositoryPkg.CourseTrackingRepository) certificateRoutesPkg.CertificateRoutes {
+func CertificateSetup(db *gorm.DB, validate *validator.Validate, cloudinary cloudinary.CloudinaryUploader, courseTrackingRepository courseTrackingRepositoryPkg.CourseTrackingRepository, certifaicate wkh.PDFGenerator) certificateRoutesPkg.CertificateRoutes {
 	certificateRepository := certificateRepositoryPkg.NewCertificateRepository(db)
-	certificateService := certificateServicePkg.NewCertificateService(certificateRepository, courseTrackingRepository, cloudinary, template.CertificateBlankContent)
+	certificateService := certificateServicePkg.NewCertificateService(certificateRepository, courseTrackingRepository, cloudinary, certifaicate)
 	certificateHandler := certificateHandlerPkg.NewCertificateHandler(certificateService)
 	certificateRoutes := certificateRoutesPkg.NewCertificateRoutes(certificateHandler)
 
