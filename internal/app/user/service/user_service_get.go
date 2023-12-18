@@ -26,7 +26,7 @@ func (userService *UserServiceImpl) UserGetAllStudentSubscribe(offset int, limit
 		return nil, nil, fmt.Errorf("users not found")
 	}
 	if err != nil {
-		return nil, nil, fmt.Errorf("internal Server Error")
+		return nil, nil, fmt.Errorf("internal Server Error %s",err)
 	}
 	pagination := conversion.RecordToPaginationResponse(offset, limit, total)
 	return users, pagination, nil
