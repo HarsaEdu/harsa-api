@@ -11,7 +11,13 @@ import (
 )
 
 func (submissionAnswerService *SubmissionAnswerServiceImpl) Create(ctx echo.Context, request *web.SubmissionAnswerRequest, idSubmission, idUser int) error {
+	
+	ifExist, _ := submissionAnswerService.Repository.FindByuserIDAndSubmissionID(idSubmission,idUser)
+	if ifExist != nil {
+		return fmt.Errorf("already exist")
+	}
 
+	
 	result := conversion.ConvertSubmissionAnswerRequestToSubmissionAnswerDomain(request)
 
 	result.SubmissionID = uint(idSubmission)

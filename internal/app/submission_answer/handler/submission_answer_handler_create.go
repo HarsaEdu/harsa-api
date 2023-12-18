@@ -44,6 +44,9 @@ func (submissionAnswerHandler *SubmissionAnswerHandlerImpl) Create(ctx echo.Cont
 		if strings.Contains(err.Error(), "file") {
 			return res.StatusBadRequest(ctx, "Only accept a PDF file", err)
 		}
+		if strings.Contains(err.Error(), "already exist") {
+			return res.StatusAlreadyExist(ctx, "submmit already exist", err)
+		}
 		return res.StatusInternalServerError(ctx, "failed to create submission answer, something happen", err)
 	}
 	return res.StatusCreated(ctx, "success to create submission answer", nil, nil)
