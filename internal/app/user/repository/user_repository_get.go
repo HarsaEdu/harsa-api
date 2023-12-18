@@ -53,7 +53,7 @@ func (userRepository *UserRepositoryImpl) UserGetAllStudentSubscribe(offset, lim
     Joins("LEFT JOIN subscriptions ON subscriptions.user_id = users.id").
     Joins("LEFT JOIN course_trackings ON course_trackings.user_id = users.id").
     Where("roles.id = ?", 3).
-    Where("users.created_at > ? OR subscriptions.end_date >= ? OR subscriptions.end_date IS NULL", oneWeekAgo, time.Now()).
+    Where("users.created_at > ? OR subscriptions.end_date >= ?", oneWeekAgo, time.Now()).
     Where("NOT EXISTS (SELECT 1 FROM course_trackings WHERE course_trackings.user_id = users.id AND course_trackings.deleted_at IS NULL AND course_trackings.course_id = ?)", courseId).
     Group("users.id, email, username, phone_number, roles.name, first_name, last_name, address")
 
