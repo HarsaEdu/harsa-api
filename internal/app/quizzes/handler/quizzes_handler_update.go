@@ -42,6 +42,9 @@ func (quizzesHandler *QuizzesHandlereImpl) Update(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "unauthorized") {
 			return res.StatusUnauthorized(ctx,"you cannot update this quiz" ,err)
 		}
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "quiz not found", err)
+		}
 		return res.StatusInternalServerError(ctx, "failed to update quiz, something happen", err)
 
 	}
