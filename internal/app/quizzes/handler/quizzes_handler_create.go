@@ -22,12 +22,12 @@ func (quizzesHandler *QuizzesHandlereImpl) Create(ctx echo.Context) error {
 	id := ctx.Get("user_id").(uint)
 
 	idParam := ctx.Param("module-id")
-	
+
 	moduleId, err := strconv.Atoi(idParam)
 	if err != nil {
 		return res.StatusBadRequest(ctx, "invalid module id", err)
 	}
-	
+
 	roleInterface := ctx.Get("role_name")
 
 	roleString := fmt.Sprintf("%s", roleInterface)
@@ -38,6 +38,9 @@ func (quizzesHandler *QuizzesHandlereImpl) Create(ctx echo.Context) error {
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(ctx, err)
+		}
+		if strings.Contains(err.Error(), "unauthorized") {
+			return res.StatusUnauthorized(ctx, "you cannot create this quiz", err)
 		}
 		return res.StatusInternalServerError(ctx, "failed to create quiz, something happen", err)
 

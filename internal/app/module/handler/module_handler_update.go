@@ -41,6 +41,9 @@ func (moduleHandler *ModuleHandlerImpl) UpdateModule(ctx echo.Context) error {
 	subModule := []domain.SubModule{}
 
 	for _, submodule := range request.SubModules {
+		if submodule.Type != "video" && submodule.Type != "slice" {
+			return res.StatusBadRequest(ctx, "invalid type", fmt.Errorf("invalid type sub module"))
+		}		
 		if submodule.Type == "video"{
 			matchYoutube := youtubePattern.MatchString(submodule.ContentUrl)
 			if !matchYoutube {

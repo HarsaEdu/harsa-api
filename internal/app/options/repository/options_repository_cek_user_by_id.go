@@ -16,13 +16,13 @@ func (repositoryOptions *OptionsRepositoryImpl) CekIdFromOption(userId uint, opt
 	
 	var quizID uint
 
-	if err := repositoryOptions.DB.Model(&domain.Questions{}).Where("id = ?", option.QuestionID).Select("section_id").Scan(&quizID).Error; err != nil {
+	if err := repositoryOptions.DB.Model(&domain.Questions{}).Where("id = ?", option.QuestionID).Select("quiz_id").Scan(&quizID).Error; err != nil {
 		return nil, err
 	}
 	
 	var moduleID uint
 
-	if err := repositoryOptions.DB.Model(&domain.Quizzes{}).Where("id = ?", quizID).Select("section_id").Scan(&moduleID).Error; err != nil {
+	if err := repositoryOptions.DB.Model(&domain.Quizzes{}).Where("id = ?", quizID).Select("module_id").Scan(&moduleID).Error; err != nil {
 		return nil, err
 	}
 
