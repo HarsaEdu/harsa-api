@@ -16,7 +16,7 @@ func (repositoryQuestions *QuestionsRepositoryImpl) CekIdFromQuestion(userId uin
 	
 	var moduleID uint
 
-	if err := repositoryQuestions.DB.Model(&domain.Quizzes{}).Where("id = ?", question.QuizID).Select("section_id").Scan(&moduleID).Error; err != nil {
+	if err := repositoryQuestions.DB.Model(&domain.Quizzes{}).Where("id = ?", question.QuizID).Select("module_id").Scan(&moduleID).Error; err != nil {
 		return nil, err
 	}
 

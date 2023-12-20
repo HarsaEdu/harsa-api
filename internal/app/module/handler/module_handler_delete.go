@@ -29,6 +29,9 @@ func (moduleHandler *ModuleHandlerImpl) DeleteModule(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "unauthorized") {
 			return res.StatusUnauthorized(ctx,"you cannot delete this module" ,err)
 		}
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "module not found", err)
+		}
 		
 		return res.StatusInternalServerError(ctx, "failed to delete module, something happen", err)
 	}
@@ -55,6 +58,9 @@ func (moduleHandler *ModuleHandlerImpl) DeleteSection(ctx echo.Context) error {
 	if err != nil {
 		if strings.Contains(err.Error(), "unauthorized") {
 			return res.StatusUnauthorized(ctx,"you cannot delete this section" ,err)
+		}
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "section not found", err)
 		}
 		
 		return res.StatusInternalServerError(ctx, "failed to delete section, something happen", err)
@@ -83,7 +89,9 @@ func (moduleHandler *ModuleHandlerImpl) DeleteSubModule(ctx echo.Context) error 
 		if strings.Contains(err.Error(), "unauthorized") {
 			return res.StatusUnauthorized(ctx,"you cannot delete this sub module" ,err)
 		}
-		
+		if strings.Contains(err.Error(), "not found") {
+			return res.StatusNotFound(ctx, "sub module not found", err)
+		}
 		return res.StatusInternalServerError(ctx, "failed to delete sub module, something happen", err)
 	}
 
