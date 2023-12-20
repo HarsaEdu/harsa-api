@@ -41,7 +41,7 @@ func (moduleHandler *ModuleHandlerImpl) UpdateModule(ctx echo.Context) error {
 	subModule := []domain.SubModule{}
 
 	for _, submodule := range request.SubModules {
-		if submodule.Type != "video" && submodule.Type != "slice" {
+		if submodule.Type != "video" && submodule.Type != "slide" {
 			return res.StatusBadRequest(ctx, "invalid type", fmt.Errorf("invalid type sub module"))
 		}		
 		if submodule.Type == "video"{
@@ -52,12 +52,12 @@ func (moduleHandler *ModuleHandlerImpl) UpdateModule(ctx echo.Context) error {
 			submodule.Title = request.Title + " video - " + strconv.Itoa(countVideo)
 			countVideo++
 		}
-		if submodule.Type == "slice"{
+		if submodule.Type == "slide"{
 			matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
 			if !matchGoogleSlide {
 				return res.StatusBadRequest(ctx, "invalid google slide link", fmt.Errorf("invalid google slide link"))
 			}
-			submodule.Title = request.Title + " slice - " + strconv.Itoa(countPPT)
+			submodule.Title = request.Title + " slide - " + strconv.Itoa(countPPT)
 			countPPT++
 		}
 		subModule = append(subModule, submodule)

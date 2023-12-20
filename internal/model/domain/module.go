@@ -10,7 +10,7 @@ type SubModuleType string
 
 const (
 	SubModuleTypeVideo       SubModuleType = "video"
-	SubModuleTypePPT         SubModuleType = "slice"
+	SubModuleTypePPT         SubModuleType = "slide"
 )
 
 type Module struct {
