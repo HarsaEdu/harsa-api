@@ -40,7 +40,7 @@ func (moduleHandler ModuleHandlerImpl) CreateSection(ctx echo.Context) error {
 	subModule := []domain.SubModule{}
 
 	for _, submodule := range sectionCreateRequest.Modules.SubModules {
-		if submodule.Type != "video" && submodule.Type != "slice" {
+		if submodule.Type != "video" && submodule.Type != "slide" {
 			return res.StatusBadRequest(ctx, "invalid type", fmt.Errorf("invalid type sub module"))
 		}		
 		if submodule.Type == "video"{
@@ -51,12 +51,12 @@ func (moduleHandler ModuleHandlerImpl) CreateSection(ctx echo.Context) error {
 			submodule.Title = sectionCreateRequest.Modules.Title + " video - " + strconv.Itoa(countVideo)
 			countVideo++
 		}
-		if submodule.Type == "slice"{
+		if submodule.Type == "slide"{
 			matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
 			if !matchGoogleSlide {
 				return res.StatusBadRequest(ctx, "invalid google slide link", fmt.Errorf("invalid google slide link"))
 			}
-			submodule.Title = sectionCreateRequest.Modules.Title + " slice - " + strconv.Itoa(countPPT)
+			submodule.Title = sectionCreateRequest.Modules.Title + " slide - " + strconv.Itoa(countPPT)
 			countPPT++
 		
 		}
@@ -110,7 +110,7 @@ func (moduleHandler ModuleHandlerImpl) CreateModule(ctx echo.Context) error {
 	subModule := []domain.SubModule{}
 
 	for _, submodule := range moduleCreateRequest.SubModules {
-		if submodule.Type != "video" && submodule.Type != "slice" {
+		if submodule.Type != "video" && submodule.Type != "slide" {
 			return res.StatusBadRequest(ctx, "invalid type", fmt.Errorf("invalid type sub module"))
 		}		
 		if submodule.Type == "video"{
@@ -121,12 +121,12 @@ func (moduleHandler ModuleHandlerImpl) CreateModule(ctx echo.Context) error {
 			submodule.Title = moduleCreateRequest.Title + " video - " + strconv.Itoa(countVideo)
 			countVideo++
 		}
-		if submodule.Type == "slice"{
+		if submodule.Type == "slide"{
 			matchGoogleSlide := googleSlidePattern.MatchString(submodule.ContentUrl)
 			if !matchGoogleSlide {
 				return res.StatusBadRequest(ctx, "invalid google slide link", fmt.Errorf("invalid google slide link"))
 			}
-			submodule.Title = moduleCreateRequest.Title + " slice - " + strconv.Itoa(countPPT)
+			submodule.Title = moduleCreateRequest.Title + " slide - " + strconv.Itoa(countPPT)
 			countPPT++
 		
 		}
